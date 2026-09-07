@@ -35,16 +35,18 @@ theorem pref_axiom1 (d : A → ℝ) (ε : ℝ) {a b c e : A}
     (h1 : pref d ε a b) (h2 : pref d ε c e) : pref d ε a e ∨ pref d ε c b := by
   unfold pref at *
   by_contra h
-  push_neg at h
-  linarith [h.1, h.2]
+  have h3 := not_lt.mp (fun hh => h (Or.inl hh))
+  have h4 := not_lt.mp (fun hh => h (Or.inr hh))
+  linarith
 
 /-- **Semiorder axiom 2.** If `a ≻ b ≻ c` then for every `e`, `a ≻ e` or `e ≻ c`. -/
 theorem pref_axiom2 (d : A → ℝ) (ε : ℝ) {a b c : A}
     (h1 : pref d ε a b) (h2 : pref d ε b c) (e : A) : pref d ε a e ∨ pref d ε e c := by
   unfold pref at *
   by_contra h
-  push_neg at h
-  linarith [h.1, h.2]
+  have h3 := not_lt.mp (fun hh => h (Or.inl hh))
+  have h4 := not_lt.mp (fun hh => h (Or.inr hh))
+  linarith
 
 /-- Indifference is reflexive for a nonnegative threshold. -/
 theorem indiff_refl (d : A → ℝ) {ε : ℝ} (hε : 0 ≤ ε) (a : A) : indiff d ε a a := by
@@ -60,11 +62,13 @@ theorem indiff_symm (d : A → ℝ) (ε : ℝ) {a b : A} (h : indiff d ε a b) :
 theorem trichotomy (d : A → ℝ) (ε : ℝ) (a b : A) :
     pref d ε a b ∨ pref d ε b a ∨ indiff d ε a b := by
   unfold pref indiff
-  rcases lt_or_le (d a + ε) (d b) with h | h
+  by_cases h : d a + ε < d b
   · exact Or.inl h
-  rcases lt_or_le (d b + ε) (d a) with h' | h'
+  by_cases h' : d b + ε < d a
   · exact Or.inr (Or.inl h')
   · right; right
+    have h1 := not_lt.mp h
+    have h2 := not_lt.mp h'
     rw [abs_le]
     constructor <;> linarith
 
