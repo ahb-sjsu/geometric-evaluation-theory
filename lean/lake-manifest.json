@@ -111,7 +111,7 @@
       "configFile": "lakefile.toml"
     }
   ],
-  "name": "geometric-evaluation-theory",
+  "name": "«geometric-evaluation-theory»",
   "lakeDir": ".lake",
   "fixedToolchain": false
 }
