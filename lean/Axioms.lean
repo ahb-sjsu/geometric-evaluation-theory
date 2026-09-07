@@ -10,3 +10,9 @@ import GET
 #print axioms GET.Uniqueness.scale_free
 #print axioms GET.Reversal.rank_two_prefers_a
 #print axioms GET.Reversal.no_common_utility
+#print axioms GET.UniquenessGeneral.ideal_in_kernel
+#print axioms GET.UniquenessGeneral.qf_proportional
+#print axioms GET.UniquenessGeneral.uniqueness
+#print axioms GET.Incompatibility.total_regret_ge
+#print axioms GET.Incompatibility.total_regret_attained
+#print axioms GET.Incompatibility.deficiency_pos_iff
