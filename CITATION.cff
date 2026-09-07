@@ -1,0 +1,14 @@
+cff-version: 1.2.0
+message: "If you use this work, cite the repository at the commit you read, and the paper by its Zenodo DOI once one exists."
+title: "Geometric Evaluation Theory (GET): evaluator, metric, and budget induce the distinctions from which preference and choice follow"
+type: software
+authors:
+  - family-names: Bond
+    given-names: Andrew H.
+    email: andrew.bond@sjsu.edu
+    affiliation: "San José State University"
+    orcid: "https://orcid.org/0009-0003-2599-6158"
+version: "0.2.0"
+date-released: "2026-09-07"
+license: MIT
+repository-code: "https://github.com/ahb-sjsu/geometric-evaluation-theory"

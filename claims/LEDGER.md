@@ -1,0 +1,23 @@
+# GET claim ledger
+
+One row per headline claim. Classes follow the observation-theory ledger: `[proved]`, `[demonstrated]`, `[replicated]`, `[predicted]`, `[exploratory]`, `[refuted]`, `[posited]`, `[open]`. A class is raised only by a sealed pass and lowered by a sealed miss. Every row names where the claim is stated and, once one exists, the gate and result that grade it. Machine-check names are filled at G1.
+
+| ID | Claim | Class | Stated | Gate | Lean |
+|---|---|---|---|---|---|
+| GET-1 | Unbudgeted distinctions are an equivalence; a rank budget coarsens it; a length budget is a tolerance, transitive iff no three distances form an epsilon-chain that exceeds epsilon | `[proved]` | paper Thm 1 | G1 | pending |
+| GET-2 | Induced preference is a weak order with utility minus distance at zero threshold, a semiorder with threshold equal to the budget otherwise | `[proved]` | paper Thm 2 | G1 | pending |
+| GET-3 | Choice is nonempty on finite admissible menus; satisficing is the length budget | `[proved]` | paper Prop 1 | none | none |
+| GET-4 | Representability for a fixed world is semidefinite feasibility; the hull law is necessary for every convex evaluation; affinely independent consequences represent every order; a line represents exactly the single-peaked orders | `[proved]` | paper Thm 3 | G1 (hull law), G2 (hull law measured) | pending |
+| GET-5 | Metric identified up to scale and ideal up to the metric's kernel from the order on an open set | `[proved]` | paper Thm 4 | G1, G5 | pending |
+| GET-6 | EU, mean-variance, additive MAUT and ideal-point models, TCSS decision cost, satisficing, Dawid-Lauritzen geometry, Nash are special cases with stated conditions | `[proved]` | paper Prop 2 | none | none |
+| GET-7 | Rank-budget change reverses preference between fixed actions | `[proved]` (existence) / `[predicted]` (in evaluators) | paper Thm 5, prediction (ii) | G3, G7 | none |
+| GET-8 | Same standard iff ordinally equivalent induced distances; agreement on one menu does not transfer | `[proved]` | paper Thm 6 | none | none |
+| GET-9 | Neutral shared rank-k representation iff common top-k eigenspace; least weighted regret at top-k eigenspace of the weighted sum, positive otherwise | `[proved]` / `[predicted]` (on shared codes) | paper Thm 7, prediction (iii) | G4 | pending (Ky Fan) |
+| GET-10 | Menu-dependent admissibility violates the weak axiom | `[proved]` / `[predicted]` (in evaluators) | paper Thm 8, prediction (v) | G6 | none |
+| GET-11 | Threshold tracks budget | `[predicted]` | paper prediction (i) | G3, G7 | none |
+| GET-12 | Hull law holds in a population with a known consequence map | `[predicted]` | paper prediction (iv) | G2 | none |
+| GET-13 | Ethics-stack correspondence: deontic gate is K, invariance principle is factoring through the quotient | `[posited]` | paper Sec 7 | none | none |
+| GET-14 | Closed-form combinatorial characterization of representability | `[open]` | paper Sec 3.4 | none | none |
+| GET-15 | Loss aversion (asymmetric metric) and lexicographic priority as metric | not claimed | paper remark after Prop 2 | none | none |
+
+Theorem numbers refer to the paper at draft 0.2 and are renumbered here when the paper renumbers.
