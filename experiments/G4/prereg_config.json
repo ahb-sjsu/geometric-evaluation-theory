@@ -1,10 +1,12 @@
 {
   "world": "Llama-3.2-3B grouped-query attention; cells = (layer, KV head); consumers = the 3 query heads of the group; shared representation = the KV head's keys",
   "model_id": "unsloth/Llama-3.2-3B",
-  "revision": null,
-  "CONFIRM_before_sealing": "revision of unsloth/Llama-3.2-3B as cached on Atlas; readscope version (0.2.0 expected); transformers version (4.46.3 in the program cookbook)",
+  "revision": "d4446454d87d51aa42e1fb174f25acc5f8762331",
   "n_directions": 160,
-  "layers": [8, 16],
+  "layers": [
+    8,
+    16
+  ],
   "n_kv_heads": 8,
   "n_q_heads": 24,
   "head_dim": 128,
@@ -14,17 +16,36 @@
   "n_query_positions": 64,
   "n_operating_points": 64,
   "probe_step": 0.01,
-  "ranks": [8, 16, 32, 64],
+  "ranks": [
+    8,
+    16,
+    32,
+    64
+  ],
   "n_random_codes": 32,
   "weights": "equal",
   "seed": 20260907,
   "cpu_threads": 16,
   "probe_prefix": "probe",
   "bars": {
-    "P1_relative_error_max": 0.25, "P1_min_fraction": 0.80, "P1_min_rank": 16,
-    "P2_own_regret_max_fraction": 0.05, "P2_min_cells": 12,
-    "P3_compromise_tolerance": 0.25, "P3_min_cells": 12,
+    "P1_relative_error_max": 0.25,
+    "P1_min_fraction": 0.8,
+    "P1_min_rank": 16,
+    "P2_own_regret_max_fraction": 0.05,
+    "P2_min_cells": 12,
+    "P3_compromise_tolerance": 0.25,
+    "P3_min_cells": 12,
     "P4_beats_bound_tolerance": 0.25,
-    "anti_vacuity_min_deficiency_fraction_at_k16": 0.05, "anti_vacuity_min_cells": 12
-  }
+    "anti_vacuity_min_deficiency_fraction_at_k16": 0.05,
+    "anti_vacuity_min_cells": 12
+  },
+  "versions_on_atlas_2026-09-07": {
+    "python_env": "/archive/kvbench/venv",
+    "torch": "2.8.0+cu128",
+    "transformers": "4.56.1",
+    "readscope": "0.1.0 (source tree /home/claude/readscope on PYTHONPATH; jacobian_probe(consumer, points, *, n_directions, eps, rng, batched))",
+    "numpy": "2.5.1"
+  },
+  "workload_sha256_at_fetch": "80fcc29381c33fc73dcc07d237f05b860725fb7e50de8efaba155bcc10027d9e",
+  "CONFIRMED": "revision of unsloth/Llama-3.2-3B as cached on Atlas; readscope version (0.2.0 expected); transformers version (4.46.3 in the program cookbook)"
 }
