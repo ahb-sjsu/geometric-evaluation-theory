@@ -17,9 +17,11 @@ consumer's own geometry, recovered from the consumer alone.
 
 ## 2. World
 
-Model: Llama-3.2-3B (HuggingFace weights already cached on Atlas; exact repository id and
-revision recorded in `prereg_config.json` before sealing), float32 attention math on GPU 1,
-the same layers as the observation-theory rematch probe, layers 8 and 16.
+Model: `unsloth/Llama-3.2-3B` from the HuggingFace cache on Atlas, the checkpoint every
+observation-theory Gate-B harness used (revision recorded in `prereg_config.json` before
+sealing), loaded in bfloat16 with attention recomputed in float64 numpy from the captured
+post-rotary queries and keys, on GPU 1. Layers 8 and 16, the cells of the program's rematch
+probe; layers outside {4, 8, 16, 20} are unspent and available for an out-of-sample rerun.
 
 Consumers and shared representation. The model uses grouped-query attention with 8 KV heads
 and 24 query heads, so each KV head's keys are read by exactly 3 query heads. A cell is one
@@ -41,19 +43,32 @@ only to keys at or before it.
 
 ## 3. Recovery protocol
 
-`readscope.jacobian_probe` at each operating point (key position j, a seeded sample of 64
-positions per cell), with the 2d-calls rule: d = 128 probe directions, central differences
-(256 calls per operating point), step h = 1e-2 in whitened units. The per-position read
-operators are averaged over the sampled positions to the workload read operator `P_i` of
-query head i, then whitened by the key covariance of the cell, `Pt_i = Sigma^{1/2} P_i
-Sigma^{1/2}`, with `Sigma` the covariance of that KV head's keys over the workload plus
-1e-6 I. The rank certificate and resolution reported by readscope are recorded per cell.
+`readscope.jacobian_probe` (readscope 0.2.0) at each operating point (key position j, a seeded
+sample of 64 positions per cell), with 160 unit-norm probe directions at d = 128, above the
+instrument's recovery cliff at k = d, central differences (320 calls per operating point),
+step h = 1e-2 in whitened units, and the identity output metric. This is the published Gate-B
+protocol. The probe is run in whitened coordinates directly, so the recovered operator is
+already `Pt_i = Sigma^{1/2} P_i Sigma^{1/2}`, with `Sigma` the covariance of that KV head's
+keys over the workload plus 1e-6 I; the per-position operators are averaged over the sampled
+positions (jacobian_probe averages, the Gate-B loop summed, and the difference matters when
+operators are added across heads).
+
+The operator is the Jacobian Gram of the square-root-attention output map, the softmax-weighted
+object a finite-difference probe recovers. It is not the unweighted query covariance that
+earlier gates graded against; calibration C-10 showed the two differ by about 0.3 in
+subspace overlap, so this registration names the Jacobian Gram and grades nothing against
+Q^T Q. Per cell the probe records readscope's effective rank of each operator and the
+step-response convergence of `readscope.diagnostics.step_response` at h/2, h, 2h.
 
 ## 4. Codes
 
 All codes are rank-k orthogonal projectors in whitened coordinates, applied to every key of
 the cell as `xhat = Sigma^{1/2} Q Sigma^{-1/2} x`, with no quantization, so that the
-representation class is exactly the theorem's. Rank ladder k in {8, 16, 32, 64}. Per cell and
+representation class is exactly the theorem's. The compromise code, the top-k eigenspace of
+the summed (equal-weight) operators of the three query heads, is exactly the per-KV-head read
+subspace the program's live-decode harness already builds by summing the group's operators;
+the theorem is what says that construction is total-regret optimal and what each head pays
+for it. Rank ladder k in {8, 16, 32, 64}. Per cell and
 rank: the 3 own-optimal codes, the compromise, the key-PCA code (top-k eigenspace of Sigma,
 mapped to whitened coordinates), and 32 seeded random projectors.
 

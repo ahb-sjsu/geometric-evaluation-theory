@@ -13,9 +13,12 @@ the attention weights of the sampled query positions over all keys (causal), and
 square roots of those weights concatenated over the sampled queries. Its squared output change
 is half the summed KL to second order.
 
-Two lines are marked CONFIRM: the readscope jacobian_probe signature and the attribute names of
-the model's attention module. They are checked against the installed versions on Atlas before
-the probe is sealed; the config records the versions used.
+The read operator recovered here is the Jacobian Gram of the square-root-attention output map,
+which is the softmax-weighted operator a finite-difference probe recovers and the object the
+second-order loss prediction needs. It is not the unweighted query covariance Q^T Q / n that
+earlier gates graded against; the program's calibration C-10 showed the two differ by about
+0.3 in subspace overlap, so the registration names the Jacobian Gram explicitly. The versions
+of transformers and readscope on Atlas are recorded in the config at sealing.
 """
 from __future__ import annotations
 
@@ -47,32 +50,34 @@ def load_model(cfg):
 
 
 def capture_qk(cfg, tok, model):
-    """Run the workload once and capture post-rotary queries and keys of the chosen layers.
+    """Run the workload once and capture post-rotary queries and keys of the chosen layers by
+    the observation-theory program's method: wrap `apply_rotary_pos_emb` in
+    transformers.models.llama.modeling_llama and record its outputs per layer call.
     Returns {layer: (Q [n_qheads, T, d], K [n_kvheads, T, d])} as float32 numpy arrays."""
     import torch
+    from transformers.models.llama import modeling_llama as ml
     text = open(cfg["workload_file"], encoding="utf-8").read()
     ids = tok(text, return_tensors="pt").input_ids[:, : int(cfg["n_tokens"])].to("cuda")
-    layers = [int(x) for x in cfg["layers"]]
-    captured = {}
-    # The rotary-embedded q and k are not exposed by a forward hook in every transformers
-    # version. The robust route is to recompute them from the projections and the position
-    # embeddings, which is what the observation-theory rematch probe does. We recompute.
-    with torch.no_grad():
-        out = model(ids, output_hidden_states=True)
-        hs = out.hidden_states  # hs[L] is the input to layer L
-        for L in layers:
-            layer = model.model.layers[L]
-            x = layer.input_layernorm(hs[L])
-            attn = layer.self_attn
-            T = x.shape[1]
-            hd = attn.head_dim
-            q = attn.q_proj(x).view(1, T, -1, hd).transpose(1, 2)   # [1, nq, T, d]
-            k = attn.k_proj(x).view(1, T, -1, hd).transpose(1, 2)   # [1, nkv, T, d]
-            pos = torch.arange(T, device=x.device)[None]
-            cos, sin = model.model.rotary_emb(x, pos)                 # CONFIRM signature
-            from transformers.models.llama.modeling_llama import apply_rotary_pos_emb
-            q, k = apply_rotary_pos_emb(q, k, cos, sin)
-            captured[L] = (q[0].float().cpu().numpy(), k[0].float().cpu().numpy())
+    layers = {int(x) for x in cfg["layers"]}
+    captured, counter = {}, {"i": 0}
+    original = ml.apply_rotary_pos_emb
+
+    def wrapped(q, k, cos, sin, *args, **kwargs):
+        qe, ke = original(q, k, cos, sin, *args, **kwargs)
+        L = counter["i"]; counter["i"] += 1
+        if L in layers:
+            captured[L] = (qe[0].detach().float().cpu().numpy(), ke[0].detach().float().cpu().numpy())
+        return qe, ke
+
+    ml.apply_rotary_pos_emb = wrapped
+    try:
+        with torch.no_grad():
+            model(ids)
+    finally:
+        ml.apply_rotary_pos_emb = original
+    missing = layers - set(captured)
+    if missing:
+        raise RuntimeError(f"layers not captured: {sorted(missing)}; layer calls seen: {counter['i']}")
     return captured
 
 
@@ -126,23 +131,16 @@ class GroupConsumer:
 
 # ----------------------------------------------------------------------------- probe
 
-def recover_read_operator(consumer, x0: np.ndarray, h: float) -> np.ndarray:
-    """Jacobian^T Jacobian of the consumer at x0 by central differences over the standard
-    basis, 2d calls. Uses readscope.jacobian_probe when available (CONFIRM signature), else
-    the same finite-difference scheme inline so the count of calls is identical."""
-    try:
-        import readscope  # noqa: F401
-        from readscope import jacobian_probe  # CONFIRM: name and signature on Atlas
-        probe = jacobian_probe(consumer, x0[None, :], step=h)
-        return np.asarray(probe.S, dtype=np.float64)
-    except Exception:
-        d = x0.size
-        J = []
-        for i in range(d):
-            e = np.zeros(d); e[i] = h
-            J.append((consumer(x0 + e) - consumer(x0 - e)) / (2 * h))
-        J = np.stack(J, axis=1)  # [m, d]
-        return J.T @ J
+def recover_read_operator(consumer, x0: np.ndarray, h: float, n_directions: int,
+                          rng: np.random.Generator) -> np.ndarray:
+    """Jacobian Gram J^T J of the consumer at x0, recovered by readscope.jacobian_probe
+    (readscope 0.2.0 signature: consumer, points, *, n_directions, eps, rng, batched,
+    output_metric). With n_directions >= d the recovery is exact up to finite-difference
+    error, which is the budget cliff of the instrument; the program's published protocol used
+    160 directions at d = 128 and central differences, 2 * n_directions calls per point."""
+    from readscope import jacobian_probe
+    probe = jacobian_probe(consumer, x0[None, :], n_directions=n_directions, eps=h, rng=rng)
+    return np.asarray(probe.S, dtype=np.float64)
 
 
 def probe(cfg, out_path):
@@ -170,9 +168,10 @@ def probe(cfg, out_path):
                 for j in ops:
                     f = cons.consumer_at(g, int(j))
                     # probe in whitened units: x = S_half z, so J_z = J_x S_half
-                    fz = lambda z, f=f, xj=Kh[j]: f(S_half @ (z))
+                    fz = lambda z, f=f: f(S_half @ z)
                     z0 = S_ihalf @ Kh[j]
-                    P += recover_read_operator(fz, z0, h)
+                    P += recover_read_operator(fz, z0, h, int(cfg["n_directions"]),
+                                               np.random.default_rng(int(cfg["seed"]) + 7919 * int(j) + 104729 * g))
                 Pts.append(0.5 * (P + P.T) / len(ops))   # already whitened by construction
             ew = np.linalg.eigvalsh(Sigma)
             cell = {

@@ -1,8 +1,9 @@
 {
   "world": "Llama-3.2-3B grouped-query attention; cells = (layer, KV head); consumers = the 3 query heads of the group; shared representation = the KV head's keys",
-  "model_id": "meta-llama/Llama-3.2-3B",
+  "model_id": "unsloth/Llama-3.2-3B",
   "revision": null,
-  "CONFIRM_before_sealing": "model_id and revision as cached on Atlas; readscope version; transformers version; the rotary_emb call signature",
+  "CONFIRM_before_sealing": "revision of unsloth/Llama-3.2-3B as cached on Atlas; readscope version (0.2.0 expected); transformers version (4.46.3 in the program cookbook)",
+  "n_directions": 160,
   "layers": [8, 16],
   "n_kv_heads": 8,
   "n_q_heads": 24,
