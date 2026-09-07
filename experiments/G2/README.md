@@ -1,6 +1,6 @@
 # G2: the hull law on ANES candidate placements
 
-Gate G2 of `CAMPAIGN.md`. Registration is `PREREG-G2.md`, SEALED 2026-09-07. The analysis code is
+Gate G2 of `CAMPAIGN.md`. Registration is `PREREG-G2.md`, SEALED 2026-09-07, run the same day: PASS on the primary pair and all five replication pairs (`results.json`, `results_1972_*.json`, `run.log`; table in `CAMPAIGN.md`), with half of the testable respondents violating the law at least once against two thirds under the shuffle null. The analysis code is
 `g2_hull_law.py`, which passed its synthetic self-test on Atlas on 2026-09-07 (quadratic
 evaluators produce zero violations on 286 of 300 testable synthetic respondents; random raters
 match their own shuffle null; hand-built, collinear, and tie cases are detected).

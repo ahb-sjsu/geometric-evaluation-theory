@@ -1,0 +1,87 @@
+{
+ "n_respondents": 545,
+ "n_testable": 503,
+ "weighted_testable": 503.0,
+ "n_violated": 315,
+ "p_obs": 0.6262425447316103,
+ "p_null_mean": 0.7415904572564612,
+ "p_null_sd": 0.014519674890927124,
+ "p_value_perm": 0.0,
+ "n_shuffles": 200,
+ "seed": 20260907,
+ "mean_candidates": 4.763302752293578,
+ "config": {
+  "world": "ANES 1972 Time Series Study (ICPSR 7010), post-election wave, Form II respondents; replication pair 6",
+  "format": "dta",
+  "id_column": "V720002",
+  "weight_column": null,
+  "scales": [
+   "tax rate increase (post)",
+   "urban unrest (post)"
+  ],
+  "candidates": {
+   "Nixon": {
+    "placements": [
+     "V720662",
+     "V720671"
+    ],
+    "thermometer": "V720702"
+   },
+   "McGovern": {
+    "placements": [
+     "V720663",
+     "V720672"
+    ],
+    "thermometer": "V720703"
+   },
+   "Wallace": {
+    "placements": [
+     "V720664",
+     "V720673"
+    ],
+    "thermometer": "V720701"
+   },
+   "Democratic party": {
+    "placements": [
+     "V720665",
+     "V720674"
+    ],
+    "thermometer": "V720719"
+   },
+   "Republican party": {
+    "placements": [
+     "V720666",
+     "V720675"
+    ],
+    "thermometer": "V720721"
+   }
+  },
+  "valid_placement_values": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7
+  ],
+  "thermometer_range": [
+   0,
+   97
+  ],
+  "missing_codes": [
+   0,
+   8,
+   9
+  ],
+  "thermometer_missing_codes": [
+   98,
+   99
+  ],
+  "min_candidates": 4,
+  "n_shuffles": 200,
+  "seed": 20260907,
+  "codebook": "nes1972.txt (ICPSR 7010): placements MD=0 or GE 8 (8 DK, 9 NA/INAP, 0 INAP); thermometers 00-96 degrees, 97 = 97-100, 98 DK, 99 NA/INAP; no weight variable in the 1972 file"
+ },
+ "data": "data/NES1972.dta"
+}

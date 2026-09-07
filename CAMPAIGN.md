@@ -8,7 +8,7 @@ Standing rule inherited from the observation-theory campaigns: every gate regist
 |---|---|---|---|
 | G0 | Foundations frozen | none | DONE 2026-09-07 (paper 0.2, prior art, naming) |
 | G1 | Machine-checked core | G0 | DONE 2026-09-07 (seven files, no sorry, standard axioms; Ky Fan taken as named hypotheses, not in Mathlib) |
-| G2 | Hull law on a public dataset with a known consequence map | G0 | SEALED 2026-09-07 (`experiments/G2/PREREG-G2.md`, blob fd7cc9240c225452a72ca7c9908107fa69b66201; ANES 1972 post-election Form II, five objects on the liberal-conservative and guaranteed-jobs scales, 489 testable respondents; run pending) |
+| G2 | Hull law on a public dataset with a known consequence map | G0 | DONE, PASS 2026-09-07 (sealed `experiments/G2/PREREG-G2.md`, blob fd7cc9240c225452a72ca7c9908107fa69b66201; ANES 1972: violation rate 50 percent of 489 testable respondents against a shuffle null of 66 percent, permutation p below 0.005; all five replication pairs pass; the raw rate is half, so the law holds as a population tendency, not as a deterministic statement) |
 | G3 | Threshold tracks budget, computational evaluator | G0, G1 | PENDING |
 | G4 | Incompatibility regret on a shared code | G0 | PROBED 2026-09-07 (read operators recovered for all 16 cells; anti-vacuity bar at rank 16 FAILED, 4 of 16 cells against a bar of 12; registration unsealed, world revision pending the owner's decision) |
 | G5 | Identification: recover metric and ideal from choices | G1 | PENDING |
@@ -39,6 +39,18 @@ Statistic. The fraction of respondents whose ranking violates the hull law at le
 Bar. Violation rate below the null by a preregistered margin, with a preregistered minimum number of respondents whose candidate placements are in general position (anti-vacuity: collinear placements make the law empty, and the probe must show how many respondents have a genuinely two-dimensional menu).
 What falsifies. Violation rate at or above the null. That would falsify every convex metric of evaluation for that population, not only the quadratic one.
 Record, 2026-09-07. Data: ANES 1972 Time Series (ICPSR 7010) Stata release, downloaded by the owner, gitignored. The codebook shows only Nixon, McGovern, Wallace and the two parties placed on issue scales in 1972, so the menu is those five objects on the post-election Form II scales; the primary pair is liberal-conservative with guaranteed jobs, and the five other pairs of the four Form II scales are registered replications. Placement-only probe on Atlas: 557 respondents with a menu of at least four objects, 489 testable against the bar of 300 (`experiments/G2/probe.json`; replication pairs 447 to 553 testable). Loader fixed before sealing to keep thermometer scores of 0, 8 and 9 (separate `thermometer_missing_codes`). Sealed by renaming `PREREG-G2-DRAFT.md` to `PREREG-G2.md`, blob fd7cc9240c225452a72ca7c9908107fa69b66201.
+Run, 2026-09-07 (Atlas, screen `get-g2`, 21:21 to 23:22 UTC, `experiments/G2/run.log`, code at 617271d, `/home/claude/env/bin/python3` with scipy 1.17.1, pandas 3.0.2, numpy 2.2.6). Result files committed as executed. Per pair: respondents with a menu, testable, violating at least once, observed share, shuffle-null share (mean and sd over 200 within-respondent shuffles), permutation p, verdict against the sealed bars (pass at observed at most null minus 0.10 and p below 0.01, fail at observed at least null minus 0.02).
+
+| Pair | n | testable | violated | observed | null (sd) | perm p | verdict |
+|---|---|---|---|---|---|---|---|
+| liberal-conservative, guaranteed jobs (primary) | 557 | 489 | 246 | 0.503 | 0.664 (0.016) | 0 of 200 | PASS |
+| liberal-conservative, tax rate | 504 | 447 | 252 | 0.564 | 0.672 (0.018) | 0 of 200 | PASS |
+| liberal-conservative, urban unrest | 571 | 519 | 281 | 0.541 | 0.683 (0.016) | 0 of 200 | PASS |
+| guaranteed jobs, tax rate | 546 | 492 | 299 | 0.608 | 0.717 (0.013) | 0 of 200 | PASS |
+| guaranteed jobs, urban unrest | 603 | 553 | 315 | 0.570 | 0.711 (0.015) | 0 of 200 | PASS |
+| tax rate, urban unrest | 545 | 503 | 315 | 0.626 | 0.742 (0.015) | 0 of 200 | PASS |
+
+Verdict. PASS on the primary pair and on every replication pair, by the sealed bars. What the bars do not say, stated here because it matters more than the verdict: half of the testable respondents violate the law at least once. Theorem 3(b) is deterministic for a representable preference, so on this world the hull law holds as a population tendency, 10 to 16 points below the geometric base rate and 7 to 10 null standard deviations from it, and fails as a deterministic statement for about half the respondents. The two smallest margins (the tax-rate pairs, 0.108 and 0.109) sit just above the 0.10 bar. Placements are integers on 7-point scales and ratings are integers on a thermometer capped at 97, ties are counted as not strictly better, and no error model was registered, so no part of the half is attributed to rounding here. Ledger GET-12 graded `[demonstrated]` with this caveat adjacent. The cumulative-file secondary world (`prereg_config.cdf.json`) has not been run, the owner has not downloaded that file.
 
 ## G3. Threshold tracks budget, computational evaluator
 
