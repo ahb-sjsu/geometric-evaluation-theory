@@ -3,7 +3,11 @@
 Status: draft. Nothing here is a registered claim until Section 10 is executed. The theory
 module `g4_shared_code.py` passed its synthetic self-test on Atlas on 2026-09-07 (linear
 consumers: measured loss within 0.7 percent of predicted distortion, own codes zero regret,
-compromise attains the bound, none of 64 random codes beats it). The model probe has not run.
+compromise attains the bound, none of 64 random codes beats it). The model probe ran on Atlas
+on 2026-09-07 (`probe.json`): the anti-vacuity bar of Section 6 FAILED at rank 16, 4 of 16
+cells against a bar of 12 (9 of 16 at rank 8, 0 of 16 at rank 32). Per Section 6 the world
+is to be revised before sealing; the revision is not yet chosen. Sections 2 to 6 below are
+the registration as drafted before the probe and are unchanged.
 
 ## 1. Claim under test
 
@@ -43,7 +47,7 @@ only to keys at or before it.
 
 ## 3. Recovery protocol
 
-`readscope.jacobian_probe` (readscope 0.2.0) at each operating point (key position j, a seeded
+`readscope.jacobian_probe` (readscope 0.1.0 as checked out on Atlas, whose signature is the one the probe calls) at each operating point (key position j, a seeded
 sample of 64 positions per cell), with 160 unit-norm probe directions at d = 128, above the
 instrument's recovery cliff at k = d, central differences (320 calls per operating point),
 step h = 1e-2 in whitened units, and the identity output metric. This is the published Gate-B

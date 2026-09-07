@@ -2,7 +2,11 @@
 
 Gate G4 of `CAMPAIGN.md`. Registration is `PREREG-G4-DRAFT.md`, unsealed. Theory module
 `g4_shared_code.py` passed its synthetic self-test on Atlas on 2026-09-07. The model probe
-`g4_llama.py --probe` has not run.
+`g4_llama.py --probe` ran on Atlas the same day (`probe.log`, `probe.json`, the `.npy`
+operators). Anti-vacuity at rank 16 failed, 4 of 16 cells against a bar of 12: each query
+head reads a subspace of effective rank 3 to 8 and the three heads of a group largely
+coincide, so a shared rank-16 code costs them only a few percent. The world is to be revised
+before sealing (see the G4 record in `CAMPAIGN.md`). No losses were measured under any code.
 
 ## The experiment in one paragraph
 
@@ -23,10 +27,12 @@ under those codes and checks all four.
 | `g4_shared_code.py` | formulas, code constructions, evaluation, synthetic self-test (`--selftest`) |
 | `g4_llama.py` | model probe (`--probe`, read operators and anti-vacuity only) and sealed run (`--run`) |
 | `fetch_workload.py` | fetches the fixed public-domain workload text and prints its hash |
-| `prereg_config.json` | the world, protocol constants, and bars; two fields marked CONFIRM |
+| `prereg_config.json` | the world, protocol constants, and bars; revision and Atlas versions confirmed |
+| `workload.txt` | the fixed workload (Gutenberg 1342, first 200000 characters), SHA-256 80fcc293... |
+| `probe.json`, `probe.log`, `probe_*.npy` | the probe record: per-cell effective ranks, deficiency ratios, principal angles, and the whitened read operators and key covariances |
 | `PREREG-G4-DRAFT.md` | the registration to seal |
 
-## Before the probe runs on Atlas
+## How the probe was run on Atlas (2026-09-07)
 
 1. Confirm on Atlas: the cached model repository id and revision, the readscope version and
    the `jacobian_probe` signature, the transformers version and the rotary-embedding call.
