@@ -8,7 +8,7 @@ Standing rule inherited from the observation-theory campaigns: every gate regist
 |---|---|---|---|
 | G0 | Foundations frozen | none | DONE 2026-09-07 (paper 0.2, prior art, naming) |
 | G1 | Machine-checked core | G0 | DONE 2026-09-07 (seven files, no sorry, standard axioms; Ky Fan taken as named hypotheses, not in Mathlib) |
-| G2 | Hull law on a public dataset with a known consequence map | G0 | STARTED 2026-09-07 (checker self-tested on Atlas, registration drafted unsealed, data awaits owner download from ANES) |
+| G2 | Hull law on a public dataset with a known consequence map | G0 | SEALED 2026-09-07 (`experiments/G2/PREREG-G2.md`, blob fd7cc9240c225452a72ca7c9908107fa69b66201; ANES 1972 post-election Form II, five objects on the liberal-conservative and guaranteed-jobs scales, 489 testable respondents; run pending) |
 | G3 | Threshold tracks budget, computational evaluator | G0, G1 | PENDING |
 | G4 | Incompatibility regret on a shared code | G0 | PROBED 2026-09-07 (read operators recovered for all 16 cells; anti-vacuity bar at rank 16 FAILED, 4 of 16 cells against a bar of 12; registration unsealed, world revision pending the owner's decision) |
 | G5 | Identification: recover metric and ideal from choices | G1 | PENDING |
@@ -38,6 +38,7 @@ Registration. Seal the wave, the issue scales, the candidate set, the ranking so
 Statistic. The fraction of respondents whose ranking violates the hull law at least once, against the same fraction under the null that rankings are shuffled within respondent.
 Bar. Violation rate below the null by a preregistered margin, with a preregistered minimum number of respondents whose candidate placements are in general position (anti-vacuity: collinear placements make the law empty, and the probe must show how many respondents have a genuinely two-dimensional menu).
 What falsifies. Violation rate at or above the null. That would falsify every convex metric of evaluation for that population, not only the quadratic one.
+Record, 2026-09-07. Data: ANES 1972 Time Series (ICPSR 7010) Stata release, downloaded by the owner, gitignored. The codebook shows only Nixon, McGovern, Wallace and the two parties placed on issue scales in 1972, so the menu is those five objects on the post-election Form II scales; the primary pair is liberal-conservative with guaranteed jobs, and the five other pairs of the four Form II scales are registered replications. Placement-only probe on Atlas: 557 respondents with a menu of at least four objects, 489 testable against the bar of 300 (`experiments/G2/probe.json`; replication pairs 447 to 553 testable). Loader fixed before sealing to keep thermometer scores of 0, 8 and 9 (separate `thermometer_missing_codes`). Sealed by renaming `PREREG-G2-DRAFT.md` to `PREREG-G2.md`, blob fd7cc9240c225452a72ca7c9908107fa69b66201.
 
 ## G3. Threshold tracks budget, computational evaluator
 

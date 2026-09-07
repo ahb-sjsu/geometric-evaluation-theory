@@ -1,6 +1,6 @@
 # G2: the hull law on ANES candidate placements
 
-Gate G2 of `CAMPAIGN.md`. Registration is `PREREG-G2-DRAFT.md`, unsealed. The analysis code is
+Gate G2 of `CAMPAIGN.md`. Registration is `PREREG-G2.md`, SEALED 2026-09-07. The analysis code is
 `g2_hull_law.py`, which passed its synthetic self-test on Atlas on 2026-09-07 (quadratic
 evaluators produce zero violations on 286 of 300 testable synthetic respondents; random raters
 match their own shuffle null; hand-built, collinear, and tie cases are detected).
@@ -55,7 +55,7 @@ the president as a fifth object where present.
 
 | File | What |
 |---|---|
-| `PREREG-G2-DRAFT.md` | the registration, every fixed element written, variable mapping to fill |
+| `PREREG-G2.md` | the sealed registration |
 | `g2_hull_law.py` | checker, population statistic, shuffle null, probe mode, self-test |
 | `prereg_config.template.json` | the config to copy and fill from the codebook |
 | `data/` | the owner's downloaded files, gitignored |
