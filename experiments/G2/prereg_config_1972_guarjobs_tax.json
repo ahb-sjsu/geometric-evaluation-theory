@@ -1,0 +1,73 @@
+{
+  "world": "ANES 1972 Time Series Study (ICPSR 7010), post-election wave, Form II respondents; replication pair 4",
+  "format": "dta",
+  "id_column": "V720002",
+  "weight_column": null,
+  "scales": [
+    "government guaranteed jobs and standard of living (post, J4)",
+    "tax rate increase (post)"
+  ],
+  "candidates": {
+    "Nixon": {
+      "placements": [
+        "V720614",
+        "V720662"
+      ],
+      "thermometer": "V720702"
+    },
+    "McGovern": {
+      "placements": [
+        "V720615",
+        "V720663"
+      ],
+      "thermometer": "V720703"
+    },
+    "Wallace": {
+      "placements": [
+        "V720616",
+        "V720664"
+      ],
+      "thermometer": "V720701"
+    },
+    "Democratic party": {
+      "placements": [
+        "V720617",
+        "V720665"
+      ],
+      "thermometer": "V720719"
+    },
+    "Republican party": {
+      "placements": [
+        "V720618",
+        "V720666"
+      ],
+      "thermometer": "V720721"
+    }
+  },
+  "valid_placement_values": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "thermometer_range": [
+    0,
+    97
+  ],
+  "missing_codes": [
+    0,
+    8,
+    9
+  ],
+  "thermometer_missing_codes": [
+    98,
+    99
+  ],
+  "min_candidates": 4,
+  "n_shuffles": 200,
+  "seed": 20260907,
+  "codebook": "nes1972.txt (ICPSR 7010): placements MD=0 or GE 8 (8 DK, 9 NA/INAP, 0 INAP); thermometers 00-96 degrees, 97 = 97-100, 98 DK, 99 NA/INAP; no weight variable in the 1972 file"
+}

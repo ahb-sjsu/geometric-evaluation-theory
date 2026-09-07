@@ -1,0 +1,10 @@
+{
+ "world": "ANES 1972 Time Series Study (ICPSR 7010), post-election wave, Form II respondents; PRIMARY pair, the same two scales as the cumulative-file secondary world",
+ "n_respondents_with_menu": 557,
+ "n_testable": 489,
+ "menu_size_counts": {
+  "4": 130,
+  "5": 427
+ },
+ "ratings_read": false
+}

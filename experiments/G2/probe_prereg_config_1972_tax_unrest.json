@@ -1,0 +1,10 @@
+{
+ "world": "ANES 1972 Time Series Study (ICPSR 7010), post-election wave, Form II respondents; replication pair 6",
+ "n_respondents_with_menu": 545,
+ "n_testable": 503,
+ "menu_size_counts": {
+  "4": 129,
+  "5": 416
+ },
+ "ratings_read": false
+}

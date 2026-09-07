@@ -149,6 +149,8 @@ def load_respondents(path: str, cfg: dict) -> list[tuple[np.ndarray, np.ndarray,
     cands = cfg["candidates"]            # {name: {"placements": [col per scale], "thermometer": col}}
     scales = cfg["scales"]               # list of scale names, order = coordinate order
     missing = set(cfg.get("missing_codes", []))
+    # thermometers carry their own missing codes (ANES: 98, 99); a score of 0 is a real rating
+    missing_t = set(cfg.get("thermometer_missing_codes", missing))
     valid_place = set(cfg.get("valid_placement_values", [1, 2, 3, 4, 5, 6, 7]))
     therm_min, therm_max = cfg.get("thermometer_range", [0, 100])
     min_c = int(cfg.get("min_candidates", 4))
@@ -169,7 +171,7 @@ def load_respondents(path: str, cfg: dict) -> list[tuple[np.ndarray, np.ndarray,
                     break
                 place.append(float(v))
             t = row.get(spec["thermometer"])
-            if not ok or t is None or (isinstance(t, float) and np.isnan(t)) or t in missing:
+            if not ok or t is None or (isinstance(t, float) and np.isnan(t)) or t in missing_t:
                 continue
             t = float(t)
             if t < therm_min or t > therm_max:
