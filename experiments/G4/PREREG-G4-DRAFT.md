@@ -19,8 +19,8 @@ consumer's own geometry, recovered from the consumer alone.
 
 Model: `unsloth/Llama-3.2-3B` from the HuggingFace cache on Atlas, the checkpoint every
 observation-theory Gate-B harness used (revision recorded in `prereg_config.json` before
-sealing), loaded in bfloat16 with attention recomputed in float64 numpy from the captured
-post-rotary queries and keys, on GPU 1. Layers 8 and 16, the cells of the program's rematch
+sealing), loaded in float32 on GPU 1 with attention recomputed in float64 numpy from the
+captured post-rotary queries and keys. Layers 8 and 16, the cells of the program's rematch
 probe; layers outside {4, 8, 16, 20} are unspent and available for an out-of-sample rerun.
 
 Consumers and shared representation. The model uses grouped-query attention with 8 KV heads
@@ -108,8 +108,8 @@ not follow the eigenvalue formula beyond the tolerance while P1 holds.
 ## 8. Event-presence probe (standing rule)
 
 `g4_llama.py --probe` recovers the read operators and the key covariances and writes
-`probe.json` with, per cell: readscope's rank certificate and resolution, the effective rank
-and condition number of Sigma (anisotropy, which is why whitening is not optional), the
+`probe.json` with, per cell: readscope's effective rank of each operator and its step-response
+convergence, the effective rank and condition number of Sigma (anisotropy, which is why whitening is not optional), the
 effective rank of each Pt_i, the principal angles between the three heads' top-16 eigenspaces,
 and the deficiency bound at each rank relative to the summed own-optimal predicted losses. It
 computes no measured loss under any code.
@@ -117,8 +117,8 @@ computes no measured loss under any code.
 ## 9. Compute and thermal rule
 
 GPU 1 only (`CUDA_VISIBLE_DEVICES=1`), float32 attention math, batch of 64 queries, at most
-20 CPU threads, run inside a named screen session with a log. The probe is 16 cells x 64
-positions x 256 calls, each call one attention evaluation over 1,024 keys for 64 queries,
+20 CPU threads, run inside a named screen session with a log. The probe is 16 cells x 3
+heads x 64 positions x 320 calls, each call one attention evaluation over 1,024 keys for 64 queries,
 which is small.
 
 ## 10. Sealing procedure
