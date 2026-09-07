@@ -1,0 +1,37 @@
+{
+  "world": "ANES Time Series Cumulative Data File, four-object menu (secondary world). Variable names from the ICPSR 8475 codebook (1948-2000 edition, Stanford SSDS mirror). Placement codes 1-7 valid with 0, 8, 9 missing are the standard for these scales and MUST be confirmed against the current codebook before sealing.",
+  "format": "auto",
+  "id_column": "VCF0006",
+  "year_column": "VCF0004",
+  "weight_column": "VCF0009",
+  "scales": ["liberal-conservative 7pt", "guaranteed jobs 7pt"],
+  "candidates": {
+    "Democratic presidential candidate": {
+      "placements": ["VCF9088", "VCF9087"],
+      "thermometer": "VCF0424"
+    },
+    "Republican presidential candidate": {
+      "placements": ["VCF9096", "VCF9095"],
+      "thermometer": "VCF0426"
+    },
+    "Democratic party": {
+      "placements": ["VCF0503", "VCF0513"],
+      "thermometer": "VCF0218"
+    },
+    "Republican party": {
+      "placements": ["VCF0504", "VCF0514"],
+      "thermometer": "VCF0224"
+    },
+    "President": {
+      "placements": ["VCF9080", "VCF9079"],
+      "thermometer": "VCF0428"
+    }
+  },
+  "valid_placement_values": [1, 2, 3, 4, 5, 6, 7],
+  "thermometer_range": [0, 97],
+  "missing_codes": [0, 8, 9, 98, 99, 998, 999],
+  "min_candidates": 4,
+  "n_shuffles": 200,
+  "seed": 20260907,
+  "notes": "Three-scale variant for a sensitivity run after the sealed two-scale run: add aid to blacks (VCF9084, VCF9092, VCF0517, VCF0518, VCF9076). Never change scales after sealing; a variant is a new registration."
+}

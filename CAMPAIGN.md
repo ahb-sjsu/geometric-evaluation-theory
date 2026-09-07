@@ -8,7 +8,7 @@ Standing rule inherited from the observation-theory campaigns: every gate regist
 |---|---|---|---|
 | G0 | Foundations frozen | none | DONE 2026-09-07 (paper 0.2, prior art, naming) |
 | G1 | Machine-checked core | G0 | DONE 2026-09-07 (seven files, no sorry, standard axioms; Ky Fan taken as named hypotheses, not in Mathlib) |
-| G2 | Hull law on a public dataset with a known consequence map | G0 | PENDING |
+| G2 | Hull law on a public dataset with a known consequence map | G0 | STARTED 2026-09-07 (checker self-tested on Atlas, registration drafted unsealed, data awaits owner download from ANES) |
 | G3 | Threshold tracks budget, computational evaluator | G0, G1 | PENDING |
 | G4 | Incompatibility regret on a shared code | G0 | PENDING |
 | G5 | Identification: recover metric and ideal from choices | G1 | PENDING |

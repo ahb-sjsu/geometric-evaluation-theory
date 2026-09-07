@@ -1,0 +1,19 @@
+{
+  "world": "ANES 1972 Time Series Study (ICPSR 7010)",
+  "format": "auto",
+  "id_column": "FILL_FROM_CODEBOOK",
+  "weight_column": null,
+  "scales": ["FILL scale 1 name", "FILL scale 2 name"],
+  "candidates": {
+    "FILL candidate name": {
+      "placements": ["FILL column for scale 1", "FILL column for scale 2"],
+      "thermometer": "FILL thermometer column"
+    }
+  },
+  "valid_placement_values": [1, 2, 3, 4, 5, 6, 7],
+  "thermometer_range": [0, 100],
+  "missing_codes": [0, 8, 9, 98, 99, 998, 999],
+  "min_candidates": 4,
+  "n_shuffles": 200,
+  "seed": 20260907
+}
