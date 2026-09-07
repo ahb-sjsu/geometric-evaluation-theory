@@ -16,10 +16,10 @@ open GET.Semiorder
 
 variable {A : Type*}
 
-/-- **Intransitivity witness.** Distances `d a ≤ d b ≤ d c` with `d b - d a ≤ ε`,
-`d c - d b ≤ ε`, and `ε < d c - d a` give `a ∼ b`, `b ∼ c`, and not `a ∼ c`. -/
-theorem not_trans_of_chain (d : A → ℝ) {ε : ℝ} (hε : 0 ≤ ε) {a b c : A}
-    (hab : d a ≤ d b) (hbc : d b ≤ d c)
+/-- **Intransitivity witness.** Distances with `d b - d a ≤ ε`, `d c - d b ≤ ε`, and
+`ε < d c - d a` give `a ∼ b`, `b ∼ c`, and not `a ∼ c`. The three inequalities force the
+chain `d a < d b < d c` and `0 < ε`, so no ordering hypothesis is needed. -/
+theorem not_trans_of_chain (d : A → ℝ) {ε : ℝ} {a b c : A}
     (h1 : d b - d a ≤ ε) (h2 : d c - d b ≤ ε) (h3 : ε < d c - d a) :
     indiff d ε a b ∧ indiff d ε b c ∧ ¬ indiff d ε a c := by
   unfold indiff
