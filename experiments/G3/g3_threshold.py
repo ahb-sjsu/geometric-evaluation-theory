@@ -168,10 +168,13 @@ class LMScorer:
             return self.tok.apply_chat_template([{"role": "user", "content": user}], tokenize=False, add_generation_prompt=True)
         return user
 
-    def scores(self, target: str, values: list[str], batch: int = 32) -> list[float]:
+    def scores(self, target: str, values: list[str], batch: int = 32, max_new: int | None = None) -> list[float]:
+        """max_new is the report budget in generated tokens; this tokenizer emits one digit per
+        token, so it is the number of characters of the report."""
         import re
         torch = self.torch
-        todo = [v for v in dict.fromkeys(values) if (target, v) not in self.cache]
+        k = int(max_new or self.max_new)
+        todo = [v for v in dict.fromkeys(values) if (target, v, k) not in self.cache]
         self.tok.padding_side = "left"
         if self.tok.pad_token is None:
             self.tok.pad_token = self.tok.eos_token
@@ -179,19 +182,20 @@ class LMScorer:
             chunk = todo[i:i + batch]
             enc = self.tok([self._prompt(target, v) for v in chunk], return_tensors="pt", padding=True).to(self.model.device)
             with torch.no_grad():
-                gen = self.model.generate(**enc, max_new_tokens=self.max_new, do_sample=False,
+                gen = self.model.generate(**enc, max_new_tokens=k, do_sample=False,
                                           pad_token_id=self.tok.pad_token_id)
             for v, row in zip(chunk, gen[:, enc.input_ids.shape[1]:]):
                 text = self.tok.decode(row, skip_special_tokens=True)
-                m = re.search(r"-?\d+(?:\.\d+)?", text.replace(",", ""))
+                m = re.search(r"-?\d+(?:\.\d*)?", text.replace(",", ""))
                 if m:
-                    self.cache[(target, v)] = (float(m.group(0)), text)
+                    self.cache[(target, v, k)] = (float(m.group(0).rstrip(".")), text)
                 else:
-                    self.cache[(target, v)] = (float("nan"), text); self.unparsed += 1
-        return [self.cache[(target, v)][0] for v in values]
+                    self.cache[(target, v, k)] = (float("nan"), text); self.unparsed += 1
+        return [self.cache[(target, v, k)][0] for v in values]
 
 
-def accuracy_by_gap_scorer(pairs: list[dict], scorer: LMScorer, decimals: int, target: float, batch: int = 32) -> dict:
+def accuracy_by_gap_scorer(pairs: list[dict], scorer: LMScorer, decimals: int, target: float, batch: int = 32,
+                           max_new: int | None = None) -> dict:
     """Preference for the closer option is 1 if its reported distance is smaller, 0 if larger,
     one half if equal or either report is unparsable; accuracy is the share of pairs with
     preference above one half, so ties count against, which is what indifference is."""
@@ -202,8 +206,8 @@ def accuracy_by_gap_scorer(pairs: list[dict], scorer: LMScorer, decimals: int, t
         by_gap.setdefault(p["gap"], []).append(p)
     out = {}
     for gap, ps in by_gap.items():
-        sc = scorer.scores(tstr, [render(p["close"], decimals) for p in ps], batch)
-        sf = scorer.scores(tstr, [render(p["far"], decimals) for p in ps], batch)
+        sc = scorer.scores(tstr, [render(p["close"], decimals) for p in ps], batch, max_new)
+        sf = scorer.scores(tstr, [render(p["far"], decimals) for p in ps], batch, max_new)
         prefs = []
         for a, b in zip(sc, sf):
             prefs.append(0.5 if (_m.isnan(a) or _m.isnan(b) or a == b) else (1.0 if a < b else 0.0))
@@ -280,14 +284,18 @@ def run(cfg: dict, seed: int, out_path: str, probe: bool = False) -> dict:
                                        "text": judge.cache[(render(float(cfg["target"]), 3), render(v, 3))][1]})
                 result["generation_sample"] = sample
                 print(json.dumps({"generation_sample": sample}))
-            for dec in decimals_ladder:
+            full_budget = int(cfg.get("max_new_tokens", 12))
+            ladder = [(dec, full_budget) for dec in decimals_ladder]
+            if wp == "full" and not probe:
+                ladder += [(int(cfg["decimals_ladder"][-1]), int(k)) for k in cfg.get("report_token_budgets", []) if int(k) != full_budget]
+            for dec, k in ladder:
                 t0 = time.time()
-                acc = accuracy_by_gap_scorer(pairs, judge, dec, float(cfg["target"]), int(cfg.get("batch", 32)))
+                acc = accuracy_by_gap_scorer(pairs, judge, dec, float(cfg["target"]), int(cfg.get("batch", 32)), k)
                 thr = threshold_from(acc, level)
-                cell = {"weight_precision": wp, "decimals": dec, "rendering_step": 10.0 ** (-dec),
+                cell = {"weight_precision": wp, "decimals": dec, "rendering_step": 10.0 ** (-dec), "report_tokens": k,
                         "accuracy_by_gap": acc, "threshold": thr, "unparsed_reports": judge.unparsed, "seconds": time.time() - t0}
                 result["cells"].append(cell)
-                print(json.dumps({"weight_precision": wp, "decimals": dec, "threshold": thr, "unparsed": judge.unparsed,
+                print(json.dumps({"weight_precision": wp, "decimals": dec, "report_tokens": k, "threshold": thr, "unparsed": judge.unparsed,
                                   "acc": {g: round(v["accuracy"], 3) for g, v in acc.items()},
                                   "ties": {g: round(v["ties_or_unparsed"], 3) for g, v in acc.items()}}))
                 json.dump(result, open(out_path, "w", encoding="utf-8"), indent=1)

@@ -13,9 +13,12 @@
     50.0,
     150.0
   ],
-  "min_distance": 1.0,
+  "min_distance": 10.0,
   "max_distance": 40.0,
   "gap_ladder": [
+    0.0005,
+    0.001,
+    0.002,
     0.005,
     0.01,
     0.02,
@@ -26,7 +29,8 @@
     1.0,
     2.0,
     5.0,
-    10.0
+    10.0,
+    20.0
   ],
   "n_pairs_per_gap": 200,
   "decimals_ladder": [
@@ -52,5 +56,16 @@
   "judge_kind": "scorer",
   "scorer_prompt_template": "Target: {target}\nValue: {value}\nHow far is the value from the target? Answer with a single number and nothing else.",
   "max_new_tokens": 12,
-  "probe_2026-09-08_one_sided_chooser": "NOT VACUOUS but floor 7.5: one-sided pairs, bare-letter reading; accuracy 0.99 at gap 10, 0.77 at 5, 0.43 to 0.63 from 0.01 to 2, threshold 7.5, above the 0.3 the anti-vacuity rule allows, because the chooser's first-position preference leaves the two-order average at one half until the gap is large. A pairwise chooser is the wrong instrument for a threshold; replaced by the scorer before any pilot."
+  "probe_2026-09-08_one_sided_chooser": "NOT VACUOUS but floor 7.5: one-sided pairs, bare-letter reading; accuracy 0.99 at gap 10, 0.77 at 5, 0.43 to 0.63 from 0.01 to 2, threshold 7.5, above the 0.3 the anti-vacuity rule allows, because the chooser's first-position preference leaves the two-order average at one half until the gap is large. A pairwise chooser is the wrong instrument for a threshold; replaced by the scorer before any pilot.",
+  "report_token_budgets": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    12
+  ],
+  "report_budget_prediction": "distances are two-digit, so a report of k tokens (one digit per token in this tokenizer) resolves 10 at k = 1, 1 at k = 2 and 3 (the third character is the decimal point), 0.1 at k = 4, 0.01 at k = 5, 0.001 at k = 6 and beyond",
+  "probe_2026-09-08_scorer_v1": "scorer at full weights, 3 decimals, 12-token reports, distances 1 to 40: reports exact to three decimals, accuracy 1.0 at every gap from 0.005 to 10, no ties, no unparsable reports; the floor is below the ladder, so the gap ladder was extended down to 0.0005 and up to 20, distances restricted to two digits, and the report-length ladder added, before any pilot"
 }

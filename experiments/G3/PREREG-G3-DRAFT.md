@@ -38,15 +38,26 @@ pairwise chooser measures its position bias before it measures a threshold, so i
 by the scorer before any pilot.
 
 Consequences. The target is 100. An option is a number in [50, 150]; its consequence is its
-distance from the target, between 1 and 40. A pair is two options whose distances differ by a
-gap on the ladder 0.005, 0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1, 2, 5, 10, each option on either
-side of the target with equal probability. 200 pairs per gap, drawn by seed; each distinct
-rendered value is scored once per cell.
+distance from the target, between 10 and 40, two digits before the decimal point so that a
+report of a fixed length has a fixed resolution. A pair is two options whose distances differ
+by a gap on the ladder 0.0005, 0.001, 0.002, 0.005, 0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1, 2, 5,
+10, 20, each option on either side of the target with equal probability. 200 pairs per gap,
+drawn by seed; each distinct rendered value is scored once per cell. The first scorer probe
+(`probe_scorer_v1.json`, distances 1 to 40, gaps from 0.005) found reports exact to three
+decimals and accuracy 1.0 at every gap, a floor below the ladder, which is why the ladder
+now reaches 0.0005 and 20.
 
-Budgets. Rendering precision: numbers shown with 0, 1, 2, or 3 decimals (the target rendered
-at the same precision). At d decimals two options whose distances differ by less than the
-rendering step 10^-d may render identically, which the record counts per gap. Weight
-precision: bfloat16, 8-bit, 4-bit. The twelve cells are the product.
+Budgets. Three, set independently. Rendering precision: numbers shown with 0, 1, 2, or 3
+decimals (the target rendered at the same precision); at d decimals two options whose
+distances differ by less than the rendering step 10^-d may render identically, which the
+record counts per gap. Weight precision: bfloat16, 8-bit, 4-bit. Report length: the scorer's
+answer limited to k generated tokens, k in 1, 2, 3, 4, 5, 6, 12; this tokenizer emits one
+digit per token, so with two-digit distances a report of k tokens resolves 10 at k = 1, 1 at
+k = 2 and 3 (the third character is the decimal point), 0.1 at k = 4, 0.01 at k = 5, 0.001 at
+k = 6 and beyond. This is the theory's length budget taken literally: the evaluator may spend
+k symbols on its cost, and the threshold should be the resolution those symbols afford.
+Cells: rendering times weight precision at the full report length (twelve cells), and the
+report ladder at three decimals and full weights (six more).
 
 Seeds. A probe seed (full precision, 3 decimals only, to establish that the events exist), a
 pilot seed whose only use is to fix the tolerances of Section 5, and a run seed with fresh
@@ -64,29 +75,41 @@ construction.
 
 ## 4. What the theory predicts
 
-The judge's threshold in a cell is the larger of the budget it was set and a floor that is the
-judge's own resolution at full precision and full rendering. So: (i) along the rendering
-ladder, at fixed weight precision, the threshold is non-increasing in the number of decimals
-and, where the rendering step exceeds the floor, tracks the step; (ii) along the weight ladder,
-at fixed rendering, the threshold is non-decreasing as bits are removed; (iii) pairs whose gap
-exceeds twice the largest threshold on either ladder are ordered the same way in every cell.
+The scorer's threshold in a cell is the larger of the budget it was set and a floor that is
+the scorer's own resolution at full weights, full rendering, and full report length. So: (i)
+along the rendering ladder, at fixed weight precision, the threshold is non-increasing in the
+number of decimals and, where the rendering step exceeds the floor, tracks the step; (ib)
+along the report ladder the threshold is non-increasing in k and, where the afforded
+resolution exceeds the floor, tracks it; (ii) along the weight ladder, at fixed rendering and
+report length, the threshold is non-decreasing as bits are removed; (iii) pairs whose gap
+exceeds twice the largest threshold in any cell are ordered the same way in every cell. At
+full weights the rendering and report ladders test only that the scorer's arithmetic resolves
+what it is shown and allowed to say, which a competent model makes nearly a tautology; the
+weight ladder, and the rendering and report ladders at reduced weights if run, are where the
+prediction can fail.
 
 ## 5. Bars (tolerances FIXED FROM THE PILOT before sealing; see Section 7)
 
-- Anti-vacuity. At full precision and 3 decimals, accuracy at gap 10 is at least 0.95 and at
-  gap 0.005 at most 0.65, so a threshold exists inside the ladder; and the floor, the threshold
-  in that cell, is at most 0.3, so the rendering ladder (steps 1, 0.1, 0.01, 0.001) has at least
-  one step above the floor. If the floor is above 0.3 the rendering ladder is VACUOUS and the
-  registration is revised to coarser steps before sealing.
+- Anti-vacuity. At full weights, 3 decimals and full report length, accuracy at gap 20 is at
+  least 0.95, and the floor, the threshold in that cell, is at most 0.3, so that at least two
+  rendering steps and at least three report budgets exceed three times the floor. A floor at
+  or below the smallest gap is recorded as censored at 0.0005 and counted as 0.0005 in the
+  "exceeds the floor" tests. If the floor is above 0.3 the ladders are VACUOUS and the
+  registration is revised before sealing.
 - P1, rendering tracks budget. At each weight precision the threshold is non-increasing over 0,
   1, 2, 3 decimals within a tolerance factor TOL, and at every decimal count whose step exceeds
   the floor by a factor of at least 3 the threshold is within a factor TOL of the step.
-- P2, weight precision. At 3 decimals the threshold is non-decreasing over bfloat16, 8-bit,
-  4-bit within the factor TOL.
+- P1b, report length tracks budget. At full weights and 3 decimals the threshold is
+  non-increasing over k = 1 to 12 within TOL, and at every k >= 2 whose afforded resolution
+  exceeds the floor by a factor of at least 3 the threshold is within a factor TOL of that
+  resolution. The k = 1 cell is reported and not graded (its resolution, 10, is at the edge of
+  the gap ladder).
+- P2, weight precision. At 3 decimals and full report length the threshold is non-decreasing
+  over bfloat16, 8-bit, 4-bit within the factor TOL.
 - P3, well-separated ordering. For every gap at least twice the largest threshold measured in
   any cell, accuracy is at least 0.95 in every cell.
 
-Pass: P1 to P3 hold. Fail: a threshold that decreases when the budget is coarsened by more than
+Pass: P1, P1b, P2 and P3 hold. Fail: a threshold that decreases when the budget is coarsened by more than
 the factor TOL at any step of either ladder, or a well-separated gap at which some cell's
 accuracy is below 0.8. Otherwise INDETERMINATE, which includes a floor so high that the weight
 ladder cannot move it.
@@ -104,18 +127,21 @@ and 2.5 h at h in 0.01, 0.1, 1 (a rounded-distance scorer decides every pair who
 h and about half of those below, so the 90 percent level sits between h and 2h). Result
 recorded here before sealing.
 
-Probe: the full-precision, 3-decimal cell on the probe seed, to check anti-vacuity. Recorded
-as `probe.json`.
+Probe: the full-weights, 3-decimal, full-report cell on the probe seed, to check anti-vacuity.
+Recorded as `probe.json`; the earlier chooser probes and the first scorer probe are recorded
+beside it under their own names.
 
-Pilot: every cell on the pilot seed. TOL is fixed as the largest ratio between a threshold and
-its predicted value (the step where the step exceeds the floor by a factor 3, the previous
-cell's threshold otherwise) observed in the pilot, rounded up to one decimal, and at least 1.5.
-Recorded here with the pilot's thresholds.
+Pilot: every cell on the pilot seed. TOL is fixed as the largest ratio, in either direction,
+between a threshold and its predicted value (the rendering step or the afforded report
+resolution where that exceeds three times the floor, the previous cell's threshold along a
+ladder otherwise) observed in the pilot, rounded up to one decimal, and at least 1.5. Recorded
+here with the pilot's thresholds.
 
 ## 8. Compute and thermal rule
 
-GPU 1 only. Batches of 32 prompts, greedy generation of at most 12 tokens, each distinct
-rendered value scored once per cell (at most 4,400 per cell). A named screen
+GPU 1 only. Batches of 32 prompts, greedy generation of at most 12 tokens (fewer on the report
+ladder), each distinct rendered value scored once per cell (at most 6,000 per cell), eighteen
+cells per seed. A named screen
 session with a log.
 
 ## 9. Sealing procedure
