@@ -10,7 +10,7 @@ provided the battery of consequences spans the space affinely, and not otherwise
 |---|---|
 | `g5_identify.py` | world, estimator, errors, chance reference, pilot and run (`--seed-role`), self-test |
 | `prereg_config.json` | dimensions, battery ladder, evaluator count, indifference share, seeds |
-| `PREREG-G5-DRAFT.md` | the registration |
+| `PREREG-G5.md` | the sealed registration; `pilot_ladder32.json` and `pilot.json` the two pilots that fixed its bars |
 
 Protocol. `--selftest` on Atlas; `--seed-role pilot` (seed 20260908) to see the error scale and
 fix the tolerances, recorded in the registration; seal; `--seed-role run` (seed 20260909,

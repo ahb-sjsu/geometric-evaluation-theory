@@ -1,6 +1,6 @@
-# PREREG G5 (DRAFT, NOT SEALED): identification of the metric and the ideal from choices
+# PREREG G5: identification of the metric and the ideal from choices
 
-Status: draft. Nothing here is a registered claim until Section 8 is executed. This is the
+Status: SEALED 2026-09-08 by the rename to `PREREG-G5.md`; blob hash recorded in `CAMPAIGN.md`. This is the
 synthetic stage of G5; the stages on the TCSS reference implementation and on human data are
 not registered here.
 
@@ -70,8 +70,12 @@ chance; "unrevealed" means a median at least 0.5 times chance. The largest batte
   offset 8.
 - P2, monotone improvement. The median metric error is non-increasing over offsets 4, 8, 16,
   32, 64, allowing 5 percent for ties.
-- P3, the cliff. At offsets -1 and 0 (n <= m) the metric is unrevealed, and at most 10 percent
-  of evaluators have metric error within a quarter of chance.
+- P3, the cliff. At offsets -1 and 0 (n <= m) the metric is unrevealed in the median. The
+  fraction of evaluators within a quarter of chance is reported and not graded: a battery of n
+  points spans an affine subspace of dimension n - 1 and reveals nothing off it, which is the
+  theorem's claim, but it can reveal the in-span part, so single evaluators may land near the
+  truth. An offset in which fewer than 20 evaluators have any strict pair is reported and not
+  graded (with two points and a semiorder threshold the single pair is indifferent).
 - P4, the subspace battery. At m + 64 points inside a proper affine subspace, the in-span block
   of the metric is recovered and the entry along the normal is unrevealed (its chance level
   is the same entry of guesses from the prior).
@@ -118,16 +122,38 @@ subspace battery was recovered in every cell while the full metric stayed at cha
 singular metrics the kernel component's median was 0.8 to 1.5 times chance while the range
 component was recovered.
 
-Second pilot, ladder to offset 64 (`pilot.json`), run to confirm that the bars of Section 5
-are the ones sealed and to record their pilot values; results in Section 7a.
+Second pilot, ladder to offset 64 (`pilot.json`, `pilot.log`, 116 cells, Atlas 15:40 to 17:11
+UTC 2026-09-08). Under the bars of Section 5 every one of the 12 cells passes. Its values, to be
+compared with the run's: metric median over chance at offset 64 between 0.00 and 0.02 in the
+weak-order cells and 0.05 to 0.24 in the semiorder cells; ideal range median over chance 0.00
+to 0.02 (weak order) and 0.03 to 0.28 (semiorder), with the semiorder ideal's median at offset
+64 between 0.08 and 0.29 of its median at offset 8; median metric error falling monotonically
+over offsets 4 to 64 in every cell (for instance from 0.92 to 0.015 in four dimensions at full
+rank with a weak order); at n <= m the median metric error 1.19 to 1.84 times chance in every
+graded offset; on the subspace battery the in-span block at 0.00 to 0.19 of chance and the
+normal entry at 0.61 to 2.72 times its chance; for singular metrics the kernel component at
+0.67 to 1.12 times chance. Two things the second pilot changed before sealing, both recorded
+here: the cliff bar's fraction clause was dropped (a two-point battery in two dimensions with a
+rank-one metric reveals one bit about the metric's direction, and single evaluators landed
+within a quarter of chance more often than the clause allowed, which the theorem does not
+forbid), and offsets with fewer than 20 evaluators having any strict pair are not graded (one
+such offset had a single evaluator, whose lone error had driven a verdict).
+
+## 7a. Self-test record
+
+`--selftest` on Atlas, 2026-09-08, cvxpy 1.9.2 with Clarabel: SELFTEST PASS. Rich battery in
+general position, metric error 0.076 against chance 0.67 and ideal range error 0.54 against
+chance 1.72; singular metric, metric error 0.010, range angle 3.0 degrees, ideal range error
+0.027 against chance 0.87, kernel component 0.61 against chance 0.58; subspace battery, in-span
+block error 0.044 with the full metric at 0.92 against chance 0.67; battery of m points, metric
+error 1.52. Two earlier estimator drafts failed this test or a pilot and are described in
+Section 3.
 
 ## 8. Sealing procedure
 
-1. Self-test on Atlas (`--selftest`): noiseless recovery from a rich battery, in-span recovery
-   only on a subspace battery, no recovery from m points, kernel component of the ideal not
-   recovered for a singular metric. Result recorded here.
-2. Pilot on Atlas; write TAU_G and TAU_T into Section 5 and `prereg_config.json`; commit
-   `pilot.json`.
+1. Self-test on Atlas (`--selftest`). Done, Section 7a.
+2. Pilots on Atlas; fix the form and factors of the bars; commit `pilot_ladder32.json` and
+   `pilot.json`. Done, Section 7.
 3. Rename this file to `PREREG-G5.md`, commit, record its blob hash in `CAMPAIGN.md`.
-4. Only then run `--seed-role run`, grade with `g5_grade.py`, commit `results.json` and
-   `grade.json` as executed.
+4. Only then run `--seed-role run` (seed 20260909, fresh evaluators and batteries), grade with
+   `g5_grade.py`, commit `results.json` and `grade.json` as executed.

@@ -26,6 +26,7 @@ def frac(rows, key, factor, ckey=None):
 def grade(res: dict) -> dict:
     b = res["config"]["bars"]
     REC, UNREV, FRAC_REC, CONV = b["recovery_factor"], b["unrevealed_factor"], b["recovered_fraction_max"], b["convergence_factor"]
+    MIN_EV = int(b.get("min_evaluators_to_grade", 20))
     cells = res["cells"]
     keys = sorted({(c["m"], c["rank"], c["eps_mode"]) for c in cells})
     out = {"bars": b, "cells": {}, "gate": None}
@@ -56,19 +57,21 @@ def grade(res: dict) -> dict:
         seq = [(o, med(gen[o], "g_rel_err")) for o in sorted(gen) if o >= 4]
         p2 = all(seq[i + 1][1] <= seq[i][1] * 1.05 for i in range(len(seq) - 1))
         rec["P2"] = {"holds": bool(p2), "median_g_by_offset": {str(o): v for o, v in seq}}
-        # P3 cliff at n <= m
-        p3 = True; worst_frac = 0.0
+        # P3 cliff at n <= m: the metric is not recovered in the median (a battery of n points
+        # spans an affine subspace of dimension n - 1 < m and reveals nothing off it, but it can
+        # reveal the in-span part, so single evaluators may land near the truth)
+        p3 = True; best_ratio = float("inf"); fracs = {}
         for o in [o for o in gen if o <= 0]:
-            if not gen[o]:
-                continue
+            if len(gen[o]) < MIN_EV:
+                continue    # too few evaluators with any strict pair to grade; reported, not graded
             r_med = med(gen[o], "g_rel_err") / med(gen[o], "g_rel_err", True)
-            f = frac(gen[o], "g_rel_err", 0.25)
-            worst_frac = max(worst_frac, f)
-            if r_med < UNREV or f > FRAC_REC:
+            best_ratio = min(best_ratio, r_med)
+            fracs[str(o)] = frac(gen[o], "g_rel_err", 0.25)
+            if r_med < UNREV:
                 p3 = False
-        if worst_frac > 0.3:
+        if best_ratio < REC:
             fail_flags["recovery_below_bound"] = True
-        rec["P3"] = {"holds": bool(p3), "max_fraction_recovered_below_bound": worst_frac}
+        rec["P3"] = {"holds": bool(p3), "min_median_over_chance_below_bound": best_ratio, "fraction_within_quarter_of_chance": fracs}
         # P4 subspace battery: in-span block recovered, normal entry unrevealed
         p4 = True
         if sub and sub[0]:
