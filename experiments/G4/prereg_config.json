@@ -17,10 +17,9 @@
   "n_operating_points": 64,
   "probe_step": 0.01,
   "ranks": [
-    8,
-    16,
-    32,
-    64
+    2,
+    4,
+    8
   ],
   "n_random_codes": 32,
   "weights": "equal",
@@ -30,13 +29,16 @@
   "bars": {
     "P1_relative_error_max": 0.25,
     "P1_min_fraction": 0.8,
-    "P1_min_rank": 16,
-    "P2_own_regret_max_fraction": 0.05,
+    "P1_at_every_rank": true,
+    "P2_own_excess_over_measured_best_max": 0.05,
     "P2_min_cells": 12,
     "P3_compromise_tolerance": 0.25,
-    "P3_min_cells": 12,
+    "P3_min_fraction_of_nonvacuous_cells": 0.8,
     "P4_beats_bound_tolerance": 0.25,
-    "anti_vacuity_min_deficiency_fraction_at_k16": 0.05,
+    "P5_min_fraction_of_nonvacuous_cells": 0.8,
+    "nonvacuous_cell_min_deficiency_fraction": 0.05,
+    "anti_vacuity_rank": 2,
+    "anti_vacuity_min_deficiency_fraction": 0.05,
     "anti_vacuity_min_cells": 12
   },
   "versions_on_atlas_2026-09-07": {
@@ -47,5 +49,6 @@
     "numpy": "2.5.1"
   },
   "workload_sha256_at_fetch": "80fcc29381c33fc73dcc07d237f05b860725fb7e50de8efaba155bcc10027d9e",
-  "CONFIRMED": "revision of unsloth/Llama-3.2-3B as cached on Atlas; readscope version (0.2.0 expected); transformers version (4.46.3 in the program cookbook)"
+  "CONFIRMED": "revision of unsloth/Llama-3.2-3B as cached on Atlas; readscope version (0.2.0 expected); transformers version (4.46.3 in the program cookbook)",
+  "revision_2026-09-07": "Rank ladder revised from 8, 16, 32, 64 to 2, 4, 8 after the probe (commit 5dbc942) showed the read operators have effective rank 2.6 to 8.3, so the registered ladder was vacuous at rank 16. From the committed probe operators, the deficiency bound exceeds 5 percent of the summed own-optimal losses in 13 of 16 cells at rank 2, 10 at rank 4, 9 at rank 8. No loss under any code had been measured when this revision was made. Bars P2 and P4 restated in measured terms, P5 added, key_pca code fixed."
 }

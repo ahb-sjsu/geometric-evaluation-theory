@@ -1,13 +1,13 @@
 # PREREG G4 (DRAFT, NOT SEALED): incompatibility regret of a shared key code
 
-Status: draft. Nothing here is a registered claim until Section 10 is executed. The theory
-module `g4_shared_code.py` passed its synthetic self-test on Atlas on 2026-09-07 (linear
-consumers: measured loss within 0.7 percent of predicted distortion, own codes zero regret,
-compromise attains the bound, none of 64 random codes beats it). The model probe ran on Atlas
-on 2026-09-07 (`probe.json`): the anti-vacuity bar of Section 6 FAILED at rank 16, 4 of 16
-cells against a bar of 12 (9 of 16 at rank 8, 0 of 16 at rank 32). Per Section 6 the world
-is to be revised before sealing; the revision is not yet chosen. Sections 2 to 6 below are
-the registration as drafted before the probe and are unchanged.
+Status: revised draft, to be sealed by Section 10. The theory module `g4_shared_code.py`
+passed its synthetic self-test on Atlas on 2026-09-07 (linear consumers: measured loss within
+0.7 percent of predicted distortion, own codes zero regret, compromise attains the bound, none
+of 64 random codes beats it, and, after the revision below, the same three statements in
+measured regrets). The model probe ran on Atlas on 2026-09-07 (`probe.json`, commit 5dbc942)
+with the rank ladder 8, 16, 32, 64 and the anti-vacuity bar of that draft FAILED at rank 16,
+4 of 16 cells against a bar of 12. Section 6a records the revision made in response, before
+any loss under any code was measured. Everything else below is as drafted before the probe.
 
 ## 1. Claim under test
 
@@ -72,9 +72,10 @@ representation class is exactly the theorem's. The compromise code, the top-k ei
 the summed (equal-weight) operators of the three query heads, is exactly the per-KV-head read
 subspace the program's live-decode harness already builds by summing the group's operators;
 the theorem is what says that construction is total-regret optimal and what each head pays
-for it. Rank ladder k in {8, 16, 32, 64}. Per cell and
-rank: the 3 own-optimal codes, the compromise, the key-PCA code (top-k eigenspace of Sigma,
-mapped to whitened coordinates), and 32 seeded random projectors.
+for it. Rank ladder k in {2, 4, 8} (revised, Section 6a). Per cell and
+rank: the 3 own-optimal codes, the compromise, the key-PCA code (the orthogonal projector in
+whitened coordinates onto the image of the top-k eigenspace of Sigma, a code that knows the
+keys and none of the readers), and 32 seeded random projectors.
 
 ## 5. Measurement
 
@@ -82,27 +83,66 @@ For each cell, rank, code, and consumer: the measured loss is the mean over the 
 query positions of the summed squared difference of square-root attention weights between
 the original keys and the coded keys (all keys of the cell coded at once). The KL divergence
 of the attention distributions is reported beside it. The predicted loss is
-`tr(Pt_i (I - Q))`. Regrets, weighted totals, and the deficiency bound follow Section 1.
+`tr(Pt_i (I - Q))`. Predicted regrets, weighted totals, and the deficiency bound follow
+Section 1. The predicted regrets are consequences of the theorem and cannot contradict it, so
+the bars are stated on measured regrets: consumer `i`'s measured regret under code `Q` is its
+measured loss under `Q` minus its measured loss under its own code `own_i`, and the measured
+weighted total regret of `Q` is the weight-sum of those. A cell is non-vacuous at rank k when
+the deficiency bound exceeds 5 percent of the summed own-optimal predicted losses at that rank.
 
 ## 6. Predictions and bars
 
-- P1, second-order validity. For k >= 16, the relative error between measured loss and
-  predicted loss is at most 0.25 for at least 80 percent of (cell, code, consumer) triples.
-- P2, own codes. The measured regret of each consumer's own code is at most 5 percent of its
-  own-optimal measured loss in at least 12 of 16 cells at every rank.
-- P3, compromise. The measured weighted total regret of the compromise code is within 25
-  percent of the deficiency bound in at least 12 of 16 cells at every rank.
+- P1, second-order validity. At every rank of the ladder, the relative error between measured
+  loss and predicted loss is at most 0.25 for at least 80 percent of (cell, code, consumer)
+  triples at that rank. At rank 2 the code discards 126 of 128 whitened directions, so this
+  is where the quadratic model is most strained, and P1 is what says whether it survives.
+- P2, own codes are measured-best. For each consumer, its measured loss under its own code is
+  at most 1.05 times the smallest measured loss over every evaluated code, in at least 12 of
+  16 cells at every rank.
+- P3, compromise attains the bound. Over the non-vacuous cells at a rank, the measured
+  weighted total regret of the compromise code is within 25 percent of the deficiency bound
+  in at least 80 percent of them.
 - P4, no code beats the bound. In no cell and at no rank does any evaluated code have a
   measured weighted total regret below the deficiency bound by more than 25 percent of the
   bound.
+- P5, ordering without the quadratic model. Over the non-vacuous cells at a rank, the
+  compromise code has the smallest measured weighted total regret of every evaluated code
+  other than the three own codes in at least 80 percent of them. This is the theorem's
+  ordering claim tested on measured losses alone.
 - Anti-vacuity (from the probe, before sealing): the deficiency bound exceeds 5 percent of
-  the summed own-optimal predicted losses in at least 12 of 16 cells at k = 16, meaning the
-  three query heads of a group read genuinely different geometries. If not, the gate is
-  VACUOUS for this model and the registration is revised to a world with more distinct
-  consumers before sealing.
+  the summed own-optimal predicted losses in at least 12 of 16 cells at the smallest rank of
+  the ladder, meaning the three query heads of a group read genuinely different geometries
+  there. The count of non-vacuous cells at every rank is recorded before sealing.
 
-Pass: P1 to P4 all hold. Fail: P4 violated in any cell (a shared code better than the bound
-for everyone), or P3 failing in more than 8 cells. Otherwise INDETERMINATE.
+Per rank: PASS when P1 to P5 all hold at that rank; FAIL when P4 is violated in any cell, or
+P3 or P5 fails in more than half of the non-vacuous cells, while P1 holds; INDETERMINATE
+otherwise, including every case in which P1 fails at that rank, because P3 and P4 compare a
+measurement to a quadratic prediction. Gate: PASS when every rank passes; FAIL when any rank
+fails; INDETERMINATE otherwise. Every per-rank verdict is reported.
+
+## 6a. Revision after the probe (2026-09-07, before any loss was measured)
+
+The probe (commit 5dbc942) found the read operators of effective rank 2.6 to 8.3 in 128
+dimensions with the three heads of a group largely coincident, so the drafted ladder 8, 16,
+32, 64 was vacuous at rank 16 (4 of 16 cells) and thin at rank 8 (9 of 16). The revision:
+
+1. Rank ladder 2, 4, 8, chosen because the theorem's content, a positive regret that no
+   shared code escapes, lives below the operators' effective rank. From the committed probe
+   operators, the deficiency bound exceeds 5 percent of the summed own-optimal losses in 13
+   of 16 cells at rank 2, 10 of 16 at rank 4, 9 of 16 at rank 8 (16 of 16 at rank 1, 4 of 16
+   at rank 16). Anti-vacuity holds at the smallest rank, and P3 and P5 are graded over the
+   non-vacuous cells at each rank, whose counts are the ones just stated.
+2. P2 and P4 restated in measured regrets. As drafted they compared predicted regrets, which
+   the theorem fixes, so they could not fail. `evaluate_codes` now records measured regrets,
+   measured totals, and each consumer's excess of its own code over the measured best.
+3. P5 added, the ordering claim on measured losses alone.
+4. The key-PCA code as coded was the top-k eigenspace of the identity, an arbitrary
+   coordinate projector mislabeled. It is now the whitened projector onto the image of the
+   top-k eigenspace of Sigma.
+5. P1 restated at every rank, with the per-rank verdict rule above.
+
+Nothing about the consumers, the workload, the operators, the recovery protocol, the code
+family's other members, the seeds, or the tolerances changed.
 
 ## 7. What falsifies
 
@@ -118,6 +158,13 @@ effective rank of each Pt_i, the principal angles between the three heads' top-1
 and the deficiency bound at each rank relative to the summed own-optimal predicted losses. It
 computes no measured loss under any code.
 
+Probe record (Atlas, GPU 1, 2026-09-07 19:37 to 21:00 UTC, `probe.log`, commit 5dbc942):
+key covariance effective rank 22 to 46, condition number 540 to 6800; read operators of
+effective rank 2.6 to 8.3; deficiency bound over summed own-optimal losses at rank 16 between
+0.014 and 0.056, median 0.037; non-vacuous cells (bound above 5 percent) 16, 13, 10, 9, 4 of
+16 at ranks 1, 2, 4, 8, 16. The per-cell operators are `probe_L{8,16}_h{0..7}_Pt.npy` with
+the covariances beside them, and the run reads them rather than probing again.
+
 ## 9. Compute and thermal rule
 
 GPU 1 only (`CUDA_VISIBLE_DEVICES=1`), float32 attention math, batch of 64 queries, at most
@@ -128,8 +175,9 @@ which is small.
 ## 10. Sealing procedure
 
 1. Confirm the model repository id and revision and the readscope version on Atlas; write
-   them into `prereg_config.json`. Commit `workload.txt` and its hash.
+   them into `prereg_config.json`. Commit `workload.txt` and its hash. Done 2026-09-07.
 2. Run the probe on Atlas. Commit `probe.json`. If the anti-vacuity bar fails, revise the
-   world and record the revision.
+   world and record the revision. Done 2026-09-07, revision in Section 6a.
 3. Rename this file to `PREREG-G4.md`, commit, record its blob hash in `CAMPAIGN.md`.
-4. Only then run `g4_llama.py --run` and commit `results.json` as executed.
+4. Only then run `g4_llama.py --run --config prereg_config.json --out results.json` on Atlas
+   and commit `results.json` as executed, with every per-rank verdict.

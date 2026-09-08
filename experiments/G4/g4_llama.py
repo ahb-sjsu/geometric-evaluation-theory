@@ -196,8 +196,12 @@ def probe(cfg, out_path):
             np.save(out_path.replace(".json", f"_L{L}_h{hkv}_Sigma.npy"), Sigma)
             print(json.dumps({k: v for k, v in cell.items() if k != "principal_angles_top16_deg"}))
     n_cells = len(result["cells"])
-    ok = sum(1 for c in result["cells"] if c["deficiency_over_own"].get("16", 0) > 0.05)
-    result["anti_vacuity"] = {"cells_with_bound_over_5pct_at_k16": ok, "n_cells": n_cells, "bar": 12}
+    bars = cfg["bars"]
+    kav = str(int(bars["anti_vacuity_rank"])); frac = float(bars["anti_vacuity_min_deficiency_fraction"])
+    ok = sum(1 for c in result["cells"] if c["deficiency_over_own"].get(kav, 0) > frac)
+    result["anti_vacuity"] = {"rank": int(kav), "min_deficiency_fraction": frac,
+                              "cells_with_bound_over_fraction": ok, "n_cells": n_cells,
+                              "bar": int(bars["anti_vacuity_min_cells"])}
     result["finished"] = time.strftime("%Y-%m-%d %H:%M:%S")
     json.dump(result, open(out_path, "w", encoding="utf-8"), indent=1)
     print(json.dumps(result["anti_vacuity"]))
@@ -226,20 +230,26 @@ def run(cfg, out_path):
             cell = {"layer": int(L), "kv_head": int(hkv), "ranks": {}}
             for k in ranks:
                 codes = code_family(Pts, w, k, rng, n_random=int(cfg["n_random_codes"]))
-                codes["key_pca"] = topk_projector(S_ihalf @ Sigma @ S_ihalf, k)  # identity in whitened coords; kept for the record
-                codes["key_pca_original"] = S_ihalf @ topk_projector(Sigma, k) @ S_half
+                # key-PCA code: the orthogonal projector, in whitened coordinates, onto the image of
+                # the top-k eigenspace of Sigma (PCA of the raw keys), so it is a code of the
+                # theorem's class that knows the keys and none of the readers
+                U_k = np.linalg.eigh(Sigma)[1][:, ::-1][:, :k]
+                Bq, _ = np.linalg.qr(S_ihalf @ U_k)
+                codes["key_pca"] = Bq @ Bq.T
                 measured, measured_kl = {}, {}
                 for name, Qc in codes.items():
                     R = S_half @ Qc @ S_ihalf
                     K_coded = Kh @ R.T
                     sq, kl = zip(*[cons.kl_loss(g, K_coded) for g in range(group)])
                     measured[name] = list(map(float, sq)); measured_kl[name] = list(map(float, kl))
-                ev = evaluate_codes(Pts, w, k, {n: c for n, c in codes.items() if n != "key_pca_original"}, measured)
+                ev = evaluate_codes(Pts, w, k, codes, measured)
                 ev["measured_kl"] = measured_kl
                 cell["ranks"][str(k)] = ev
                 print(json.dumps({"layer": L, "kv_head": hkv, "k": k, "bound": ev["deficiency_bound"],
-                                  "compromise_total": ev["codes"]["compromise"]["weighted_total_regret"],
-                                  "any_beats": ev["any_code_beats_bound"]}))
+                                  "compromise_measured_total": ev["compromise_measured_total_regret"],
+                                  "measured_min_total_code": ev["measured_min_total_code"],
+                                  "measured_min_total": ev["measured_min_total_regret"],
+                                  "own_excess": ev["own_code_excess_over_measured_best"]}))
             result["cells"].append(cell)
     result["finished"] = time.strftime("%Y-%m-%d %H:%M:%S")
     json.dump(result, open(out_path, "w", encoding="utf-8"), indent=1)

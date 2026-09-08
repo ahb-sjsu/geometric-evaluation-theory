@@ -117,7 +117,10 @@ def evaluate_codes(Pts: list[np.ndarray], w: np.ndarray, k: int,
     N = len(Pts)
     bound = deficiency(Pts, w, k)
     own_min = [topk_sum(Pt, k) for Pt in Pts]
-    out = {"k": k, "n_consumers": N, "deficiency_bound": bound, "codes": {}}
+    out = {"k": k, "n_consumers": N, "deficiency_bound": bound,
+           "summed_own_topk": float(sum(w[i] * own_min[i] for i in range(N))),
+           "deficiency_over_own": float(bound / max(sum(w[i] * own_min[i] for i in range(N)), 1e-12)),
+           "codes": {}}
     beats_all = []
     for name, Q in codes.items():
         pred = [predicted_distortion(Pt, Q) for Pt in Pts]
@@ -134,6 +137,26 @@ def evaluate_codes(Pts: list[np.ndarray], w: np.ndarray, k: int,
     out["any_code_beats_bound"] = bool(any(beats_all))
     out["compromise_attains_bound"] = bool(abs(out["codes"]["compromise"]["weighted_total_regret"] - bound) < 1e-7)
     out["own_regret_zero"] = [bool(abs(out["codes"][f"own_{i}"]["regret"][i]) < 1e-7) for i in range(N)]
+    # Measured regrets. The predicted regrets above are exact consequences of the theorem and
+    # so can never contradict it; the measured ones can. A consumer's measured regret under a
+    # code is its measured loss under that code minus its measured loss under its own code.
+    if measured is not None and all(f"own_{i}" in measured for i in range(N)):
+        own_meas = [float(measured[f"own_{i}"][i]) for i in range(N)]
+        min_meas = [float(min(m[i] for m in measured.values())) for i in range(N)]
+        out["own_measured_loss"] = own_meas
+        out["min_measured_loss_over_codes"] = min_meas
+        out["own_code_excess_over_measured_best"] = [own_meas[i] / max(min_meas[i], 1e-12) - 1.0 for i in range(N)]
+        totals = {}
+        for name, row in out["codes"].items():
+            if name in measured:
+                mreg = [float(measured[name][i]) - own_meas[i] for i in range(N)]
+                row["measured_regret"] = mreg
+                row["measured_weighted_total_regret"] = float(sum(w[i] * mreg[i] for i in range(N)))
+                totals[name] = row["measured_weighted_total_regret"]
+        out["measured_min_total_code"] = min(totals, key=totals.get)
+        out["measured_min_total_regret"] = float(min(totals.values()))
+        out["compromise_measured_total_regret"] = totals.get("compromise")
+        out["any_code_measured_total_below_bound_by"] = float(bound - min(totals.values()))
     return out
 
 
@@ -186,11 +209,22 @@ def selftest() -> int:
     # 5. the bound is strictly positive here (geometries differ) and own codes cost others
     if not res["deficiency_bound"] > 1e-6:
         print("FAIL bound not positive", res["deficiency_bound"]); fails += 1
+    # 6. measured regrets: own codes are measured-best within Monte Carlo error, the compromise's
+    #    measured total is within 3% of the bound, and no code's measured total is below the
+    #    bound by more than 3% of it
+    if max(res["own_code_excess_over_measured_best"]) > 0.03:
+        print("FAIL own code not measured-best", res["own_code_excess_over_measured_best"]); fails += 1
+    if abs(res["compromise_measured_total_regret"] - res["deficiency_bound"]) > 0.03 * res["deficiency_bound"]:
+        print("FAIL compromise measured total", res["compromise_measured_total_regret"], res["deficiency_bound"]); fails += 1
+    if res["any_code_measured_total_below_bound_by"] > 0.03 * res["deficiency_bound"]:
+        print("FAIL a code's measured total beat the bound", res["measured_min_total_code"], res["measured_min_total_regret"]); fails += 1
     summary = {
         "worst_relative_error_measured_vs_predicted": worst,
         "deficiency_bound": res["deficiency_bound"],
         "compromise_total_regret": res["codes"]["compromise"]["weighted_total_regret"],
         "min_random_total_regret": min(v["weighted_total_regret"] for n, v in res["codes"].items() if n.startswith("random")),
+        "compromise_measured_total_regret": res["compromise_measured_total_regret"],
+        "measured_min_total_code": res["measured_min_total_code"],
         "own_code_total_regrets": [res["codes"][f"own_{i}"]["weighted_total_regret"] for i in range(N)],
     }
     print(json.dumps(summary, indent=1))
