@@ -1,5 +1,5 @@
 {
-  "world": "A language-model judge (Qwen2.5-7B-Instruct, local HuggingFace cache on Atlas, revision recorded at sealing) shown a target and two options, each a number above the target, and asked which option is closer to the target (the first probe found the judge picks the larger number when the options straddle the target, so the world is one-sided); preference read from the next-token log-probabilities of the two answer letters, each pair shown in both orders. The consequence of an option is its distance from the target, known exactly. Two resolution budgets: the rendering precision (decimals shown) and the judge's weight precision (bf16, 8-bit, 4-bit via bitsandbytes).",
+  "world": "A language-model scorer (Qwen2.5-7B-Instruct, local HuggingFace cache on Atlas, revision recorded at sealing) shown a target and one value and asked how far the value is from the target, answering with a number; the induced preference between two options compares their reported distances, equal reports are indifference. The consequence of an option is its true distance from the target, known exactly. Two resolution budgets: the rendering precision (decimals shown) and the scorer's weight precision (bf16, 8-bit, 4-bit via bitsandbytes). Earlier probes with a pairwise chooser are recorded under probe_* keys.",
   "model_id": "Qwen/Qwen2.5-7B-Instruct",
   "revision": null,
   "use_chat_template": true,
@@ -10,7 +10,7 @@
   ],
   "target": 100.0,
   "option_range": [
-    100.0,
+    50.0,
     150.0
   ],
   "min_distance": 1.0,
@@ -47,6 +47,10 @@
   "seed_run": 20260912,
   "bars": "PREREG-G3.md Section 5; tolerances fixed from the pilot before sealing and applied to the run seed only",
   "estimator": "threshold = the gap at which the pair-averaged preference for the closer option exceeds one half for at least accuracy_level of pairs, interpolated linearly in log gap between ladder points; infinity if never reached",
-  "side": "above",
-  "probe_2026-09-08_two_sided": "VACUOUS: accuracy 0.62 to 0.76 at every gap including 10, threshold infinite; the judge picked the larger number in every straddling pair of a six-case diagnostic, and the instrument read space-prefixed letter tokens whose logits sat 25 to 30 below the bare letters the chat template elicits. Both corrected before any pilot."
+  "side": "both",
+  "probe_2026-09-08_two_sided": "VACUOUS: accuracy 0.62 to 0.76 at every gap including 10, threshold infinite; the judge picked the larger number in every straddling pair of a six-case diagnostic, and the instrument read space-prefixed letter tokens whose logits sat 25 to 30 below the bare letters the chat template elicits. Both corrected before any pilot.",
+  "judge_kind": "scorer",
+  "scorer_prompt_template": "Target: {target}\nValue: {value}\nHow far is the value from the target? Answer with a single number and nothing else.",
+  "max_new_tokens": 12,
+  "probe_2026-09-08_one_sided_chooser": "NOT VACUOUS but floor 7.5: one-sided pairs, bare-letter reading; accuracy 0.99 at gap 10, 0.77 at 5, 0.43 to 0.63 from 0.01 to 2, threshold 7.5, above the 0.3 the anti-vacuity rule allows, because the chooser's first-position preference leaves the two-order average at one half until the gap is large. A pairwise chooser is the wrong instrument for a threshold; replaced by the scorer before any pilot."
 }

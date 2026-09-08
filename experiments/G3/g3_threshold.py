@@ -134,6 +134,87 @@ class LMJudge:
         return torch.sigmoid(la - lb).cpu().numpy()
 
 
+class LMScorer:
+    """A causal language model asked how far one value is from the target, answering with a
+    number; the induced preference between two options compares the two reported distances,
+    and equal reports are indifference. Reports are parsed as the first number in the greedy
+    generation; an unparsable report is recorded and treated as no preference."""
+
+    def __init__(self, cfg: dict, weight_precision: str):
+        import torch
+        from transformers import AutoModelForCausalLM, AutoTokenizer
+        self.torch = torch
+        mid = cfg["model_id"]
+        self.tok = AutoTokenizer.from_pretrained(mid)
+        kw = {"device_map": {"": 0}}
+        if weight_precision == "full":
+            kw["dtype"] = torch.bfloat16
+        elif weight_precision in ("int8", "int4"):
+            from transformers import BitsAndBytesConfig
+            kw["quantization_config"] = (BitsAndBytesConfig(load_in_8bit=True) if weight_precision == "int8" else
+                                         BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_quant_type="nf4", bnb_4bit_compute_dtype=torch.bfloat16))
+        else:
+            raise ValueError(weight_precision)
+        self.model = AutoModelForCausalLM.from_pretrained(mid, **kw).eval()
+        self.template = cfg["scorer_prompt_template"]
+        self.max_new = int(cfg.get("max_new_tokens", 12))
+        self.chat = bool(cfg.get("use_chat_template", True)) and self.tok.chat_template is not None
+        self.cache: dict[tuple[str, str], tuple[float, str]] = {}
+        self.unparsed = 0
+
+    def _prompt(self, target: str, value: str) -> str:
+        user = self.template.format(target=target, value=value)
+        if self.chat:
+            return self.tok.apply_chat_template([{"role": "user", "content": user}], tokenize=False, add_generation_prompt=True)
+        return user
+
+    def scores(self, target: str, values: list[str], batch: int = 32) -> list[float]:
+        import re
+        torch = self.torch
+        todo = [v for v in dict.fromkeys(values) if (target, v) not in self.cache]
+        self.tok.padding_side = "left"
+        if self.tok.pad_token is None:
+            self.tok.pad_token = self.tok.eos_token
+        for i in range(0, len(todo), batch):
+            chunk = todo[i:i + batch]
+            enc = self.tok([self._prompt(target, v) for v in chunk], return_tensors="pt", padding=True).to(self.model.device)
+            with torch.no_grad():
+                gen = self.model.generate(**enc, max_new_tokens=self.max_new, do_sample=False,
+                                          pad_token_id=self.tok.pad_token_id)
+            for v, row in zip(chunk, gen[:, enc.input_ids.shape[1]:]):
+                text = self.tok.decode(row, skip_special_tokens=True)
+                m = re.search(r"-?\d+(?:\.\d+)?", text.replace(",", ""))
+                if m:
+                    self.cache[(target, v)] = (float(m.group(0)), text)
+                else:
+                    self.cache[(target, v)] = (float("nan"), text); self.unparsed += 1
+        return [self.cache[(target, v)][0] for v in values]
+
+
+def accuracy_by_gap_scorer(pairs: list[dict], scorer: LMScorer, decimals: int, target: float, batch: int = 32) -> dict:
+    """Preference for the closer option is 1 if its reported distance is smaller, 0 if larger,
+    one half if equal or either report is unparsable; accuracy is the share of pairs with
+    preference above one half, so ties count against, which is what indifference is."""
+    import math as _m
+    tstr = render(target, decimals)
+    by_gap = {}
+    for p in pairs:
+        by_gap.setdefault(p["gap"], []).append(p)
+    out = {}
+    for gap, ps in by_gap.items():
+        sc = scorer.scores(tstr, [render(p["close"], decimals) for p in ps], batch)
+        sf = scorer.scores(tstr, [render(p["far"], decimals) for p in ps], batch)
+        prefs = []
+        for a, b in zip(sc, sf):
+            prefs.append(0.5 if (_m.isnan(a) or _m.isnan(b) or a == b) else (1.0 if a < b else 0.0))
+        prefs = np.asarray(prefs)
+        out[str(gap)] = {"n": int(prefs.size), "accuracy": float(np.mean(prefs > 0.5)),
+                         "ties_or_unparsed": float(np.mean(prefs == 0.5)),
+                         "mean_preference": float(prefs.mean()),
+                         "identical_rendering": float(np.mean([render(p["close"], decimals) == render(p["far"], decimals) for p in ps]))}
+    return out
+
+
 # ----------------------------------------------------------------------------- measurement
 
 def accuracy_by_gap(pairs: list[dict], judge_fn, decimals: int, target: float, batch: int = 32) -> dict:
@@ -186,7 +267,36 @@ def run(cfg: dict, seed: int, out_path: str, probe: bool = False) -> dict:
     result = {"config": cfg, "seed": seed, "probe": probe, "cells": [], "started": time.strftime("%Y-%m-%d %H:%M:%S")}
     precisions = ["full"] if probe else list(cfg["weight_precisions"])
     decimals_ladder = [int(cfg["decimals_ladder"][-1])] if probe else [int(d) for d in cfg["decimals_ladder"]]
+    kind = cfg.get("judge_kind", "chooser")
     for wp in precisions:
+        if kind == "scorer":
+            judge = LMScorer(cfg, wp)
+            if probe:
+                sample = []
+                for p in pairs[-3:] + pairs[:3]:
+                    for v in (p["close"], p["far"]):
+                        s = judge.scores(render(float(cfg["target"]), 3), [render(v, 3)])[0]
+                        sample.append({"value": v, "true_distance": abs(v - float(cfg["target"])), "reported": s,
+                                       "text": judge.cache[(render(float(cfg["target"]), 3), render(v, 3))][1]})
+                result["generation_sample"] = sample
+                print(json.dumps({"generation_sample": sample}))
+            for dec in decimals_ladder:
+                t0 = time.time()
+                acc = accuracy_by_gap_scorer(pairs, judge, dec, float(cfg["target"]), int(cfg.get("batch", 32)))
+                thr = threshold_from(acc, level)
+                cell = {"weight_precision": wp, "decimals": dec, "rendering_step": 10.0 ** (-dec),
+                        "accuracy_by_gap": acc, "threshold": thr, "unparsed_reports": judge.unparsed, "seconds": time.time() - t0}
+                result["cells"].append(cell)
+                print(json.dumps({"weight_precision": wp, "decimals": dec, "threshold": thr, "unparsed": judge.unparsed,
+                                  "acc": {g: round(v["accuracy"], 3) for g, v in acc.items()},
+                                  "ties": {g: round(v["ties_or_unparsed"], 3) for g, v in acc.items()}}))
+                json.dump(result, open(out_path, "w", encoding="utf-8"), indent=1)
+            del judge
+            try:
+                import torch; torch.cuda.empty_cache()
+            except Exception:
+                pass
+            continue
         judge = LMJudge(cfg, wp)
         if probe:
             # record what the judge actually emits on a few pairs, so the letter reading is auditable

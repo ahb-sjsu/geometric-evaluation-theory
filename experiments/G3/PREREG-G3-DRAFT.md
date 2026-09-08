@@ -14,27 +14,34 @@ judge, and the precision of the judge's own weights.
 
 ## 2. World
 
-Judge. `Qwen/Qwen2.5-7B-Instruct` from the HuggingFace cache on Atlas (revision recorded in
-`prereg_config.json` at sealing), loaded on GPU 1 in bfloat16, in 8-bit, and in 4-bit NF4
-through bitsandbytes (versions recorded at sealing). The judge is shown, in its chat template,
-a target value and two options and asked which option is closer to the target, answering with
-one letter. Its preference for the first-shown option is the sigmoid of the difference of the
-two answer letters' next-token logits. Every pair is shown in both orders and the pair's
-preference for the closer option is the mean of the two readings, which cancels a position
-bias exactly to first order.
+Evaluator. `Qwen/Qwen2.5-7B-Instruct` from the HuggingFace cache on Atlas (revision recorded
+in `prereg_config.json` at sealing), loaded on GPU 1 in bfloat16, in 8-bit, and in 4-bit NF4
+through bitsandbytes (versions recorded at sealing). The model is a scorer: shown, in its chat
+template, a target value and one value, it is asked how far the value is from the target and
+answers with a number, read as the first number in its greedy generation of at most 12 tokens.
+The induced preference between two options compares their reported distances; equal reports,
+and any unparsable report, are indifference. This is the theory's evaluator, a map from a
+consequence to a scalar cost whose order is the preference, and the model's own output
+resolution and arithmetic are its floor.
 
-Consequences. The target is 100. An option is a number in (100, 150]; its consequence is its
+Two earlier instruments were tried on the probe seed and are kept in the record. A pairwise
+chooser asked which of two options is closer, read from the answer letters' next-token
+logits, both orders shown. With options on either side of the target it was vacuous
+(`probe_two_sided.json`: accuracy 0.62 to 0.76 at every gap including 10; a six-case
+diagnostic showed the model choosing the larger number in every straddling pair; and the
+instrument was reading space-prefixed letter tokens whose logits sat 25 to 30 below the bare
+letters the chat template elicits). With options on one side and the reading corrected
+(`probe_one_sided_chooser.json`) it reached 0.99 at gap 10 but 0.43 to 0.63 from gap 0.01 to
+gap 2, a threshold of 7.5 against the 0.3 the anti-vacuity rule allows, because the chooser's
+first-position preference holds the two-order average at one half until the gap is large. A
+pairwise chooser measures its position bias before it measures a threshold, so it was replaced
+by the scorer before any pilot.
+
+Consequences. The target is 100. An option is a number in [50, 150]; its consequence is its
 distance from the target, between 1 and 40. A pair is two options whose distances differ by a
-gap on the ladder 0.005, 0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1, 2, 5, 10. 200 pairs per gap, drawn
-by seed. Both options lie above the target. The draft had them on either side with equal
-probability, and the first probe (2026-09-08, `probe_two_sided.json`) was vacuous: accuracy
-0.62 to 0.76 at every gap including 10, and a six-case diagnostic showed the judge choosing
-the larger number in every straddling pair rather than the closer one. A judge that cannot do
-the two-sided task has no threshold there to measure, so the world is the one-sided task,
-where closer means smaller and the judge's resolution is what is at issue. The same probe
-found the instrument reading space-prefixed answer tokens whose logits sat 25 to 30 below the
-bare letters the chat template elicits; corrected, and the probe now records the judge's
-greedy generations on sample pairs so the reading is auditable.
+gap on the ladder 0.005, 0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1, 2, 5, 10, each option on either
+side of the target with equal probability. 200 pairs per gap, drawn by seed; each distinct
+rendered value is scored once per cell.
 
 Budgets. Rendering precision: numbers shown with 0, 1, 2, or 3 decimals (the target rendered
 at the same precision). At d decimals two options whose distances differ by less than the
@@ -47,8 +54,9 @@ pairs.
 
 ## 3. Estimator
 
-For each cell and gap the accuracy is the share of pairs whose averaged preference for the
-closer option exceeds one half. The threshold of the cell is the gap at which the accuracy
+For each cell and gap the accuracy is the share of pairs whose preference for the closer
+option exceeds one half, with ties and unparsable reports counting as one half, so that
+indifference counts against. The threshold of the cell is the gap at which the accuracy
 first reaches the registered level 0.9, interpolated linearly in log gap between ladder points,
 infinite if never reached and the smallest gap if reached there. The self-test (Section 7)
 shows the estimator recovers the threshold of a scorer whose threshold is known by
@@ -106,7 +114,8 @@ Recorded here with the pilot's thresholds.
 
 ## 8. Compute and thermal rule
 
-GPU 1 only. Batches of 32 prompts. Twelve cells of 4,400 forward passes each. A named screen
+GPU 1 only. Batches of 32 prompts, greedy generation of at most 12 tokens, each distinct
+rendered value scored once per cell (at most 4,400 per cell). A named screen
 session with a log.
 
 ## 9. Sealing procedure
