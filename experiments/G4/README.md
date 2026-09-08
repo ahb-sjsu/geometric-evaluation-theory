@@ -10,7 +10,7 @@ to 8 and the three heads of a group largely coincide. The ladder was revised to 
 where the deficiency bound exceeds 5 percent of own losses in 13, 10 and 9 of 16 cells, the
 bars P2 and P4 were restated on measured regrets (as drafted they compared predicted regrets
 the theorem fixes), P5 was added, and the key-PCA code was fixed, all before any loss under
-any code was measured. `g4_grade.py` applies the sealed verdict rule to `results.json`.
+any code was measured. `g4_grade.py` applies the sealed verdict rule to `results.json`. Run 2026-09-08: INDETERMINATE at every rank (`results.json`, `grade.json`, `run.log`; table and reading in `CAMPAIGN.md`). The measured attention loss is 20 to 330 times the quadratic prediction at these ranks, so the bound could not be tested; the model-free ordering bar held 32 of 32 and the own-code bar failed.
 
 ## The experiment in one paragraph
 

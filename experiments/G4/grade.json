@@ -1,0 +1,239 @@
+{
+ "n_cells": 16,
+ "ranks": {
+  "2": {
+   "P1": {
+    "holds": false,
+    "fraction_within_tolerance": 0.0,
+    "triples": 1776
+   },
+   "P2": {
+    "holds": false,
+    "cells": 1
+   },
+   "nonvacuous_cells": 13,
+   "P3": {
+    "holds": false,
+    "cells_within_tolerance": 0
+   },
+   "P4": {
+    "holds": false,
+    "violations": [
+     [
+      8,
+      0,
+      "own_0"
+     ],
+     [
+      8,
+      1,
+      "compromise"
+     ],
+     [
+      8,
+      3,
+      "compromise"
+     ],
+     [
+      8,
+      5,
+      "compromise"
+     ],
+     [
+      8,
+      6,
+      "own_2"
+     ],
+     [
+      8,
+      7,
+      "own_1"
+     ],
+     [
+      16,
+      0,
+      "own_0"
+     ],
+     [
+      16,
+      1,
+      "own_2"
+     ],
+     [
+      16,
+      3,
+      "own_1"
+     ],
+     [
+      16,
+      4,
+      "compromise"
+     ],
+     [
+      16,
+      5,
+      "own_0"
+     ],
+     [
+      16,
+      6,
+      "own_2"
+     ],
+     [
+      16,
+      7,
+      "own_2"
+     ]
+    ]
+   },
+   "P5": {
+    "holds": true,
+    "cells_compromise_best": 13
+   },
+   "verdict": "INDETERMINATE"
+  },
+  "4": {
+   "P1": {
+    "holds": false,
+    "fraction_within_tolerance": 0.0,
+    "triples": 1776
+   },
+   "P2": {
+    "holds": false,
+    "cells": 3
+   },
+   "nonvacuous_cells": 10,
+   "P3": {
+    "holds": false,
+    "cells_within_tolerance": 2
+   },
+   "P4": {
+    "holds": false,
+    "violations": [
+     [
+      8,
+      1,
+      "own_0"
+     ],
+     [
+      8,
+      3,
+      "compromise"
+     ],
+     [
+      8,
+      5,
+      "compromise"
+     ],
+     [
+      8,
+      7,
+      "compromise"
+     ],
+     [
+      16,
+      0,
+      "own_0"
+     ],
+     [
+      16,
+      2,
+      "own_2"
+     ],
+     [
+      16,
+      3,
+      "own_1"
+     ],
+     [
+      16,
+      6,
+      "own_0"
+     ],
+     [
+      16,
+      7,
+      "own_0"
+     ]
+    ]
+   },
+   "P5": {
+    "holds": true,
+    "cells_compromise_best": 10
+   },
+   "verdict": "INDETERMINATE"
+  },
+  "8": {
+   "P1": {
+    "holds": false,
+    "fraction_within_tolerance": 0.0,
+    "triples": 1776
+   },
+   "P2": {
+    "holds": false,
+    "cells": 6
+   },
+   "nonvacuous_cells": 9,
+   "P3": {
+    "holds": false,
+    "cells_within_tolerance": 0
+   },
+   "P4": {
+    "holds": false,
+    "violations": [
+     [
+      8,
+      0,
+      "compromise"
+     ],
+     [
+      8,
+      3,
+      "own_1"
+     ],
+     [
+      8,
+      4,
+      "compromise"
+     ],
+     [
+      8,
+      6,
+      "own_2"
+     ],
+     [
+      16,
+      0,
+      "own_0"
+     ],
+     [
+      16,
+      1,
+      "compromise"
+     ],
+     [
+      16,
+      3,
+      "own_1"
+     ],
+     [
+      16,
+      4,
+      "compromise"
+     ],
+     [
+      16,
+      6,
+      "own_2"
+     ]
+    ]
+   },
+   "P5": {
+    "holds": true,
+    "cells_compromise_best": 9
+   },
+   "verdict": "INDETERMINATE"
+  }
+ },
+ "gate": "INDETERMINATE"
+}
