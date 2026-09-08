@@ -1,0 +1,93 @@
+== start Tue Sep  8 12:14:57 AM UTC 2026 HEAD 4ff5c4f seal 91c834f7b2bf211ade587458ce859bf48f8560d2
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading checkpoint shards:   0%|                         | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|████████▌        | 1/2 [00:01<00:01,  1.03s/it]Loading checkpoint shards: 100%|█████████████████| 2/2 [00:01<00:00,  1.67it/s]Loading checkpoint shards: 100%|█████████████████| 2/2 [00:01<00:00,  1.51it/s]
+{"layer": 8, "kv_head": 0, "k": 2, "bound": 0.00886121970018855, "compromise_measured_total": 0.9015083106008812, "measured_min_total_code": "own_0", "measured_min_total": -0.029102453483767943, "own_excess": [0.0, 0.0, 0.06412852461123753]}
+{"layer": 8, "kv_head": 0, "k": 4, "bound": 0.013366440819078076, "compromise_measured_total": 0.528405110653758, "measured_min_total_code": "own_0", "measured_min_total": 0.01331655538510279, "own_excess": [0.0, 0.05816583353210647, 0.1583102495318054]}
+{"layer": 8, "kv_head": 0, "k": 8, "bound": 0.00796699738937054, "compromise_measured_total": -0.13421065641925947, "measured_min_total_code": "compromise", "measured_min_total": -0.13421065641925947, "own_excess": [0.0, 0.23400292152134683, 0.15869096207128575]}
+{"layer": 8, "kv_head": 1, "k": 2, "bound": 0.00285515660272187, "compromise_measured_total": -0.29516573054350626, "measured_min_total_code": "compromise", "measured_min_total": -0.29516573054350626, "own_excess": [0.1597389663221922, 0.16108651539186236, 0.2509140988519354]}
+{"layer": 8, "kv_head": 1, "k": 4, "bound": 0.003642436969827984, "compromise_measured_total": 0.0030577170642714924, "measured_min_total_code": "own_0", "measured_min_total": -0.025933062496950765, "own_excess": [0.0, 0.07910368928501899, 0.05453806128585281]}
+{"layer": 8, "kv_head": 1, "k": 8, "bound": 0.0030954108361851487, "compromise_measured_total": 0.008858425824127103, "measured_min_total_code": "compromise", "measured_min_total": 0.008858425824127103, "own_excess": [0.0, 0.0, 0.08805700351694745]}
+{"layer": 8, "kv_head": 2, "k": 2, "bound": 0.007416334830892761, "compromise_measured_total": 0.48798869423993785, "measured_min_total_code": "own_0", "measured_min_total": 0.14547823736756205, "own_excess": [0.0, 0.0, 0.3108967761459167]}
+{"layer": 8, "kv_head": 2, "k": 4, "bound": 0.005836962427601677, "compromise_measured_total": 0.04996748067361184, "measured_min_total_code": "compromise", "measured_min_total": 0.04996748067361184, "own_excess": [0.0, 0.0, 0.2300395147997265]}
+{"layer": 8, "kv_head": 2, "k": 8, "bound": 0.005173540157873843, "compromise_measured_total": 0.24907728689474284, "measured_min_total_code": "compromise", "measured_min_total": 0.24907728689474284, "own_excess": [0.0, 0.0, 0.0]}
+{"layer": 8, "kv_head": 3, "k": 2, "bound": 0.0036102560233544218, "compromise_measured_total": -0.32441264586873897, "measured_min_total_code": "compromise", "measured_min_total": -0.32441264586873897, "own_excess": [0.3783509110270149, 0.03911951828758875, 0.30822538627764695]}
+{"layer": 8, "kv_head": 3, "k": 4, "bound": 0.0036750367770702133, "compromise_measured_total": -0.1283743114371842, "measured_min_total_code": "compromise", "measured_min_total": -0.1283743114371842, "own_excess": [0.22031337618528846, 0.025407498708516663, 0.05771455790044189]}
+{"layer": 8, "kv_head": 3, "k": 8, "bound": 0.0040650934551691095, "compromise_measured_total": 0.032049401671169236, "measured_min_total_code": "own_1", "measured_min_total": -0.04519353422615685, "own_excess": [0.08870859563084221, 0.0, 0.04481829577339602]}
+{"layer": 8, "kv_head": 4, "k": 2, "bound": 0.006411690762005429, "compromise_measured_total": 0.31421074734682647, "measured_min_total_code": "compromise", "measured_min_total": 0.31421074734682647, "own_excess": [0.0, 0.0, 0.08730541439452288]}
+{"layer": 8, "kv_head": 4, "k": 4, "bound": 0.004087946894274351, "compromise_measured_total": 0.41012266541916487, "measured_min_total_code": "own_0", "measured_min_total": 0.3920481580387781, "own_excess": [0.0, 0.0, 0.0]}
+{"layer": 8, "kv_head": 4, "k": 8, "bound": 0.002553985122481138, "compromise_measured_total": -0.03203835919480334, "measured_min_total_code": "compromise", "measured_min_total": -0.03203835919480334, "own_excess": [0.08311392083102143, 0.0, 0.09578561063491331]}
+{"layer": 8, "kv_head": 5, "k": 2, "bound": 0.003929634299121708, "compromise_measured_total": -0.19591420470441767, "measured_min_total_code": "compromise", "measured_min_total": -0.19591420470441767, "own_excess": [0.19435956840673496, 0.0, 0.1383739184783126]}
+{"layer": 8, "kv_head": 5, "k": 4, "bound": 0.005104403704666555, "compromise_measured_total": -0.016749034784868166, "measured_min_total_code": "compromise", "measured_min_total": -0.016749034784868166, "own_excess": [0.010673052799671456, 0.0, 0.08060478881922117]}
+{"layer": 8, "kv_head": 5, "k": 8, "bound": 0.004661873466500495, "compromise_measured_total": 0.055535664223885506, "measured_min_total_code": "own_0", "measured_min_total": 0.05141836186290416, "own_excess": [0.0, 0.0, 0.0]}
+{"layer": 8, "kv_head": 6, "k": 2, "bound": 0.0019035426647281833, "compromise_measured_total": 0.11856257334991288, "measured_min_total_code": "own_2", "measured_min_total": -0.03425940528169574, "own_excess": [0.006408102798695303, 0.08326296963004887, 0.0]}
+{"layer": 8, "kv_head": 6, "k": 4, "bound": 0.001902369004302254, "compromise_measured_total": 0.16013397226013804, "measured_min_total_code": "own_2", "measured_min_total": 0.027421020312322852, "own_excess": [0.0, 0.0, 0.0]}
+{"layer": 8, "kv_head": 6, "k": 8, "bound": 0.0013572671485901355, "compromise_measured_total": 0.0032663298389509904, "measured_min_total_code": "own_2", "measured_min_total": -0.018757795078698583, "own_excess": [0.2628544911242834, 0.0, 0.0]}
+{"layer": 8, "kv_head": 7, "k": 2, "bound": 0.0015423189599910875, "compromise_measured_total": -0.0020112752281546964, "measured_min_total_code": "own_1", "measured_min_total": -0.002075024004810855, "own_excess": [0.07546373067938195, 0.0, 0.0]}
+{"layer": 8, "kv_head": 7, "k": 4, "bound": 0.0022664989677035827, "compromise_measured_total": -0.12602576384786895, "measured_min_total_code": "compromise", "measured_min_total": -0.12602576384786895, "own_excess": [0.42403781694392784, 0.004679999653805389, 0.10124358447093318]}
+{"layer": 8, "kv_head": 7, "k": 8, "bound": 0.0023856935645026472, "compromise_measured_total": 0.04775911993654769, "measured_min_total_code": "compromise", "measured_min_total": 0.04775911993654769, "own_excess": [0.0, 0.0, 0.0]}
+{"layer": 16, "kv_head": 0, "k": 2, "bound": 0.00045457923610541483, "compromise_measured_total": 0.11656875007832544, "measured_min_total_code": "own_0", "measured_min_total": -0.12110086667122988, "own_excess": [0.0, 0.8759747445396273, 0.0]}
+{"layer": 16, "kv_head": 0, "k": 4, "bound": 0.0006148565777334136, "compromise_measured_total": 0.09910716537594803, "measured_min_total_code": "own_0", "measured_min_total": -0.07856199383916027, "own_excess": [0.0, 0.5696946623109476, 0.3574001091609109]}
+{"layer": 16, "kv_head": 0, "k": 8, "bound": 0.0007448716832322254, "compromise_measured_total": 0.007453988654728169, "measured_min_total_code": "own_0", "measured_min_total": 0.00030764548669735825, "own_excess": [0.0, 0.32143462975820514, 0.0017931106467441449]}
+{"layer": 16, "kv_head": 1, "k": 2, "bound": 0.0032718913394291955, "compromise_measured_total": 0.047995244309148255, "measured_min_total_code": "own_2", "measured_min_total": -1.2628690016642163, "own_excess": [4.791660065149546, 0.4396365921501637, 0.0]}
+{"layer": 16, "kv_head": 1, "k": 4, "bound": 0.0018511255082705909, "compromise_measured_total": 0.6038744011677394, "measured_min_total_code": "own_2", "measured_min_total": 0.046170726261674594, "own_excess": [0.0, 0.05752470735005555, 0.0]}
+{"layer": 16, "kv_head": 1, "k": 8, "bound": 0.0014935586813838789, "compromise_measured_total": -0.03922059962638126, "measured_min_total_code": "compromise", "measured_min_total": -0.03922059962638126, "own_excess": [0.0, 0.36954385235936926, 0.0]}
+{"layer": 16, "kv_head": 2, "k": 2, "bound": 0.0012607236050976457, "compromise_measured_total": 0.01937528029702268, "measured_min_total_code": "own_0", "measured_min_total": 0.0038928557119509155, "own_excess": [0.0, 0.012241513304095841, 0.017998042176963214]}
+{"layer": 16, "kv_head": 2, "k": 4, "bound": 0.0008501534973907772, "compromise_measured_total": -0.11011421953925588, "measured_min_total_code": "own_2", "measured_min_total": -0.20864560609173838, "own_excess": [0.45223065643914717, 0.409133416374865, 0.0]}
+{"layer": 16, "kv_head": 2, "k": 8, "bound": 0.000943666326441054, "compromise_measured_total": 0.04470384426166413, "measured_min_total_code": "own_0", "measured_min_total": 0.03244628639709124, "own_excess": [0.0, 0.0, 0.0]}
+{"layer": 16, "kv_head": 3, "k": 2, "bound": 0.0010492633395516818, "compromise_measured_total": -0.28058052384810245, "measured_min_total_code": "own_1", "measured_min_total": -0.8115871990229898, "own_excess": [1.9370445309349344, 0.0, 1.7889096277027243]}
+{"layer": 16, "kv_head": 3, "k": 4, "bound": 0.0007879051832725588, "compromise_measured_total": -0.2469223946205193, "measured_min_total_code": "own_1", "measured_min_total": -0.40736756242471306, "own_excess": [0.480210014878627, 0.0, 1.9046446062140778]}
+{"layer": 16, "kv_head": 3, "k": 8, "bound": 0.0009586887253223257, "compromise_measured_total": 0.15026721749367494, "measured_min_total_code": "own_1", "measured_min_total": -0.03800171093562746, "own_excess": [0.4695053590337557, 0.0, 0.0]}
+{"layer": 16, "kv_head": 4, "k": 2, "bound": 0.01476540049988119, "compromise_measured_total": -0.33819713515744443, "measured_min_total_code": "compromise", "measured_min_total": -0.33819713515744443, "own_excess": [0.803172319966188, 0.0, 0.33784971958332655]}
+{"layer": 16, "kv_head": 4, "k": 4, "bound": 0.01728740584786731, "compromise_measured_total": 0.014546040791574774, "measured_min_total_code": "compromise", "measured_min_total": 0.014546040791574774, "own_excess": [0.0, 0.37871791039286884, 0.0]}
+{"layer": 16, "kv_head": 4, "k": 8, "bound": 0.017156532912053463, "compromise_measured_total": -0.0018826535265063296, "measured_min_total_code": "compromise", "measured_min_total": -0.0018826535265063296, "own_excess": [0.29370416596710114, 0.263976858585927, 0.0]}
+{"layer": 16, "kv_head": 5, "k": 2, "bound": 0.001049964224490274, "compromise_measured_total": 0.21886291297971316, "measured_min_total_code": "own_0", "measured_min_total": -0.2171016109430023, "own_excess": [0.0, 0.1772609753965244, 0.1837066155574194]}
+{"layer": 16, "kv_head": 5, "k": 4, "bound": 0.0009761413466776898, "compromise_measured_total": 0.1853862841666269, "measured_min_total_code": "compromise", "measured_min_total": 0.1853862841666269, "own_excess": [0.0, 0.04112545573142423, 0.0]}
+{"layer": 16, "kv_head": 5, "k": 8, "bound": 0.0007973654956517084, "compromise_measured_total": 0.024437522646596578, "measured_min_total_code": "compromise", "measured_min_total": 0.024437522646596578, "own_excess": [0.0, 0.0, 0.0]}
+{"layer": 16, "kv_head": 6, "k": 2, "bound": 0.001813777143718609, "compromise_measured_total": -0.13259058386244332, "measured_min_total_code": "own_2", "measured_min_total": -0.4801363537546723, "own_excess": [0.22030147568875114, 0.6222333035405134, 0.0]}
+{"layer": 16, "kv_head": 6, "k": 4, "bound": 0.001666368974829635, "compromise_measured_total": 0.24941246494057906, "measured_min_total_code": "own_0", "measured_min_total": -0.19005663669303996, "own_excess": [0.0, 0.11349236721525857, 0.4323230362350601]}
+{"layer": 16, "kv_head": 6, "k": 8, "bound": 0.001645847360794525, "compromise_measured_total": 0.14024572172558172, "measured_min_total_code": "own_2", "measured_min_total": -0.11109925086815134, "own_excess": [0.0, 0.3074765830034518, 0.0]}
+{"layer": 16, "kv_head": 7, "k": 2, "bound": 0.001961774304972977, "compromise_measured_total": 0.12147452364445199, "measured_min_total_code": "own_2", "measured_min_total": -0.06508165356442053, "own_excess": [0.07307465032249372, 0.046584706664366315, 0.0]}
+{"layer": 16, "kv_head": 7, "k": 4, "bound": 0.0018516315720226786, "compromise_measured_total": 0.6791346121107984, "measured_min_total_code": "own_0", "measured_min_total": -0.16321397612222877, "own_excess": [0.0, 0.2528278367996515, 0.0]}
+{"layer": 16, "kv_head": 7, "k": 8, "bound": 0.0017419241660434695, "compromise_measured_total": 0.23257138566864713, "measured_min_total_code": "compromise", "measured_min_total": 0.23257138566864713, "own_excess": [0.0, 0.0, 0.0]}
+== run exit 0 Tue Sep  8 12:15:59 AM UTC 2026
+      8,
+      6,
+      "own_2"
+     ],
+     [
+      16,
+      0,
+      "own_0"
+     ],
+     [
+      16,
+      1,
+      "compromise"
+     ],
+     [
+      16,
+      3,
+      "own_1"
+     ],
+     [
+      16,
+      4,
+      "compromise"
+     ],
+     [
+      16,
+      6,
+      "own_2"
+     ]
+    ]
+   },
+   "P5": {
+    "holds": true,
+    "cells_compromise_best": 9
+   },
+   "verdict": "INDETERMINATE"
+  }
+ },
+ "gate": "INDETERMINATE"
+}
+== RUN_DONE rc=0

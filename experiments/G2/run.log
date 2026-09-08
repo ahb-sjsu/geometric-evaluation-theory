@@ -1,0 +1,195 @@
+== start Mon Sep  7 09:21:14 PM UTC 2026 HEAD 617271d seal fd7cc9240c225452a72ca7c9908107fa69b66201
+
+== RUN prereg_config.json -> results.json 21:21:14
+
+{
+
+ "n_respondents": 557,
+
+ "n_testable": 489,
+
+ "weighted_testable": 489.0,
+
+ "n_violated": 246,
+
+ "p_obs": 0.5030674846625767,
+
+ "p_null_mean": 0.6635889570552146,
+
+ "p_null_sd": 0.016438967380773453,
+
+ "p_value_perm": 0.0,
+
+ "n_shuffles": 200,
+
+ "seed": 20260907,
+
+ "mean_candidates": 4.766606822262118,
+
+ "data": "data/NES1972.dta"
+
+}
+
+== rc=0 21:40:53
+
+== RUN prereg_config_1972_libcon_tax.json -> results_1972_libcon_tax.json 21:40:53
+
+{
+
+ "n_respondents": 504,
+
+ "n_testable": 447,
+
+ "weighted_testable": 447.0,
+
+ "n_violated": 252,
+
+ "p_obs": 0.5637583892617449,
+
+ "p_null_mean": 0.6715100671140939,
+
+ "p_null_sd": 0.01778597707848821,
+
+ "p_value_perm": 0.0,
+
+ "n_shuffles": 200,
+
+ "seed": 20260907,
+
+ "mean_candidates": 4.759920634920635,
+
+ "data": "data/NES1972.dta"
+
+}
+
+== rc=0 21:58:38
+
+== RUN prereg_config_1972_libcon_unrest.json -> results_1972_libcon_unrest.json 21:58:38
+
+{
+
+ "n_respondents": 571,
+
+ "n_testable": 519,
+
+ "weighted_testable": 519.0,
+
+ "n_violated": 281,
+
+ "p_obs": 0.5414258188824663,
+
+ "p_null_mean": 0.6828998073217726,
+
+ "p_null_sd": 0.01613263110058012,
+
+ "p_value_perm": 0.0,
+
+ "n_shuffles": 200,
+
+ "seed": 20260907,
+
+ "mean_candidates": 4.800350262697023,
+
+ "data": "data/NES1972.dta"
+
+}
+
+== rc=0 22:19:39
+
+== RUN prereg_config_1972_guarjobs_tax.json -> results_1972_guarjobs_tax.json 22:19:39
+
+{
+
+ "n_respondents": 546,
+
+ "n_testable": 492,
+
+ "weighted_testable": 492.0,
+
+ "n_violated": 299,
+
+ "p_obs": 0.6077235772357723,
+
+ "p_null_mean": 0.7165142276422763,
+
+ "p_null_sd": 0.012764385420546266,
+
+ "p_value_perm": 0.0,
+
+ "n_shuffles": 200,
+
+ "seed": 20260907,
+
+ "mean_candidates": 4.741758241758242,
+
+ "data": "data/NES1972.dta"
+
+}
+
+== rc=0 22:39:37
+
+== RUN prereg_config_1972_guarjobs_unrest.json -> results_1972_guarjobs_unrest.json 22:39:37
+
+{
+
+ "n_respondents": 603,
+
+ "n_testable": 553,
+
+ "weighted_testable": 553.0,
+
+ "n_violated": 315,
+
+ "p_obs": 0.569620253164557,
+
+ "p_null_mean": 0.7109132007233273,
+
+ "p_null_sd": 0.01500651136650028,
+
+ "p_value_perm": 0.0,
+
+ "n_shuffles": 200,
+
+ "seed": 20260907,
+
+ "mean_candidates": 4.747927031509121,
+
+ "data": "data/NES1972.dta"
+
+}
+
+== rc=0 23:02:26
+
+== RUN prereg_config_1972_tax_unrest.json -> results_1972_tax_unrest.json 23:02:26
+
+{
+
+ "n_respondents": 545,
+
+ "n_testable": 503,
+
+ "weighted_testable": 503.0,
+
+ "n_violated": 315,
+
+ "p_obs": 0.6262425447316103,
+
+ "p_null_mean": 0.7415904572564612,
+
+ "p_null_sd": 0.014519674890927124,
+
+ "p_value_perm": 0.0,
+
+ "n_shuffles": 200,
+
+ "seed": 20260907,
+
+ "mean_candidates": 4.763302752293578,
+
+ "data": "data/NES1972.dta"
+
+}
+
+== rc=0 23:22:50
+
+== RUN_DONE Mon Sep  7 11:22:50 PM UTC 2026

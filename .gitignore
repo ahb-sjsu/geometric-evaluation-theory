@@ -12,3 +12,4 @@ __pycache__/
 .lake/
 !experiments/*/probe.log
 experiments/*/data/
+!experiments/*/run.log
