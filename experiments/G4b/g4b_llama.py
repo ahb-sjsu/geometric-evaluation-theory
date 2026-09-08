@@ -60,11 +60,15 @@ class GroupConsumerAll:
         return f
 
 
-def measure_cell(f_at, Kh, S_half, S_ihalf, ops, Pts, w, ranks, eps_ladder, n_random, rng_codes, seed_u):
+def measure_cell(f_at, Kh, S_half, S_ihalf, ops, Pts, w, ranks, eps_ladder, n_random, rng_codes, seed_u,
+                 codes_by_k=None):
     """Returns {k: {"codes": codes, "eps": {eps: measured_scaled (dict code -> [per consumer]),
-    "plus": ..., "minus": ...}}} with measured losses divided by eps^2."""
+    "plus": ..., "minus": ...}}} with measured losses divided by eps^2. `codes_by_k` lets a
+    diagnostic reuse a given code family (added after sealing for g4b_seedcheck.py; the sealed
+    run passed none and is unaffected)."""
     d = Kh.shape[1]; group = len(Pts)
-    codes_by_k = {k: code_family(Pts, w, k, rng_codes, n_random=n_random) for k in ranks}
+    if codes_by_k is None:
+        codes_by_k = {k: code_family(Pts, w, k, rng_codes, n_random=n_random) for k in ranks}
     acc = {k: {e: {n: {"pm": np.zeros(group), "plus": np.zeros(group), "minus": np.zeros(group)}
                     for n in codes_by_k[k]} for e in eps_ladder} for k in ranks}
     complements = {k: {n: np.eye(d) - Q for n, Q in codes_by_k[k].items()} for k in ranks}

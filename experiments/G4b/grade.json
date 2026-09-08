@@ -1,0 +1,814 @@
+{
+ "n_cells": 16,
+ "eps": {
+  "0.02": {
+   "n_cells": 16,
+   "ranks": {
+    "2": {
+     "P1": {
+      "holds": false,
+      "fraction_within_tolerance": 0.6427083333333333,
+      "triples": 960
+     },
+     "P2": {
+      "holds": false,
+      "cells": 11
+     },
+     "nonvacuous_cells": 13,
+     "P3": {
+      "holds": false,
+      "cells_within_tolerance": 2
+     },
+     "P4": {
+      "holds": false,
+      "violations": [
+       [
+        8,
+        0,
+        "compromise"
+       ],
+       [
+        8,
+        1,
+        "compromise"
+       ],
+       [
+        8,
+        2,
+        "own_0"
+       ],
+       [
+        8,
+        3,
+        "compromise"
+       ],
+       [
+        8,
+        5,
+        "compromise"
+       ],
+       [
+        16,
+        1,
+        "compromise"
+       ],
+       [
+        16,
+        4,
+        "compromise"
+       ],
+       [
+        16,
+        6,
+        "own_1"
+       ],
+       [
+        16,
+        7,
+        "own_1"
+       ]
+      ]
+     },
+     "P5": {
+      "holds": true,
+      "cells_compromise_best": 13
+     },
+     "verdict": "INDETERMINATE"
+    },
+    "4": {
+     "P1": {
+      "holds": false,
+      "fraction_within_tolerance": 0.653125,
+      "triples": 960
+     },
+     "P2": {
+      "holds": true,
+      "cells": 12
+     },
+     "nonvacuous_cells": 10,
+     "P3": {
+      "holds": false,
+      "cells_within_tolerance": 4
+     },
+     "P4": {
+      "holds": false,
+      "violations": [
+       [
+        8,
+        0,
+        "compromise"
+       ],
+       [
+        8,
+        1,
+        "compromise"
+       ],
+       [
+        8,
+        2,
+        "own_0"
+       ],
+       [
+        8,
+        5,
+        "own_1"
+       ],
+       [
+        8,
+        6,
+        "compromise"
+       ],
+       [
+        16,
+        3,
+        "compromise"
+       ],
+       [
+        16,
+        6,
+        "compromise"
+       ],
+       [
+        16,
+        7,
+        "own_0"
+       ]
+      ]
+     },
+     "P5": {
+      "holds": true,
+      "cells_compromise_best": 10
+     },
+     "verdict": "INDETERMINATE"
+    },
+    "8": {
+     "P1": {
+      "holds": false,
+      "fraction_within_tolerance": 0.6947916666666667,
+      "triples": 960
+     },
+     "P2": {
+      "holds": true,
+      "cells": 15
+     },
+     "nonvacuous_cells": 9,
+     "P3": {
+      "holds": false,
+      "cells_within_tolerance": 5
+     },
+     "P4": {
+      "holds": false,
+      "violations": [
+       [
+        8,
+        4,
+        "compromise"
+       ],
+       [
+        16,
+        1,
+        "compromise"
+       ],
+       [
+        16,
+        7,
+        "compromise"
+       ]
+      ]
+     },
+     "P5": {
+      "holds": true,
+      "cells_compromise_best": 9
+     },
+     "verdict": "INDETERMINATE"
+    }
+   },
+   "gate": "INDETERMINATE"
+  },
+  "0.05": {
+   "n_cells": 16,
+   "ranks": {
+    "2": {
+     "P1": {
+      "holds": false,
+      "fraction_within_tolerance": 0.64375,
+      "triples": 960
+     },
+     "P2": {
+      "holds": false,
+      "cells": 11
+     },
+     "nonvacuous_cells": 13,
+     "P3": {
+      "holds": false,
+      "cells_within_tolerance": 2
+     },
+     "P4": {
+      "holds": false,
+      "violations": [
+       [
+        8,
+        0,
+        "compromise"
+       ],
+       [
+        8,
+        1,
+        "compromise"
+       ],
+       [
+        8,
+        2,
+        "own_0"
+       ],
+       [
+        8,
+        3,
+        "compromise"
+       ],
+       [
+        8,
+        5,
+        "compromise"
+       ],
+       [
+        16,
+        1,
+        "compromise"
+       ],
+       [
+        16,
+        4,
+        "compromise"
+       ],
+       [
+        16,
+        6,
+        "own_1"
+       ],
+       [
+        16,
+        7,
+        "own_1"
+       ]
+      ]
+     },
+     "P5": {
+      "holds": true,
+      "cells_compromise_best": 13
+     },
+     "verdict": "INDETERMINATE"
+    },
+    "4": {
+     "P1": {
+      "holds": false,
+      "fraction_within_tolerance": 0.653125,
+      "triples": 960
+     },
+     "P2": {
+      "holds": true,
+      "cells": 12
+     },
+     "nonvacuous_cells": 10,
+     "P3": {
+      "holds": false,
+      "cells_within_tolerance": 4
+     },
+     "P4": {
+      "holds": false,
+      "violations": [
+       [
+        8,
+        0,
+        "compromise"
+       ],
+       [
+        8,
+        1,
+        "compromise"
+       ],
+       [
+        8,
+        2,
+        "own_0"
+       ],
+       [
+        8,
+        5,
+        "own_1"
+       ],
+       [
+        8,
+        6,
+        "compromise"
+       ],
+       [
+        16,
+        3,
+        "compromise"
+       ],
+       [
+        16,
+        6,
+        "compromise"
+       ],
+       [
+        16,
+        7,
+        "own_0"
+       ]
+      ]
+     },
+     "P5": {
+      "holds": true,
+      "cells_compromise_best": 10
+     },
+     "verdict": "INDETERMINATE"
+    },
+    "8": {
+     "P1": {
+      "holds": false,
+      "fraction_within_tolerance": 0.6916666666666667,
+      "triples": 960
+     },
+     "P2": {
+      "holds": true,
+      "cells": 15
+     },
+     "nonvacuous_cells": 9,
+     "P3": {
+      "holds": false,
+      "cells_within_tolerance": 5
+     },
+     "P4": {
+      "holds": false,
+      "violations": [
+       [
+        8,
+        4,
+        "compromise"
+       ],
+       [
+        16,
+        1,
+        "compromise"
+       ],
+       [
+        16,
+        7,
+        "compromise"
+       ]
+      ]
+     },
+     "P5": {
+      "holds": true,
+      "cells_compromise_best": 9
+     },
+     "verdict": "INDETERMINATE"
+    }
+   },
+   "gate": "INDETERMINATE"
+  },
+  "0.1": {
+   "n_cells": 16,
+   "ranks": {
+    "2": {
+     "P1": {
+      "holds": false,
+      "fraction_within_tolerance": 0.65,
+      "triples": 960
+     },
+     "P2": {
+      "holds": false,
+      "cells": 11
+     },
+     "nonvacuous_cells": 13,
+     "P3": {
+      "holds": false,
+      "cells_within_tolerance": 2
+     },
+     "P4": {
+      "holds": false,
+      "violations": [
+       [
+        8,
+        0,
+        "compromise"
+       ],
+       [
+        8,
+        1,
+        "compromise"
+       ],
+       [
+        8,
+        2,
+        "own_0"
+       ],
+       [
+        8,
+        3,
+        "compromise"
+       ],
+       [
+        8,
+        5,
+        "compromise"
+       ],
+       [
+        16,
+        1,
+        "compromise"
+       ],
+       [
+        16,
+        4,
+        "compromise"
+       ],
+       [
+        16,
+        6,
+        "own_1"
+       ],
+       [
+        16,
+        7,
+        "own_1"
+       ]
+      ]
+     },
+     "P5": {
+      "holds": true,
+      "cells_compromise_best": 13
+     },
+     "verdict": "INDETERMINATE"
+    },
+    "4": {
+     "P1": {
+      "holds": false,
+      "fraction_within_tolerance": 0.6552083333333333,
+      "triples": 960
+     },
+     "P2": {
+      "holds": true,
+      "cells": 12
+     },
+     "nonvacuous_cells": 10,
+     "P3": {
+      "holds": false,
+      "cells_within_tolerance": 4
+     },
+     "P4": {
+      "holds": false,
+      "violations": [
+       [
+        8,
+        0,
+        "compromise"
+       ],
+       [
+        8,
+        1,
+        "compromise"
+       ],
+       [
+        8,
+        2,
+        "own_0"
+       ],
+       [
+        8,
+        5,
+        "own_1"
+       ],
+       [
+        8,
+        6,
+        "compromise"
+       ],
+       [
+        16,
+        3,
+        "compromise"
+       ],
+       [
+        16,
+        6,
+        "compromise"
+       ],
+       [
+        16,
+        7,
+        "own_0"
+       ]
+      ]
+     },
+     "P5": {
+      "holds": true,
+      "cells_compromise_best": 10
+     },
+     "verdict": "INDETERMINATE"
+    },
+    "8": {
+     "P1": {
+      "holds": false,
+      "fraction_within_tolerance": 0.6916666666666667,
+      "triples": 960
+     },
+     "P2": {
+      "holds": true,
+      "cells": 15
+     },
+     "nonvacuous_cells": 9,
+     "P3": {
+      "holds": false,
+      "cells_within_tolerance": 5
+     },
+     "P4": {
+      "holds": false,
+      "violations": [
+       [
+        8,
+        4,
+        "compromise"
+       ],
+       [
+        16,
+        1,
+        "compromise"
+       ],
+       [
+        16,
+        7,
+        "compromise"
+       ]
+      ]
+     },
+     "P5": {
+      "holds": true,
+      "cells_compromise_best": 9
+     },
+     "verdict": "INDETERMINATE"
+    }
+   },
+   "gate": "INDETERMINATE"
+  },
+  "0.2": {
+   "n_cells": 16,
+   "ranks": {
+    "2": {
+     "P1": {
+      "holds": false,
+      "fraction_within_tolerance": 0.6510416666666666,
+      "triples": 960
+     },
+     "P2": {
+      "holds": false,
+      "cells": 11
+     },
+     "nonvacuous_cells": 13,
+     "P3": {
+      "holds": false,
+      "cells_within_tolerance": 2
+     },
+     "P4": {
+      "holds": false,
+      "violations": [
+       [
+        8,
+        0,
+        "compromise"
+       ],
+       [
+        8,
+        1,
+        "compromise"
+       ],
+       [
+        8,
+        2,
+        "own_0"
+       ],
+       [
+        8,
+        3,
+        "compromise"
+       ],
+       [
+        8,
+        5,
+        "compromise"
+       ],
+       [
+        16,
+        1,
+        "compromise"
+       ],
+       [
+        16,
+        4,
+        "compromise"
+       ],
+       [
+        16,
+        6,
+        "own_1"
+       ],
+       [
+        16,
+        7,
+        "own_1"
+       ]
+      ]
+     },
+     "P5": {
+      "holds": true,
+      "cells_compromise_best": 13
+     },
+     "verdict": "INDETERMINATE"
+    },
+    "4": {
+     "P1": {
+      "holds": false,
+      "fraction_within_tolerance": 0.6760416666666667,
+      "triples": 960
+     },
+     "P2": {
+      "holds": true,
+      "cells": 12
+     },
+     "nonvacuous_cells": 10,
+     "P3": {
+      "holds": false,
+      "cells_within_tolerance": 4
+     },
+     "P4": {
+      "holds": false,
+      "violations": [
+       [
+        8,
+        0,
+        "compromise"
+       ],
+       [
+        8,
+        1,
+        "compromise"
+       ],
+       [
+        8,
+        2,
+        "own_0"
+       ],
+       [
+        8,
+        5,
+        "own_1"
+       ],
+       [
+        8,
+        6,
+        "compromise"
+       ],
+       [
+        16,
+        3,
+        "compromise"
+       ],
+       [
+        16,
+        6,
+        "compromise"
+       ],
+       [
+        16,
+        7,
+        "own_0"
+       ]
+      ]
+     },
+     "P5": {
+      "holds": true,
+      "cells_compromise_best": 10
+     },
+     "verdict": "INDETERMINATE"
+    },
+    "8": {
+     "P1": {
+      "holds": false,
+      "fraction_within_tolerance": 0.7041666666666667,
+      "triples": 960
+     },
+     "P2": {
+      "holds": true,
+      "cells": 15
+     },
+     "nonvacuous_cells": 9,
+     "P3": {
+      "holds": false,
+      "cells_within_tolerance": 5
+     },
+     "P4": {
+      "holds": false,
+      "violations": [
+       [
+        8,
+        4,
+        "compromise"
+       ],
+       [
+        16,
+        1,
+        "compromise"
+       ],
+       [
+        16,
+        7,
+        "compromise"
+       ]
+      ]
+     },
+     "P5": {
+      "holds": true,
+      "cells_compromise_best": 9
+     },
+     "verdict": "INDETERMINATE"
+    }
+   },
+   "gate": "INDETERMINATE"
+  }
+ },
+ "gate": "INDETERMINATE",
+ "gate_eps": null,
+ "diagnosis": {
+  "0.02": {
+   "2": {
+    "median_ratio": 1.0239450434096082,
+    "min": 0.6750407086856582,
+    "max": 1.3917034273333895
+   },
+   "4": {
+    "median_ratio": 1.0367372029763953,
+    "min": 0.7154122980053664,
+    "max": 1.4454869100541234
+   },
+   "8": {
+    "median_ratio": 1.0336883192837698,
+    "min": 0.7696803291173799,
+    "max": 1.286367902246782
+   }
+  },
+  "0.05": {
+   "2": {
+    "median_ratio": 1.026315645437277,
+    "min": 0.6766097601274872,
+    "max": 1.402826939374951
+   },
+   "4": {
+    "median_ratio": 1.0386290834106109,
+    "min": 0.7170425859541907,
+    "max": 1.446561347654446
+   },
+   "8": {
+    "median_ratio": 1.0355176816938951,
+    "min": 0.7708585617824781,
+    "max": 1.28722996100769
+   }
+  },
+  "0.1": {
+   "2": {
+    "median_ratio": 1.0348135193634223,
+    "min": 0.6822425882526281,
+    "max": 1.4416902450804754
+   },
+   "4": {
+    "median_ratio": 1.0454474726746348,
+    "min": 0.7229023972266729,
+    "max": 1.4503402652926987
+   },
+   "8": {
+    "median_ratio": 1.043559838492215,
+    "min": 0.7750824689133562,
+    "max": 1.292872098144437
+   }
+  },
+  "0.2": {
+   "2": {
+    "median_ratio": 1.066506758674067,
+    "min": 0.7052348301454028,
+    "max": 1.5920665795678315
+   },
+   "4": {
+    "median_ratio": 1.077684968880148,
+    "min": 0.7456417874777387,
+    "max": 1.4911893376891854
+   },
+   "8": {
+    "median_ratio": 1.0693692641948807,
+    "min": 0.792230068873557,
+    "max": 1.3476434281407481
+   }
+  }
+ },
+ "gate_reason": "P1 holds at no eps of the ladder at every rank; the quadratic model is not established, see diagnosis"
+}
