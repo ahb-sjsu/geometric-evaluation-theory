@@ -1,0 +1,108 @@
+== start Tue Sep  8 03:01:38 PM UTC 2026 PILOT seed-role pilot
+{"m": 2, "rank": 2, "eps": "zero", "kind": "general", "n": 2, "g_rel_err": 0.9563, "range_angle_deg": 0.0, "t_range_err": 1.8145, "t_kernel_err": 0.0}
+{"m": 2, "rank": 2, "eps": "zero", "kind": "general", "n": 3, "g_rel_err": 0.8389, "range_angle_deg": 0.0, "t_range_err": 1.1285, "t_kernel_err": 0.0}
+{"m": 2, "rank": 2, "eps": "zero", "kind": "general", "n": 4, "g_rel_err": 0.9208, "range_angle_deg": 0.0, "t_range_err": 1.2572, "t_kernel_err": 0.0}
+{"m": 2, "rank": 2, "eps": "zero", "kind": "general", "n": 6, "g_rel_err": 0.701, "range_angle_deg": 0.0, "t_range_err": 1.1544, "t_kernel_err": 0.0}
+{"m": 2, "rank": 2, "eps": "zero", "kind": "general", "n": 10, "g_rel_err": 0.3965, "range_angle_deg": 0.0, "t_range_err": 0.6454, "t_kernel_err": 0.0}
+{"m": 2, "rank": 2, "eps": "zero", "kind": "general", "n": 18, "g_rel_err": 0.0762, "range_angle_deg": 0.0, "t_range_err": 0.0865, "t_kernel_err": 0.0}
+{"m": 2, "rank": 2, "eps": "zero", "kind": "general", "n": 34, "g_rel_err": 0.0172, "range_angle_deg": 0.0, "t_range_err": 0.0174, "t_kernel_err": 0.0}
+{"m": 2, "rank": 2, "eps": "zero", "kind": "subspace", "n": 34, "g_rel_err": 0.9821, "range_angle_deg": 0.0, "t_range_err": 0.6038, "t_kernel_err": 0.0, "g_span_rel_err": 0.0, "g_normal_abs_err": 0.4729}
+{"m": 2, "rank": 2, "eps": "share", "kind": "general", "n": 2, "g_rel_err": 1.1007, "range_angle_deg": 0.0, "t_range_err": 13.489, "t_kernel_err": 0.0}
+{"m": 2, "rank": 2, "eps": "share", "kind": "general", "n": 3, "g_rel_err": 1.0516, "range_angle_deg": 0.0, "t_range_err": 0.9553, "t_kernel_err": 0.0}
+{"m": 2, "rank": 2, "eps": "share", "kind": "general", "n": 4, "g_rel_err": 0.9499, "range_angle_deg": 0.0, "t_range_err": 1.1779, "t_kernel_err": 0.0}
+{"m": 2, "rank": 2, "eps": "share", "kind": "general", "n": 6, "g_rel_err": 0.6849, "range_angle_deg": 0.0, "t_range_err": 1.1841, "t_kernel_err": 0.0}
+{"m": 2, "rank": 2, "eps": "share", "kind": "general", "n": 10, "g_rel_err": 0.4993, "range_angle_deg": 0.0, "t_range_err": 0.899, "t_kernel_err": 0.0}
+{"m": 2, "rank": 2, "eps": "share", "kind": "general", "n": 18, "g_rel_err": 0.1719, "range_angle_deg": 0.0, "t_range_err": 0.1235, "t_kernel_err": 0.0}
+{"m": 2, "rank": 2, "eps": "share", "kind": "general", "n": 34, "g_rel_err": 0.13, "range_angle_deg": 0.0, "t_range_err": 0.0841, "t_kernel_err": 0.0}
+{"m": 2, "rank": 2, "eps": "share", "kind": "subspace", "n": 34, "g_rel_err": 0.925, "range_angle_deg": 0.0, "t_range_err": 0.4509, "t_kernel_err": 0.0, "g_span_rel_err": 0.0, "g_normal_abs_err": 0.4033}
+{"m": 2, "rank": 1, "eps": "zero", "kind": "general", "n": 2, "g_rel_err": 0.6924, "range_angle_deg": 29.3189, "t_range_err": 0.7725, "t_kernel_err": 0.775}
+{"m": 2, "rank": 1, "eps": "zero", "kind": "general", "n": 3, "g_rel_err": 0.8372, "range_angle_deg": 36.9927, "t_range_err": 1.0811, "t_kernel_err": 0.7422}
+{"m": 2, "rank": 1, "eps": "zero", "kind": "general", "n": 4, "g_rel_err": 0.551, "range_angle_deg": 23.2121, "t_range_err": 0.6726, "t_kernel_err": 0.8394}
+{"m": 2, "rank": 1, "eps": "zero", "kind": "general", "n": 6, "g_rel_err": 0.5919, "range_angle_deg": 24.016, "t_range_err": 0.3249, "t_kernel_err": 0.7406}
+{"m": 2, "rank": 1, "eps": "zero", "kind": "general", "n": 10, "g_rel_err": 0.137, "range_angle_deg": 5.5572, "t_range_err": 0.0693, "t_kernel_err": 0.7669}
+{"m": 2, "rank": 1, "eps": "zero", "kind": "general", "n": 18, "g_rel_err": 0.056, "range_angle_deg": 1.756, "t_range_err": 0.023, "t_kernel_err": 0.6722}
+{"m": 2, "rank": 1, "eps": "zero", "kind": "general", "n": 34, "g_rel_err": 0.0077, "range_angle_deg": 0.2443, "t_range_err": 0.0038, "t_kernel_err": 0.4964}
+{"m": 2, "rank": 1, "eps": "zero", "kind": "subspace", "n": 34, "g_rel_err": 0.846, "range_angle_deg": 36.7398, "t_range_err": 0.2892, "t_kernel_err": 0.423, "g_span_rel_err": 0.0, "g_normal_abs_err": 0.3729}
+{"m": 2, "rank": 1, "eps": "share", "kind": "general", "n": 2, "g_rel_err": 0.6509, "range_angle_deg": 27.5265, "t_range_err": 1.0399, "t_kernel_err": 1.0884}
+{"m": 2, "rank": 1, "eps": "share", "kind": "general", "n": 3, "g_rel_err": 0.6554, "range_angle_deg": 27.6102, "t_range_err": 0.57, "t_kernel_err": 0.7531}
+{"m": 2, "rank": 1, "eps": "share", "kind": "general", "n": 4, "g_rel_err": 0.5567, "range_angle_deg": 24.6404, "t_range_err": 0.6558, "t_kernel_err": 0.9107}
+{"m": 2, "rank": 1, "eps": "share", "kind": "general", "n": 6, "g_rel_err": 0.4402, "range_angle_deg": 16.7099, "t_range_err": 0.4475, "t_kernel_err": 0.6969}
+{"m": 2, "rank": 1, "eps": "share", "kind": "general", "n": 10, "g_rel_err": 0.4222, "range_angle_deg": 17.5458, "t_range_err": 0.4222, "t_kernel_err": 1.1057}
+{"m": 2, "rank": 1, "eps": "share", "kind": "general", "n": 18, "g_rel_err": 0.111, "range_angle_deg": 4.5009, "t_range_err": 0.0285, "t_kernel_err": 0.7785}
+{"m": 2, "rank": 1, "eps": "share", "kind": "general", "n": 34, "g_rel_err": 0.0765, "range_angle_deg": 2.3763, "t_range_err": 0.0403, "t_kernel_err": 0.5951}
+{"m": 2, "rank": 1, "eps": "share", "kind": "subspace", "n": 34, "g_rel_err": 0.6819, "range_angle_deg": 28.8282, "t_range_err": 0.3929, "t_kernel_err": 0.5965, "g_span_rel_err": 0.0, "g_normal_abs_err": 0.2505}
+{"m": 3, "rank": 3, "eps": "zero", "kind": "general", "n": 2, "g_rel_err": 1.3042, "range_angle_deg": 0.0, "t_range_err": 1.0373, "t_kernel_err": 0.0}
+{"m": 3, "rank": 3, "eps": "zero", "kind": "general", "n": 3, "g_rel_err": 1.1401, "range_angle_deg": 0.0, "t_range_err": 1.5768, "t_kernel_err": 0.0}
+{"m": 3, "rank": 3, "eps": "zero", "kind": "general", "n": 4, "g_rel_err": 0.9601, "range_angle_deg": 0.0, "t_range_err": 1.3152, "t_kernel_err": 0.0}
+{"m": 3, "rank": 3, "eps": "zero", "kind": "general", "n": 5, "g_rel_err": 0.9629, "range_angle_deg": 0.0, "t_range_err": 1.0438, "t_kernel_err": 0.0}
+{"m": 3, "rank": 3, "eps": "zero", "kind": "general", "n": 7, "g_rel_err": 0.7969, "range_angle_deg": 0.0, "t_range_err": 1.1162, "t_kernel_err": 0.0}
+{"m": 3, "rank": 3, "eps": "zero", "kind": "general", "n": 11, "g_rel_err": 0.4871, "range_angle_deg": 0.0, "t_range_err": 0.6814, "t_kernel_err": 0.0}
+{"m": 3, "rank": 3, "eps": "zero", "kind": "general", "n": 19, "g_rel_err": 0.1663, "range_angle_deg": 0.0, "t_range_err": 0.2685, "t_kernel_err": 0.0}
+{"m": 3, "rank": 3, "eps": "zero", "kind": "general", "n": 35, "g_rel_err": 0.0389, "range_angle_deg": 0.0, "t_range_err": 0.0786, "t_kernel_err": 0.0}
+{"m": 3, "rank": 3, "eps": "zero", "kind": "subspace", "n": 35, "g_rel_err": 0.6745, "range_angle_deg": 0.0, "t_range_err": 0.5802, "t_kernel_err": 0.0, "g_span_rel_err": 0.0195, "g_normal_abs_err": 0.2727}
+{"m": 3, "rank": 3, "eps": "share", "kind": "general", "n": 2}
+{"m": 3, "rank": 3, "eps": "share", "kind": "general", "n": 3, "g_rel_err": 1.19, "range_angle_deg": 0.0, "t_range_err": 0.837, "t_kernel_err": 0.0}
+{"m": 3, "rank": 3, "eps": "share", "kind": "general", "n": 4, "g_rel_err": 1.0068, "range_angle_deg": 0.0, "t_range_err": 1.2307, "t_kernel_err": 0.0}
+{"m": 3, "rank": 3, "eps": "share", "kind": "general", "n": 5, "g_rel_err": 0.9998, "range_angle_deg": 0.0, "t_range_err": 1.2668, "t_kernel_err": 0.0}
+{"m": 3, "rank": 3, "eps": "share", "kind": "general", "n": 7, "g_rel_err": 0.8336, "range_angle_deg": 0.0, "t_range_err": 1.0948, "t_kernel_err": 0.0}
+{"m": 3, "rank": 3, "eps": "share", "kind": "general", "n": 11, "g_rel_err": 0.6273, "range_angle_deg": 0.0, "t_range_err": 1.1932, "t_kernel_err": 0.0}
+{"m": 3, "rank": 3, "eps": "share", "kind": "general", "n": 19, "g_rel_err": 0.2809, "range_angle_deg": 0.0, "t_range_err": 0.9658, "t_kernel_err": 0.0}
+{"m": 3, "rank": 3, "eps": "share", "kind": "general", "n": 35, "g_rel_err": 0.1882, "range_angle_deg": 0.0, "t_range_err": 0.4858, "t_kernel_err": 0.0}
+{"m": 3, "rank": 3, "eps": "share", "kind": "subspace", "n": 35, "g_rel_err": 0.7497, "range_angle_deg": 0.0, "t_range_err": 0.6125, "t_kernel_err": 0.0, "g_span_rel_err": 0.0926, "g_normal_abs_err": 0.3122}
+{"m": 3, "rank": 2, "eps": "zero", "kind": "general", "n": 2, "g_rel_err": 1.0478, "range_angle_deg": 57.9561, "t_range_err": 0.867, "t_kernel_err": 0.5765}
+{"m": 3, "rank": 2, "eps": "zero", "kind": "general", "n": 3, "g_rel_err": 1.0251, "range_angle_deg": 53.1062, "t_range_err": 0.6905, "t_kernel_err": 0.73}
+{"m": 3, "rank": 2, "eps": "zero", "kind": "general", "n": 4, "g_rel_err": 0.8171, "range_angle_deg": 41.0468, "t_range_err": 1.3806, "t_kernel_err": 0.7654}
+{"m": 3, "rank": 2, "eps": "zero", "kind": "general", "n": 5, "g_rel_err": 0.9857, "range_angle_deg": 45.0102, "t_range_err": 0.8429, "t_kernel_err": 0.5967}
+{"m": 3, "rank": 2, "eps": "zero", "kind": "general", "n": 7, "g_rel_err": 0.7827, "range_angle_deg": 38.1297, "t_range_err": 0.9541, "t_kernel_err": 0.5327}
+{"m": 3, "rank": 2, "eps": "zero", "kind": "general", "n": 11, "g_rel_err": 0.5328, "range_angle_deg": 29.0566, "t_range_err": 0.6233, "t_kernel_err": 0.5323}
+{"m": 3, "rank": 2, "eps": "zero", "kind": "general", "n": 19, "g_rel_err": 0.1666, "range_angle_deg": 6.5957, "t_range_err": 0.1795, "t_kernel_err": 0.4941}
+{"m": 3, "rank": 2, "eps": "zero", "kind": "general", "n": 35, "g_rel_err": 0.0325, "range_angle_deg": 1.4287, "t_range_err": 0.0205, "t_kernel_err": 0.4888}
+{"m": 3, "rank": 2, "eps": "zero", "kind": "subspace", "n": 35, "g_rel_err": 0.6009, "range_angle_deg": 41.0457, "t_range_err": 0.4744, "t_kernel_err": 0.4324, "g_span_rel_err": 0.0178, "g_normal_abs_err": 0.215}
+{"m": 3, "rank": 2, "eps": "share", "kind": "general", "n": 2, "g_rel_err": 1.3166, "range_angle_deg": 69.0255, "t_range_err": 0.1922, "t_kernel_err": 0.7428}
+{"m": 3, "rank": 2, "eps": "share", "kind": "general", "n": 3, "g_rel_err": 1.1122, "range_angle_deg": 53.8319, "t_range_err": 0.9996, "t_kernel_err": 0.6946}
+{"m": 3, "rank": 2, "eps": "share", "kind": "general", "n": 4, "g_rel_err": 0.9531, "range_angle_deg": 46.5139, "t_range_err": 0.8985, "t_kernel_err": 0.6606}
+{"m": 3, "rank": 2, "eps": "share", "kind": "general", "n": 5, "g_rel_err": 0.9473, "range_angle_deg": 43.8949, "t_range_err": 0.9639, "t_kernel_err": 0.6599}
+{"m": 3, "rank": 2, "eps": "share", "kind": "general", "n": 7, "g_rel_err": 0.7276, "range_angle_deg": 44.6869, "t_range_err": 1.27, "t_kernel_err": 0.7456}
+{"m": 3, "rank": 2, "eps": "share", "kind": "general", "n": 11, "g_rel_err": 0.4597, "range_angle_deg": 19.553, "t_range_err": 0.4634, "t_kernel_err": 0.7603}
+{"m": 3, "rank": 2, "eps": "share", "kind": "general", "n": 19, "g_rel_err": 0.3885, "range_angle_deg": 16.0498, "t_range_err": 0.3949, "t_kernel_err": 0.6743}
+{"m": 3, "rank": 2, "eps": "share", "kind": "general", "n": 35, "g_rel_err": 0.1686, "range_angle_deg": 6.7932, "t_range_err": 0.1035, "t_kernel_err": 0.6489}
+{"m": 3, "rank": 2, "eps": "share", "kind": "subspace", "n": 35, "g_rel_err": 0.6383, "range_angle_deg": 33.1288, "t_range_err": 0.3868, "t_kernel_err": 0.3869, "g_span_rel_err": 0.1149, "g_normal_abs_err": 0.1613}
+{"m": 4, "rank": 4, "eps": "zero", "kind": "general", "n": 3, "g_rel_err": 1.3303, "range_angle_deg": 0.0, "t_range_err": 1.3177, "t_kernel_err": 0.0}
+{"m": 4, "rank": 4, "eps": "zero", "kind": "general", "n": 4, "g_rel_err": 1.1683, "range_angle_deg": 0.0, "t_range_err": 1.1036, "t_kernel_err": 0.0}
+{"m": 4, "rank": 4, "eps": "zero", "kind": "general", "n": 5, "g_rel_err": 1.0278, "range_angle_deg": 0.0, "t_range_err": 1.2346, "t_kernel_err": 0.0}
+{"m": 4, "rank": 4, "eps": "zero", "kind": "general", "n": 6, "g_rel_err": 0.9634, "range_angle_deg": 0.0, "t_range_err": 1.1593, "t_kernel_err": 0.0}
+{"m": 4, "rank": 4, "eps": "zero", "kind": "general", "n": 8, "g_rel_err": 0.942, "range_angle_deg": 0.0, "t_range_err": 1.1169, "t_kernel_err": 0.0}
+/archive/ahb-sjsu/geometric-evaluation-theory/experiments/G5/g5_identify.py:91: UserWarning: Solution may be inaccurate. Try another solver, adjusting the solver settings, or solve with verbose=True for more information.
+  prob.solve(**kw)
+{"m": 4, "rank": 4, "eps": "zero", "kind": "general", "n": 12, "g_rel_err": 0.7391, "range_angle_deg": 0.0, "t_range_err": 1.5008, "t_kernel_err": 0.0}
+{"m": 4, "rank": 4, "eps": "zero", "kind": "general", "n": 20, "g_rel_err": 0.3827, "range_angle_deg": 0.0, "t_range_err": 0.9953, "t_kernel_err": 0.0}
+{"m": 4, "rank": 4, "eps": "zero", "kind": "general", "n": 36, "g_rel_err": 0.0805, "range_angle_deg": 0.0, "t_range_err": 0.2493, "t_kernel_err": 0.0}
+{"m": 4, "rank": 4, "eps": "zero", "kind": "subspace", "n": 36, "g_rel_err": 0.5712, "range_angle_deg": 0.0, "t_range_err": 0.5507, "t_kernel_err": 0.0, "g_span_rel_err": 0.045, "g_normal_abs_err": 0.1884}
+{"m": 4, "rank": 4, "eps": "share", "kind": "general", "n": 3, "g_rel_err": 1.4165, "range_angle_deg": 0.0, "t_range_err": 1.0159, "t_kernel_err": 0.0}
+{"m": 4, "rank": 4, "eps": "share", "kind": "general", "n": 4, "g_rel_err": 1.1957, "range_angle_deg": 0.0, "t_range_err": 1.1084, "t_kernel_err": 0.0}
+{"m": 4, "rank": 4, "eps": "share", "kind": "general", "n": 5, "g_rel_err": 0.9776, "range_angle_deg": 0.0, "t_range_err": 1.079, "t_kernel_err": 0.0}
+{"m": 4, "rank": 4, "eps": "share", "kind": "general", "n": 6, "g_rel_err": 1.0982, "range_angle_deg": 0.0, "t_range_err": 1.7331, "t_kernel_err": 0.0}
+{"m": 4, "rank": 4, "eps": "share", "kind": "general", "n": 8, "g_rel_err": 0.8685, "range_angle_deg": 0.0, "t_range_err": 1.3094, "t_kernel_err": 0.0}
+{"m": 4, "rank": 4, "eps": "share", "kind": "general", "n": 12, "g_rel_err": 0.7105, "range_angle_deg": 0.0, "t_range_err": 1.0604, "t_kernel_err": 0.0}
+{"m": 4, "rank": 4, "eps": "share", "kind": "general", "n": 20, "g_rel_err": 0.5102, "range_angle_deg": 0.0, "t_range_err": 0.9446, "t_kernel_err": 0.0}
+{"m": 4, "rank": 4, "eps": "share", "kind": "general", "n": 36, "g_rel_err": 0.2514, "range_angle_deg": 0.0, "t_range_err": 1.2399, "t_kernel_err": 0.0}
+{"m": 4, "rank": 4, "eps": "share", "kind": "subspace", "n": 36, "g_rel_err": 0.553, "range_angle_deg": 0.0, "t_range_err": 0.6711, "t_kernel_err": 0.0, "g_span_rel_err": 0.1304, "g_normal_abs_err": 0.2009}
+{"m": 4, "rank": 3, "eps": "zero", "kind": "general", "n": 3, "g_rel_err": 1.1871, "range_angle_deg": 64.0419, "t_range_err": 1.0438, "t_kernel_err": 0.4319}
+{"m": 4, "rank": 3, "eps": "zero", "kind": "general", "n": 4, "g_rel_err": 1.1433, "range_angle_deg": 56.4635, "t_range_err": 1.0275, "t_kernel_err": 0.3812}
+{"m": 4, "rank": 3, "eps": "zero", "kind": "general", "n": 5, "g_rel_err": 0.9949, "range_angle_deg": 52.1016, "t_range_err": 1.1804, "t_kernel_err": 0.5665}
+{"m": 4, "rank": 3, "eps": "zero", "kind": "general", "n": 6, "g_rel_err": 1.0345, "range_angle_deg": 55.1022, "t_range_err": 1.0727, "t_kernel_err": 0.4622}
+{"m": 4, "rank": 3, "eps": "zero", "kind": "general", "n": 8, "g_rel_err": 0.9008, "range_angle_deg": 59.924, "t_range_err": 1.0192, "t_kernel_err": 0.5789}
+{"m": 4, "rank": 3, "eps": "zero", "kind": "general", "n": 12, "g_rel_err": 0.6189, "range_angle_deg": 43.7228, "t_range_err": 0.8299, "t_kernel_err": 0.5648}
+{"m": 4, "rank": 3, "eps": "zero", "kind": "general", "n": 20, "g_rel_err": 0.3066, "range_angle_deg": 25.5912, "t_range_err": 0.4458, "t_kernel_err": 0.557}
+{"m": 4, "rank": 3, "eps": "zero", "kind": "general", "n": 36, "g_rel_err": 0.0723, "range_angle_deg": 3.2728, "t_range_err": 0.061, "t_kernel_err": 0.4274}
+{"m": 4, "rank": 3, "eps": "zero", "kind": "subspace", "n": 36, "g_rel_err": 0.4944, "range_angle_deg": 40.3472, "t_range_err": 0.496, "t_kernel_err": 0.2983, "g_span_rel_err": 0.0391, "g_normal_abs_err": 0.1421}
+{"m": 4, "rank": 3, "eps": "share", "kind": "general", "n": 3, "g_rel_err": 1.2739, "range_angle_deg": 62.5946, "t_range_err": 0.7121, "t_kernel_err": 0.5532}
+{"m": 4, "rank": 3, "eps": "share", "kind": "general", "n": 4, "g_rel_err": 1.1359, "range_angle_deg": 66.1548, "t_range_err": 1.0116, "t_kernel_err": 0.6264}
+{"m": 4, "rank": 3, "eps": "share", "kind": "general", "n": 5, "g_rel_err": 0.9271, "range_angle_deg": 57.06, "t_range_err": 0.9666, "t_kernel_err": 0.2978}
+{"m": 4, "rank": 3, "eps": "share", "kind": "general", "n": 6, "g_rel_err": 0.9077, "range_angle_deg": 56.6767, "t_range_err": 1.0369, "t_kernel_err": 0.5534}
+{"m": 4, "rank": 3, "eps": "share", "kind": "general", "n": 8, "g_rel_err": 0.8555, "range_angle_deg": 49.9319, "t_range_err": 1.2471, "t_kernel_err": 0.6183}
+{"m": 4, "rank": 3, "eps": "share", "kind": "general", "n": 12, "g_rel_err": 0.7842, "range_angle_deg": 47.5816, "t_range_err": 1.3239, "t_kernel_err": 0.6076}
+{"m": 4, "rank": 3, "eps": "share", "kind": "general", "n": 20, "g_rel_err": 0.463, "range_angle_deg": 28.2834, "t_range_err": 0.8186, "t_kernel_err": 0.6028}
+{"m": 4, "rank": 3, "eps": "share", "kind": "general", "n": 36, "g_rel_err": 0.2068, "range_angle_deg": 10.8574, "t_range_err": 0.2164, "t_kernel_err": 0.6605}
+{"m": 4, "rank": 3, "eps": "share", "kind": "subspace", "n": 36, "g_rel_err": 0.5956, "range_angle_deg": 47.4021, "t_range_err": 0.633, "t_kernel_err": 0.3074, "g_span_rel_err": 0.1891, "g_normal_abs_err": 0.1403}
+== PILOT_DONE rc=0

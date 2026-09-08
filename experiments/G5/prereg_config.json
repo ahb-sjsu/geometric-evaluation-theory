@@ -1,0 +1,37 @@
+{
+  "world": "Synthetic evaluators: metric G positive semidefinite of rank m or m-1 with eigenvalues log-uniform on [0.2, 5], ideal t standard normal, in dimensions m in {2, 3, 4}; batteries of n = m + offset consequences, standard normal (general position) or inside a random affine subspace of dimension m-1; choices are every strict preference of the semiorder a > b iff d(a) + eps < d(b), with eps = 0 (weak order) or eps set so that 20 percent of pairs are indifferent",
+  "dims": [
+    2,
+    3,
+    4
+  ],
+  "battery_size_offsets": [
+    -1,
+    0,
+    1,
+    2,
+    4,
+    8,
+    16,
+    32,
+    64
+  ],
+  "evaluators_per_cell": 40,
+  "indifference_share": 0.2,
+  "estimator": "max-margin semidefinite program of Theorem 3(a): maximise delta over G PSD and h in R^m with the Euclidean norm of (G, h) at most one, subject to Q(y_b) - Q(y_a) >= delta for every revealed strict preference a > b, Q(y) = y^T G y - 2 y^T h; metric reported at unit trace, ideal t = G^+ h",
+  "solver": "CLARABEL",
+  "seed_pilot": 20260908,
+  "seed_run": 20260909,
+  "design_bound": "at least m + 1 affinely independent consequences (offset >= 1 in general position); the subspace battery, m + 64 points in an (m-1)-dimensional affine subspace, violates it at every n",
+  "bars": {
+    "recovery_factor": 0.35,
+    "unrevealed_factor": 0.5,
+    "recovered_fraction_max": 0.1,
+    "convergence_factor": 0.5,
+    "rule": "PREREG-G5.md Section 5: per cell, medians over evaluators relative to each evaluator's chance level; P1 recovery at the largest battery (weak order: metric and ideal at most recovery_factor times chance; semiorder: metric at most recovery_factor times chance and the ideal's median at the largest battery at most convergence_factor times its median at offset 8), P2 monotone median metric error over offsets 4 to 32, P3 cliff at n <= m (median at least unrevealed_factor times chance, at most recovered_fraction_max of evaluators within a quarter of chance), P4 subspace battery (in-span block recovered, normal entry at least unrevealed_factor times its chance), P5 singular metric (range component as P1, kernel component at least unrevealed_factor times chance and at most twice recovered_fraction_max within a quarter of chance)"
+  },
+  "chance_reference": "median error of 64 guesses drawn from the evaluator prior, per evaluator",
+  "rank_cut": 0.01,
+  "ideal_readback": "t = G^+ h with eigenvalues below rank_cut times the largest treated as kernel (the prior's eigenvalue ratio is at least 0.04, so no true direction is cut)",
+  "pilot": "pilot.json, seed 20260908, used only to fix the form and factors of the bars; see PREREG-G5.md Section 7"
+}
