@@ -15,3 +15,8 @@ provided the battery of consequences spans the space affinely, and not otherwise
 Protocol. `--selftest` on Atlas; `--seed-role pilot` (seed 20260908) to see the error scale and
 fix the tolerances, recorded in the registration; seal; `--seed-role run` (seed 20260909,
 fresh evaluators and batteries) graded by `g5_grade.py`.
+
+Outcome, 2026-09-08. PASS in all 12 cells on the fresh seed (`results.json`, `grade.json`,
+`run.log`; table and reading in `CAMPAIGN.md`). Metric and ideal recovered at the largest
+batteries, error falling monotonically, nothing recovered at or below the design bound, off
+the span of a subspace battery, or in a singular metric's kernel.

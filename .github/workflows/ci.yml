@@ -37,6 +37,12 @@ jobs:
           assert a["gate"] == b["gate"], (a["gate"], b["gate"])
           print("G4b grade reproduces:", a["gate"])
           EOF
+          cd ../G5 && python g5_grade.py results.json --out /tmp/g5.json > /dev/null && python - <<'EOF'
+          import json
+          a = json.load(open("grade.json")); b = json.load(open("/tmp/g5.json"))
+          assert a["gate"] == b["gate"] and a["cells_passing"] == b["cells_passing"], (a["gate"], b["gate"])
+          print("G5 grade reproduces:", a["gate"], a["cells_passing"])
+          EOF
       - name: Sealed registrations carry the hashes recorded in CAMPAIGN.md
         run: |
           set -e

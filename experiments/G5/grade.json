@@ -1,0 +1,418 @@
+{
+ "bars": {
+  "recovery_factor": 0.35,
+  "unrevealed_factor": 0.5,
+  "recovered_fraction_max": 0.1,
+  "convergence_factor": 0.5,
+  "rule": "PREREG-G5.md Section 5: per cell, medians over evaluators relative to each evaluator's chance level; P1 recovery at the largest battery (weak order: metric and ideal at most recovery_factor times chance; semiorder: metric at most recovery_factor times chance and the ideal's median at the largest battery at most convergence_factor times its median at offset 8), P2 monotone median metric error over offsets 4 to 32, P3 cliff at n <= m (median metric error at least unrevealed_factor times chance; the fraction of evaluators within a quarter of chance is reported, not graded, since a battery below the bound can reveal its in-span part), P4 subspace battery (in-span block recovered, normal entry at least unrevealed_factor times its chance), P5 singular metric (range component as P1, kernel component at least unrevealed_factor times chance and at most twice recovered_fraction_max within a quarter of chance); an offset with fewer than min_evaluators_to_grade evaluators having any strict pair is reported and not graded",
+  "min_evaluators_to_grade": 20
+ },
+ "cells": {
+  "m2_r1_share": {
+   "P1": {
+    "holds": true,
+    "g_median_over_chance": 0.04910256747205338,
+    "t_median_over_chance": 0.023652073508274214,
+    "t_convergence_32_over_8": 0.08973355288285358
+   },
+   "P2": {
+    "holds": true,
+    "median_g_by_offset": {
+     "4": 0.4764545244372317,
+     "8": 0.329866895360573,
+     "16": 0.12207743153013592,
+     "32": 0.05708089362895283,
+     "64": 0.0360332952922267
+    }
+   },
+   "P3": {
+    "holds": true,
+    "min_median_over_chance_below_bound": Infinity,
+    "fraction_within_quarter_of_chance": {}
+   },
+   "P4": {
+    "holds": true,
+    "span_median_over_chance": 0.0,
+    "normal_median_over_chance": 0.5766380424046336
+   },
+   "P5": {
+    "holds": true,
+    "kernel_median_over_chance": 0.9466341868428647,
+    "kernel_recovered_fraction": 0.15
+   },
+   "verdict": "PASS"
+  },
+  "m2_r1_zero": {
+   "P1": {
+    "holds": true,
+    "g_median_over_chance": 0.0017070698278558154,
+    "t_median_over_chance": 0.0015798903048759947,
+    "t_convergence_32_over_8": 0.011802812831151446
+   },
+   "P2": {
+    "holds": true,
+    "median_g_by_offset": {
+     "4": 0.4848807575971176,
+     "8": 0.1894914586001345,
+     "16": 0.02323175690343935,
+     "32": 0.007966558316583258,
+     "64": 0.001253961244611463
+    }
+   },
+   "P3": {
+    "holds": true,
+    "min_median_over_chance_below_bound": 1.0460518815463677,
+    "fraction_within_quarter_of_chance": {
+     "0": 0.1
+    }
+   },
+   "P4": {
+    "holds": true,
+    "span_median_over_chance": 0.0,
+    "normal_median_over_chance": 0.5872674062797626
+   },
+   "P5": {
+    "holds": true,
+    "kernel_median_over_chance": 0.8807978036162881,
+    "kernel_recovered_fraction": 0.075
+   },
+   "verdict": "PASS"
+  },
+  "m2_r2_share": {
+   "P1": {
+    "holds": true,
+    "g_median_over_chance": 0.24656226842108014,
+    "t_median_over_chance": 0.06902385678592166,
+    "t_convergence_32_over_8": 0.09312511542290755
+   },
+   "P2": {
+    "holds": true,
+    "median_g_by_offset": {
+     "4": 0.6594256830767131,
+     "8": 0.5956141302594744,
+     "16": 0.2664992564066842,
+     "32": 0.12796145026250455,
+     "64": 0.11924838121246875
+    }
+   },
+   "P3": {
+    "holds": true,
+    "min_median_over_chance_below_bound": Infinity,
+    "fraction_within_quarter_of_chance": {}
+   },
+   "P4": {
+    "holds": true,
+    "span_median_over_chance": 0.0,
+    "normal_median_over_chance": 2.7604136840838174
+   },
+   "verdict": "PASS"
+  },
+  "m2_r2_zero": {
+   "P1": {
+    "holds": true,
+    "g_median_over_chance": 0.007076828379151861,
+    "t_median_over_chance": 0.004599994450734409,
+    "t_convergence_32_over_8": 0.005013705709532945
+   },
+   "P2": {
+    "holds": true,
+    "median_g_by_offset": {
+     "4": 0.8486498994194944,
+     "8": 0.42451209807450757,
+     "16": 0.07094777408993597,
+     "32": 0.016066568554950228,
+     "64": 0.0038413216131252914
+    }
+   },
+   "P3": {
+    "holds": true,
+    "min_median_over_chance_below_bound": 1.9111908932669865,
+    "fraction_within_quarter_of_chance": {
+     "0": 0.0
+    }
+   },
+   "P4": {
+    "holds": true,
+    "span_median_over_chance": 0.0,
+    "normal_median_over_chance": 2.6203126476942167
+   },
+   "verdict": "PASS"
+  },
+  "m3_r2_share": {
+   "P1": {
+    "holds": true,
+    "g_median_over_chance": 0.14062781450276135,
+    "t_median_over_chance": 0.0735656497494473,
+    "t_convergence_32_over_8": 0.10233720964520412
+   },
+   "P2": {
+    "holds": true,
+    "median_g_by_offset": {
+     "4": 0.8420758100308262,
+     "8": 0.5797361653910746,
+     "16": 0.29883787442506266,
+     "32": 0.2053149880793123,
+     "64": 0.11204216268334274
+    }
+   },
+   "P3": {
+    "holds": true,
+    "min_median_over_chance_below_bound": 1.5033122859567434,
+    "fraction_within_quarter_of_chance": {
+     "0": 0.0
+    }
+   },
+   "P4": {
+    "holds": true,
+    "span_median_over_chance": 0.10606806633971087,
+    "normal_median_over_chance": 1.9529124526082633
+   },
+   "P5": {
+    "holds": true,
+    "kernel_median_over_chance": 0.9626288657335442,
+    "kernel_recovered_fraction": 0.125
+   },
+   "verdict": "PASS"
+  },
+  "m3_r2_zero": {
+   "P1": {
+    "holds": true,
+    "g_median_over_chance": 0.01054801760026988,
+    "t_median_over_chance": 0.00604856327977384,
+    "t_convergence_32_over_8": 0.010174229048487244
+   },
+   "P2": {
+    "holds": true,
+    "median_g_by_offset": {
+     "4": 0.6527205318496279,
+     "8": 0.4590528688692008,
+     "16": 0.16615878762059832,
+     "32": 0.026013166292966024,
+     "64": 0.008373010067333382
+    }
+   },
+   "P3": {
+    "holds": true,
+    "min_median_over_chance_below_bound": 1.450721562277369,
+    "fraction_within_quarter_of_chance": {
+     "-1": 0.025,
+     "0": 0.0
+    }
+   },
+   "P4": {
+    "holds": true,
+    "span_median_over_chance": 0.007534960632198701,
+    "normal_median_over_chance": 1.7338660116838005
+   },
+   "P5": {
+    "holds": true,
+    "kernel_median_over_chance": 0.9424031435958862,
+    "kernel_recovered_fraction": 0.1
+   },
+   "verdict": "PASS"
+  },
+  "m3_r3_share": {
+   "P1": {
+    "holds": true,
+    "g_median_over_chance": 0.1832400219902205,
+    "t_median_over_chance": 0.09410762059828698,
+    "t_convergence_32_over_8": 0.1123388503726719
+   },
+   "P2": {
+    "holds": true,
+    "median_g_by_offset": {
+     "4": 0.7686477442865358,
+     "8": 0.5976399074579474,
+     "16": 0.32910818887027127,
+     "32": 0.153710765169526,
+     "64": 0.12545074148081473
+    }
+   },
+   "P3": {
+    "holds": true,
+    "min_median_over_chance_below_bound": 1.7720997670484209,
+    "fraction_within_quarter_of_chance": {
+     "0": 0.0
+    }
+   },
+   "P4": {
+    "holds": true,
+    "span_median_over_chance": 0.12908117581719689,
+    "normal_median_over_chance": 2.1232068969634157
+   },
+   "verdict": "PASS"
+  },
+  "m3_r3_zero": {
+   "P1": {
+    "holds": true,
+    "g_median_over_chance": 0.01599824663193528,
+    "t_median_over_chance": 0.014471098883214736,
+    "t_convergence_32_over_8": 0.01563497804111878
+   },
+   "P2": {
+    "holds": true,
+    "median_g_by_offset": {
+     "4": 0.8050540024562645,
+     "8": 0.7456735085863389,
+     "16": 0.23291344967588584,
+     "32": 0.05319400199589899,
+     "64": 0.011124241107500526
+    }
+   },
+   "P3": {
+    "holds": true,
+    "min_median_over_chance_below_bound": 1.5384462020663743,
+    "fraction_within_quarter_of_chance": {
+     "-1": 0.0,
+     "0": 0.0
+    }
+   },
+   "P4": {
+    "holds": true,
+    "span_median_over_chance": 0.007586577545591752,
+    "normal_median_over_chance": 2.6478684296696176
+   },
+   "verdict": "PASS"
+  },
+  "m4_r3_share": {
+   "P1": {
+    "holds": true,
+    "g_median_over_chance": 0.1774034038503869,
+    "t_median_over_chance": 0.12355695844768702,
+    "t_convergence_32_over_8": 0.14126315021408817
+   },
+   "P2": {
+    "holds": true,
+    "median_g_by_offset": {
+     "4": 0.8782225211351677,
+     "8": 0.6570303587656712,
+     "16": 0.42249854147099886,
+     "32": 0.22222846534393523,
+     "64": 0.1426654440193606
+    }
+   },
+   "P3": {
+    "holds": true,
+    "min_median_over_chance_below_bound": 1.419178538839539,
+    "fraction_within_quarter_of_chance": {
+     "-1": 0.0,
+     "0": 0.0
+    }
+   },
+   "P4": {
+    "holds": true,
+    "span_median_over_chance": 0.15353922639757872,
+    "normal_median_over_chance": 1.7294090490513512
+   },
+   "P5": {
+    "holds": true,
+    "kernel_median_over_chance": 0.8380442321485937,
+    "kernel_recovered_fraction": 0.0
+   },
+   "verdict": "PASS"
+  },
+  "m4_r3_zero": {
+   "P1": {
+    "holds": true,
+    "g_median_over_chance": 0.01606431986201266,
+    "t_median_over_chance": 0.012716027160646267,
+    "t_convergence_32_over_8": 0.013937376848546006
+   },
+   "P2": {
+    "holds": true,
+    "median_g_by_offset": {
+     "4": 0.8682146317835606,
+     "8": 0.7094351456364085,
+     "16": 0.32375618261623607,
+     "32": 0.058089012282691546,
+     "64": 0.013222549619839248
+    }
+   },
+   "P3": {
+    "holds": true,
+    "min_median_over_chance_below_bound": 1.244887899731374,
+    "fraction_within_quarter_of_chance": {
+     "-1": 0.0,
+     "0": 0.0
+    }
+   },
+   "P4": {
+    "holds": true,
+    "span_median_over_chance": 0.012282825400637501,
+    "normal_median_over_chance": 1.6274780307640486
+   },
+   "P5": {
+    "holds": true,
+    "kernel_median_over_chance": 0.7894863730885514,
+    "kernel_recovered_fraction": 0.075
+   },
+   "verdict": "PASS"
+  },
+  "m4_r4_share": {
+   "P1": {
+    "holds": true,
+    "g_median_over_chance": 0.1853812777321272,
+    "t_median_over_chance": 0.2152060985081766,
+    "t_convergence_32_over_8": 0.2307263523554079
+   },
+   "P2": {
+    "holds": true,
+    "median_g_by_offset": {
+     "4": 0.9204245783580566,
+     "8": 0.7597538528926036,
+     "16": 0.44300797054873997,
+     "32": 0.24691054967552026,
+     "64": 0.14020645998374986
+    }
+   },
+   "P3": {
+    "holds": true,
+    "min_median_over_chance_below_bound": 1.4778689970506662,
+    "fraction_within_quarter_of_chance": {
+     "-1": 0.0,
+     "0": 0.0
+    }
+   },
+   "P4": {
+    "holds": true,
+    "span_median_over_chance": 0.11082459240411731,
+    "normal_median_over_chance": 2.2188739804416198
+   },
+   "verdict": "PASS"
+  },
+  "m4_r4_zero": {
+   "P1": {
+    "holds": true,
+    "g_median_over_chance": 0.022113153730700094,
+    "t_median_over_chance": 0.032432934387200026,
+    "t_convergence_32_over_8": 0.04099920172796044
+   },
+   "P2": {
+    "holds": true,
+    "median_g_by_offset": {
+     "4": 0.8672617153016111,
+     "8": 0.6719851507039863,
+     "16": 0.40336875589047133,
+     "32": 0.08033401394069664,
+     "64": 0.01700583770553723
+    }
+   },
+   "P3": {
+    "holds": true,
+    "min_median_over_chance_below_bound": 1.5729551703434073,
+    "fraction_within_quarter_of_chance": {
+     "-1": 0.0,
+     "0": 0.0
+    }
+   },
+   "P4": {
+    "holds": true,
+    "span_median_over_chance": 0.01431446184733795,
+    "normal_median_over_chance": 1.978666384242048
+   },
+   "verdict": "PASS"
+  }
+ },
+ "gate": "PASS",
+ "cells_passing": 12
+}
