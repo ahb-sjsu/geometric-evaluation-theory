@@ -41,13 +41,19 @@ def make_pairs(cfg: dict, rng: np.random.Generator) -> list[dict]:
     d the distance to the target, the closer option on each side of the target with equal
     frequency, positions balanced later by showing each pair in both orders."""
     T = float(cfg["target"]); lo, hi = cfg["option_range"]
+    side = cfg.get("side", "both")   # "above", "below", or "both" (each option's side drawn at random)
     pairs = []
     for gap in cfg["gap_ladder"]:
         for i in range(int(cfg["n_pairs_per_gap"])):
             while True:
                 d_close = rng.uniform(float(cfg["min_distance"]), float(cfg["max_distance"]) - gap)
                 d_far = d_close + gap
-                s_close = rng.choice([-1.0, 1.0]); s_far = rng.choice([-1.0, 1.0])
+                if side == "above":
+                    s_close = s_far = 1.0
+                elif side == "below":
+                    s_close = s_far = -1.0
+                else:
+                    s_close = rng.choice([-1.0, 1.0]); s_far = rng.choice([-1.0, 1.0])
                 a = T + s_close * d_close; b = T + s_far * d_far
                 if lo <= a <= hi and lo <= b <= hi:
                     break
@@ -99,11 +105,14 @@ class LMJudge:
         self.model = AutoModelForCausalLM.from_pretrained(mid, **kw).eval()
         self.template = cfg["prompt_template"]
         self.letters = cfg["answer_letters"]
-        ids = [self.tok.encode(" " + L, add_special_tokens=False) for L in self.letters]
-        ids2 = [self.tok.encode(L, add_special_tokens=False) for L in self.letters]
-        # use whichever tokenization gives a single token for both letters
-        self.letter_ids = [i[0] for i in ids] if all(len(i) == 1 for i in ids) else [i[0] for i in ids2]
         self.chat = bool(cfg.get("use_chat_template", True)) and self.tok.chat_template is not None
+        # In a chat template the assistant turn opens after a newline and the model emits the
+        # bare letter; in a raw prompt it emits a space-prefixed letter. The probe of 2026-09-08
+        # found the space-prefixed logits 25 to 30 below the bare ones under the chat template.
+        prefix = "" if self.chat else " "
+        ids = [self.tok.encode(prefix + L, add_special_tokens=False) for L in self.letters]
+        assert all(len(i) == 1 for i in ids), ("answer letters must be single tokens", ids)
+        self.letter_ids = [i[0] for i in ids]
 
     def _prompt(self, target: str, first: str, second: str) -> str:
         user = self.template.format(target=target, first=first, second=second, A=self.letters[0], B=self.letters[1])
@@ -179,6 +188,19 @@ def run(cfg: dict, seed: int, out_path: str, probe: bool = False) -> dict:
     decimals_ladder = [int(cfg["decimals_ladder"][-1])] if probe else [int(d) for d in cfg["decimals_ladder"]]
     for wp in precisions:
         judge = LMJudge(cfg, wp)
+        if probe:
+            # record what the judge actually emits on a few pairs, so the letter reading is auditable
+            import torch
+            sample = []
+            for p in pairs[-3:]:
+                for first, second in ((p["close"], p["far"]), (p["far"], p["close"])):
+                    prompt = judge._prompt(render(float(cfg["target"]), 3), render(first, 3), render(second, 3))
+                    enc = judge.tok(prompt, return_tensors="pt").to(judge.model.device)
+                    with torch.no_grad():
+                        gen = judge.model.generate(**enc, max_new_tokens=4, do_sample=False)
+                    sample.append({"first": first, "second": second, "generated": judge.tok.decode(gen[0, enc.input_ids.shape[1]:])})
+            result["generation_sample"] = sample
+            print(json.dumps({"generation_sample": sample}))
         for dec in decimals_ladder:
             t0 = time.time()
             acc = accuracy_by_gap(pairs, judge.prefer_first_batch, dec, float(cfg["target"]), int(cfg.get("batch", 32)))

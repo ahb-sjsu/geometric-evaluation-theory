@@ -23,10 +23,18 @@ two answer letters' next-token logits. Every pair is shown in both orders and th
 preference for the closer option is the mean of the two readings, which cancels a position
 bias exactly to first order.
 
-Consequences. The target is 100. An option is a number in [50, 150]; its consequence is its
+Consequences. The target is 100. An option is a number in (100, 150]; its consequence is its
 distance from the target, between 1 and 40. A pair is two options whose distances differ by a
-gap on the ladder 0.005, 0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1, 2, 5, 10, with the closer option
-on either side of the target with equal probability. 200 pairs per gap, drawn by seed.
+gap on the ladder 0.005, 0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1, 2, 5, 10. 200 pairs per gap, drawn
+by seed. Both options lie above the target. The draft had them on either side with equal
+probability, and the first probe (2026-09-08, `probe_two_sided.json`) was vacuous: accuracy
+0.62 to 0.76 at every gap including 10, and a six-case diagnostic showed the judge choosing
+the larger number in every straddling pair rather than the closer one. A judge that cannot do
+the two-sided task has no threshold there to measure, so the world is the one-sided task,
+where closer means smaller and the judge's resolution is what is at issue. The same probe
+found the instrument reading space-prefixed answer tokens whose logits sat 25 to 30 below the
+bare letters the chat template elicits; corrected, and the probe now records the judge's
+greedy generations on sample pairs so the reading is auditable.
 
 Budgets. Rendering precision: numbers shown with 0, 1, 2, or 3 decimals (the target rendered
 at the same precision). At d decimals two options whose distances differ by less than the
