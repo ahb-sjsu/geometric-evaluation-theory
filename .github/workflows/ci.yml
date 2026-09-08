@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+jobs:
+  graders-and-selftests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install
+        run: python -m pip install --quiet numpy scipy
+      - name: Compile every experiment script
+        run: python -m compileall -q experiments
+      - name: G4 theory module self-test (linear consumers, Monte Carlo)
+        run: python experiments/G4/g4_shared_code.py --selftest
+      - name: G2 hull-law checker self-test
+        run: python experiments/G2/g2_hull_law.py --selftest
+      - name: Committed grades reproduce from committed results
+        run: |
+          set -e
+          cd experiments/G4 && python g4_grade.py results.json --out /tmp/g4.json > /dev/null && python - <<'EOF'
+          import json
+          a = json.load(open("grade.json")); b = json.load(open("/tmp/g4.json"))
+          assert a["gate"] == b["gate"], (a["gate"], b["gate"])
+          assert {k: v["verdict"] for k, v in a["ranks"].items()} == {k: v["verdict"] for k, v in b["ranks"].items()}
+          print("G4 grade reproduces:", a["gate"])
+          EOF
+          cd ../G4b && python g4b_grade.py results.json --out /tmp/g4b.json > /dev/null && python - <<'EOF'
+          import json
+          a = json.load(open("grade.json")); b = json.load(open("/tmp/g4b.json"))
+          assert a["gate"] == b["gate"], (a["gate"], b["gate"])
+          print("G4b grade reproduces:", a["gate"])
+          EOF
+      - name: Sealed registrations carry the hashes recorded in CAMPAIGN.md
+        run: |
+          set -e
+          for f in experiments/G2/PREREG-G2.md experiments/G4/PREREG-G4.md experiments/G4b/PREREG-G4B.md experiments/G5/PREREG-G5.md; do
+            h=$(git hash-object "$f")
+            grep -q "$h" CAMPAIGN.md || { echo "blob hash of $f ($h) not recorded in CAMPAIGN.md"; exit 1; }
+            echo "$f sealed as $h"
+          done
