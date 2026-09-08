@@ -12,7 +12,7 @@ smallest `eps` where it holds.
 
 | File | What |
 |---|---|
-| `PREREG-G4B-DRAFT.md` | the registration to seal |
+| `PREREG-G4B.md` | the sealed registration |
 | `prereg_config.json` | world, ladder, codes, bars, gate rule |
 | `g4b_llama.py` | the measurement (`--run`) and the self-test on a linear consumer through the real instrument (`--selftest`) |
 | `g4b_grade.py` | applies the sealed rule at every `eps` and picks the gate verdict |

@@ -1,6 +1,6 @@
-# PREREG G4b (DRAFT, NOT SEALED): incompatibility regret of a shared key code, second-order world
+# PREREG G4b: incompatibility regret of a shared key code, second-order world
 
-Status: draft. Nothing here is a registered claim until Section 9 is executed. G4b is the
+Status: SEALED 2026-09-08 by the rename to `PREREG-G4B.md`; blob hash recorded in `CAMPAIGN.md`. G4b is the
 follow-up that G4's record in `CAMPAIGN.md` called for: the same theorem, cells, consumers,
 workload and recovered operators, with the measurement redefined so that it is the object the
 theorem predicts. Nothing from G4's `results.json` was used to choose anything below; the
