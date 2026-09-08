@@ -10,7 +10,7 @@
   "n_kv_heads": 8,
   "n_q_heads": 24,
   "head_dim": 128,
-  "workload_file": "workload.txt",
+  "workload_file": "../G4/workload.txt",
   "workload_source": "Project Gutenberg, Pride and Prejudice (public domain), fetched by fetch_workload.py, SHA-256 recorded at sealing",
   "n_tokens": 1024,
   "n_query_positions": 64,
@@ -59,5 +59,6 @@
     "anti_vacuity_min_cells": 12,
     "gate_rule": "per-eps per-rank verdicts by the G4 rule; gate verdict at the smallest eps at which P1 holds at every rank; INDETERMINATE with the ratio diagnosis if none"
   },
-  "expected_calls": "16 cells x 64 points x 3 ranks x 21 codes x 4 eps x 2 = 1,548,288 group-consumer calls"
+  "expected_calls": "16 cells x 64 points x 3 ranks x 21 codes x 4 eps x 2 = 1,548,288 group-consumer calls",
+  "path_correction_2026-09-08": "workload_file pointed at the G4 directory by a bare name; corrected to ../G4/workload.txt after the first launch failed to open it before any measurement. Same file, same hash."
 }
