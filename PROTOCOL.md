@@ -9,3 +9,19 @@ The registration discipline of `ahb-sjsu/observation-theory-campaigns` and `ahb-
 5. Compute where it belongs. Nothing runs on the laptop. Lean builds and experiments run on Atlas or on NRP through the existing burst flow, under the standing cluster rules.
 6. Owner submits. The repository builds submission-ready files. The owner uploads, signs, and publishes.
 7. Prose. No em dashes, colons, or semicolons in sentences. No sentence that argues for the work's merit. Every caveat sits beside the result it bounds.
+
+## Discovery records (added 2026-09-08)
+
+Two ledger classes beside the evidence classes, defined for the program in
+`observation-theory-campaigns/encyclopedia/SCHEMA.md` and `standards/DPE-RECORDS.md` there:
+`[witness]`, a row whose content is a reduced counterexample, the smallest admissible
+transformation or the named cause that breaks a claim, and the component that absorbed it;
+and `[revised]`, a row recording a commitment changed in response to a named witness. A
+verdict of FAIL or INDETERMINATE is not complete until its witness row is written or the
+record says what stopped the reduction, and a registration that supersedes another because
+of a witness writes its `[revised]` row before it is sealed. The campaign's admissible
+transformations are declared in the program's transformation registry,
+`observation-theory-campaigns/claims/transformations/GET.toml`, whose tests the
+encyclopedia entry prints as the theory's invariance envelope. The first rows of each class
+are GET-9w and GET-9r.
+

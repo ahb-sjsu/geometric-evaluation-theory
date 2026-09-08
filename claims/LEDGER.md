@@ -19,5 +19,7 @@ One row per headline claim. Classes follow the observation-theory ledger: `[prov
 | GET-13 | Ethics-stack correspondence: deontic gate is K, invariance principle is factoring through the quotient | `[posited]` | paper Sec 7 | none | none |
 | GET-14 | Closed-form combinatorial characterization of representability | `[open]` | paper Sec 3.4 | none | none |
 | GET-15 | Loss aversion (asymmetric metric) and lexicographic priority as metric | not claimed | paper remark after Prop 2 | none | none |
+| GET-9w | Witness. At ranks 2 to 8 a shared code applied to all 1,024 keys at once gives a measured attention loss 20 to 330 times the second-order prediction; reduced to two causes, the registered prediction was a one-key operator while the measurement coded every key, and the codes sat far outside the quadratic regime (mean KL about 4 nats per query); absorbed by the measurement definition | `[witness]` | G4 record in `CAMPAIGN.md`, `experiments/G4/results.json` | G4 | none |
+| GET-9r | Revised. In response to GET-9w the shared-code test was re-registered as `experiments/G4b/PREREG-G4B.md` (blob d6d1c44f), measuring one key at each probed operating point perturbed by a small isotropic error in the discarded subspace, the object the formula predicts, along a perturbation ladder; what changed is the measurement, not the theorem, the operators, the cells, or the codes | `[revised]` | G4b record in `CAMPAIGN.md` | G4b | none |
 
 Theorem numbers refer to the paper at draft 0.2 and are renumbered here when the paper renumbers.

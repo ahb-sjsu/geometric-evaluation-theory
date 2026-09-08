@@ -58,3 +58,13 @@ GET, always spelled out at first use. GDT is a different object (Geometric Decis
 ## License
 
 MIT.
+
+## Discovery records
+
+The campaign runs the loop that *Discovery Philosophy Engineering* names, formalize, derive,
+search, probe, witness, revise. Its admissible transformations are declared in the program's
+transformation registry (`observation-theory-campaigns/claims/transformations/GET.toml`), the
+encyclopedia entry prints the theory's invariance envelope from it, and the ledger carries
+`[witness]` and `[revised]` rows (GET-9w, GET-9r) beside the evidence classes. See
+`PROTOCOL.md`.
+
