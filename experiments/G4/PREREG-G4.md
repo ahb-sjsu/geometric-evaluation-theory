@@ -1,6 +1,6 @@
-# PREREG G4 (DRAFT, NOT SEALED): incompatibility regret of a shared key code
+# PREREG G4: incompatibility regret of a shared key code
 
-Status: revised draft, to be sealed by Section 10. The theory module `g4_shared_code.py`
+Status: SEALED 2026-09-07 by the rename to `PREREG-G4.md`; blob hash recorded in `CAMPAIGN.md`. The theory module `g4_shared_code.py`
 passed its synthetic self-test on Atlas on 2026-09-07 (linear consumers: measured loss within
 0.7 percent of predicted distortion, own codes zero regret, compromise attains the bound, none
 of 64 random codes beats it, and, after the revision below, the same three statements in
