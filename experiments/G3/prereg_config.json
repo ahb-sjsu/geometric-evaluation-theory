@@ -1,7 +1,7 @@
 {
   "world": "A language-model scorer (Qwen2.5-7B-Instruct, local HuggingFace cache on Atlas, revision recorded at sealing) shown a target and one value and asked how far the value is from the target, answering with a number; the induced preference between two options compares their reported distances, equal reports are indifference. The consequence of an option is its true distance from the target, known exactly. Two resolution budgets: the rendering precision (decimals shown) and the scorer's weight precision (bf16, 8-bit, 4-bit via bitsandbytes). Earlier probes with a pairwise chooser are recorded under probe_* keys.",
   "model_id": "Qwen/Qwen2.5-7B-Instruct",
-  "revision": null,
+  "revision": "a09a35458c702b33eeacc393d103063234e8bc28",
   "use_chat_template": true,
   "prompt_template": "Target: {target}\nOption {A}: {first}\nOption {B}: {second}\nWhich option is closer to the target? Answer with the single letter {A} or {B}.",
   "answer_letters": [
@@ -67,5 +67,15 @@
     12
   ],
   "report_budget_prediction": "distances are two-digit, so a report of k tokens (one digit per token in this tokenizer) resolves 10 at k = 1, 1 at k = 2 and 3 (the third character is the decimal point), 0.1 at k = 4, 0.01 at k = 5, 0.001 at k = 6 and beyond",
-  "probe_2026-09-08_scorer_v1": "scorer at full weights, 3 decimals, 12-token reports, distances 1 to 40: reports exact to three decimals, accuracy 1.0 at every gap from 0.005 to 10, no ties, no unparsable reports; the floor is below the ladder, so the gap ladder was extended down to 0.0005 and up to 20, distances restricted to two digits, and the report-length ladder added, before any pilot"
+  "probe_2026-09-08_scorer_v1": "scorer at full weights, 3 decimals, 12-token reports, distances 1 to 40: reports exact to three decimals, accuracy 1.0 at every gap from 0.005 to 10, no ties, no unparsable reports; the floor is below the ladder, so the gap ladder was extended down to 0.0005 and up to 20, distances restricted to two digits, and the report-length ladder added, before any pilot",
+  "tol": 1.5,
+  "pilot_2026-09-09": "pilot.json, seed 20260911, 18 cells; thresholds 0.869, 0.0864, 0.00882, 0.00088 over 0 to 3 decimals at bf16, identical at int8, and 0.869, 0.0864, 0.00882, 0.00091 at int4; report ladder 8.98, 0.872, 0.877, 0.0875, 0.00873, 0.00088 at k = 1 to 6; largest ratio to prediction 1.15, so TOL = 1.5 (the registered minimum). The pilot was paused by the host's thermal guardian for 68 minutes and resumed with the owner's consent; no cell was affected.",
+  "versions_on_atlas_2026-09-09": {
+    "python_env": "/archive/kvbench/venv",
+    "torch": "2.8.0+cu128",
+    "transformers": "4.56.1",
+    "bitsandbytes": "0.50.2",
+    "accelerate": "1.14.0",
+    "gpu": "Quadro GV100, compute capability 7.0"
+  }
 }

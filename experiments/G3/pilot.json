@@ -1,0 +1,2167 @@
+{
+ "config": {
+  "world": "A language-model scorer (Qwen2.5-7B-Instruct, local HuggingFace cache on Atlas, revision recorded at sealing) shown a target and one value and asked how far the value is from the target, answering with a number; the induced preference between two options compares their reported distances, equal reports are indifference. The consequence of an option is its true distance from the target, known exactly. Two resolution budgets: the rendering precision (decimals shown) and the scorer's weight precision (bf16, 8-bit, 4-bit via bitsandbytes). Earlier probes with a pairwise chooser are recorded under probe_* keys.",
+  "model_id": "Qwen/Qwen2.5-7B-Instruct",
+  "revision": null,
+  "use_chat_template": true,
+  "prompt_template": "Target: {target}\nOption {A}: {first}\nOption {B}: {second}\nWhich option is closer to the target? Answer with the single letter {A} or {B}.",
+  "answer_letters": [
+   "A",
+   "B"
+  ],
+  "target": 100.0,
+  "option_range": [
+   50.0,
+   150.0
+  ],
+  "min_distance": 10.0,
+  "max_distance": 40.0,
+  "gap_ladder": [
+   0.0005,
+   0.001,
+   0.002,
+   0.005,
+   0.01,
+   0.02,
+   0.05,
+   0.1,
+   0.2,
+   0.5,
+   1.0,
+   2.0,
+   5.0,
+   10.0,
+   20.0
+  ],
+  "n_pairs_per_gap": 200,
+  "decimals_ladder": [
+   0,
+   1,
+   2,
+   3
+  ],
+  "weight_precisions": [
+   "full",
+   "int8",
+   "int4"
+  ],
+  "accuracy_level": 0.9,
+  "batch": 32,
+  "seed_probe": 20260910,
+  "seed_pilot": 20260911,
+  "seed_run": 20260912,
+  "bars": "PREREG-G3.md Section 5; tolerances fixed from the pilot before sealing and applied to the run seed only",
+  "estimator": "threshold = the gap at which the pair-averaged preference for the closer option exceeds one half for at least accuracy_level of pairs, interpolated linearly in log gap between ladder points; infinity if never reached",
+  "side": "both",
+  "probe_2026-09-08_two_sided": "VACUOUS: accuracy 0.62 to 0.76 at every gap including 10, threshold infinite; the judge picked the larger number in every straddling pair of a six-case diagnostic, and the instrument read space-prefixed letter tokens whose logits sat 25 to 30 below the bare letters the chat template elicits. Both corrected before any pilot.",
+  "judge_kind": "scorer",
+  "scorer_prompt_template": "Target: {target}\nValue: {value}\nHow far is the value from the target? Answer with a single number and nothing else.",
+  "max_new_tokens": 12,
+  "probe_2026-09-08_one_sided_chooser": "NOT VACUOUS but floor 7.5: one-sided pairs, bare-letter reading; accuracy 0.99 at gap 10, 0.77 at 5, 0.43 to 0.63 from 0.01 to 2, threshold 7.5, above the 0.3 the anti-vacuity rule allows, because the chooser's first-position preference leaves the two-order average at one half until the gap is large. A pairwise chooser is the wrong instrument for a threshold; replaced by the scorer before any pilot.",
+  "report_token_budgets": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   12
+  ],
+  "report_budget_prediction": "distances are two-digit, so a report of k tokens (one digit per token in this tokenizer) resolves 10 at k = 1, 1 at k = 2 and 3 (the third character is the decimal point), 0.1 at k = 4, 0.01 at k = 5, 0.001 at k = 6 and beyond",
+  "probe_2026-09-08_scorer_v1": "scorer at full weights, 3 decimals, 12-token reports, distances 1 to 40: reports exact to three decimals, accuracy 1.0 at every gap from 0.005 to 10, no ties, no unparsable reports; the floor is below the ladder, so the gap ladder was extended down to 0.0005 and up to 20, distances restricted to two digits, and the report-length ladder added, before any pilot"
+ },
+ "seed": 20260911,
+ "probe": false,
+ "cells": [
+  {
+   "weight_precision": "full",
+   "decimals": 0,
+   "rendering_step": 1.0,
+   "report_tokens": 12,
+   "accuracy_by_gap": {
+    "0.0005": {
+     "n": 200,
+     "accuracy": 0.0,
+     "ties_or_unparsed": 1.0,
+     "mean_preference": 0.5,
+     "identical_rendering": 0.6
+    },
+    "0.001": {
+     "n": 200,
+     "accuracy": 0.0,
+     "ties_or_unparsed": 1.0,
+     "mean_preference": 0.5,
+     "identical_rendering": 0.525
+    },
+    "0.002": {
+     "n": 200,
+     "accuracy": 0.005,
+     "ties_or_unparsed": 0.995,
+     "mean_preference": 0.5025,
+     "identical_rendering": 0.485
+    },
+    "0.005": {
+     "n": 200,
+     "accuracy": 0.005,
+     "ties_or_unparsed": 0.995,
+     "mean_preference": 0.5025,
+     "identical_rendering": 0.425
+    },
+    "0.01": {
+     "n": 200,
+     "accuracy": 0.01,
+     "ties_or_unparsed": 0.99,
+     "mean_preference": 0.505,
+     "identical_rendering": 0.51
+    },
+    "0.02": {
+     "n": 200,
+     "accuracy": 0.0,
+     "ties_or_unparsed": 1.0,
+     "mean_preference": 0.5,
+     "identical_rendering": 0.435
+    },
+    "0.05": {
+     "n": 200,
+     "accuracy": 0.05,
+     "ties_or_unparsed": 0.95,
+     "mean_preference": 0.525,
+     "identical_rendering": 0.435
+    },
+    "0.1": {
+     "n": 200,
+     "accuracy": 0.1,
+     "ties_or_unparsed": 0.9,
+     "mean_preference": 0.55,
+     "identical_rendering": 0.445
+    },
+    "0.2": {
+     "n": 200,
+     "accuracy": 0.22,
+     "ties_or_unparsed": 0.78,
+     "mean_preference": 0.61,
+     "identical_rendering": 0.44
+    },
+    "0.5": {
+     "n": 200,
+     "accuracy": 0.505,
+     "ties_or_unparsed": 0.495,
+     "mean_preference": 0.7525,
+     "identical_rendering": 0.3
+    },
+    "1.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "2.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "5.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "10.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "20.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    }
+   },
+   "threshold": 0.869332386766551,
+   "unparsed_reports": 0,
+   "seconds": 7.28611946105957
+  },
+  {
+   "weight_precision": "full",
+   "decimals": 1,
+   "rendering_step": 0.1,
+   "report_tokens": 12,
+   "accuracy_by_gap": {
+    "0.0005": {
+     "n": 200,
+     "accuracy": 0.0,
+     "ties_or_unparsed": 1.0,
+     "mean_preference": 0.5,
+     "identical_rendering": 0.6
+    },
+    "0.001": {
+     "n": 200,
+     "accuracy": 0.005,
+     "ties_or_unparsed": 0.995,
+     "mean_preference": 0.5025,
+     "identical_rendering": 0.52
+    },
+    "0.002": {
+     "n": 200,
+     "accuracy": 0.02,
+     "ties_or_unparsed": 0.98,
+     "mean_preference": 0.51,
+     "identical_rendering": 0.48
+    },
+    "0.005": {
+     "n": 200,
+     "accuracy": 0.055,
+     "ties_or_unparsed": 0.945,
+     "mean_preference": 0.5275,
+     "identical_rendering": 0.425
+    },
+    "0.01": {
+     "n": 200,
+     "accuracy": 0.145,
+     "ties_or_unparsed": 0.855,
+     "mean_preference": 0.5725,
+     "identical_rendering": 0.435
+    },
+    "0.02": {
+     "n": 200,
+     "accuracy": 0.195,
+     "ties_or_unparsed": 0.805,
+     "mean_preference": 0.5975,
+     "identical_rendering": 0.34
+    },
+    "0.05": {
+     "n": 200,
+     "accuracy": 0.525,
+     "ties_or_unparsed": 0.475,
+     "mean_preference": 0.7625,
+     "identical_rendering": 0.22
+    },
+    "0.1": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "0.2": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "0.5": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "1.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "2.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "5.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "10.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "20.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    }
+   },
+   "threshold": 0.08642218932816059,
+   "unparsed_reports": 0,
+   "seconds": 92.83603549003601
+  },
+  {
+   "weight_precision": "full",
+   "decimals": 2,
+   "rendering_step": 0.01,
+   "report_tokens": 12,
+   "accuracy_by_gap": {
+    "0.0005": {
+     "n": 200,
+     "accuracy": 0.05,
+     "ties_or_unparsed": 0.95,
+     "mean_preference": 0.525,
+     "identical_rendering": 0.565
+    },
+    "0.001": {
+     "n": 200,
+     "accuracy": 0.08,
+     "ties_or_unparsed": 0.92,
+     "mean_preference": 0.54,
+     "identical_rendering": 0.48
+    },
+    "0.002": {
+     "n": 200,
+     "accuracy": 0.24,
+     "ties_or_unparsed": 0.76,
+     "mean_preference": 0.62,
+     "identical_rendering": 0.385
+    },
+    "0.005": {
+     "n": 200,
+     "accuracy": 0.45,
+     "ties_or_unparsed": 0.55,
+     "mean_preference": 0.725,
+     "identical_rendering": 0.23
+    },
+    "0.01": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "0.02": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "0.05": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "0.1": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "0.2": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "0.5": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "1.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "2.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "5.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "10.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "20.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    }
+   },
+   "threshold": 0.008815912549960213,
+   "unparsed_reports": 0,
+   "seconds": 591.4146144390106
+  },
+  {
+   "weight_precision": "full",
+   "decimals": 3,
+   "rendering_step": 0.001,
+   "report_tokens": 12,
+   "accuracy_by_gap": {
+    "0.0005": {
+     "n": 200,
+     "accuracy": 0.455,
+     "ties_or_unparsed": 0.545,
+     "mean_preference": 0.7275,
+     "identical_rendering": 0.35
+    },
+    "0.001": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "0.002": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "0.005": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "0.01": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "0.02": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "0.05": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "0.1": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "0.2": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "0.5": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "1.0": {
+     "n": 200,
+     "accuracy": 0.995,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 0.995,
+     "identical_rendering": 0.0
+    },
+    "2.0": {
+     "n": 200,
+     "accuracy": 0.995,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 0.995,
+     "identical_rendering": 0.0
+    },
+    "5.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "10.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "20.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    }
+   },
+   "threshold": 0.0008805725404585455,
+   "unparsed_reports": 0,
+   "seconds": 1481.0338726043701
+  },
+  {
+   "weight_precision": "full",
+   "decimals": 3,
+   "rendering_step": 0.001,
+   "report_tokens": 1,
+   "accuracy_by_gap": {
+    "0.0005": {
+     "n": 200,
+     "accuracy": 0.0,
+     "ties_or_unparsed": 1.0,
+     "mean_preference": 0.5,
+     "identical_rendering": 0.35
+    },
+    "0.001": {
+     "n": 200,
+     "accuracy": 0.0,
+     "ties_or_unparsed": 1.0,
+     "mean_preference": 0.5,
+     "identical_rendering": 0.0
+    },
+    "0.002": {
+     "n": 200,
+     "accuracy": 0.0,
+     "ties_or_unparsed": 1.0,
+     "mean_preference": 0.5,
+     "identical_rendering": 0.0
+    },
+    "0.005": {
+     "n": 200,
+     "accuracy": 0.0,
+     "ties_or_unparsed": 1.0,
+     "mean_preference": 0.5,
+     "identical_rendering": 0.0
+    },
+    "0.01": {
+     "n": 200,
+     "accuracy": 0.0,
+     "ties_or_unparsed": 1.0,
+     "mean_preference": 0.5,
+     "identical_rendering": 0.0
+    },
+    "0.02": {
+     "n": 200,
+     "accuracy": 0.005,
+     "ties_or_unparsed": 0.995,
+     "mean_preference": 0.5025,
+     "identical_rendering": 0.0
+    },
+    "0.05": {
+     "n": 200,
+     "accuracy": 0.0,
+     "ties_or_unparsed": 1.0,
+     "mean_preference": 0.5,
+     "identical_rendering": 0.0
+    },
+    "0.1": {
+     "n": 200,
+     "accuracy": 0.005,
+     "ties_or_unparsed": 0.995,
+     "mean_preference": 0.5025,
+     "identical_rendering": 0.0
+    },
+    "0.2": {
+     "n": 200,
+     "accuracy": 0.015,
+     "ties_or_unparsed": 0.985,
+     "mean_preference": 0.5075,
+     "identical_rendering": 0.0
+    },
+    "0.5": {
+     "n": 200,
+     "accuracy": 0.045,
+     "ties_or_unparsed": 0.955,
+     "mean_preference": 0.5225,
+     "identical_rendering": 0.0
+    },
+    "1.0": {
+     "n": 200,
+     "accuracy": 0.065,
+     "ties_or_unparsed": 0.935,
+     "mean_preference": 0.5325,
+     "identical_rendering": 0.0
+    },
+    "2.0": {
+     "n": 200,
+     "accuracy": 0.17,
+     "ties_or_unparsed": 0.83,
+     "mean_preference": 0.585,
+     "identical_rendering": 0.0
+    },
+    "5.0": {
+     "n": 200,
+     "accuracy": 0.355,
+     "ties_or_unparsed": 0.645,
+     "mean_preference": 0.6775,
+     "identical_rendering": 0.0
+    },
+    "10.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "20.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    }
+   },
+   "threshold": 8.981082438312406,
+   "unparsed_reports": 0,
+   "seconds": 1386.8941369056702
+  },
+  {
+   "weight_precision": "full",
+   "decimals": 3,
+   "rendering_step": 0.001,
+   "report_tokens": 2,
+   "accuracy_by_gap": {
+    "0.0005": {
+     "n": 200,
+     "accuracy": 0.0,
+     "ties_or_unparsed": 1.0,
+     "mean_preference": 0.5,
+     "identical_rendering": 0.35
+    },
+    "0.001": {
+     "n": 200,
+     "accuracy": 0.005,
+     "ties_or_unparsed": 0.995,
+     "mean_preference": 0.5025,
+     "identical_rendering": 0.0
+    },
+    "0.002": {
+     "n": 200,
+     "accuracy": 0.0,
+     "ties_or_unparsed": 1.0,
+     "mean_preference": 0.5,
+     "identical_rendering": 0.0
+    },
+    "0.005": {
+     "n": 200,
+     "accuracy": 0.005,
+     "ties_or_unparsed": 0.995,
+     "mean_preference": 0.5025,
+     "identical_rendering": 0.0
+    },
+    "0.01": {
+     "n": 200,
+     "accuracy": 0.025,
+     "ties_or_unparsed": 0.975,
+     "mean_preference": 0.5125,
+     "identical_rendering": 0.0
+    },
+    "0.02": {
+     "n": 200,
+     "accuracy": 0.03,
+     "ties_or_unparsed": 0.97,
+     "mean_preference": 0.515,
+     "identical_rendering": 0.0
+    },
+    "0.05": {
+     "n": 200,
+     "accuracy": 0.055,
+     "ties_or_unparsed": 0.945,
+     "mean_preference": 0.5275,
+     "identical_rendering": 0.0
+    },
+    "0.1": {
+     "n": 200,
+     "accuracy": 0.115,
+     "ties_or_unparsed": 0.885,
+     "mean_preference": 0.5575,
+     "identical_rendering": 0.0
+    },
+    "0.2": {
+     "n": 200,
+     "accuracy": 0.215,
+     "ties_or_unparsed": 0.785,
+     "mean_preference": 0.6075,
+     "identical_rendering": 0.0
+    },
+    "0.5": {
+     "n": 200,
+     "accuracy": 0.495,
+     "ties_or_unparsed": 0.505,
+     "mean_preference": 0.7475,
+     "identical_rendering": 0.0
+    },
+    "1.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "2.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "5.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "10.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "20.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    }
+   },
+   "threshold": 0.8717462741386669,
+   "unparsed_reports": 0,
+   "seconds": 2504.375610589981
+  },
+  {
+   "weight_precision": "full",
+   "decimals": 3,
+   "rendering_step": 0.001,
+   "report_tokens": 3,
+   "accuracy_by_gap": {
+    "0.0005": {
+     "n": 200,
+     "accuracy": 0.0,
+     "ties_or_unparsed": 1.0,
+     "mean_preference": 0.5,
+     "identical_rendering": 0.35
+    },
+    "0.001": {
+     "n": 200,
+     "accuracy": 0.005,
+     "ties_or_unparsed": 0.995,
+     "mean_preference": 0.5025,
+     "identical_rendering": 0.0
+    },
+    "0.002": {
+     "n": 200,
+     "accuracy": 0.015,
+     "ties_or_unparsed": 0.985,
+     "mean_preference": 0.5075,
+     "identical_rendering": 0.0
+    },
+    "0.005": {
+     "n": 200,
+     "accuracy": 0.01,
+     "ties_or_unparsed": 0.99,
+     "mean_preference": 0.505,
+     "identical_rendering": 0.0
+    },
+    "0.01": {
+     "n": 200,
+     "accuracy": 0.03,
+     "ties_or_unparsed": 0.97,
+     "mean_preference": 0.515,
+     "identical_rendering": 0.0
+    },
+    "0.02": {
+     "n": 200,
+     "accuracy": 0.03,
+     "ties_or_unparsed": 0.97,
+     "mean_preference": 0.515,
+     "identical_rendering": 0.0
+    },
+    "0.05": {
+     "n": 200,
+     "accuracy": 0.055,
+     "ties_or_unparsed": 0.945,
+     "mean_preference": 0.5275,
+     "identical_rendering": 0.0
+    },
+    "0.1": {
+     "n": 200,
+     "accuracy": 0.115,
+     "ties_or_unparsed": 0.885,
+     "mean_preference": 0.5575,
+     "identical_rendering": 0.0
+    },
+    "0.2": {
+     "n": 200,
+     "accuracy": 0.215,
+     "ties_or_unparsed": 0.785,
+     "mean_preference": 0.6075,
+     "identical_rendering": 0.0
+    },
+    "0.5": {
+     "n": 200,
+     "accuracy": 0.495,
+     "ties_or_unparsed": 0.505,
+     "mean_preference": 0.7475,
+     "identical_rendering": 0.0
+    },
+    "1.0": {
+     "n": 200,
+     "accuracy": 0.995,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 0.995,
+     "identical_rendering": 0.0
+    },
+    "2.0": {
+     "n": 200,
+     "accuracy": 0.995,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 0.995,
+     "identical_rendering": 0.0
+    },
+    "5.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "10.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "20.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    }
+   },
+   "threshold": 0.8766057213160351,
+   "unparsed_reports": 0,
+   "seconds": 805.9047594070435
+  },
+  {
+   "weight_precision": "full",
+   "decimals": 3,
+   "rendering_step": 0.001,
+   "report_tokens": 4,
+   "accuracy_by_gap": {
+    "0.0005": {
+     "n": 200,
+     "accuracy": 0.005,
+     "ties_or_unparsed": 0.995,
+     "mean_preference": 0.5025,
+     "identical_rendering": 0.35
+    },
+    "0.001": {
+     "n": 200,
+     "accuracy": 0.015,
+     "ties_or_unparsed": 0.985,
+     "mean_preference": 0.5075,
+     "identical_rendering": 0.0
+    },
+    "0.002": {
+     "n": 200,
+     "accuracy": 0.045,
+     "ties_or_unparsed": 0.955,
+     "mean_preference": 0.5225,
+     "identical_rendering": 0.0
+    },
+    "0.005": {
+     "n": 200,
+     "accuracy": 0.035,
+     "ties_or_unparsed": 0.965,
+     "mean_preference": 0.5175,
+     "identical_rendering": 0.0
+    },
+    "0.01": {
+     "n": 200,
+     "accuracy": 0.125,
+     "ties_or_unparsed": 0.875,
+     "mean_preference": 0.5625,
+     "identical_rendering": 0.0
+    },
+    "0.02": {
+     "n": 200,
+     "accuracy": 0.15,
+     "ties_or_unparsed": 0.85,
+     "mean_preference": 0.575,
+     "identical_rendering": 0.0
+    },
+    "0.05": {
+     "n": 200,
+     "accuracy": 0.48,
+     "ties_or_unparsed": 0.52,
+     "mean_preference": 0.74,
+     "identical_rendering": 0.0
+    },
+    "0.1": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "0.2": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "0.5": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "1.0": {
+     "n": 200,
+     "accuracy": 0.995,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 0.995,
+     "identical_rendering": 0.0
+    },
+    "2.0": {
+     "n": 200,
+     "accuracy": 0.995,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 0.995,
+     "identical_rendering": 0.0
+    },
+    "5.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "10.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "20.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    }
+   },
+   "threshold": 0.08752046495923037,
+   "unparsed_reports": 0,
+   "seconds": 868.5323436260223
+  },
+  {
+   "weight_precision": "full",
+   "decimals": 3,
+   "rendering_step": 0.001,
+   "report_tokens": 5,
+   "accuracy_by_gap": {
+    "0.0005": {
+     "n": 200,
+     "accuracy": 0.05,
+     "ties_or_unparsed": 0.95,
+     "mean_preference": 0.525,
+     "identical_rendering": 0.35
+    },
+    "0.001": {
+     "n": 200,
+     "accuracy": 0.095,
+     "ties_or_unparsed": 0.905,
+     "mean_preference": 0.5475,
+     "identical_rendering": 0.0
+    },
+    "0.002": {
+     "n": 200,
+     "accuracy": 0.18,
+     "ties_or_unparsed": 0.82,
+     "mean_preference": 0.59,
+     "identical_rendering": 0.0
+    },
+    "0.005": {
+     "n": 200,
+     "accuracy": 0.49,
+     "ties_or_unparsed": 0.51,
+     "mean_preference": 0.745,
+     "identical_rendering": 0.0
+    },
+    "0.01": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "0.02": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "0.05": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "0.1": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "0.2": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "0.5": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "1.0": {
+     "n": 200,
+     "accuracy": 0.995,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 0.995,
+     "identical_rendering": 0.0
+    },
+    "2.0": {
+     "n": 200,
+     "accuracy": 0.995,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 0.995,
+     "identical_rendering": 0.0
+    },
+    "5.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "10.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "20.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    }
+   },
+   "threshold": 0.008729201339904711,
+   "unparsed_reports": 0,
+   "seconds": 3852.668330669403
+  },
+  {
+   "weight_precision": "full",
+   "decimals": 3,
+   "rendering_step": 0.001,
+   "report_tokens": 6,
+   "accuracy_by_gap": {
+    "0.0005": {
+     "n": 200,
+     "accuracy": 0.455,
+     "ties_or_unparsed": 0.545,
+     "mean_preference": 0.7275,
+     "identical_rendering": 0.35
+    },
+    "0.001": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "0.002": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "0.005": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "0.01": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "0.02": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "0.05": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "0.1": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "0.2": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "0.5": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "1.0": {
+     "n": 200,
+     "accuracy": 0.995,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 0.995,
+     "identical_rendering": 0.0
+    },
+    "2.0": {
+     "n": 200,
+     "accuracy": 0.995,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 0.995,
+     "identical_rendering": 0.0
+    },
+    "5.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "10.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "20.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    }
+   },
+   "threshold": 0.0008805725404585455,
+   "unparsed_reports": 0,
+   "seconds": 6931.33110666275
+  },
+  {
+   "weight_precision": "int8",
+   "decimals": 0,
+   "rendering_step": 1.0,
+   "report_tokens": 12,
+   "accuracy_by_gap": {
+    "0.0005": {
+     "n": 200,
+     "accuracy": 0.0,
+     "ties_or_unparsed": 1.0,
+     "mean_preference": 0.5,
+     "identical_rendering": 0.6
+    },
+    "0.001": {
+     "n": 200,
+     "accuracy": 0.0,
+     "ties_or_unparsed": 1.0,
+     "mean_preference": 0.5,
+     "identical_rendering": 0.525
+    },
+    "0.002": {
+     "n": 200,
+     "accuracy": 0.005,
+     "ties_or_unparsed": 0.995,
+     "mean_preference": 0.5025,
+     "identical_rendering": 0.485
+    },
+    "0.005": {
+     "n": 200,
+     "accuracy": 0.005,
+     "ties_or_unparsed": 0.995,
+     "mean_preference": 0.5025,
+     "identical_rendering": 0.425
+    },
+    "0.01": {
+     "n": 200,
+     "accuracy": 0.01,
+     "ties_or_unparsed": 0.99,
+     "mean_preference": 0.505,
+     "identical_rendering": 0.51
+    },
+    "0.02": {
+     "n": 200,
+     "accuracy": 0.0,
+     "ties_or_unparsed": 1.0,
+     "mean_preference": 0.5,
+     "identical_rendering": 0.435
+    },
+    "0.05": {
+     "n": 200,
+     "accuracy": 0.05,
+     "ties_or_unparsed": 0.95,
+     "mean_preference": 0.525,
+     "identical_rendering": 0.435
+    },
+    "0.1": {
+     "n": 200,
+     "accuracy": 0.1,
+     "ties_or_unparsed": 0.9,
+     "mean_preference": 0.55,
+     "identical_rendering": 0.445
+    },
+    "0.2": {
+     "n": 200,
+     "accuracy": 0.22,
+     "ties_or_unparsed": 0.78,
+     "mean_preference": 0.61,
+     "identical_rendering": 0.44
+    },
+    "0.5": {
+     "n": 200,
+     "accuracy": 0.505,
+     "ties_or_unparsed": 0.495,
+     "mean_preference": 0.7525,
+     "identical_rendering": 0.3
+    },
+    "1.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "2.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "5.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "10.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "20.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    }
+   },
+   "threshold": 0.869332386766551,
+   "unparsed_reports": 0,
+   "seconds": 3.6025242805480957
+  },
+  {
+   "weight_precision": "int8",
+   "decimals": 1,
+   "rendering_step": 0.1,
+   "report_tokens": 12,
+   "accuracy_by_gap": {
+    "0.0005": {
+     "n": 200,
+     "accuracy": 0.0,
+     "ties_or_unparsed": 1.0,
+     "mean_preference": 0.5,
+     "identical_rendering": 0.6
+    },
+    "0.001": {
+     "n": 200,
+     "accuracy": 0.005,
+     "ties_or_unparsed": 0.995,
+     "mean_preference": 0.5025,
+     "identical_rendering": 0.52
+    },
+    "0.002": {
+     "n": 200,
+     "accuracy": 0.02,
+     "ties_or_unparsed": 0.98,
+     "mean_preference": 0.51,
+     "identical_rendering": 0.48
+    },
+    "0.005": {
+     "n": 200,
+     "accuracy": 0.055,
+     "ties_or_unparsed": 0.945,
+     "mean_preference": 0.5275,
+     "identical_rendering": 0.425
+    },
+    "0.01": {
+     "n": 200,
+     "accuracy": 0.145,
+     "ties_or_unparsed": 0.855,
+     "mean_preference": 0.5725,
+     "identical_rendering": 0.435
+    },
+    "0.02": {
+     "n": 200,
+     "accuracy": 0.195,
+     "ties_or_unparsed": 0.805,
+     "mean_preference": 0.5975,
+     "identical_rendering": 0.34
+    },
+    "0.05": {
+     "n": 200,
+     "accuracy": 0.525,
+     "ties_or_unparsed": 0.475,
+     "mean_preference": 0.7625,
+     "identical_rendering": 0.22
+    },
+    "0.1": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "0.2": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "0.5": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "1.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "2.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "5.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "10.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "20.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    }
+   },
+   "threshold": 0.08642218932816059,
+   "unparsed_reports": 0,
+   "seconds": 45.64993119239807
+  },
+  {
+   "weight_precision": "int8",
+   "decimals": 2,
+   "rendering_step": 0.01,
+   "report_tokens": 12,
+   "accuracy_by_gap": {
+    "0.0005": {
+     "n": 200,
+     "accuracy": 0.05,
+     "ties_or_unparsed": 0.95,
+     "mean_preference": 0.525,
+     "identical_rendering": 0.565
+    },
+    "0.001": {
+     "n": 200,
+     "accuracy": 0.08,
+     "ties_or_unparsed": 0.92,
+     "mean_preference": 0.54,
+     "identical_rendering": 0.48
+    },
+    "0.002": {
+     "n": 200,
+     "accuracy": 0.24,
+     "ties_or_unparsed": 0.76,
+     "mean_preference": 0.62,
+     "identical_rendering": 0.385
+    },
+    "0.005": {
+     "n": 200,
+     "accuracy": 0.45,
+     "ties_or_unparsed": 0.55,
+     "mean_preference": 0.725,
+     "identical_rendering": 0.23
+    },
+    "0.01": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "0.02": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "0.05": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "0.1": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "0.2": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "0.5": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "1.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "2.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "5.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "10.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "20.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    }
+   },
+   "threshold": 0.008815912549960213,
+   "unparsed_reports": 0,
+   "seconds": 238.35576844215393
+  },
+  {
+   "weight_precision": "int8",
+   "decimals": 3,
+   "rendering_step": 0.001,
+   "report_tokens": 12,
+   "accuracy_by_gap": {
+    "0.0005": {
+     "n": 200,
+     "accuracy": 0.455,
+     "ties_or_unparsed": 0.545,
+     "mean_preference": 0.7275,
+     "identical_rendering": 0.35
+    },
+    "0.001": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "0.002": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "0.005": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "0.01": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "0.02": {
+     "n": 200,
+     "accuracy": 0.995,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 0.995,
+     "identical_rendering": 0.0
+    },
+    "0.05": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "0.1": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "0.2": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "0.5": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "1.0": {
+     "n": 200,
+     "accuracy": 0.99,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 0.99,
+     "identical_rendering": 0.0
+    },
+    "2.0": {
+     "n": 200,
+     "accuracy": 0.995,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 0.995,
+     "identical_rendering": 0.0
+    },
+    "5.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "10.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "20.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    }
+   },
+   "threshold": 0.0008805725404585455,
+   "unparsed_reports": 0,
+   "seconds": 415.0770297050476
+  },
+  {
+   "weight_precision": "int4",
+   "decimals": 0,
+   "rendering_step": 1.0,
+   "report_tokens": 12,
+   "accuracy_by_gap": {
+    "0.0005": {
+     "n": 200,
+     "accuracy": 0.0,
+     "ties_or_unparsed": 1.0,
+     "mean_preference": 0.5,
+     "identical_rendering": 0.6
+    },
+    "0.001": {
+     "n": 200,
+     "accuracy": 0.0,
+     "ties_or_unparsed": 1.0,
+     "mean_preference": 0.5,
+     "identical_rendering": 0.525
+    },
+    "0.002": {
+     "n": 200,
+     "accuracy": 0.005,
+     "ties_or_unparsed": 0.995,
+     "mean_preference": 0.5025,
+     "identical_rendering": 0.485
+    },
+    "0.005": {
+     "n": 200,
+     "accuracy": 0.005,
+     "ties_or_unparsed": 0.995,
+     "mean_preference": 0.5025,
+     "identical_rendering": 0.425
+    },
+    "0.01": {
+     "n": 200,
+     "accuracy": 0.01,
+     "ties_or_unparsed": 0.99,
+     "mean_preference": 0.505,
+     "identical_rendering": 0.51
+    },
+    "0.02": {
+     "n": 200,
+     "accuracy": 0.0,
+     "ties_or_unparsed": 1.0,
+     "mean_preference": 0.5,
+     "identical_rendering": 0.435
+    },
+    "0.05": {
+     "n": 200,
+     "accuracy": 0.05,
+     "ties_or_unparsed": 0.95,
+     "mean_preference": 0.525,
+     "identical_rendering": 0.435
+    },
+    "0.1": {
+     "n": 200,
+     "accuracy": 0.1,
+     "ties_or_unparsed": 0.9,
+     "mean_preference": 0.55,
+     "identical_rendering": 0.445
+    },
+    "0.2": {
+     "n": 200,
+     "accuracy": 0.22,
+     "ties_or_unparsed": 0.78,
+     "mean_preference": 0.61,
+     "identical_rendering": 0.44
+    },
+    "0.5": {
+     "n": 200,
+     "accuracy": 0.505,
+     "ties_or_unparsed": 0.495,
+     "mean_preference": 0.7525,
+     "identical_rendering": 0.3
+    },
+    "1.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "2.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "5.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "10.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "20.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    }
+   },
+   "threshold": 0.869332386766551,
+   "unparsed_reports": 0,
+   "seconds": 7.098464727401733
+  },
+  {
+   "weight_precision": "int4",
+   "decimals": 1,
+   "rendering_step": 0.1,
+   "report_tokens": 12,
+   "accuracy_by_gap": {
+    "0.0005": {
+     "n": 200,
+     "accuracy": 0.0,
+     "ties_or_unparsed": 1.0,
+     "mean_preference": 0.5,
+     "identical_rendering": 0.6
+    },
+    "0.001": {
+     "n": 200,
+     "accuracy": 0.005,
+     "ties_or_unparsed": 0.995,
+     "mean_preference": 0.5025,
+     "identical_rendering": 0.52
+    },
+    "0.002": {
+     "n": 200,
+     "accuracy": 0.02,
+     "ties_or_unparsed": 0.98,
+     "mean_preference": 0.51,
+     "identical_rendering": 0.48
+    },
+    "0.005": {
+     "n": 200,
+     "accuracy": 0.055,
+     "ties_or_unparsed": 0.945,
+     "mean_preference": 0.5275,
+     "identical_rendering": 0.425
+    },
+    "0.01": {
+     "n": 200,
+     "accuracy": 0.145,
+     "ties_or_unparsed": 0.855,
+     "mean_preference": 0.5725,
+     "identical_rendering": 0.435
+    },
+    "0.02": {
+     "n": 200,
+     "accuracy": 0.195,
+     "ties_or_unparsed": 0.805,
+     "mean_preference": 0.5975,
+     "identical_rendering": 0.34
+    },
+    "0.05": {
+     "n": 200,
+     "accuracy": 0.525,
+     "ties_or_unparsed": 0.475,
+     "mean_preference": 0.7625,
+     "identical_rendering": 0.22
+    },
+    "0.1": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "0.2": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "0.5": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "1.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "2.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "5.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "10.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "20.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    }
+   },
+   "threshold": 0.08642218932816059,
+   "unparsed_reports": 0,
+   "seconds": 101.59944868087769
+  },
+  {
+   "weight_precision": "int4",
+   "decimals": 2,
+   "rendering_step": 0.01,
+   "report_tokens": 12,
+   "accuracy_by_gap": {
+    "0.0005": {
+     "n": 200,
+     "accuracy": 0.05,
+     "ties_or_unparsed": 0.95,
+     "mean_preference": 0.525,
+     "identical_rendering": 0.565
+    },
+    "0.001": {
+     "n": 200,
+     "accuracy": 0.08,
+     "ties_or_unparsed": 0.92,
+     "mean_preference": 0.54,
+     "identical_rendering": 0.48
+    },
+    "0.002": {
+     "n": 200,
+     "accuracy": 0.24,
+     "ties_or_unparsed": 0.76,
+     "mean_preference": 0.62,
+     "identical_rendering": 0.385
+    },
+    "0.005": {
+     "n": 200,
+     "accuracy": 0.45,
+     "ties_or_unparsed": 0.55,
+     "mean_preference": 0.725,
+     "identical_rendering": 0.23
+    },
+    "0.01": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "0.02": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "0.05": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "0.1": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "0.2": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "0.5": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "1.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "2.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "5.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "10.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "20.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    }
+   },
+   "threshold": 0.008815912549960213,
+   "unparsed_reports": 0,
+   "seconds": 591.9082024097443
+  },
+  {
+   "weight_precision": "int4",
+   "decimals": 3,
+   "rendering_step": 0.001,
+   "report_tokens": 12,
+   "accuracy_by_gap": {
+    "0.0005": {
+     "n": 200,
+     "accuracy": 0.445,
+     "ties_or_unparsed": 0.525,
+     "mean_preference": 0.7075,
+     "identical_rendering": 0.35
+    },
+    "0.001": {
+     "n": 200,
+     "accuracy": 0.975,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 0.975,
+     "identical_rendering": 0.0
+    },
+    "0.002": {
+     "n": 200,
+     "accuracy": 0.95,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 0.95,
+     "identical_rendering": 0.0
+    },
+    "0.005": {
+     "n": 200,
+     "accuracy": 0.97,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 0.97,
+     "identical_rendering": 0.0
+    },
+    "0.01": {
+     "n": 200,
+     "accuracy": 0.98,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 0.98,
+     "identical_rendering": 0.0
+    },
+    "0.02": {
+     "n": 200,
+     "accuracy": 0.965,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 0.965,
+     "identical_rendering": 0.0
+    },
+    "0.05": {
+     "n": 200,
+     "accuracy": 0.96,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 0.96,
+     "identical_rendering": 0.0
+    },
+    "0.1": {
+     "n": 200,
+     "accuracy": 0.955,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 0.955,
+     "identical_rendering": 0.0
+    },
+    "0.2": {
+     "n": 200,
+     "accuracy": 0.985,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 0.985,
+     "identical_rendering": 0.0
+    },
+    "0.5": {
+     "n": 200,
+     "accuracy": 0.955,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 0.955,
+     "identical_rendering": 0.0
+    },
+    "1.0": {
+     "n": 200,
+     "accuracy": 0.955,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 0.955,
+     "identical_rendering": 0.0
+    },
+    "2.0": {
+     "n": 200,
+     "accuracy": 0.975,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 0.975,
+     "identical_rendering": 0.0
+    },
+    "5.0": {
+     "n": 200,
+     "accuracy": 0.98,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 0.98,
+     "identical_rendering": 0.0
+    },
+    "10.0": {
+     "n": 200,
+     "accuracy": 0.965,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 0.965,
+     "identical_rendering": 0.0
+    },
+    "20.0": {
+     "n": 200,
+     "accuracy": 0.98,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 0.98,
+     "identical_rendering": 0.0
+    }
+   },
+   "threshold": 0.0009065701509600097,
+   "unparsed_reports": 0,
+   "seconds": 1064.2296459674835
+  }
+ ],
+ "started": "2026-09-08 21:58:14",
+ "finished": "2026-09-09 03:48:48"
+}

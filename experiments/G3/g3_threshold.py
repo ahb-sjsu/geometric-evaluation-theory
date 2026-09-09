@@ -277,11 +277,12 @@ def run(cfg: dict, seed: int, out_path: str, probe: bool = False) -> dict:
             judge = LMScorer(cfg, wp)
             if probe:
                 sample = []
+                tstr3 = render(float(cfg["target"]), 3); kfull = int(cfg.get("max_new_tokens", 12))
                 for p in pairs[-3:] + pairs[:3]:
                     for v in (p["close"], p["far"]):
-                        s = judge.scores(render(float(cfg["target"]), 3), [render(v, 3)])[0]
+                        s = judge.scores(tstr3, [render(v, 3)], max_new=kfull)[0]
                         sample.append({"value": v, "true_distance": abs(v - float(cfg["target"])), "reported": s,
-                                       "text": judge.cache[(render(float(cfg["target"]), 3), render(v, 3))][1]})
+                                       "text": judge.cache[(tstr3, render(v, 3), kfull)][1]})
                 result["generation_sample"] = sample
                 print(json.dumps({"generation_sample": sample}))
             full_budget = int(cfg.get("max_new_tokens", 12))

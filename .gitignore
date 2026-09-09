@@ -15,3 +15,5 @@ experiments/*/data/
 !experiments/*/run.log
 !experiments/*/seedcheck.log
 !experiments/*/pilot*.log
+!experiments/*/pp.log
+!experiments/*/probe_*.log

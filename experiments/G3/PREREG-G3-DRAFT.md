@@ -109,7 +109,7 @@ prediction can fail.
 - P3, well-separated ordering. For every gap at least twice the largest threshold measured in
   any cell, accuracy is at least 0.95 in every cell.
 
-Pass: P1, P1b, P2 and P3 hold. Fail: a threshold that decreases when the budget is coarsened by more than
+Pass: P1, P1b, P2 and P3 hold, with TOL = 1.5 from the pilot. Fail: a threshold that decreases when the budget is coarsened by more than
 the factor TOL at any step of either ladder, or a well-separated gap at which some cell's
 accuracy is below 0.8. Otherwise INDETERMINATE, which includes a floor so high that the weight
 ladder cannot move it.
@@ -124,18 +124,39 @@ that shrinks when resolution is coarsened, or a reordering of well-separated pai
 Self-test: a synthetic scorer that rounds distances to a grid of step h and prefers the
 smaller rounded distance has threshold h; the estimator must place the threshold between 0.8 h
 and 2.5 h at h in 0.01, 0.1, 1 (a rounded-distance scorer decides every pair whose gap exceeds
-h and about half of those below, so the 90 percent level sits between h and 2h). Result
-recorded here before sealing.
+h and about half of those below, so the 90 percent level sits near h). Result, Atlas
+2026-09-08: SELFTEST PASS, thresholds 0.0088, 0.087, 0.87 at h = 0.01, 0.1, 1.
 
 Probe: the full-weights, 3-decimal, full-report cell on the probe seed, to check anti-vacuity.
 Recorded as `probe.json`; the earlier chooser probes and the first scorer probe are recorded
-beside it under their own names.
+beside it under their own names. Result (`probe.json`, seed 20260910, Atlas 2026-09-09):
+accuracy 1.00 at gap 20 and at every gap from 0.001 up, 0.495 at 0.0005 where 0.505 of pairs
+render identically and tie, threshold 0.00087, no unparsable report; the generation sample
+shows reports exact to three decimals. Anti-vacuity holds: the floor is 0.00087, below 0.3,
+so three rendering steps and four report budgets exceed three times the floor. A first run of
+this probe crashed in the generation-sample code on a cache key that had gained the report
+budget; the sample code was fixed and the probe rerun after the pilot, whose cells it does not
+touch.
 
 Pilot: every cell on the pilot seed. TOL is fixed as the largest ratio, in either direction,
 between a threshold and its predicted value (the rendering step or the afforded report
 resolution where that exceeds three times the floor, the previous cell's threshold along a
-ladder otherwise) observed in the pilot, rounded up to one decimal, and at least 1.5. Recorded
-here with the pilot's thresholds.
+ladder otherwise) observed in the pilot, rounded up to one decimal, and at least 1.5.
+
+Pilot record (`pilot.json`, `pp.log`, seed 20260911, Atlas GPU 1, 2026-09-08 21:58 to
+2026-09-09 03:36 UTC including a 68-minute pause by the host's thermal guardian, which stops
+the heaviest CPU processes when a package reaches 82 degrees and was resumed with the
+owner's consent; no cell was affected). Thresholds: rendering ladder at bf16 0.869, 0.0864,
+0.00882, 0.00088 for 0, 1, 2, 3 decimals against steps 1, 0.1, 0.01, 0.001; identical at
+8-bit; 0.869, 0.0864, 0.00882, 0.00091 at 4-bit, where accuracy at gap 20 was 0.98 rather than
+1.00. Report ladder at bf16 and 3 decimals 8.98, 0.872, 0.877, 0.0875, 0.00873, 0.00088 for
+k = 1 to 6 against afforded resolutions 10, 1, 1, 0.1, 0.01, 0.001. No unparsable report in
+any cell. The largest ratio between a threshold and its prediction is 1.15 (every threshold
+sits at 0.87 to 0.90 of its step, which is where the 90 percent level of a rounding scorer
+falls, as the self-test showed), so TOL = 1.5, the registered minimum. The floor is censored
+at 0.0005 at every weight precision: 8-bit and 4-bit weights do not act as a resolution budget
+on this scorer at this task, which is a finding the run will test again on fresh pairs, and
+which means P2 can hold only as an equality within TOL.
 
 ## 8. Compute and thermal rule
 

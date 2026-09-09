@@ -1,0 +1,225 @@
+{
+ "config": {
+  "world": "A language-model scorer (Qwen2.5-7B-Instruct, local HuggingFace cache on Atlas, revision recorded at sealing) shown a target and one value and asked how far the value is from the target, answering with a number; the induced preference between two options compares their reported distances, equal reports are indifference. The consequence of an option is its true distance from the target, known exactly. Two resolution budgets: the rendering precision (decimals shown) and the scorer's weight precision (bf16, 8-bit, 4-bit via bitsandbytes). Earlier probes with a pairwise chooser are recorded under probe_* keys.",
+  "model_id": "Qwen/Qwen2.5-7B-Instruct",
+  "revision": null,
+  "use_chat_template": true,
+  "prompt_template": "Target: {target}\nOption {A}: {first}\nOption {B}: {second}\nWhich option is closer to the target? Answer with the single letter {A} or {B}.",
+  "answer_letters": [
+   "A",
+   "B"
+  ],
+  "target": 100.0,
+  "option_range": [
+   50.0,
+   150.0
+  ],
+  "min_distance": 1.0,
+  "max_distance": 40.0,
+  "gap_ladder": [
+   0.005,
+   0.01,
+   0.02,
+   0.05,
+   0.1,
+   0.2,
+   0.5,
+   1.0,
+   2.0,
+   5.0,
+   10.0
+  ],
+  "n_pairs_per_gap": 200,
+  "decimals_ladder": [
+   0,
+   1,
+   2,
+   3
+  ],
+  "weight_precisions": [
+   "full",
+   "int8",
+   "int4"
+  ],
+  "accuracy_level": 0.9,
+  "batch": 32,
+  "seed_probe": 20260910,
+  "seed_pilot": 20260911,
+  "seed_run": 20260912,
+  "bars": "PREREG-G3.md Section 5; tolerances fixed from the pilot before sealing and applied to the run seed only",
+  "estimator": "threshold = the gap at which the pair-averaged preference for the closer option exceeds one half for at least accuracy_level of pairs, interpolated linearly in log gap between ladder points; infinity if never reached",
+  "side": "both",
+  "probe_2026-09-08_two_sided": "VACUOUS: accuracy 0.62 to 0.76 at every gap including 10, threshold infinite; the judge picked the larger number in every straddling pair of a six-case diagnostic, and the instrument read space-prefixed letter tokens whose logits sat 25 to 30 below the bare letters the chat template elicits. Both corrected before any pilot.",
+  "judge_kind": "scorer",
+  "scorer_prompt_template": "Target: {target}\nValue: {value}\nHow far is the value from the target? Answer with a single number and nothing else.",
+  "max_new_tokens": 12,
+  "probe_2026-09-08_one_sided_chooser": "NOT VACUOUS but floor 7.5: one-sided pairs, bare-letter reading; accuracy 0.99 at gap 10, 0.77 at 5, 0.43 to 0.63 from 0.01 to 2, threshold 7.5, above the 0.3 the anti-vacuity rule allows, because the chooser's first-position preference leaves the two-order average at one half until the gap is large. A pairwise chooser is the wrong instrument for a threshold; replaced by the scorer before any pilot."
+ },
+ "seed": 20260910,
+ "probe": true,
+ "cells": [
+  {
+   "weight_precision": "full",
+   "decimals": 3,
+   "rendering_step": 0.001,
+   "accuracy_by_gap": {
+    "0.005": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "0.01": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "0.02": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "0.05": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "0.1": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "0.2": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "0.5": {
+     "n": 200,
+     "accuracy": 0.99,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 0.99,
+     "identical_rendering": 0.0
+    },
+    "1.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "2.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "5.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    },
+    "10.0": {
+     "n": 200,
+     "accuracy": 1.0,
+     "ties_or_unparsed": 0.0,
+     "mean_preference": 1.0,
+     "identical_rendering": 0.0
+    }
+   },
+   "threshold": 0.005,
+   "unparsed_reports": 0,
+   "seconds": 738.9997284412384
+  }
+ ],
+ "started": "2026-09-08 21:40:58",
+ "generation_sample": [
+  {
+   "value": 72.63572056076077,
+   "true_distance": 27.364279439239226,
+   "reported": 27.364,
+   "text": "27.364"
+  },
+  {
+   "value": 62.63572056076078,
+   "true_distance": 37.36427943923922,
+   "reported": 37.364,
+   "text": "37.364"
+  },
+  {
+   "value": 86.49403031991096,
+   "true_distance": 13.505969680089038,
+   "reported": 13.506,
+   "text": "13.506"
+  },
+  {
+   "value": 123.50596968008904,
+   "true_distance": 23.505969680089038,
+   "reported": 23.506,
+   "text": "23.506"
+  },
+  {
+   "value": 128.0939054792385,
+   "true_distance": 28.093905479238487,
+   "reported": 28.094,
+   "text": "28.094"
+  },
+  {
+   "value": 61.90609452076151,
+   "true_distance": 38.09390547923849,
+   "reported": 38.094,
+   "text": "38.094"
+  },
+  {
+   "value": 101.26438461097537,
+   "true_distance": 1.2643846109753696,
+   "reported": 1.264,
+   "text": "1.264"
+  },
+  {
+   "value": 101.26938461097537,
+   "true_distance": 1.269384610975365,
+   "reported": 1.269,
+   "text": "1.269"
+  },
+  {
+   "value": 60.73133411346493,
+   "true_distance": 39.26866588653507,
+   "reported": 39.269,
+   "text": "39.269"
+  },
+  {
+   "value": 139.27366588653507,
+   "true_distance": 39.27366588653507,
+   "reported": 39.274,
+   "text": "39.274"
+  },
+  {
+   "value": 98.59626450573757,
+   "true_distance": 1.4037354942624347,
+   "reported": 1.404,
+   "text": "1.404"
+  },
+  {
+   "value": 98.59126450573757,
+   "true_distance": 1.4087354942624302,
+   "reported": 1.409,
+   "text": "1.409"
+  }
+ ],
+ "finished": "2026-09-08 21:53:32"
+}
