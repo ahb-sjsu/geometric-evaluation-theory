@@ -1,12 +1,13 @@
 # Observability and identifiability at a budget
 
-Draft 0.1, 2026-09-09. An article of the Geometric Evaluation Theory repository, bridging
+Draft 0.2, 2026-09-09. An article of the Geometric Evaluation Theory repository, bridging
 Observation Theory's observer (C, G, B) and GET's evaluator. Everything below is labeled proved,
 defined, or posited. The statements of Sections 3 and 4 are machine-checked in
 `lean/GET/Identifiability.lean` (gate D0 of the discovery campaign, 2026-09-09: eight theorems on
 the standard axioms, no `sorry`, with the linear consumer's matrix taken as given rather than the
-Gramian integral derived). Nothing is measured yet; the gate that measures the finite-sample form
-is D1 of `observation-theory-campaigns/experiments/DISCOVERY-TRACK.md`.
+Gramian integral derived). Proposition 2 and Corollary 3 were found by the pilots of gate D1 of
+`observation-theory-campaigns/experiments/DISCOVERY-TRACK.md`, which measures the finite-sample
+form; they are proved here and not yet machine-checked.
 
 ## 1. The claim in one paragraph
 
@@ -122,6 +123,66 @@ eigenvector of P, the read direction of the encyclopedia. The effective rank of 
 participation ratio, is not d_obs at any budget but bounds the budget at which d_obs falls to
 one, since lambda_1 >= tr(P) / n and lambda_1 <= tr(P).
 
+Theorem 2 is a statement about one direction at a time. What an experimenter who can only ask
+the oracle learns about the whole operator depends on how the questions are placed, and the two
+placements below behave differently.
+
+Corollary 3 (single-direction probes). An experimenter who perturbs one coordinate e_i at a time,
+in a basis that is not the eigenbasis, at sizes r on a ladder, learns from the oracle exactly
+whether P_ii > B^2 / r^2 for each size, hence which coordinates are identifiable at (B, rho), and
+a bracket on each diagonal entry between B^2 / r_hi^2 and B^2 / r_lo^2 with r_lo the largest size
+found indistinguishable and r_hi the smallest found distinguishable. Nothing about an off-diagonal
+entry is learned, since every operator with the same diagonal answers every such query the same
+way. Proof: Theorem 2(b) read along e_i, and the observation that the queries depend on P only
+through its diagonal. QED.
+
+Proposition 2 (the pencil: what probes at one radius identify). Write c = B^2 / rho^2 and let
+S be the unit sphere. Queries in directions v on S at the single size rho receive the answer
+"distinguishable" exactly when v^T P v > c. For every s > 0 such that P(s) = s P + (1 - s) c I is
+positive semidefinite, P(s) receives the same answer as P in every direction, since
+v^T P(s) v - c = s (v^T P v - c). Conversely, if c is strictly between the smallest and the
+largest eigenvalue of P and is not itself an eigenvalue, then any positive semidefinite P' that
+answers every direction as P does is a member of that pencil. So probes at one radius identify
+P up to the pencil, and no number of them identifies it further.
+
+Proof of the converse. Q = P - c I and Q' = P' - c I are quadratic forms with the same positive
+set on S, hence the same zero set on S, which is the boundary of the positive set when Q is
+nondegenerate and indefinite, as c strictly inside the spectrum and off it makes Q. The real
+zero set of a nondegenerate indefinite quadric is Zariski dense in the complex quadric, so Q'
+vanishes on the complex quadric of Q, and since that quadric is irreducible for n >= 3 (and the
+two lines it consists of for n = 2 are each a zero of Q'), Q divides Q', so Q' = s Q for a real
+s, and s > 0 because the positive sets agree and are nonempty. Then P' = s P + (1 - s) c I. QED.
+
+Corollary 4 (mixed probes and the two ends of the pencil). Let the sphere of radius rho cross
+the ellipsoid delta^T P delta = B^2, that is lambda_min rho^2 < B^2 < lambda_max rho^2 with
+lambda_min the smallest eigenvalue including zero, so that both answers occur.
+(a) If P has a kernel, the pencil's positive semidefinite members are 0 < s <= 1, and P itself is
+the end s = 1. If P is positive definite with lambda_min < c, the members are 0 < s <= s* with
+s* = c / (c - lambda_min), and the end s* has P(s*) = s* P + (1 - s*) c I with smallest eigenvalue
+zero. If lambda_min >= c the pencil is unbounded above.
+(b) An estimator that returns the analytic centre of the operators consistent with the answers,
+the maximiser of the summed logarithms of the slacks |v_j^T P' v_j - c|, moves along the pencil
+toward larger s, since each slack is proportional to s, and so returns in the limit of many
+queries the end of the pencil: P itself when P has a kernel, and P(s*) when P is positive
+definite, where every eigenvalue is recovered up to the affine map lambda -> s* lambda + (1 - s*) c
+and the smallest is reported as zero.
+(c) Queries at two radii rho_1 and rho_2 identify P exactly under the conditions of Proposition 2
+at each radius, provided P is not a multiple of the identity, since the two pencils
+s P + (1 - s) c_1 I and t P + (1 - t) c_2 I with c_1 differing from c_2 meet only at s = t = 1.
+Proof. (a) is the sign of the smallest eigenvalue of P(s) as a function of s. (b) The objective
+restricted to the pencil is N log s plus a constant, increasing in s, and the feasible set on the
+pencil is the segment of (a). (c) Equating the two members gives (s - t) P = ((1 - t) c_2 -
+(1 - s) c_1) I, which for P not a multiple of I forces s = t and then (1 - s)(c_2 - c_1) = 0. QED.
+
+What the two corollaries say together. The budget hides the small eigenvalues from
+single-direction probes, which see only whether each diagonal entry clears the threshold, and it
+does not hide them from mixed probes, which trace the whole ellipsoid where the sphere crosses it
+and recover every eigenvalue up to the pencil, the below-threshold ones included. The pilot of
+gate D1 found the second fact before the proposition was written, and the pre-seal probe
+recorded in `observation-theory-campaigns/experiments/OD/D1/pencil_probe.json` found the
+analytic centre nearer P(s*) than P in the positive definite world at every budget tried, and
+indistinguishable from P in the worlds with a kernel, as (b) says.
+
 ## 5. The two theorems face each other (proved, by citation)
 
 GET Theorem 4 says that an evaluator's order on an open set of consequences identifies its
@@ -131,9 +192,10 @@ operator clears the budget. The objects are the same kind, a positive semidefini
 kernel, and the ambiguities are the same kind, a scale and a kernel. The finite-sample form of
 GET Theorem 4, the design bound that at least m + 1 affinely independent consequences are needed
 and that nothing off their span is revealed, was measured in gate G5 of the GET campaign (twelve
-of twelve cells). The finite-sample form of Theorem 2, that d_obs(B, rho) is recovered from
-outputs at a budget and that the kernel directions are not, has not been measured; that is gate
-D1 of the discovery campaign.
+of twelve cells). The finite-sample form of Theorem 2 and its two corollaries, that single-direction probes
+recover the identifiable count and the diagonal brackets exactly, and that mixed probes at one
+radius recover the operator up to the pencil where the sphere crosses the ellipsoid, is gate D1
+of the discovery campaign.
 
 ## 6. Along a trajectory (defined, with one proposition)
 
@@ -172,9 +234,12 @@ Posited. That the workload average of P_C(x) along a trajectory is the operator 
 governs a data-assimilation observer's practical identifiability, which is a claim about how such
 observers are used rather than a theorem.
 
-Falsifiers of the measurable statements. An estimator that recovers directions with
-lambda_i <= B^2 / rho^2 from outputs at budget B (Theorem 2(b) wrong), or fails to recover
-directions above it at a rich enough battery (the finite-sample form wrong); an observational
+Falsifiers of the measurable statements. A single-direction probe reported identifiable whose
+diagonal entry is below B^2 / rho^2, or the reverse (Theorem 2(b) wrong); an operator that mixed
+probes at radius rho cannot recover, up to the pencil, although the sphere crosses its ellipsoid
+substantially, or below-threshold eigenvalues left at chance by them (Corollary 4 wrong); a
+non-constant oracle where the crossing condition fails; an estimate of a positive definite
+operator nearer P than P(s*) at the analytic centre (Corollary 4(b) wrong); an observational
 Lyapunov exponent that differs from the classical one for a positive definite read operator
 (Proposition 1 wrong).
 
