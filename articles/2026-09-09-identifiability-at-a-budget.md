@@ -192,10 +192,13 @@ operator clears the budget. The objects are the same kind, a positive semidefini
 kernel, and the ambiguities are the same kind, a scale and a kernel. The finite-sample form of
 GET Theorem 4, the design bound that at least m + 1 affinely independent consequences are needed
 and that nothing off their span is revealed, was measured in gate G5 of the GET campaign (twelve
-of twelve cells). The finite-sample form of Theorem 2 and its two corollaries, that single-direction probes
-recover the identifiable count and the diagonal brackets exactly, and that mixed probes at one
-radius recover the operator up to the pencil where the sphere crosses the ellipsoid, is gate D1
-of the discovery campaign.
+of twelve cells). The finite-sample form of Theorem 2 and its two corollaries was measured as gate D1 of the
+discovery campaign (sealed, run 2026-09-09): single-direction probes gave the identifiable
+verdicts and the diagonal brackets exactly in 300 of 300 evaluators; mixed probes at one radius
+recovered the operator, below-threshold eigenvalues included, to a tenth of chance in the worlds
+with a kernel and landed on the pencil's end rather than the truth in the positive definite world
+in 40 of 40 evaluators; the sealed verdict is indeterminate because one of six graded cells
+missed the registered recovery factor of 0.30 by 0.003 on its above-threshold eigenvalues.
 
 ## 6. Along a trajectory (defined, with one proposition)
 
