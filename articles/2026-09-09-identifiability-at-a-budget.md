@@ -7,7 +7,9 @@ defined, or posited. The statements of Sections 3 and 4 are machine-checked in
 the standard axioms, no `sorry`, with the linear consumer's matrix taken as given rather than the
 Gramian integral derived). Proposition 2 and Corollary 3 were found by the pilots of gate D1 of
 `observation-theory-campaigns/experiments/DISCOVERY-TRACK.md`, which measures the finite-sample
-form; they are proved here and not yet machine-checked.
+form; they are proved here and not yet machine-checked. The window bound of Proposition 1 and the
+two horizon inclusions of its remark are machine-checked in `lean/GET/Horizon.lean` (gate D3,
+2026-09-09, standard axioms).
 
 ## 1. The claim in one paragraph
 

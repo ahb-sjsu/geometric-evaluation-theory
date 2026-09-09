@@ -24,3 +24,8 @@ import GET
 #print axioms GET.dObs_antitone
 #print axioms GET.dObs_zero
 #print axioms GET.dObs_eq_zero_of_large_budget
+#print axioms GET.window_bound_scalar
+#print axioms GET.window_bound
+#print axioms GET.window_exponent_bound
+#print axioms GET.horizon_subset_of_le
+#print axioms GET.horizon_subset_of_budget

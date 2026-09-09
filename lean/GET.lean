@@ -6,3 +6,4 @@ import GET.UniquenessGeneral
 import GET.Reversal
 import GET.Incompatibility
 import GET.Identifiability
+import GET.Horizon
