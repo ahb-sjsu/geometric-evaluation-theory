@@ -1,6 +1,6 @@
 # Observability and identifiability at a budget
 
-Draft 0.3, 2026-09-09. An article of the Geometric Evaluation Theory repository, bridging
+Draft 0.4, 2026-09-09. An article of the Geometric Evaluation Theory repository, bridging
 Observation Theory's observer (C, G, B) and GET's evaluator. Everything below is labeled proved,
 defined, or posited. The statements of Sections 3 and 4 are machine-checked in
 `lean/GET/Identifiability.lean` (gate D0 of the discovery campaign, 2026-09-09: eight theorems on
@@ -260,6 +260,38 @@ in 83 to 98 percent of starts and converged; and the observer reading x reached 
 later than the one reading z for the same perturbation in 64 to 78 percent of pairs, with no
 such dependence across the shift symmetry of Lorenz-96. The sealed verdict is indeterminate
 because at the largest budget the paired test gave p = 0.033 against the registered 0.01.
+
+Proposition 3 (the horizon offset law, gate D3v2). Let the perturbation have aligned with the
+leading Lyapunov vector v_1(x(t)), write L(t) = log |delta x(t)| for its accumulated growth and
+g_O(t) = log sqrt(v_1(x(t))^T P_C v_1(x(t))) for the observer's log read fraction along the
+trajectory. Then the observer's length is log d_C = L + g_O, its horizon at budget B is the
+first time L + g_O exceeds log B, and the full reader's the first time L does, so that the
+offset between them is a first-passage functional of the read-fraction process:
+
+    T_O(B) - T_full(B) = inf{t : L(t) + g_O(t) >= log B} - inf{t : L(t) >= log B}.
+
+Averaged over the invariant measure the offset is therefore a property of the observer and the
+flow alone, computable on any single long trajectory that carries the aligned vector, with no
+horizon experiment. It is zero for the full reader, equal for observers a symmetry of the flow
+relates, negative for an observer whose metric exceeds the Euclidean one along v_1, and for a
+positive definite observer it lies between -log sqrt(lambda_max) / lambda_1 and
+-log sqrt(lambda_min) / lambda_1, the bracket of the remark above. The proof is the definition
+of the horizon read through the identity log d_C = L + g_O. What is not a theorem, and is what
+the gate measures, is that the offsets of perturbations started at random and aligned on the
+way agree with the functional computed on an independent trajectory.
+
+Two remarks the gate produced. First, the mean of g_O is not the law: the naive statement
+T_O - T_full = -E[g_O] / lambda_1, which holds when g_O is constant, was refuted by the gate's
+first probe by factors of two to eight, because the mean of the log read fraction is dominated
+by the moments when v_1 is nearly orthogonal to the reader, which a first passage barely feels;
+the crossing happens where the deficit is small. Second, the law was measured under seal on
+2026-09-09 on Lorenz-63 (seven observers: an anisotropic metric, three coordinate readers, two
+rank-one readers, the xy plane) and Lorenz-96 at N = 40 (four observers: a metric, two blocks of
+ten sites, one site), each prediction from a long trajectory integrated separately, and it held
+in all 22 cells at budgets 1000 and 10000 within the registered 0.26 time units (largest error
+0.15, standard errors 0.03 to 0.12), with the order of the Lorenz-63 observers exact, the
+symmetric blocks of Lorenz-96 equal within 0.07, and the anisotropic offsets inside the
+bracket; the sealed verdict is a pass.
 
 ## 7. What is posited, and what would falsify it
 
