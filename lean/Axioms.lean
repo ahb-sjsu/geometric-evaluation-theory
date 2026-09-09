@@ -16,3 +16,11 @@ import GET
 #print axioms GET.Incompatibility.total_regret_ge
 #print axioms GET.Incompatibility.total_regret_attained
 #print axioms GET.Incompatibility.deficiency_pos_iff
+#print axioms GET.readOperator_posSemidef
+#print axioms GET.kernel_not_distinguishable
+#print axioms GET.distinguishable_zero_iff
+#print axioms GET.distinguishable_scaled_iff
+#print axioms GET.distinguishable_antitone
+#print axioms GET.dObs_antitone
+#print axioms GET.dObs_zero
+#print axioms GET.dObs_eq_zero_of_large_budget

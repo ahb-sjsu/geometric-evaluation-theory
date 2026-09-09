@@ -2,8 +2,11 @@
 
 Draft 0.1, 2026-09-09. An article of the Geometric Evaluation Theory repository, bridging
 Observation Theory's observer (C, G, B) and GET's evaluator. Everything below is labeled proved,
-defined, or posited. Nothing is measured yet; the gate that would measure the finite-sample form
-is D1 of the discovery campaign in `observation-theory-campaigns/experiments/DISCOVERY-TRACK.md`.
+defined, or posited. The statements of Sections 3 and 4 are machine-checked in
+`lean/GET/Identifiability.lean` (gate D0 of the discovery campaign, 2026-09-09: eight theorems on
+the standard axioms, no `sorry`, with the linear consumer's matrix taken as given rather than the
+Gramian integral derived). Nothing is measured yet; the gate that measures the finite-sample form
+is D1 of `observation-theory-campaigns/experiments/DISCOVERY-TRACK.md`.
 
 ## 1. The claim in one paragraph
 
