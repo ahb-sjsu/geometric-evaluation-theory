@@ -43,10 +43,17 @@ jobs:
           assert a["gate"] == b["gate"] and a["cells_passing"] == b["cells_passing"], (a["gate"], b["gate"])
           print("G5 grade reproduces:", a["gate"], a["cells_passing"])
           EOF
+          cd ../G3 && python g3_grade.py results.json --tol 1.5 --out /tmp/g3.json > /dev/null && python - <<'EOF'
+          import json
+          a = json.load(open("grade.json")); b = json.load(open("/tmp/g3.json"))
+          assert a["gate"] == b["gate"], (a["gate"], b["gate"])
+          assert all(a[k]["holds"] == b[k]["holds"] for k in ("P1", "P1b", "P2", "P3"))
+          print("G3 grade reproduces:", a["gate"])
+          EOF
       - name: Sealed registrations carry the hashes recorded in CAMPAIGN.md
         run: |
           set -e
-          for f in experiments/G2/PREREG-G2.md experiments/G4/PREREG-G4.md experiments/G4b/PREREG-G4B.md experiments/G5/PREREG-G5.md; do
+          for f in experiments/G2/PREREG-G2.md experiments/G3/PREREG-G3.md experiments/G4/PREREG-G4.md experiments/G4b/PREREG-G4B.md experiments/G5/PREREG-G5.md; do
             h=$(git hash-object "$f")
             grep -q "$h" CAMPAIGN.md || { echo "blob hash of $f ($h) not recorded in CAMPAIGN.md"; exit 1; }
             echo "$f sealed as $h"

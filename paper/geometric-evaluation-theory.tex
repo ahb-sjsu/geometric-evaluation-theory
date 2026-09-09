@@ -486,7 +486,7 @@ This is the non-reducibility theorem of the observer-representation paper, with 
 \label{sec:predict}
 
 A foundation that only recovers known models is a notation.
-The following are the theory's predictions, each stated so that a measurement can fail it, and none is measured yet.
+The following are the theory's predictions, each stated so that a measurement can fail it, and three of them have been measured under sealed registrations, as recorded below.
 \begin{enumerate}
 \item[(i)] \emph{Threshold tracks budget.} For a fixed world and evaluator, the indifference threshold of the induced semiorder is the resolution budget. A manipulation that reduces resolution, time pressure, load, or a coarser display of consequences, must enlarge the just-noticeable difference of Theorem~\ref{thm:pref}(b) without changing the ordering of well-separated pairs. A change in the ordering of well-separated pairs under such a manipulation fails the prediction.
 \item[(ii)] \emph{Rank reversal.} A manipulation that changes which consequence directions the evaluator resolves, without changing its metric or ideal, must produce the reversals of Theorem~\ref{thm:reversal} between actions that trade the resolved direction against an unresolved one, and must not produce reversals between actions that differ only in the resolved directions.
@@ -495,12 +495,18 @@ The following are the theory's predictions, each stated so that a measurement ca
 \item[(v)] \emph{Menu-dependent admissibility.} Where an obligation is created by the availability of an action, choice must violate the weak axiom in the pattern of Theorem~\ref{thm:admiss}, and the violation must disappear when the obligation-creating action is removed from every menu.
 \end{enumerate}
 The first two require an evaluator whose budget can be manipulated and whose consequence map is known, which is a designed experiment.
+The first has been run once, under a sealed registration, on a language model, Qwen2.5-7B-Instruct, used as a scorer that is shown a target and a value and reports how far apart they are, so that the induced order compares reported distances and equal reports are indifference.
+Three budgets were set independently, the number of decimals at which values are shown, the number of tokens the report may use, and the precision of the weights.
+Along the rendering ladder the threshold was 0.87, 0.087, 0.0086 and 0.00087 at 0, 1, 2 and 3 decimals, against rendering steps of 1, 0.1, 0.01 and 0.001.
+Along the report ladder it was 8.8, 0.87, 0.87, 0.087, 0.0088 and 0.00087 at 1 to 6 tokens, against the resolutions of 10, 1, 1, 0.1, 0.01 and 0.001 that those tokens afford with two digits before the decimal point.
+The threshold tracked each output budget at 0.87 to 0.88 of the step, which is where the 90 percent level of a scorer that rounds to a grid falls, and pairs separated by 20 were ordered the same way in every cell at an accuracy of at least 0.985.
+Reducing the weights to 8 or 4 bits left every threshold where the full weights put it, so on this evaluator the two output budgets are the resolution budget of the semiorder and the weight precision is not a resolution budget at all.
+The sealed verdict is a pass.
 The hull law requires only a known consequence map and observed choices, and it is the cheapest test of the theory.
 It has been run once, under a registration sealed before the ratings were read, on the 1972 American National Election Study, where respondents placed Nixon, McGovern, Wallace and the two parties on seven-point issue scales and rated them on feeling thermometers.
 On the registered pair of scales, 489 respondents had a menu in which the law could bind, and 50 percent of them violated it at least once, against 66 percent when each respondent's ratings are shuffled among that respondent's own objects, with no shuffle in 200 reaching the observed rate.
 Five other pairs of scales gave the same ordering, observed rates of 54 to 63 percent against shuffled rates of 67 to 74 percent.
-The rankings sit well below the geometric base rate of violation and well above zero, so on this world the law holds as a population tendency and fails as the deterministic statement of Theorem~
-ef{thm:repr}(b) for about half of the respondents.
+The rankings sit well below the geometric base rate of violation and well above zero, so on this world the law holds as a population tendency and fails as the deterministic statement of Theorem~\ref{thm:repr}(b) for about half of the respondents.
 The third requires several evaluators whose geometries can be recovered, which is the readscope instrument applied to each.
 It has been run once, under a sealed registration, on the grouped-query attention of a language model, with the three query heads of a group as the evaluators of one key cache and shared codes of rank 2, 4 and 8 in 128 dimensions.
 At those ranks the measured attention loss is 20 to 330 times the second-order prediction, so the regret formula and its bound were not tested, and the sealed verdict is indeterminate.

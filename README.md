@@ -1,6 +1,6 @@
 # Geometric Evaluation Theory (GET)
 
-**Status (2026-09-07):** foundational paper at draft 0.2, every statement labeled proved, defined, posited, or open. No gate of the campaign has run. Nothing here is a measured claim.
+**Status (2026-09-09):** foundational paper at draft 0.2, every statement labeled proved, defined, posited, or open. Gates G0, G1, G2, G3, G4, G4b and G5 have run under sealed registrations: G2 (hull law on ANES 1972), G3 (threshold tracks budget on a language-model scorer) and G5 (identification from choices, synthetic stage) passed; G4 and G4b (shared-code regret) are indeterminate with what they establish recorded. `CAMPAIGN.md` holds every record and `claims/LEDGER.md` the status of every claim. Nothing here is a claim beyond those records.
 
 An evaluator-relative theory of preference, value, and choice. An evaluator maps actions and states into a consequence space, measures consequences with a metric of its own from an ideal point of its own, and does so at a finite resolution. The distinctions it can make are derived first, and preference and choice are derived from those.
 
