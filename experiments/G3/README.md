@@ -15,7 +15,7 @@ their order.
 | `g3_threshold.py` | pairs, the judge (bf16, 8-bit, 4-bit), the accuracy-by-gap measurement, the threshold estimator, self-test on a rounding scorer, probe, pilot, run |
 | `g3_grade.py` | applies the sealed bars to `results.json` |
 | `prereg_config.json` | judge, prompt, ladders, seeds |
-| `PREREG-G3-DRAFT.md` | the registration |
+| `PREREG-G3.md` | the sealed registration; `probe*.json` the four probes, `pilot.json` the pilot that fixed its tolerance |
 
 Protocol. Self-test; probe (full precision, 3 decimals, probe seed) for anti-vacuity; pilot
 (all twelve cells, pilot seed) to fix the tolerance; seal; run (run seed); grade.

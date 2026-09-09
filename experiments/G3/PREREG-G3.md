@@ -1,6 +1,6 @@
-# PREREG G3 (DRAFT, NOT SEALED): the indifference threshold tracks the resolution budget
+# PREREG G3: the indifference threshold tracks the resolution budget
 
-Status: draft. Nothing here is a registered claim until Section 9 is executed.
+Status: SEALED 2026-09-09 by the rename to `PREREG-G3.md`; blob hash recorded in `CAMPAIGN.md`.
 
 ## 1. Claim under test
 
