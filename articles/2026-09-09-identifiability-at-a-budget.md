@@ -251,6 +251,16 @@ Euclidean horizons at B / sqrt(lambda_max) and B / sqrt(lambda_min), and for a p
 never earlier than the Euclidean horizon, since d_C <= |delta x|. It is measurable on
 Lorenz-scale systems with the same instrument that recovers P_C, and it is gate D3.
 
+Gate D3 ran on 2026-09-09 (sealed, Lorenz-63, Lorenz-63 with an unread decoupled direction, and
+Lorenz-96): the window bound held in 3,200 of 3,200 windows and the horizon inclusions in 8,960
+of 8,960 checks; an unread direction growing at rate 2 left the observational exponent 0.8 to
+1.3 below the classical one in 64 of 64 starts while the same direction at rate 1/2 left them
+equal within 0.01; perturbations started in a kernel read a larger exponent on the first window
+in 83 to 98 percent of starts and converged; and the observer reading x reached every budget
+later than the one reading z for the same perturbation in 64 to 78 percent of pairs, with no
+such dependence across the shift symmetry of Lorenz-96. The sealed verdict is indeterminate
+because at the largest budget the paired test gave p = 0.033 against the registered 0.01.
+
 ## 7. What is posited, and what would falsify it
 
 Posited. That the workload average of P_C(x) along a trajectory is the operator whose d_obs
