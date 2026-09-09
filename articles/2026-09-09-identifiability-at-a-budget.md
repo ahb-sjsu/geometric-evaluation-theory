@@ -1,6 +1,6 @@
 # Observability and identifiability at a budget
 
-Draft 0.2, 2026-09-09. An article of the Geometric Evaluation Theory repository, bridging
+Draft 0.3, 2026-09-09. An article of the Geometric Evaluation Theory repository, bridging
 Observation Theory's observer (C, G, B) and GET's evaluator. Everything below is labeled proved,
 defined, or posited. The statements of Sections 3 and 4 are machine-checked in
 `lean/GET/Identifiability.lean` (gate D0 of the discovery campaign, 2026-09-09: eight theorems on
@@ -216,19 +216,37 @@ when the initial observational length is positive, and the observational predict
 at budget B is T_O(B) = inf { t : d_C(delta x(t)) > B }.
 
 Proposition 1. If P_C(x) has eigenvalues bounded between lambda_min > 0 and lambda_max along
-the trajectory, then lambda_O equals the classical Lyapunov exponent of the perturbation. If
-P_C has a kernel along the trajectory, lambda_O can be smaller than the classical exponent, and
-can be zero for a perturbation whose growth stays in the kernel, and it can exceed the classical
-exponent transiently when the perturbation rotates from the kernel into the read subspace.
+the trajectory, then over every window [t0, t] the observational and the classical exponents
+differ by at most log(lambda_max / lambda_min) / (2 (t - t0)), so lambda_O equals the classical
+Lyapunov exponent of the perturbation. If P_C has a kernel along the trajectory: lambda_O is
+smaller than the classical exponent when the perturbation's Euclidean growth is carried by
+kernel components that grow faster than its read components; it is undefined for a perturbation
+confined to an invariant kernel, whose observational length is zero at all times; and it can
+exceed the classical exponent transiently for a perturbation started in a kernel the flow does
+not preserve, whose read length starts at zero and must at first grow faster than its Euclidean
+length.
 
-Proof. With bounded positive spectrum, lambda_min |delta x|^2 <= d_C^2 <= lambda_max |delta x|^2,
-so the logarithms differ by a bounded amount and the limsup of (1/t) times the difference is
-zero. With a kernel the lower bound fails, and a perturbation confined to the kernel has
-d_C = 0 for all t while |delta x| grows; a perturbation leaving the kernel has d_C growing from
-zero, so its ratio to d_C(0) is unbounded over any finite time, which is the transient. QED.
+Proof. With bounded positive spectrum, lambda_min |delta x|^2 <= d_C^2 <= lambda_max |delta x|^2
+at both ends of the window, so log d_C - log |delta x| lies in [log lambda_min / 2,
+log lambda_max / 2] at both ends and the two window exponents differ by at most the width of
+that interval divided by the window, which goes to zero. With a kernel the lower bound fails.
+If the kernel components grow at rate mu and the read components at a smaller rate, the
+Euclidean length grows at rate mu and the observational length at the smaller rate. A
+perturbation confined to an invariant kernel has d_C = 0 for all t, so the exponent's defining
+ratio does not exist. A perturbation started in a non-invariant kernel has d_C(0) = 0 and
+d_C(t) > 0 for small t > 0, so over any window starting at a small t0 the ratio d_C(t) / d_C(t0)
+exceeds |delta x(t)| / |delta x(t0)| by the factor by which the read fraction of the
+perturbation has grown, which is the transient. QED.
+
+Draft 0.2 said the exponent "can be zero for a perturbation whose growth stays in the kernel";
+that case has d_C(0) = 0, where Definition 3 does not apply, and the clause was corrected to
+"undefined" when gate D3 was registered (2026-09-09).
 
 Remark. Two trajectories can be far apart in R^n and within B of each other to the observer, or
-the reverse, so T_O(B) is a property of the observer as much as of the flow. It is measurable on
+the reverse, so T_O(B) is a property of the observer as much as of the flow. T_O(B) is
+non-decreasing in B by definition; for a positive definite observer it lies between the
+Euclidean horizons at B / sqrt(lambda_max) and B / sqrt(lambda_min), and for a projection it is
+never earlier than the Euclidean horizon, since d_C <= |delta x|. It is measurable on
 Lorenz-scale systems with the same instrument that recovers P_C, and it is gate D3.
 
 ## 7. What is posited, and what would falsify it
