@@ -9,6 +9,7 @@ The registration discipline of `ahb-sjsu/observation-theory-campaigns` and `ahb-
 5. Compute where it belongs. Nothing runs on the laptop. Lean builds and experiments run on Atlas or on NRP through the existing burst flow, under the standing cluster rules.
 6. Owner submits. The repository builds submission-ready files. The owner uploads, signs, and publishes.
 7. Prose. No em dashes, colons, or semicolons in sentences. No sentence that argues for the work's merit. Every caveat sits beside the result it bounds.
+8. A stage that detects unfitness persists what it saw, not only its verdict. Self-tests, probes, sweeps and any gate that can void a run record the raw responses, the parse outcomes, and the reason each item terminated, beside the statistic. A miss whose cause cannot be read from its own record is a miss that has to be run again to be understood, and the second run is not the one that failed. Added 2026-09-13 after three diagnostics in one session returned a verdict that could not be diagnosed from the file they wrote. The first recorded a calibration r2 of 0.09 and no reports, so what the evaluator was computing instead took a second run to find. The second recorded choice rates and no letters. The third recorded a parse failure on 80 of 80 items and no `finish_reason`, which was the field that would have shown at once that the budget had truncated a reasoning model rather than that the model had failed.
 
 ## Discovery records (added 2026-09-08)
 
