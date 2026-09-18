@@ -23,7 +23,7 @@
 \newcommand{\tr}{\operatorname{tr}}
 \newcommand{\dG}{d_{G}}
 
-\title{The Indifference Threshold of a Language-Model Judge\\Is Its Symbol Budget}
+\title{The Indifference Threshold of a Language-Model Judge\\Tracks Its Symbol Budget}
 
 \author{Anonymous authors\\Paper under double-blind review}
 
@@ -35,15 +35,14 @@
 \begin{abstract}
 An evaluator with finite resolution does not order every pair of options.
 Two options whose consequences differ by less than the evaluator can resolve are indifferent, and the induced preference is a semiorder rather than a weak order.
-Geometric Evaluation Theory derives that structure from an evaluation object made of a consequence map, a metric with an ideal point, and a resolution budget, and proves that the threshold of the semiorder equals the budget rather than being a free parameter.
+Geometric Evaluation Theory derives that structure from an evaluation object made of a consequence map, a metric with an ideal point, and a resolution budget, and proves that the threshold of the semiorder is set by the budget rather than fitted.
 We test that prediction on an evaluator the theory did not build.
 A language-model judge, Qwen2.5-7B-Instruct, is asked to report how far a number lies from a target, and its preference between two options is the order of its reports.
 Three budgets are set independently and registered before the run.
-Coarsening the numbers the judge is shown from three decimals to none raises its threshold from 0.0009 to 0.87, at 0.86 to 0.87 of the rendering step at every level.
-Limiting the judge's report to two through six generated tokens sets the threshold at 0.87 of the resolution those symbols can express, from 0.87 down to 0.0009.
-Quantizing the judge's weights from bfloat16 to 8 bits and to 4 bits leaves every threshold unchanged within the registered tolerance.
-Pairs separated by more than twice the largest measured threshold are ordered alike in every cell, with worst-case accuracy 0.985.
-The resolution of the judge is the budget of symbols it is shown and allowed to emit, and not the precision of its weights.
+When the numbers the judge is shown, or the symbols it may emit, are placed on a grid, its accuracy at a gap equals the gap divided by the grid step, capped at one, in every cell over four orders of magnitude of step.
+The step fitted from the judge's accuracy curve matches the step that was set to within eight percent in every graded cell, with a bootstrap interval that contains it.
+Quantizing the judge's weights to 8 bits changes nothing, and quantizing to 4 bits leaves the fitted step unchanged while adding a lapse of three percent above resolution.
+Resolution and reliability are separate properties of a judge, the first set by the symbols on either side of it and the second by its weights.
 The registration, its hash, and the graded record are public.
 \end{abstract}
 
@@ -61,28 +60,25 @@ It begins one step before a preference ordering.
 An evaluator maps actions into a space of consequences, measures them with a metric of its own from an ideal point of its own, and does so at a finite resolution.
 The distinctions it can make are derived first, and preference and choice follow from them.
 At infinite resolution the induced preference is a weak order with a utility.
-At finite resolution it is a semiorder in the sense of \citet{luce1956}, an ordering with intransitive indifference, and the theory proves that the threshold of that semiorder is the resolution budget itself.
+At finite resolution it is a semiorder in the sense of \citet{luce1956}, an ordering with intransitive indifference, and the theory proves that the threshold of that semiorder is the resolution budget.
 Luce took the threshold as a primitive.
-Here it is a measurable property of the evaluator, fixed by the object that defines it, and that makes the claim one a measurement can fail.
+Here it is a property of the evaluator fixed by the object that defines it, and that makes the claim one a measurement can fail.
 
 We ran that measurement under a registration sealed before the data were read.
 The judge is Qwen2.5-7B-Instruct \citep{qwen2025}, shown a target and a value and asked how far apart they are.
 Its consequence map is known exactly, since the consequence of a value is its distance from the target.
 Three budgets were set independently.
 The judge was shown the numbers at zero to three decimals, was allowed one to twelve tokens for its report, and was run at bfloat16, 8-bit, and 4-bit weights.
-The prediction is that the threshold tracks each output budget where the budget exceeds the judge's own floor, and that pairs far apart keep their order in every cell.
+The first two budgets are grids placed on the symbols the judge reads and the symbols it writes.
+The third is a grid placed on the judge itself.
 
 Three things were found.
-The threshold tracked the rendering step at 0.86 to 0.87 of the step over three orders of magnitude, and tracked the resolution afforded by the report length at 0.87 over the same range.
-Reducing the weights to 8 and then to 4 bits moved no threshold beyond the registered tolerance.
-Pairs separated by 20 were ordered the same way in every one of eighteen cells at an accuracy of at least 0.985.
-The judge's resolution is the budget of symbols it is shown and allowed to emit.
-Its weight precision is, on this task, not a resolution budget at all.
+A grid of step $h$ on either side of the judge makes its accuracy at a gap $\Delta$ equal to $\min(1,\Delta/h)$, the law of an exact evaluator behind a rounding channel, at every ladder point in every cell, over steps from 0.001 to 1.
+The step fitted from each accuracy curve matches the step that was set to within eight percent, with a bootstrap interval containing it in every graded cell.
+Quantizing the weights to 8 bits changed nothing, and quantizing to 4 bits left the fitted step where it was and added a lapse of three percent above resolution.
+So the judge's resolution is the budget of symbols it is shown and allowed to emit, and its reliability above that resolution is a separate property, which its weights can degrade without touching the resolution.
 
-The paper also reports two supporting gates run under sealed registrations and one that returned indeterminate.
-A hull law that every evaluator of this kind must obey was tested on a public survey with a known consequence map and held as a population tendency and not as a deterministic law.
-The theory's identification theorem was tested on synthetic evaluators and passed in every cell.
-A regret bound for evaluators that share one representation was tested on the grouped-query attention of a language model and could not be graded, for a reason we state.
+The paper also reports the theory's identification theorem tested on synthetic evaluators under a sealed registration, where it passed in every cell, and, in the appendix, two further sealed gates, one that held as a population tendency and one that returned indeterminate.
 The registrations, their hashes, and the graded records are provided as supplementary material.
 
 \section{The evaluation object}
@@ -137,34 +133,68 @@ Let $A$ be finite.
 Proofs are in Appendix~\ref{app:proofs}.
 \citet{luce1956} derived semiorders from just-noticeable differences in utility with the threshold as a primitive, \citet{scott1958} gave the representation, and \citet{fishburn1970} and \citet{tversky1969} the extensions and the evidence.
 Here the threshold is the budget and the utility is the distance to the ideal, so both are fixed by the evaluation object.
-A semiorder with intransitive indifference is what a finite-resolution evaluator must exhibit, and its threshold is a measurable property of the evaluator rather than a fitted constant.
-That sentence is the prediction Section~\ref{sec:test} tests.
-
-Choice from a menu is the set of admissible actions no admissible action strictly beats, which is nonempty on a finite menu because a semiorder is acyclic.
-Under a length budget every admissible action within $\varepsilon$ of the least distance is chosen, which is satisficing \citep{simon1955} with the aspiration level as the ideal and the tolerance as the budget.
+A semiorder with intransitive indifference is what a finite-resolution evaluator must exhibit, and its threshold is a property of the evaluator rather than a fitted constant.
+Choice from a menu is the set of admissible actions no admissible action strictly beats, nonempty on a finite menu because a semiorder is acyclic, and under a length budget every admissible action within $\varepsilon$ of the least distance is chosen, which is satisficing \citep{simon1955} with the aspiration level as the ideal and the tolerance as the budget.
 
 \begin{theorem}[Representation, hull law, uniqueness]
 \label{thm:repr}
-Let $X$ be a point, $\Y=\R^{m}$, and the consequences $y_{a}=C(a)$ fixed by the world, with the evaluator choosing a positive semidefinite $G$ and an ideal $t$, so that $c(a)=(y_{a}-t)^{\top}G(y_{a}-t)$.
-(a) A weak order on finite $A$ is representable by some $(G,t)$ if and only if a semidefinite feasibility problem with $|A|(|A|-1)/2$ linear constraints has a solution.
-(b) If a preference is representable, then for every action $a$ and finite set $S$ with $y_{a}$ in the convex hull of $\{y_{s}:s\in S\}$ there is $s\in S$ with $a\succsim s$. No action is strictly worse than every action whose consequences surround it, and this holds for every convex evaluation cost.
-(c) If two evaluations $(G_{1},t_{1})$ and $(G_{2},t_{2})$ with $G_{1}\neq0$ induce the same weak order on a nonempty open connected set of consequences, then $G_{2}=\lambda G_{1}$ for some $\lambda>0$ and $G_{1}(t_{2}-t_{1})=0$.
+Let $X$ be a point, $\Y=\R^{m}$, and the consequences $y_{a}=C(a)$ fixed by the world, with the evaluator choosing a positive semidefinite $G$ and an ideal $t$, so that $c(a)=q(y_{a})$ with $q(y)=(y-t)^{\top}G(y-t)$.
+\begin{enumerate}
+\item[(a)] A weak order on finite $A$ is representable by some $(G,t)$ if and only if there is a positive semidefinite $(m+1)\times(m+1)$ matrix $W$ such that $Q_{W}(y)=(y,1)W(y,1)^{\top}$ satisfies $Q_{W}(y_{a})<Q_{W}(y_{b})$ whenever $a\succ b$ and $Q_{W}(y_{a})=Q_{W}(y_{b})$ whenever $a\sim b$. These are linear constraints on $W$ over the semidefinite cone, so representability is a semidefinite feasibility problem.
+\item[(b)] If a preference is representable, then for every action $a$ and finite set $S$ with $y_{a}$ in the convex hull of $\{y_{s}:s\in S\}$ there is $s\in S$ with $a\succsim s$. No action is strictly worse than every action whose consequences surround it, and this holds for every convex evaluation cost.
+\item[(c)] Let $(G_{1},t_{1})$ and $(G_{2},t_{2})$ with $G_{1}\neq0$, $G_{2}\ne0$ induce the same weak order on a nonempty open connected set $U$ of consequences. Then $G_{2}=\lambda G_{1}$ for some $\lambda>0$. If in addition $\operatorname{rank}G_{1}\ge2$, or $U$ contains a point at which $q_{1}$ attains its minimum, then also $G_{1}(t_{2}-t_{1})=0$.
+\end{enumerate}
 \end{theorem}
 
 Part (b) is the first law of the theory that a scalar utility does not state, and it is checkable on data whenever the consequence map is known.
-Part (c) says what choices can identify, the metric up to scale and the ideal up to the metric's kernel, and no more.
+Part (c) says what choices identify.
+The metric is identified up to scale from any open set of consequences.
+The ideal is identified up to the metric's kernel when the metric has rank at least two or the data reach the ideal, and not otherwise: with $\Y=\R$, $U=(1,2)$, $q_{1}(x)=x^{2}$ and $q_{2}(x)=(x+10)^{2}$ the two orders agree on $U$ and $G_{1}(t_{2}-t_{1})=-10$.
+An earlier statement of this theorem omitted the rank or coverage hypothesis and was false in rank one, which an external reader found; the machine-checked version of the result is the whole-space case, which is the case the identification gate of Section~\ref{sec:gates} uses.
 A rank budget also produces a reversal that no single utility records: there is an object and two actions with $b\succ a$ at rank cap 1 and $a\succ b$ at rank cap 2, with the same metric and the same ideal at both budgets (Appendix~\ref{app:proofs}).
+
+\section{A grid on the symbols is a length budget the evaluator cannot see past}
+\label{sec:channel}
+
+The experiment does not hand the judge a tolerance $\varepsilon$.
+It places the consequences the judge reads, or the report it writes, on a grid of step $h$, and the relation this induces on the underlying distances is not the deterministic band of Definition~\ref{def:pref}.
+Two distances $0.6h$ apart round to the same value or to different values depending on where they sit relative to the grid.
+The next proposition says what a grid does to an exact evaluator, and it is the quantity the experiment measures.
+
+\begin{proposition}[Grid channel]
+\label{prop:channel}
+Let an evaluator order two options by comparing $\rho(d_{1})$ and $\rho(d_{2})$, where $d_{1}<d_{2}$ are their true distances and $\rho$ rounds, or truncates, to a grid of step $h$, and let a tie count as an error.
+If the position of $d_{1}$ relative to the grid is uniform on a grid cell, then the probability that the evaluator orders the pair correctly is
+\[
+P(\text{correct}\mid\Delta)=\min(1,\Delta/h),\qquad \Delta=d_{2}-d_{1},
+\]
+and the gap at which the evaluator reaches accuracy $\alpha$ is $\alpha h$.
+If the evaluator further errs with probability $\lambda$ independently of the pair, the probability is $(1-\lambda)\min(1,\Delta/h)$.
+\end{proposition}
+
+\begin{proof}
+$\rho$ is monotone, so $\rho(d_{1})\le\rho(d_{2})$ always, and the pair is ordered correctly exactly when $\rho(d_{1})<\rho(d_{2})$, that is, when a grid boundary falls in $(d_{1},d_{2}]$.
+For $\Delta\le h$ that interval contains a boundary with probability $\Delta/h$ under a uniform position, and for $\Delta>h$ it always does.
+The lapse multiplies by $1-\lambda$.
+\end{proof}
+
+The proposition turns the grid into a length budget in the sense of the theory, with the tolerance read at any accuracy level: the semiorder threshold at level $\alpha$ is $\alpha h$, and the accuracy curve itself is a straight line through the origin with slope $1/h$.
+It also fixes what the registered threshold statistic measures.
+The registration read the threshold as the gap at accuracy 0.9, interpolated linearly in log gap between ladder points.
+On a ladder with points at $h/2$ and $h$, where the proposition puts accuracy at $0.5$ and $1$, that interpolation returns $h\cdot2^{-0.2}=0.87h$.
+The number $0.87$ that appears throughout the record is therefore a property of the ladder and the interpolation, not of the judge, and the quantity to report is the fitted step $h$ with its interval.
+The self-test on a synthetic rounding scorer had already returned $0.87h$ at every $h$, which is the same fact seen from the other side.
 
 \section{The test: a judge with a known consequence map}
 \label{sec:test}
 
-The prediction is that for a fixed world and evaluator the indifference threshold of the induced semiorder is the resolution budget.
+The prediction is that for a fixed world and evaluator the indifference threshold tracks the resolution budget.
 Coarsening the resolution at which the evaluator resolves consequences enlarges the threshold, and the ordering of pairs separated by more than the largest threshold does not change.
 The test needs an evaluator whose consequence map is known and whose budget can be set from outside.
 A language-model judge on a numeric task is such an evaluator, and it is one the theory did not build.
 
 \paragraph{Evaluator.}
-Qwen2.5-7B-Instruct \citep{qwen2025}, at a recorded revision, loaded in bfloat16, in 8-bit \citep{dettmers2022}, and in 4-bit NF4 \citep{dettmers2023}.
+Qwen2.5-7B-Instruct \citep{qwen2025} at a recorded revision, loaded in bfloat16, in 8-bit \citep{dettmers2022}, and in 4-bit NF4 \citep{dettmers2023}.
 The judge is a scorer.
 Shown, in its chat template, a target value and one value, it is asked how far the value is from the target and answers with a number, read as the first number in its greedy generation.
 The prompt is ``Target: $\{$target$\}$. Value: $\{$value$\}$. How far is the value from the target? Answer with a single number and nothing else.''
@@ -182,203 +212,189 @@ A pairwise chooser measures its position bias before it measures a threshold, so
 The target is 100.
 An option is a number in $[50,150]$ and its consequence is its distance from the target, between 10 and 40, two digits before the decimal point so that a report of fixed length has fixed resolution.
 A pair is two options whose distances differ by a gap on the ladder 0.0005, 0.001, 0.002, 0.005, 0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1, 2, 5, 10, 20, each option on either side of the target with equal probability, 200 pairs per gap drawn by seed.
+The options are drawn continuously, so their positions relative to any grid on the ladder are uniform, which is the hypothesis of Proposition~\ref{prop:channel}.
 
 \paragraph{Budgets.}
 Three, set independently.
-Rendering precision: the numbers are shown with 0, 1, 2, or 3 decimals, the target at the same precision, so that at $d$ decimals two options whose distances differ by less than $10^{-d}$ may render identically.
+Rendering precision: the numbers are shown with 0, 1, 2, or 3 decimals, the target at the same precision, so the judge reads consequences rounded to a grid of step $10^{-d}$.
 Report length: the scorer's answer is limited to $k$ generated tokens, $k$ in 1, 2, 3, 4, 5, 6, 12.
-This tokenizer emits one digit per token, so with two-digit distances a report of $k$ tokens resolves 10 at $k=1$, 1 at $k=2$ and $k=3$ (the third character is the decimal point), 0.1 at $k=4$, 0.01 at $k=5$, and 0.001 from $k=6$.
-This is the theory's length budget taken literally.
-The evaluator may spend $k$ symbols on its cost, and the threshold should be the resolution those symbols afford.
+This tokenizer emits one character per token for digits and the decimal point (Appendix~\ref{app:tokens}), so with two-digit distances a report of $k$ tokens is the true distance truncated to a grid of step 10 at $k=1$, 1 at $k=2$ and $k=3$ (the third character is the decimal point), 0.1 at $k=4$, 0.01 at $k=5$, and 0.001 from $k=6$.
+This is the length budget taken literally: the evaluator may spend $k$ symbols on its cost, and the grid is the resolution those symbols afford.
 Weight precision: bfloat16, 8-bit, 4-bit.
 The cells are rendering by weight precision at full report length, twelve cells, and the report ladder at three decimals and full weights, six more.
 
-\paragraph{Estimator.}
+\paragraph{Registered estimator and bars.}
 For each cell and gap, accuracy is the share of pairs whose preference for the closer option exceeds one half, with ties and unparsable reports counting as one half so that indifference counts against.
-The threshold of a cell is the gap at which accuracy first reaches 0.9, interpolated linearly in log gap between ladder points, infinite if never reached and the smallest gap if reached there.
-A self-test on a scorer that rounds to a grid of step $h$ recovered thresholds 0.0088, 0.087, and 0.87 at $h=0.01$, $0.1$, and $1$.
-That is where the 90 percent level of a rounding scorer sits, since a pair a fraction of a step apart rounds to the same value with a probability that falls linearly in the gap.
-
-\paragraph{Predictions and bars.}
-The scorer's threshold in a cell is the larger of the budget it was set and a floor, the scorer's own resolution at full weights, full rendering, and full report length.
+The registered threshold of a cell is the gap at which accuracy first reaches 0.9, interpolated linearly in log gap between ladder points, infinite if never reached and the smallest gap if reached there.
+The scorer's threshold in a cell is predicted to be the larger of the budget it was set and a floor, the scorer's own resolution at full weights, full rendering, and full report length.
 P1: along the rendering ladder at fixed weight precision the threshold is non-increasing in decimals within a tolerance factor, and at every decimal count whose step exceeds the floor by a factor of at least 3 it is within that factor of the step.
 P1b: the same along the report ladder for $k\ge2$, with the $k=1$ cell reported and not graded because its resolution of 10 sits at the edge of the gap ladder.
 P2: along the weight ladder at three decimals and full report length the threshold is non-decreasing as bits are removed, within the factor.
 P3: for every gap at least twice the largest threshold measured in any cell, accuracy is at least 0.95 in every cell.
-An anti-vacuity rule required accuracy of at least 0.95 at gap 20 and a floor of at most 0.3 at full precision, so that at least two rendering steps and three report budgets exceed three times the floor.
+An anti-vacuity rule required accuracy of at least 0.95 at gap 20 and a floor of at most 0.3 at full precision.
 The tolerance factor was fixed at 1.5 from a pilot on a separate seed.
 The registration records that at full weights the rendering and report ladders test only that the scorer's arithmetic resolves what it is shown and allowed to say, which a competent model makes nearly a tautology, and that the weight ladder is where the prediction can fail.
+
+\paragraph{Channel fit.}
+Proposition~\ref{prop:channel} was not part of the registration, and the fit that follows is an analysis of the sealed record rather than a registered test.
+For each cell the step $\hat h$ is the least-squares slope of accuracy on gap through the origin over the ladder points below 0.9, and the lapse $\hat\lambda$ is one minus the mean accuracy at gaps of at least twice the set step.
+Intervals are a parametric bootstrap that redraws each gap's 200 outcomes as binomial and refits, 4000 draws.
+A paired bootstrap across cells would be preferable and the record does not support it, since it holds per-gap aggregates and not per-pair outcomes.
 
 \paragraph{Discipline.}
 The registration, with its hypothesis, world, statistic, bars, exclusions and null, was committed and its hash recorded before the run seed was drawn.
 The self-test, the probes, and the pilot were run and recorded before sealing, and the run was graded by a script against the sealed bars.
-A registration that could pass on empty cells is not sealed, and every probe is cited in it.
 
 \section{Results}
 \label{sec:results}
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.58\columnwidth]{figures/thresholds.pdf}
-\caption{The threshold tracks the output budget.
-Each point is the gap at which the judge reaches 90 percent accuracy in one cell, against the budget set in that cell: the rendering step at three weight precisions, and the resolution afforded by the report length.
-Every point lies on the line at 0.87 of the budget, which is where a scorer that rounds to the budget's grid reaches 90 percent.
-The three weight precisions coincide.}
-\label{fig:thresholds}
+\includegraphics[width=\columnwidth]{figures/accuracy.pdf}
+\caption{Accuracy against gap, bfloat16 weights, with the grid-channel law $\min(1,\Delta/h)$ drawn through each cell at the step that was set.
+Left, the rendering ladder at full report length.
+Right, the report ladder at three decimals.
+Every point sits on its line: the accuracy at a gap is the gap divided by the grid step, and the line moves by one decade with each step of the budget.
+The dotted line is the 0.9 level of the registered threshold.}
+\label{fig:accuracy}
 \end{figure}
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=\columnwidth]{figures/accuracy.pdf}
-\caption{Accuracy against gap, bfloat16 weights.
-Left, the rendering ladder at full report length.
-Right, the report ladder at three decimals.
-Each curve rises from indifference to ceiling within one decade, and the decade shifts by one order of magnitude with each step of the budget.
-The dotted line is the 90 percent level that defines the threshold.}
-\label{fig:accuracy}
+\includegraphics[width=0.56\columnwidth]{figures/thresholds.pdf}
+\caption{The registered threshold against the budget that was set, log axes.
+Rendering cells at three weight precisions, and the report ladder.
+Every point lies on the line at 0.87 of the budget, which is where the registered estimator, log-gap interpolation to the 0.9 level on this ladder, places the threshold of a grid channel.
+The three weight precisions coincide.
+The fitted steps in Table~\ref{tab:fit} are the quantity to read; this figure shows that the sealed statistic behaved as the proposition says it must.}
+\label{fig:thresholds}
 \end{figure}
 
 \begin{table}[t]
 \centering
 \small
-\caption{Thresholds by cell, the gap at 90 percent accuracy.
+\caption{The step fitted from each accuracy curve against the step that was set, with 95 percent bootstrap intervals, and the lapse above resolution.
 Rendering cells at 12-token reports; report cells at 3 decimals and bfloat16.
-The budget column is the rendering step or the resolution the report length affords.
-Every graded threshold sits between 0.86 and 0.88 of its budget.}
-\label{tab:thresholds}
-\begin{tabular}{lrrrr}
+The registered threshold at the 0.9 level is shown for the record.
+Every graded interval contains the set step. The one-token cell is reported and not graded.}
+\label{tab:fit}
+\begin{tabular}{llrrrrr}
 \toprule
-Rendering (decimals) & budget & bfloat16 & 8-bit & 4-bit \\
+Cell & weights & set $h$ & $\hat h$ & interval & $\hat h/h$ & lapse $\hat\lambda$ \\
 \midrule
-0 & 1 & 0.869 & 0.869 & 0.869 \\
-1 & 0.1 & 0.0868 & 0.0868 & 0.0868 \\
-2 & 0.01 & 0.00856 & 0.00856 & 0.00856 \\
-3 & 0.001 & 0.00087 & 0.00087 & 0.00093 \\
+0 decimals & bf16, 8-bit, 4-bit & 1 & 0.998 & [0.89, 1.14] & 1.00 & 0.000 \\
+1 decimal & bf16, 8-bit, 4-bit & 0.1 & 0.0957 & [0.086, 0.109] & 0.96 & 0.000 \\
+2 decimals & bf16, 8-bit, 4-bit & 0.01 & 0.00924 & [0.0083, 0.0104] & 0.92 & 0.000 \\
+3 decimals & bf16 & 0.001 & 0.00102 & [0.00089, 0.00119] & 1.02 & 0.001 \\
+3 decimals & 8-bit & 0.001 & 0.00102 & [0.00089, 0.00118] & 1.02 & 0.001 \\
+3 decimals & 4-bit & 0.001 & 0.00099 & [0.00087, 0.00115] & 0.99 & 0.031 [0.024, 0.038] \\
 \midrule
-Report (tokens) & budget & bfloat16 & & \\
-\midrule
-1 & 10 & 8.85 (not graded) & & \\
-2 & 1 & 0.872 & & \\
-3 & 1 & 0.872 & & \\
-4 & 0.1 & 0.0873 & & \\
-5 & 0.01 & 0.00877 & & \\
-6 & 0.001 & 0.00087 & & \\
-12 & 0.001 & 0.00087 & & \\
+1 token & bf16 & 10 & 11.9 & [10.4, 13.8] & 1.19 & 0.000 \\
+2 tokens & bf16 & 1 & 1.03 & [0.92, 1.17] & 1.03 & 0.000 \\
+3 tokens & bf16 & 1 & 1.03 & [0.92, 1.17] & 1.03 & 0.002 \\
+4 tokens & bf16 & 0.1 & 0.100 & [0.090, 0.113] & 1.00 & 0.001 \\
+5 tokens & bf16 & 0.01 & 0.0106 & [0.0094, 0.0122] & 1.06 & 0.001 \\
+6 tokens & bf16 & 0.001 & 0.00102 & [0.00089, 0.00119] & 1.02 & 0.001 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
 The sealed verdict is a pass on P1, P1b, P2 and P3.
-Table~\ref{tab:thresholds} gives every threshold and Figures~\ref{fig:thresholds} and \ref{fig:accuracy} show them against the budgets and the accuracy curves they were read from.
+Figure~\ref{fig:accuracy} shows the accuracy curves, Table~\ref{tab:fit} the fitted steps, and Figure~\ref{fig:thresholds} the registered thresholds.
 No report was unparsable in any cell.
+The registered thresholds, at bfloat16, were 0.869, 0.0868, 0.00856, and 0.00087 at 0 to 3 decimals and 8.85, 0.872, 0.872, 0.0873, 0.00877, and 0.00087 at 1 to 6 tokens, each with a bootstrap interval of width below three percent of its value, and the 8-bit and 4-bit thresholds equal the bfloat16 values to the digits shown except at three decimals under 4-bit weights, 0.00093, a ratio of 1.06 inside the registered tolerance of 1.5.
 
-\paragraph{The threshold tracks the rendering step.}
-At bfloat16 the threshold was 0.869, 0.0868, 0.00856, and 0.00087 at 0, 1, 2, and 3 decimals, against rendering steps of 1, 0.1, 0.01, and 0.001.
-The ratio to the step is 0.869, 0.868, 0.856, and 0.873.
-The floor at full precision is 0.00087, which is the three-decimal step's ratio, so at three decimals the budget and the floor coincide and the cell is where the floor was measured.
-The accuracy curves in Figure~\ref{fig:accuracy} show the mechanism.
-At $d$ decimals two distances closer than $10^{-d}$ render identically a share of the time recorded per gap, the judge then reports the same number for both, and indifference counts against.
-Accuracy rises from near zero to ceiling within a single decade of gap, and the decade is the rendering step.
+\paragraph{The accuracy curve is the grid-channel law.}
+In every cell the accuracy at a gap below the set step equals the gap divided by the step, and above the step it is one, to within the binomial noise of 200 pairs.
+The largest deviation from $\min(1,\Delta/h)$ at any ladder point in any graded cell is 0.055, at a point where the law predicts 0.5 and the standard error is 0.035.
+The step fitted from the curve is within eight percent of the step that was set in every graded cell, and every interval contains the set step.
+That is the content of Figure~\ref{fig:accuracy}: the curves are one line, $\Delta/h$, drawn at four values of $h$ on the left and five on the right.
 
-\paragraph{The threshold tracks the report length.}
-At 2, 3, 4, 5, and 6 tokens the threshold was 0.872, 0.872, 0.0873, 0.00877, and 0.00087, against afforded resolutions of 1, 1, 0.1, 0.01, and 0.001.
-The ratio is 0.872 to 0.877 at every graded length.
-Two and three tokens give the same threshold because the third character is the decimal point, and six and twelve tokens give the same threshold because the floor is reached.
-The one-token cell, reported and not graded, gave 8.85 against an afforded resolution of 10.
-This is the length budget of Definition~\ref{def:object} taken literally.
-The judge may spend $k$ symbols on its cost, and its just-noticeable difference is the resolution of those symbols, at the same 0.87 that the rendering step produces.
+\paragraph{Rendering and report length are the same budget.}
+A grid on what the judge reads and a grid on what it writes produce the same accuracy curve at the same step.
+At three decimals and two tokens the fitted step is 1.03 against 1; at one decimal and full report it is 0.096 against 0.1; at two decimals and five tokens the two fitted steps are 0.0092 and 0.0106 against 0.01.
+Two and three tokens give the same step because the third character is the decimal point, and six and twelve tokens give the same step because the three-decimal rendering is the floor.
+This is the length budget of Definition~\ref{def:object} on both sides of the evaluator: the symbols the judge is given and the symbols it may spend set its resolution, and nothing between them does.
 
-\paragraph{Weight precision does not move the threshold.}
-At 8-bit weights every rendering-ladder threshold equals its bfloat16 value to the digits shown.
-At 4-bit weights the thresholds at 0, 1, and 2 decimals equal the bfloat16 values and the three-decimal threshold is 0.00093 against 0.00087, a ratio of 1.06 inside the registered tolerance of 1.5.
-The 4-bit judge at three decimals is a different evaluator in one visible way.
-Its accuracy at gaps above the threshold sits at 0.95 to 0.98 rather than at 0.99 to 1.00, a lapse that the 8-bit and bfloat16 judges do not show.
-That lapse did not move the threshold, and P3 held in the cell.
-The registration named the weight ladder as the place where the prediction could fail, and it did not.
+\paragraph{Weight precision changes reliability and not resolution.}
+At 8-bit weights every accuracy curve equals its bfloat16 curve to the digits shown.
+At 4-bit weights the curves at 0, 1, and 2 decimals equal the bfloat16 curves, and at three decimals the fitted step is 0.00099 against 0.00102 at bfloat16, an interval of $[0.00087,0.00115]$ containing the set step, while the accuracy above resolution falls from 0.99 to 1.00 to a plateau of 0.95 to 0.98.
+The two-parameter law reads this as a step unchanged and a lapse of 0.031, interval $[0.024,0.038]$, where the bfloat16 and 8-bit judges have a lapse of 0.001.
+The registration named the weight ladder as the place where the threshold prediction could fail, and it did not.
+What the weights did move is a second property, the judge's reliability once a difference is resolved.
+On this task, then, a judge has two numbers and not one: a resolution, set by the symbol grid on either side of it, and a reliability above that resolution, which its weight precision can lower without moving the resolution.
 
-\paragraph{Well-separated pairs keep their order.}
-The largest threshold in any cell is 8.85, in the one-token cell, so the only ladder gap at least twice that is 20.
+\paragraph{Well-separated pairs keep their order, on one gap.}
+The largest registered threshold in any cell is 8.85, in the ungraded one-token cell, so the only ladder gap at least twice that is 20, and P3 as registered is a single-gap test.
 At gap 20 the worst accuracy over all eighteen cells is 0.985.
-A budget change enlarged the indifference threshold by four orders of magnitude and reordered nothing that was resolved at every budget.
+A budget change enlarged the threshold by four orders of magnitude and reordered nothing at that gap.
+A registration with gaps beyond 20, and with P3 defined on the largest graded threshold, is the natural next gate and is listed in Section~\ref{sec:scope}.
 
-\section{Supporting gates}
+\section{Identification on synthetic evaluators}
 \label{sec:gates}
 
-Three further predictions of the theory were run under sealed registrations of the same discipline.
-Each is reported at the size of its verdict.
-
-\paragraph{Hull law on a public survey, pass as a tendency.}
-Theorem~\ref{thm:repr}(b) needs only a known consequence map and observed choices.
-In the 1972 American National Election Study respondents placed candidates and parties on seven-point issue scales and rated them on feeling thermometers, so the consequence of an object is its position on a registered pair of scales and the choice is the rating.
-On the registered pair, 489 of 557 respondents had a menu in which the law could bind, and 246 of them, 50.3 percent, violated it at least once, against 66.4 percent when each respondent's ratings are shuffled among that respondent's own objects, with none of 200 shuffles reaching the observed rate.
-Five other pairs of scales gave the same ordering, observed rates of 54 to 63 percent against shuffled rates of 67 to 74 percent.
-The rates sit well below the geometric base rate of violation and well above zero.
-On this world the law holds as a population tendency and fails as the deterministic statement of the theorem for about half of the respondents, and the registration records both halves.
-
-\paragraph{Identification on synthetic evaluators, pass.}
-Theorem~\ref{thm:repr}(c) says what choices can recover.
+Theorem~\ref{thm:repr}(c) says what choices can recover, and the gate that tests it uses the whole-space case that is machine-checked.
 Forty evaluators per cell, in two to four dimensions with random metrics including singular ones, were given batteries of consequences of increasing size, and the feasibility program of Theorem~\ref{thm:repr}(a) with a margin was solved from their weak orders alone.
 Errors were scored against the chance level of guesses from the evaluator prior.
-In all twelve cells on a fresh seed the metric and the ideal's range component were recovered at 64 consequences above the dimension, to a few percent of chance, with the error falling at every step as the battery grew, while at or below the design bound, off the span of a battery confined to a subspace, and in the kernel of a singular metric, nothing was recovered.
+In all twelve cells on a fresh seed, under a sealed registration, the metric and the ideal's range component were recovered at 64 consequences above the dimension, to a few percent of chance, with the error falling at every step as the battery grew, while at or below the design bound, off the span of a battery confined to a subspace, and in the kernel of a singular metric, nothing was recovered.
 A semiorder that withholds the fifth of pairs closest in distance identified more slowly, to between 5 and 25 percent of chance at the same battery.
-
-\paragraph{Shared-representation regret, indeterminate.}
-When several evaluators must read one representation of fixed rank, the theory computes each one's regret and says the least total regret is attained by the leading eigenspace of the influence-weighted sum of their geometries (Appendix~\ref{app:incompat}).
-The gate took the three query heads of a grouped-query attention group in a language model as evaluators of one key cache, with shared codes of rank 2, 4, and 8 in 128 dimensions.
-At those ranks the measured attention loss was 20 to 330 times the second-order prediction, so the regret formula and its bound could not be tested and the verdict is indeterminate.
-The ordering claim survived on the measured losses alone.
-The leading eigenspace of the summed geometries beat every random code and the key-covariance code in 32 of 32 cases, while a head's own leading eigenspace was the best code for that head in fewer than half the cases.
-A second sealed run perturbed one key at a time by a small isotropic error in the discarded subspace and there the measured loss matched the second-order prediction at the median, a ratio of 1.02 to 1.05, while 64 draws per cell left a 20 percent scatter that missed the registered per-triple bar, so that verdict is indeterminate as well.
-The registration of the first run also compared a one-key prediction to an all-keys measurement, a defect we record rather than repair after the fact.
+Two further sealed gates, a hull law on a public survey that held as a population tendency and a shared-representation bound on attention heads that returned indeterminate, are reported in Appendix~\ref{app:gates} at the size of their verdicts.
 
 \section{Related work}
 \label{sec:related}
 
 Finite resolution producing intransitive indifference is Luce's semiorder \citep{luce1956}, with the representation of \citet{scott1958} and the evidence of \citet{tversky1969}.
-The present theory adds that the threshold is the budget and the utility is a distance from an ideal, both fixed by the evaluation object, so the semiorder's parameter is measurable rather than fitted.
+The present theory adds that the threshold is the budget and the utility is a distance from an ideal, both fixed by the evaluation object, so the semiorder's parameter is a property of the evaluator rather than a fitted constant.
 The core of the induced preference, a weighted distance from an ideal point, is Coombs' unfolding \citep{coombs1964} and the spatial theory of voting \citep{davis1970,enelow1984}, whose weight matrix is a constant metric of evaluation.
 Those models are the unbudgeted, single-evaluator case of the object.
 The nearest neighbor with a budget is rational inattention and limited attention \citep{sims2003,caplin2015,masatlioglu2012,matejka2015}, in which a cost of information about the state produces consideration sets and stochastic choice.
 The budget here is a different quantity.
-It limits the resolution of consequences under the evaluator's metric, not the acquisition of information about states, and its predictions are not statements those models make.
+It limits the resolution of consequences under the evaluator's metric, not the acquisition of information about states.
 The decision geometry of \citet{dawid2007} derives a geometry on distributions from a scoring rule and is the case of an identity evaluator with the true distribution as ideal and no budget.
-The pullback construction that gives an evaluator its geometry, and the regret bound of Appendix~\ref{app:incompat}, come from a companion draft on observer representation \citep{bond2026or}, and the economics application is in \citet{bond2026tcss}.
+The pullback construction that gives an evaluator its geometry, and the regret bound of Appendix~\ref{app:gates}, come from a companion draft on observer representation \citep{bond2026or}, and the economics application is in \citet{bond2026tcss}.
 
 On language-model judges, \citet{zheng2023} established the practice and its position and verbosity biases, and \citet{li2026grading} found human alignment highest on a 0 to 5 scale, with finer scales worse.
 That finding is about the scale a judge is asked to use.
-The present result is about the resolution the judge has, and it says that the resolution is set by the symbols on both sides of the judge, what it is shown and what it may emit, at a constant fraction of their grid.
+The present result is about the resolution the judge has, and it says the resolution is the grid on the symbols on both sides of the judge, with the accuracy curve given by Proposition~\ref{prop:channel}.
 On quantization, \citet{lee2025quant} report that 4-bit weights cost small models accuracy on hard tasks and on MT-Bench conversation quality.
-Our 4-bit judge showed a lapse of a few percent above its threshold and no change in the threshold, on a task where the consequence map is known and the resolution is set from outside.
-The two findings measure different quantities and we do not read ours against theirs.
+Our 4-bit judge lost three percent of reliability above resolution and none of its resolution, on a task where the consequence map is known and the resolution is set from outside.
+The two findings measure different quantities, and the separation of resolution from reliability is what would let them be compared.
 
 \section{Scope}
 \label{sec:scope}
 
 The result is one model on one numeric task with a known consequence map.
 At full weights the rendering and report ladders test whether the judge's arithmetic resolves what it is shown and allowed to say, and a competent model makes that nearly a tautology.
-The informative parts are the weight ladder, where the prediction could have failed and did not, and the ordering of well-separated pairs across a four-order-of-magnitude change in threshold.
-The 0.87 is a property of a rounding scorer's accuracy curve at the 90 percent level, and a different level would give a different constant at the same budget.
+The informative parts are Proposition~\ref{prop:channel} holding at every ladder point rather than only at the threshold, the weight ladder, where the prediction could have failed and instead separated reliability from resolution, and the ordering of the well-separated gap across a four-order-of-magnitude change in threshold.
+P3 rests on one gap, and the channel fit was not registered.
+Two things would move this from a result about one judge to a result about judges.
+The first is a second model family with a different tokenizer, on which the report-length ladder in particular has a different grid.
+The second is a task that is not literal subtraction while keeping a known consequence map.
+Both are drafted as the next gate, together with a tokenizer that groups digits, on which the report grid is predicted to follow that tokenizer's mapping and not this one's, with gaps of 30, 50, and 100 added so that P3 is a curve, with P3 defined on the largest graded threshold, and with every pair's reports persisted so that a paired bootstrap is possible.
 Nothing here is a claim about human evaluators.
 A human budget manipulation is registered as a later gate and waits on ethics review.
-The hull law held on the survey as a tendency and not as a law, and the regret bound could not be tested at the ranks tried.
 What would fail the threshold claim is stated in the registration: a threshold that does not move with resolution where the theory says it must, one that shrinks when resolution is coarsened, or a reordering of well-separated pairs.
 
 \subsection*{AI use statement}
-Generative AI tools were used for drafting and editing text, for writing experiment and analysis code, and for literature search.
-They were not used to generate research ideas, data, or results, and no reported number was produced by a generative model.
-All AI-assisted work was reviewed by the authors.
-Code was tested against a self-test with known answers before any registered run, and every citation was checked against the publisher's record.
-The authors take responsibility for the final content of this work, including text, claims, and artifacts produced with the aid of generative AI.
+Generative AI tools were used in this work, and the uses that the ICLR policy lists as requiring disclosure were the following.
+They assisted in the writing of proofs of the theorems stated here and in the companion draft, in refining the predictions into registered hypotheses with bars, in designing and giving feedback on the experimental protocols, in implementing the methods (the stimulus generators, the judge harness, the estimators, and the grading scripts), in generating the synthetic evaluators on which the identification gate was run, and in interpreting results into the written record.
+They were not used to generate the theory's definitions or its central claims, which were the authors' and precede the tools' involvement, and they were not used to produce any reported number, which come from executing the registered code on the recorded seeds.
+Among the uses the policy lists as recommended for disclosure, the tools drafted and edited sections of this paper, searched and summarized related literature, produced the figures from the graded records, wrote and edited code, and formatted references.
+Verification was as follows.
+The core theorems are machine-checked in Lean, seven files with no unproven step, with Ky Fan's principle taken as a named hypothesis; the open-set form of Theorem~\ref{thm:repr}(c) is not among them and was corrected by hand after an external reader found the defect.
+Every experiment was registered and sealed with its hash before its run seed was drawn, its self-test and probe were run first, and its verdict was produced by a grading script against the sealed bars rather than by any model.
+Every citation was checked against the publisher's record.
+All AI-assisted text, code, and proofs were reviewed by the authors, who take responsibility for the final content of this work, including text, claims, and artifacts produced with the aid of generative AI.
 
 \subsection*{Ethics statement}
-The survey data are a public-use release of the American National Election Studies with no identifiers.
+The survey data used in Appendix~\ref{app:gates} are a public-use release of the American National Election Studies with no identifiers.
 No human subjects were run.
 The registered human gate will be submitted for institutional review before any participant is recruited.
 
 \subsection*{Reproducibility statement}
-The supplementary material contains, for every gate, the sealed registration with its hash, the configuration with model revision and library versions, the seeds, the run log, the graded record, and the grading script that applies the sealed bars.
+The supplementary material contains, for every gate, the sealed registration with its hash, the configuration with model revision and library versions, the seeds, the run log, the graded record, and the grading script that applies the sealed bars, together with the channel-fit script that produces Table~\ref{tab:fit} and Figure~\ref{fig:accuracy} from the graded record.
 Proofs of every theorem are in Appendix~\ref{app:proofs}.
-The judge is an openly released model at a recorded revision, and the stimulus generator, the scorer prompt, and the estimator are given in full in Section~\ref{sec:test} and in the supplementary code.
+The judge is an openly released model at a recorded revision, and the stimulus generator, the scorer prompt, the tokenization of reports, and the estimator are given in full in Section~\ref{sec:test}, Appendix~\ref{app:tokens}, and the supplementary code.
 
 \bibliography{refs}
 \bibliographystyle{iclr2027_conference}
@@ -407,16 +423,31 @@ This is the easy direction of the Scott and Suppes representation of semiorders,
 \end{proof}
 
 \begin{proof}[Proof of Theorem~\ref{thm:repr}]
-(a) Expanding, $q(y)=(y-t)^{\top}G(y-t)=y^{\top}Gy-2t^{\top}Gy+t^{\top}Gt$, which is a quadratic $Q(y)=y^{\top}Gy+b^{\top}y+\gamma$ with $b=-2Gt$ in the range of $G$.
-Conversely, given such $Q$ with $b$ in the range of $G$, choose $t$ with $Gt=-b/2$, and then $Q$ differs from $q$ by a constant, so the two order $A$ identically.
-The constraints $Q(y_{a})<Q(y_{b})$ for $a\succ b$ and $Q(y_{a})=Q(y_{b})$ for $a\sim b$ are linear in the entries of $(G,b,\gamma)$ for fixed consequences, the positive semidefinite cone is convex, and the range condition is the linear constraint that $b$ be orthogonal to the kernel of $G$, so the problem is a semidefinite feasibility problem.
+(a) Given $(G,t)$, put $M=[\,I\;\;-t\,]$, an $m\times(m+1)$ matrix, and $W=M^{\top}GM$.
+Then $W$ is positive semidefinite and $Q_{W}(y)=(y-t)^{\top}G(y-t)=q(y)$, so the order constraints hold for $W$.
+Conversely let $W$ be positive semidefinite with blocks $G$, $b/2$, $b^{\top}/2$, $\gamma$, so that $Q_{W}(y)=y^{\top}Gy+b^{\top}y+\gamma$.
+Then $G$ is positive semidefinite, and $b$ lies in the range of $G$: if $Gz=0$ then $(z,s)W(z,s)^{\top}=s\,b^{\top}z+\gamma s^{2}\ge0$ for every real $s$, which forces $b^{\top}z=0$.
+Choose $t$ with $Gt=-b/2$.
+Then $Q_{W}(y)=(y-t)^{\top}G(y-t)+\gamma-t^{\top}Gt$ differs from $q$ by a constant, so $(G,t)$ orders $A$ as $Q_{W}$ does.
+The order constraints are linear in the entries of $W$ for fixed consequences, and the cone is convex.
 (b) $q$ is convex because $G$ is positive semidefinite.
 If $y_{a}=\sum_{s}\lambda_{s}y_{s}$ with $\lambda_{s}\ge0$ summing to one, then $q(y_{a})\le\sum_{s}\lambda_{s}q(y_{s})\le\max_{s}q(y_{s})$, so $a\succsim s^{*}$ for a maximizer $s^{*}$.
 The argument used only convexity.
-(c) Same weak order on $U$ means $q_{2}=\varphi\circ q_{1}$ on $U$ for a strictly increasing $\varphi$ on $q_{1}(U)$, an interval because $U$ is connected and $q_{1}$ continuous.
-Along any line segment in $U$ on which $q_{1}$ is not constant, $q_{1}(s)=\alpha(s-s_{0})^{2}+\beta$ with $\alpha>0$, symmetric about $s_{0}$, and $q_{2}(s)=\varphi(q_{1}(s))$ is a quadratic in $s$ also symmetric about $s_{0}$, so $\varphi$ is affine with positive slope on the interval $q_{1}$ traces along the segment.
-Two such segments through a common point trace overlapping intervals, an affine function is determined by its values on an interval, and $U$ is connected, so $\varphi(u)=\lambda u+\mu$ with $\lambda>0$ on all of $q_{1}(U)$.
-Then $q_{2}=\lambda q_{1}+\mu$ on an open set, two polynomials that agree on an open set agree identically, and comparing quadratic and linear parts gives $G_{2}=\lambda G_{1}$ and $G_{1}(t_{2}-t_{1})=0$.
+(c) Same weak order on $U$ means $q_{2}=\varphi\circ q_{1}$ on $U$ for a strictly increasing $\varphi$ on $q_{1}(U)$, an interval because $U$ is connected and $q_{1}$ is continuous.
+
+\emph{Metric.}
+Fix $y\in U$ and a direction $v$ with $v^{\top}G_{1}v>0$, and write $g_{i}=v^{\top}G_{i}v$, $\ell_{i}=v^{\top}G_{i}(y-t_{i})$.
+Along $y+sv$, $q_{1}=q_{1}(y)+2\ell_{1}s+g_{1}s^{2}$ and $q_{2}=q_{2}(y)+2\ell_{2}s+g_{2}s^{2}$, both quadratics in $s$, and $q_{2}=\varphi(q_{1})$ on an interval of $s$ around $0$.
+Two quadratics in $s$ related by a strictly increasing map on an interval have the same critical point if the interval contains it, and in general the level sets of $q_{1}$ along the segment, which are pairs $\{s,s'\}$ symmetric about $s^{*}_{1}=-\ell_{1}/g_{1}$, must be level sets of $q_{2}$.
+If the segment contains two distinct such pairs, $q_{2}$ is symmetric about the same point, so $s^{*}_{2}=s^{*}_{1}$ and $\varphi$ is affine on the traced interval with slope $g_{2}/g_{1}$.
+When $\operatorname{rank}G_{1}\ge2$ such a segment exists through every $y\in U$: choose $v$ with $v^{\top}G_{1}v>0$ and $v^{\top}G_{1}(y-t_{1})=0$, which exists because a positive semidefinite form of rank at least two does not vanish on the hyperplane $\{v:v^{\top}G_{1}(y-t_{1})=0\}$, and then $s^{*}_{1}=0$ is interior to the segment.
+When $\operatorname{rank}G_{1}=1$, write $G_{1}=g\,ww^{\top}$; the level sets of $q_{1}$ in $U$ are pieces of the hyperplanes $w^{\top}y=$ const, $q_{2}$ is constant on each, so $q_{2}$ restricted to $U$ is a function of $w^{\top}y$ alone, hence a quadratic in $w^{\top}y$, and its quadratic part is $g'\,ww^{\top}$ with $g'>0$ because $q_{2}$ is nonconstant on $U$.
+In both cases $G_{2}=\lambda G_{1}$ with $\lambda>0$: in the rank-one case directly, and in the higher-rank case because $\varphi$ is affine with the same slope $\lambda$ on overlapping intervals along every chain of segments through the connected set $U$, so $q_{2}=\lambda q_{1}+\mu$ on the open set $U$, two polynomials that agree on an open set agree identically, and the quadratic parts match.
+
+\emph{Ideal.}
+In the case $\operatorname{rank}G_{1}\ge2$ the identity $q_{2}=\lambda q_{1}+\mu$ also matches linear parts, $G_{2}t_{2}=\lambda G_{1}t_{1}$, which with $G_{2}=\lambda G_{1}$ is $G_{1}(t_{2}-t_{1})=0$.
+In the case that $U$ contains a minimizer $y^{*}$ of $q_{1}$, so $G_{1}(y^{*}-t_{1})=0$, every segment through $y^{*}$ in a direction with $v^{\top}G_{1}v>0$ has $s^{*}_{1}=0$ interior, and the argument above gives $v^{\top}G_{2}(y^{*}-t_{2})=0$ for every such $v$, hence for a spanning set of the range of $G_{1}$, and with $G_{2}=\lambda G_{1}$ this is $G_{1}(y^{*}-t_{2})=0$ and so $G_{1}(t_{2}-t_{1})=0$.
+When neither hypothesis holds the ideal need not be identified, as the one-dimensional example after the theorem shows.
 \end{proof}
 
 \begin{proof}[Resolution reversal]
@@ -426,20 +457,63 @@ Then $d_{1}(a)=1$, $d_{1}(b)=0.9$, $d_{2}(a)=1$, and $d_{2}(b)=\sqrt{0.81+4}=2.1
 A function representing both would satisfy $u(b)>u(a)$ and $u(a)>u(b)$.
 \end{proof}
 
-\section{Coupled evaluators}
-\label{app:incompat}
+\section{Tokenization and parsing of reports}
+\label{app:tokens}
 
+The report-length ladder rests on the claim that the judge emits one character per generated token for the digits and the decimal point.
+Table~\ref{tab:tokens} shows the token identifiers the recorded tokenizer revision assigns to representative reports.
+Each digit and the decimal point is a single token, so a report limited to $k$ tokens is the decimal expansion of the judge's answer truncated to $k$ characters.
+A report is parsed as the first number in the decoded string, a trailing decimal point is dropped, and a string with no number counts as unparsable and as indifference.
+No report was unparsable in any cell of the run.
+The probes at full report length, whose raw generations are in the record, show the judge answering with exactly three decimals and rounding the last, for example a true distance of 11.6876 reported as 11.688 and 10.2039 as 10.204.
+The record does not hold per-pair generations for the run or the count of reports that stopped before the budget, which a future gate will log under the programme's rule that every stage persists what it saw.
+
+\begin{table}[h]
+\centering
+\small
+\caption{Token identifiers for representative reports under the recorded tokenizer revision. One character per token.}
+\label{tab:tokens}
+\begin{tabular}{lll}
+\toprule
+report & token identifiers & decoded tokens \\
+\midrule
+\texttt{10} & 16, 15 & 1, 0 \\
+\texttt{10.} & 16, 15, 13 & 1, 0, . \\
+\texttt{10.1} & 16, 15, 13, 16 & 1, 0, ., 1 \\
+\texttt{10.12} & 16, 15, 13, 16, 17 & 1, 0, ., 1, 2 \\
+\texttt{10.123} & 16, 15, 13, 16, 17, 18 & 1, 0, ., 1, 2, 3 \\
+\texttt{27.375} & 17, 22, 13, 18, 22, 20 & 2, 7, ., 3, 7, 5 \\
+\texttt{0.001} & 15, 13, 15, 15, 16 & 0, ., 0, 0, 1 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Two further sealed gates}
+\label{app:gates}
+
+\paragraph{Hull law on a public survey, pass as a tendency.}
+Theorem~\ref{thm:repr}(b) needs only a known consequence map and observed choices.
+In the 1972 American National Election Study respondents placed candidates and parties on seven-point issue scales and rated them on feeling thermometers, so the consequence of an object is its position on a registered pair of scales and the choice is the rating.
+On the registered pair, 489 of 557 respondents had a menu in which the law could bind, and 246 of them, 50.3 percent, violated it at least once, against 66.4 percent when each respondent's ratings are shuffled among that respondent's own objects, with none of 200 shuffles reaching the observed rate.
+Five other pairs of scales gave the same ordering, observed rates of 54 to 63 percent against shuffled rates of 67 to 74 percent.
+The rates sit well below the geometric base rate of violation and well above zero.
+On this world the law holds as a population tendency and fails as the deterministic statement of the theorem for about half of the respondents, and the registration records both halves.
+
+\paragraph{Shared-representation regret, indeterminate.}
 Let $N$ evaluators share a representation space $\R^{d}$ with constant pullbacks $P_{1},\dots,P_{N}$ and a common isotropic source of second moment $\sigma^{2}I$, and let a shared representation at budget $k$ be an orthogonal projector $\Pi$ of rank $k$.
 Evaluator $i$'s regret from $\Pi$ is $r_{i}(\Pi)=\sigma^{2}(\sum_{j\le k}\lambda_{j}(P_{i})-\tr(\Pi P_{i}))\ge0$.
-A shared representation with zero regret for every evaluator exists if and only if there is a $k$-dimensional subspace that is a top-$k$ eigenspace of every $P_{i}$.
-For weights $w_{i}>0$ the least weighted total regret is attained by a top-$k$ eigenspace of $\bar P=\sum_{i}w_{i}P_{i}$ and equals $\sigma^{2}(\sum_{i}w_{i}\sum_{j\le k}\lambda_{j}(P_{i})-\sum_{j\le k}\lambda_{j}(\bar P))$, strictly positive exactly when no common eigenspace exists.
-Both statements are Ky Fan's maximum principle \citep{fan1949} applied to $\tr(\Pi P_{i})$ and to $\tr(\Pi\bar P)$.
-The regret formula itself is the second-order expansion of the loss under a rank-$k$ code, which is why a measured loss far from quadratic, as in Section~\ref{sec:gates}, leaves the bound untested.
+A shared representation with zero regret for every evaluator exists if and only if there is a $k$-dimensional subspace that is a top-$k$ eigenspace of every $P_{i}$, and for weights $w_{i}>0$ the least weighted total regret is attained by a top-$k$ eigenspace of $\bar P=\sum_{i}w_{i}P_{i}$, strictly positive exactly when no common eigenspace exists.
+Both statements are Ky Fan's maximum principle \citep{fan1949}, and the regret formula is the second-order expansion of the loss under a rank-$k$ code.
+The gate took the three query heads of a grouped-query attention group in a language model as evaluators of one key cache, with shared codes of rank 2, 4, and 8 in 128 dimensions.
+At those ranks the measured attention loss was 20 to 330 times the second-order prediction, so the regret formula and its bound could not be tested and the verdict is indeterminate.
+The ordering claim survived on the measured losses alone: the leading eigenspace of the summed geometries beat every random code and the key-covariance code in 32 of 32 cases, while a head's own leading eigenspace was the best code for that head in fewer than half the cases.
+A second sealed run perturbed one key at a time by a small isotropic error in the discarded subspace, where the measured loss matched the second-order prediction at the median, a ratio of 1.02 to 1.05, while 64 draws per cell left a 20 percent scatter that missed the registered per-triple bar, so that verdict is indeterminate as well.
+The registration of the first run also compared a one-key prediction to an all-keys measurement, a defect recorded rather than repaired after the fact.
 
 \section{Per-cell accuracy}
 \label{app:cells}
 
-Table~\ref{tab:cells} gives the accuracy at every ladder gap in every cell of the run, from which each threshold in Table~\ref{tab:thresholds} was read.
+Table~\ref{tab:cells} gives the accuracy at every ladder gap in every cell of the run, from which the registered thresholds and the fits of Table~\ref{tab:fit} were computed.
 
 \begin{table}[h]
 \centering

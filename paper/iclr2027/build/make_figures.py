@@ -80,5 +80,5 @@ def fig_accuracy():
 
 
 if __name__ == "__main__":
-    fig_thresholds(); fig_accuracy()
+    fig_thresholds()   # figures/accuracy.* is produced by channel_fit.py, which overlays the grid-channel law
     print("wrote", sorted(p.name for p in OUT.iterdir()))

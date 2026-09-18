@@ -6,37 +6,47 @@ Atlas 2026-09-09). Single author. Not registered, not submitted.
 
 ## Title
 
-The Indifference Threshold of a Language-Model Judge Is Its Symbol Budget
+The Indifference Threshold of a Language-Model Judge Tracks Its Symbol Budget
 
 ## TL;DR
 
-A preregistered test on a language-model judge finds its just-noticeable difference equal
-to the resolution of the symbols it is shown and allowed to emit, unchanged within tolerance by 4-bit weight
-quantization, as Geometric Evaluation Theory predicts.
+A preregistered test on a language-model judge finds its accuracy at a gap equal to the gap
+over the symbol grid step on either side of it, the law of an exact evaluator behind a
+rounding channel, with 4-bit weights lowering reliability above resolution and not the
+resolution, as Geometric Evaluation Theory predicts.
 
 ## Abstract
 
-An evaluator with finite resolution does not order every pair of options. Two options
-whose consequences differ by less than the evaluator can resolve are indifferent, and the
-induced preference is a semiorder rather than a weak order. Geometric Evaluation Theory
-derives that structure from an evaluation object made of a consequence map, a metric with an
-ideal point, and a resolution budget, and proves that the threshold of the semiorder equals
-the budget rather than being a free parameter. We test that prediction on an evaluator the
-theory did not build. A language-model judge, Qwen2.5-7B-Instruct, is asked to report how
-far a number lies from a target, and its preference between two options is the order of its
-reports. Three budgets are set independently and registered before the run. Coarsening the
-numbers the judge is shown from three decimals to none raises its threshold from 0.0009 to
-0.87, at 0.86 to 0.87 of the rendering step at every level. Limiting the judge's report to two through
-six generated tokens sets the threshold at 0.87 of the resolution those symbols can express,
-from 0.87 down to 0.0009. Quantizing the judge's weights from bfloat16 to 8 bits and to 4 bits
-leaves every threshold unchanged within the registered tolerance. Pairs separated by more than twice the largest measured
-threshold are ordered alike in every cell, with worst-case accuracy 0.985. The resolution of
-the judge is the budget of symbols it is shown and allowed to emit, and not the precision of
-its weights. The registration, its hash, and the graded record are public.
+An evaluator with finite resolution does not order every pair of options. Two options whose
+consequences differ by less than the evaluator can resolve are indifferent, and the induced
+preference is a semiorder rather than a weak order. Geometric Evaluation Theory derives that
+structure from an evaluation object made of a consequence map, a metric with an ideal point,
+and a resolution budget, and proves that the threshold of the semiorder is set by the budget
+rather than fitted. We test that prediction on an evaluator the theory did not build. A
+language-model judge, Qwen2.5-7B-Instruct, is asked to report how far a number lies from a
+target, and its preference between two options is the order of its reports. Three budgets
+are set independently and registered before the run. When the numbers the judge is shown, or
+the symbols it may emit, are placed on a grid, its accuracy at a gap equals the gap divided
+by the grid step, capped at one, in every cell over four orders of magnitude of step. The
+step fitted from the judge's accuracy curve matches the step that was set to within eight
+percent in every graded cell, with a bootstrap interval that contains it. Quantizing the
+judge's weights to 8 bits changes nothing, and quantizing to 4 bits leaves the fitted step
+unchanged while adding a lapse of three percent above resolution. Resolution and
+reliability are separate properties of a judge, the first set by the symbols on either side
+of it and the second by its weights. The registration, its hash, and the graded record are
+public.
 
 ## Keywords
 
 LLM-as-judge, evaluation, semiorder, resolution budget, preregistration, quantization
+
+## Revision 2026-09-18 after an external review
+
+Title changed from "Is" to "Tracks". The 0.87 constant is the registered estimator's
+log-interpolation on this ladder (h times 2^-0.2) and is no longer presented as a property
+of the judge; the reported quantity is the grid step fitted from the accuracy curve with a
+bootstrap interval (`paper/iclr2027/build/channel_fit.json`). The 4-bit result is stated as
+reliability lowered, resolution unchanged.
 
 ## What the abstract does not say, for the full paper
 

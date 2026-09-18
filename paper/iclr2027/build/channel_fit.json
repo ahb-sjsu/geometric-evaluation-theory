@@ -1,0 +1,420 @@
+{
+ "model": "accuracy = (1 - lapse) * min(1, gap / h); h by least squares through the origin on points below 0.9; lapse = 1 - mean accuracy at gap >= 2 h_set; parametric binomial bootstrap n=200, 4000 draws, seed 20260918",
+ "source": "experiments/G3/results.json",
+ "cells": {
+  "full_0dec_12tok": {
+   "weight_precision": "full",
+   "decimals": 0,
+   "report_tokens": 12,
+   "budget": 1.0,
+   "h_hat": 0.9982877614890463,
+   "h_ci": [
+    0.8945509430914188,
+    1.1379387753995471
+   ],
+   "h_ratio": 0.9982877614890463,
+   "lapse": 0.0,
+   "lapse_ci": [
+    0.0,
+    0.0
+   ],
+   "threshold_0.9": 0.869332386766551,
+   "threshold_ci": [
+    0.8495117942177015,
+    0.8845458611597644
+   ],
+   "max_abs_dev_from_channel": 0.010000000000000009
+  },
+  "full_1dec_12tok": {
+   "weight_precision": "full",
+   "decimals": 1,
+   "report_tokens": 12,
+   "budget": 0.1,
+   "h_hat": 0.0957122552116235,
+   "h_ci": [
+    0.08588474554652711,
+    0.10846532438478747
+   ],
+   "h_ratio": 0.957122552116235,
+   "lapse": 0.0,
+   "lapse_ci": [
+    0.0,
+    0.0
+   ],
+   "threshold_0.9": 0.08680911066274184,
+   "threshold_ci": [
+    0.08478639918775352,
+    0.08835774907475348
+   ],
+   "max_abs_dev_from_channel": 0.04500000000000001
+  },
+  "full_2dec_12tok": {
+   "weight_precision": "full",
+   "decimals": 2,
+   "report_tokens": 12,
+   "budget": 0.01,
+   "h_hat": 0.009243697478991597,
+   "h_ci": [
+    0.008304735758407688,
+    0.010449050086355785
+   ],
+   "h_ratio": 0.9243697478991597,
+   "lapse": 0.0,
+   "lapse_ci": [
+    0.0,
+    0.0
+   ],
+   "threshold_0.9": 0.008557616299012825,
+   "threshold_ci": [
+    0.008312378961427879,
+    0.008740727353669738
+   ],
+   "max_abs_dev_from_channel": 0.05500000000000005
+  },
+  "full_3dec_12tok": {
+   "weight_precision": "full",
+   "decimals": 3,
+   "report_tokens": 12,
+   "budget": 0.001,
+   "h_hat": 0.001019623233908948,
+   "h_ci": [
+    0.0008921703296703295,
+    0.0011886446886446888
+   ],
+   "h_ratio": 1.0196232339089482,
+   "lapse": 0.0007692307692308553,
+   "lapse_ci": [
+    0.0,
+    0.0019230769230769162
+   ],
+   "threshold_0.9": 0.0008729201339904709,
+   "threshold_ci": [
+    0.0008542482384182731,
+    0.000887356789515519
+   ],
+   "max_abs_dev_from_channel": 0.009615384615384581
+  },
+  "full_3dec_1tok": {
+   "weight_precision": "full",
+   "decimals": 3,
+   "report_tokens": 1,
+   "budget": 10.0,
+   "h_hat": 11.880745804908647,
+   "h_ci": [
+    10.42735142991548,
+    13.764094408611918
+   ],
+   "h_ratio": 1.1880745804908648,
+   "lapse": 0.0,
+   "lapse_ci": [
+    0.0,
+    0.0
+   ],
+   "threshold_0.9": 8.845458611597648,
+   "threshold_ci": [
+    8.693323867665512,
+    8.965896093199028
+   ],
+   "max_abs_dev_from_channel": 0.065
+  },
+  "full_3dec_2tok": {
+   "weight_precision": "full",
+   "decimals": 3,
+   "report_tokens": 2,
+   "budget": 1.0,
+   "h_hat": 1.0316801429908928,
+   "h_ci": [
+    0.9165982658377918,
+    1.1718163768238763
+   ],
+   "h_ratio": 1.0316801429908928,
+   "lapse": 0.0,
+   "lapse_ci": [
+    0.0,
+    0.0
+   ],
+   "threshold_0.9": 0.8717462741386669,
+   "threshold_ci": [
+    0.852702825677734,
+    0.8854982761456628
+   ],
+   "max_abs_dev_from_channel": 0.025000000000000022
+  },
+  "full_3dec_3tok": {
+   "weight_precision": "full",
+   "decimals": 3,
+   "report_tokens": 3,
+   "budget": 1.0,
+   "h_hat": 1.0289783305249183,
+   "h_ci": [
+    0.919271661885221,
+    1.17354508602342
+   ],
+   "h_ratio": 1.0289783305249183,
+   "lapse": 0.0024999999999999467,
+   "lapse_ci": [
+    0.0,
+    0.006249999999999978
+   ],
+   "threshold_0.9": 0.8717462741386669,
+   "threshold_ci": [
+    0.852702825677734,
+    0.886435126281122
+   ],
+   "max_abs_dev_from_channel": 0.024500000000000022
+  },
+  "full_3dec_4tok": {
+   "weight_precision": "full",
+   "decimals": 3,
+   "report_tokens": 4,
+   "budget": 0.1,
+   "h_hat": 0.10037054719059861,
+   "h_ci": [
+    0.08962300906473547,
+    0.11341843695327343
+   ],
+   "h_ratio": 1.0037054719059861,
+   "lapse": 0.0014285714285714457,
+   "lapse_ci": [
+    0.0,
+    0.0035714285714286698
+   ],
+   "threshold_0.9": 0.08729201339904712,
+   "threshold_ci": [
+    0.08542482384182735,
+    0.0886435126281122
+   ],
+   "max_abs_dev_from_channel": 0.029857142857142846
+  },
+  "full_3dec_5tok": {
+   "weight_precision": "full",
+   "decimals": 3,
+   "report_tokens": 5,
+   "budget": 0.01,
+   "h_hat": 0.010622056239015817,
+   "h_ci": [
+    0.009404315707620528,
+    0.012216111111111112
+   ],
+   "h_ratio": 1.0622056239015816,
+   "lapse": 0.0010000000000000009,
+   "lapse_ci": [
+    0.0,
+    0.0025000000000000577
+   ],
+   "threshold_0.9": 0.00877408601503137,
+   "threshold_ci": [
+    0.008601193075159509,
+    0.008908987181403394
+   ],
+   "max_abs_dev_from_channel": 0.029500000000000026
+  },
+  "full_3dec_6tok": {
+   "weight_precision": "full",
+   "decimals": 3,
+   "report_tokens": 6,
+   "budget": 0.001,
+   "h_hat": 0.001019623233908948,
+   "h_ci": [
+    0.000892513736263736,
+    0.0011895604395604396
+   ],
+   "h_ratio": 1.0196232339089482,
+   "lapse": 0.0007692307692308553,
+   "lapse_ci": [
+    0.0,
+    0.0019230769230769162
+   ],
+   "threshold_0.9": 0.0008729201339904709,
+   "threshold_ci": [
+    0.0008542482384182731,
+    0.000887356789515519
+   ],
+   "max_abs_dev_from_channel": 0.009615384615384581
+  },
+  "int8_0dec_12tok": {
+   "weight_precision": "int8",
+   "decimals": 0,
+   "report_tokens": 12,
+   "budget": 1.0,
+   "h_hat": 0.9982877614890463,
+   "h_ci": [
+    0.8894244675355801,
+    1.1353806275340927
+   ],
+   "h_ratio": 0.9982877614890463,
+   "lapse": 0.0,
+   "lapse_ci": [
+    0.0,
+    0.0
+   ],
+   "threshold_0.9": 0.869332386766551,
+   "threshold_ci": [
+    0.8495117942177015,
+    0.8845458611597644
+   ],
+   "max_abs_dev_from_channel": 0.010000000000000009
+  },
+  "int8_1dec_12tok": {
+   "weight_precision": "int8",
+   "decimals": 1,
+   "report_tokens": 12,
+   "budget": 0.1,
+   "h_hat": 0.0957122552116235,
+   "h_ci": [
+    0.08531649684604194,
+    0.1092087749182117
+   ],
+   "h_ratio": 0.957122552116235,
+   "lapse": 0.0,
+   "lapse_ci": [
+    0.0,
+    0.0
+   ],
+   "threshold_0.9": 0.08680911066274184,
+   "threshold_ci": [
+    0.08478639918775352,
+    0.08845458611597645
+   ],
+   "max_abs_dev_from_channel": 0.04500000000000001
+  },
+  "int8_2dec_12tok": {
+   "weight_precision": "int8",
+   "decimals": 2,
+   "report_tokens": 12,
+   "budget": 0.01,
+   "h_hat": 0.009243697478991597,
+   "h_ci": [
+    0.008327598072952512,
+    0.010413305121556733
+   ],
+   "h_ratio": 0.9243697478991597,
+   "lapse": 0.0,
+   "lapse_ci": [
+    0.0,
+    0.0
+   ],
+   "threshold_0.9": 0.008557616299012825,
+   "threshold_ci": [
+    0.008312378961427879,
+    0.008740727353669738
+   ],
+   "max_abs_dev_from_channel": 0.05500000000000005
+  },
+  "int8_3dec_12tok": {
+   "weight_precision": "int8",
+   "decimals": 3,
+   "report_tokens": 12,
+   "budget": 0.001,
+   "h_hat": 0.001019623233908948,
+   "h_ci": [
+    0.0008921703296703295,
+    0.0011764705882352942
+   ],
+   "h_ratio": 1.0196232339089482,
+   "lapse": 0.0007692307692308553,
+   "lapse_ci": [
+    0.0,
+    0.0019230769230769162
+   ],
+   "threshold_0.9": 0.0008729201339904709,
+   "threshold_ci": [
+    0.0008542482384182731,
+    0.0008864351262811224
+   ],
+   "max_abs_dev_from_channel": 0.009615384615384581
+  },
+  "int4_0dec_12tok": {
+   "weight_precision": "int4",
+   "decimals": 0,
+   "report_tokens": 12,
+   "budget": 1.0,
+   "h_hat": 0.9982877614890463,
+   "h_ci": [
+    0.889561538843927,
+    1.1315543315907393
+   ],
+   "h_ratio": 0.9982877614890463,
+   "lapse": 0.0,
+   "lapse_ci": [
+    0.0,
+    0.0
+   ],
+   "threshold_0.9": 0.869332386766551,
+   "threshold_ci": [
+    0.8495117942177015,
+    0.8836017000078407
+   ],
+   "max_abs_dev_from_channel": 0.010000000000000009
+  },
+  "int4_1dec_12tok": {
+   "weight_precision": "int4",
+   "decimals": 1,
+   "report_tokens": 12,
+   "budget": 0.1,
+   "h_hat": 0.0957122552116235,
+   "h_ci": [
+    0.08546131732453863,
+    0.10818578446177633
+   ],
+   "h_ratio": 0.957122552116235,
+   "lapse": 0.0,
+   "lapse_ci": [
+    0.0,
+    0.0
+   ],
+   "threshold_0.9": 0.08680911066274184,
+   "threshold_ci": [
+    0.08478639918775352,
+    0.08835774907475348
+   ],
+   "max_abs_dev_from_channel": 0.04500000000000001
+  },
+  "int4_2dec_12tok": {
+   "weight_precision": "int4",
+   "decimals": 2,
+   "report_tokens": 12,
+   "budget": 0.01,
+   "h_hat": 0.009243697478991597,
+   "h_ci": [
+    0.008304735758407688,
+    0.0103862660944206
+   ],
+   "h_ratio": 0.9243697478991597,
+   "lapse": 0.0,
+   "lapse_ci": [
+    0.0,
+    0.0
+   ],
+   "threshold_0.9": 0.008557616299012825,
+   "threshold_ci": [
+    0.008312378961427879,
+    0.008729201339904711
+   ],
+   "max_abs_dev_from_channel": 0.05500000000000005
+  },
+  "int4_3dec_12tok": {
+   "weight_precision": "int4",
+   "decimals": 3,
+   "report_tokens": 12,
+   "budget": 0.001,
+   "h_hat": 0.000989010989010989,
+   "h_ci": [
+    0.0008667582417582417,
+    0.001152930402930403
+   ],
+   "h_ratio": 0.9890109890109889,
+   "lapse": 0.03076923076923077,
+   "lapse_ci": [
+    0.024230769230769278,
+    0.0376923076923078
+   ],
+   "threshold_0.9": 0.0009274261736202788,
+   "threshold_ci": [
+    0.0008920304325615594,
+    0.0009709426633346459
+   ],
+   "max_abs_dev_from_channel": 0.019230769230769273
+  }
+ }
+}
