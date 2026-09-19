@@ -1,0 +1,129 @@
+{
+ "decisions": 303414,
+ "league": {
+  "all_four_actions": {
+   "high_pressure": {
+    "decisions_in_qualifying_units": 50143,
+    "evaluators_with_at_least_one_unit": 1,
+    "median_unit_size": 236.0,
+    "units_qualifying": 126,
+    "units_total": 227
+   },
+   "low_pressure": {
+    "decisions_in_qualifying_units": 240237,
+    "evaluators_with_at_least_one_unit": 1,
+    "median_unit_size": 662.0,
+    "units_qualifying": 189,
+    "units_total": 228
+   },
+   "overall": {
+    "decisions_in_qualifying_units": 297201,
+    "evaluators_with_at_least_one_unit": 1,
+    "median_unit_size": 784.0,
+    "units_qualifying": 201,
+    "units_total": 229
+   }
+  },
+  "three_or_more_actions": {
+   "high_pressure": {
+    "decisions_in_qualifying_units": 54948,
+    "evaluators_with_at_least_one_unit": 1,
+    "median_unit_size": 194.0,
+    "units_qualifying": 173,
+    "units_total": 227
+   },
+   "overall": {
+    "decisions_in_qualifying_units": 303306,
+    "evaluators_with_at_least_one_unit": 1,
+    "median_unit_size": 716.0,
+    "units_qualifying": 219,
+    "units_total": 229
+   }
+  }
+ },
+ "min_per_action": 5,
+ "n_team_seasons": 320,
+ "n_teams": 32,
+ "team": {
+  "all_four_actions": {
+   "high_pressure": {
+    "decisions_in_qualifying_units": 7132,
+    "evaluators_with_at_least_one_unit": 31,
+    "median_unit_size": 66.0,
+    "units_qualifying": 99,
+    "units_total": 6126
+   },
+   "low_pressure": {
+    "decisions_in_qualifying_units": 123611,
+    "evaluators_with_at_least_one_unit": 32,
+    "median_unit_size": 120.5,
+    "units_qualifying": 746,
+    "units_total": 6934
+   },
+   "overall": {
+    "decisions_in_qualifying_units": 164339,
+    "evaluators_with_at_least_one_unit": 32,
+    "median_unit_size": 114.0,
+    "units_qualifying": 962,
+    "units_total": 6998
+   }
+  },
+  "three_or_more_actions": {
+   "high_pressure": {
+    "decisions_in_qualifying_units": 17064,
+    "evaluators_with_at_least_one_unit": 32,
+    "median_unit_size": 53.5,
+    "units_qualifying": 294,
+    "units_total": 6126
+   },
+   "overall": {
+    "decisions_in_qualifying_units": 215082,
+    "evaluators_with_at_least_one_unit": 32,
+    "median_unit_size": 66.0,
+    "units_qualifying": 1954,
+    "units_total": 6998
+   }
+  }
+ },
+ "team_season": {
+  "all_four_actions": {
+   "high_pressure": {
+    "decisions_in_qualifying_units": 0,
+    "evaluators_with_at_least_one_unit": 0,
+    "median_unit_size": null,
+    "units_qualifying": 0,
+    "units_total": 26725
+   },
+   "low_pressure": {
+    "decisions_in_qualifying_units": 13534,
+    "evaluators_with_at_least_one_unit": 193,
+    "median_unit_size": 48.0,
+    "units_qualifying": 276,
+    "units_total": 49545
+   },
+   "overall": {
+    "decisions_in_qualifying_units": 25942,
+    "evaluators_with_at_least_one_unit": 263,
+    "median_unit_size": 55.0,
+    "units_qualifying": 471,
+    "units_total": 52731
+   }
+  },
+  "three_or_more_actions": {
+   "high_pressure": {
+    "decisions_in_qualifying_units": 0,
+    "evaluators_with_at_least_one_unit": 0,
+    "median_unit_size": null,
+    "units_qualifying": 0,
+    "units_total": 26725
+   },
+   "overall": {
+    "decisions_in_qualifying_units": 71385,
+    "evaluators_with_at_least_one_unit": 320,
+    "median_unit_size": 41.0,
+    "units_qualifying": 1639,
+    "units_total": 52731
+   }
+  }
+ }
+}

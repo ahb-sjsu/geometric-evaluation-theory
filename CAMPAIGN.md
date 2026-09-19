@@ -19,6 +19,7 @@ Standing rule inherited from the observation-theory campaigns: every gate regist
 | G6 | Menu-dependent admissibility and the weak axiom | G0 | PENDING |
 | G7 | Human budget manipulation | G3, G5 | PENDING, needs IRB |
 | G8 | Submission and archive | G1, G2, G4, and at least one of G3, G5, G6 | PENDING |
+| G9 | Hull law in a second world, and the budget prediction on natural human decisions at scale | G0, G2, G5 | DRAFTED 2026-09-19 (`experiments/G9/PREREG-G9-DRAFT.md`, not sealed; four event-presence probes run on Atlas; NFL play calls 2015 to 2024, 303,414 decisions, 962 testable units across 32 evaluators, 188 of 201 cells in general position on the primary plane; the fourth-down design the gate was first drafted around was abandoned at 41 cells, by its own probe) |
 
 ## G0. Foundations frozen
 
@@ -152,3 +153,10 @@ Requires an IRB protocol. Not before G3 has shown the effect in a computational 
 
 Deliverable. The paper at 1.0 with the ledger rows of every gate that ran, a Zenodo record, the encyclopedia entry updated to cite the ledger, and a venue. Candidates are the Journal of Mathematical Psychology (semiorders, ideal-point models, identification) and Theory and Decision (foundations of evaluation).
 Bar. Every headline claim in the paper resolves to a ledger row of class proved, demonstrated, or replicated, or is labeled posited or open in the text.
+
+## G9. Hull law in a second world, and the budget prediction on natural human decisions at scale
+
+Two claims at once, on decisions somebody already made for real stakes. GET-12 asks whether the hull law holds where the consequence map is estimated from outcomes rather than placed by the evaluator, which is the limit G2's record carries. GET-11 and GET-7 ask whether a budget manipulation lowers the effective rank of the metric and reverses preference, which G7 would ask of humans and cannot until an IRB protocol exists. The game clock manipulates the budget with nobody administering it.
+World. nflverse play-by-play releases, the public artifact behind nflfastR, regular seasons 2015 through 2024. The evaluator is a franchise, the action is one of four play calls, and the consequence map is estimated once across all evaluators, which is GET's split between what the world supplies and what the evaluator owns.
+Probes, 2026-09-19, Atlas. Four, each opening the data only to count events. The first measured the fourth-down design the gate was drafted around and killed it. 35,406 decisions, but 41 state cells carrying all three of go, field goal and punt, and 11 of those under time pressure, against G2's 489 testable respondents. The second measured the play call one level down and found 303,414 decisions in 229 cells, 201 of them carrying all four actions. The third measured who the evaluator can be and found the budget arm cannot run per evaluator at all, 99 high-pressure units at the franchise definition and none at franchise and season, so that arm is registered at the league evaluator and says so. The fourth measured whether the menus span two dimensions and found 174 to 195 of 201 cells in general position across all ten consequence planes, 188 on the primary one.
+Status. Sealable. Nothing outstanding, and the seal is the owner's rename.

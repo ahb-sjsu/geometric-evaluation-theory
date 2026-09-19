@@ -1,0 +1,185 @@
+{
+ "action_counts": {
+  "pass_deep": 31313,
+  "pass_short": 142244,
+  "run_inside": 97191,
+  "run_outside": 32666
+ },
+ "actions": [
+  "run_inside",
+  "run_outside",
+  "pass_short",
+  "pass_deep"
+ ],
+ "bins": {
+  "downs": [
+   1,
+   2,
+   3
+  ],
+  "pressure_half_seconds": 240,
+  "score_differential": [
+   -100,
+   -8,
+   -3,
+   3,
+   8,
+   100
+  ],
+  "yardline_100": [
+   0,
+   20,
+   50,
+   80,
+   100
+  ],
+  "ydstogo": [
+   0,
+   3,
+   6,
+   10,
+   100
+  ]
+ },
+ "cells_by_pressure": {
+  "high": {
+   "cells": 227,
+   "cells_3plus_at_min": 173,
+   "cells_all4_at_min": 126,
+   "cells_with_3plus_actions": 219,
+   "cells_with_all_4_actions": 194,
+   "decisions": 56372,
+   "decisions_in_cells_all4_at_min": 50143,
+   "median_cell_size_all4_at_min": 236.0,
+   "min_cell_size_all4_at_min": 51
+  },
+  "low": {
+   "cells": 228,
+   "cells_3plus_at_min": 218,
+   "cells_all4_at_min": 189,
+   "cells_with_3plus_actions": 222,
+   "cells_with_all_4_actions": 213,
+   "decisions": 247042,
+   "decisions_in_cells_all4_at_min": 240237,
+   "median_cell_size_all4_at_min": 662.0,
+   "min_cell_size_all4_at_min": 61
+  }
+ },
+ "cells_overall": {
+  "cells": 229,
+  "cells_3plus_at_min": 219,
+  "cells_all4_at_min": 201,
+  "cells_with_3plus_actions": 223,
+  "cells_with_all_4_actions": 215,
+  "decisions": 303414,
+  "decisions_in_cells_all4_at_min": 297201,
+  "median_cell_size_all4_at_min": 784.0,
+  "min_cell_size_all4_at_min": 55
+ },
+ "consequence_coordinate_presence": {
+  "ep": 303414,
+  "epa": 303413,
+  "first_down": 303414,
+  "fumble_lost": 303414,
+  "incomplete_pass": 303414,
+  "interception": 303414,
+  "sack": 303414,
+  "touchdown": 303414,
+  "wp": 303414,
+  "yards_gained": 303414
+ },
+ "decisions": 303414,
+ "exclusions": [
+  {
+   "after": 462462,
+   "before": 483605,
+   "dropped": 21143,
+   "rule": "regular season only"
+  },
+  {
+   "after": 349466,
+   "before": 462462,
+   "dropped": 112996,
+   "rule": "first, second and third down"
+  },
+  {
+   "after": 345435,
+   "before": 349466,
+   "dropped": 4031,
+   "rule": "drop kneels"
+  },
+  {
+   "after": 344743,
+   "before": 345435,
+   "dropped": 692,
+   "rule": "drop spikes"
+  },
+  {
+   "after": 344743,
+   "before": 344743,
+   "dropped": 0,
+   "rule": "drop two point plays"
+  },
+  {
+   "after": 317788,
+   "before": 344743,
+   "dropped": 26955,
+   "rule": "drop penalty-nullified plays"
+  },
+  {
+   "after": 317788,
+   "before": 317788,
+   "dropped": 0,
+   "rule": "need field position and distance"
+  },
+  {
+   "after": 317788,
+   "before": 317788,
+   "dropped": 0,
+   "rule": "need score and clock"
+  },
+  {
+   "after": 303414,
+   "before": 317788,
+   "dropped": 14374,
+   "rule": "action must be one of the four registered calls"
+  }
+ ],
+ "min_per_action": 5,
+ "per_evaluator_note": {
+  "median_decisions_per_season": 30202.0,
+  "seasons": 10
+ },
+ "per_season": {
+  "2015": 30265,
+  "2016": 30118,
+  "2017": 29670,
+  "2018": 29343,
+  "2019": 29581,
+  "2020": 30139,
+  "2021": 31411,
+  "2022": 31090,
+  "2023": 31113,
+  "2024": 30684
+ },
+ "rows_all": 483605,
+ "seasons": [
+  2015,
+  2016,
+  2017,
+  2018,
+  2019,
+  2020,
+  2021,
+  2022,
+  2023,
+  2024
+ ],
+ "unclassified_play_types": {
+  "field_goal": 851,
+  "no_play": 406,
+  "pass": 12137,
+  "run": 977
+ },
+ "unclassified_plays": 14374
+}

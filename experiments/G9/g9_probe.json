@@ -1,0 +1,180 @@
+{
+ "action_counts": {
+  "field_goal": 9294,
+  "go": 6194,
+  "punt": 19918
+ },
+ "bins": {
+  "pressure_half_seconds": 240,
+  "score_differential": [
+   -100,
+   -14,
+   -7,
+   -3,
+   0,
+   3,
+   7,
+   14,
+   100
+  ],
+  "yardline_100": [
+   0,
+   5,
+   20,
+   35,
+   45,
+   60,
+   75,
+   100
+  ],
+  "ydstogo": [
+   0,
+   1,
+   2,
+   3,
+   5,
+   8,
+   100
+  ]
+ },
+ "cells_by_pressure": {
+  "high": {
+   "cells": 320,
+   "cells_all_three": 42,
+   "cells_all_three_at_min": 11,
+   "decisions": 7630,
+   "decisions_in_qualifying_cells": 386,
+   "median_cell_size_qualifying": 27.0
+  },
+  "low": {
+   "cells": 321,
+   "cells_all_three": 55,
+   "cells_all_three_at_min": 27,
+   "decisions": 27776,
+   "decisions_in_qualifying_cells": 2319,
+   "median_cell_size_qualifying": 60.0
+  }
+ },
+ "cells_overall": {
+  "cells": 321,
+  "cells_all_three": 67,
+  "cells_all_three_at_min": 41,
+  "decisions": 35406,
+  "decisions_in_qualifying_cells": 4320,
+  "median_cell_size_qualifying": 80.0
+ },
+ "consequence_map_inputs": {
+  "ep_present": 35406,
+  "fg_attempts": 9294,
+  "fg_kick_distance_max": 67.0,
+  "fg_kick_distance_min": 18.0,
+  "fg_made": 7930,
+  "go_attempts": 6194,
+  "go_attempts_by_ydstogo_1_to_5": {
+   "1": 2419,
+   "2": 858,
+   "3": 552,
+   "4": 445,
+   "5": 372
+  },
+  "go_conversions": 3234,
+  "punts": 19918,
+  "vegas_wp_present": 35406,
+  "wp_present": 35406
+ },
+ "decisions": 35406,
+ "exclusions": [
+  {
+   "after": 462462,
+   "before": 483605,
+   "dropped": 21143,
+   "rule": "regular season only"
+  },
+  {
+   "after": 39908,
+   "before": 462462,
+   "dropped": 422554,
+   "rule": "fourth down only"
+  },
+  {
+   "after": 39879,
+   "before": 39908,
+   "dropped": 29,
+   "rule": "drop kneels"
+  },
+  {
+   "after": 39879,
+   "before": 39879,
+   "dropped": 0,
+   "rule": "drop spikes"
+  },
+  {
+   "after": 39879,
+   "before": 39879,
+   "dropped": 0,
+   "rule": "drop two point plays"
+  },
+  {
+   "after": 39815,
+   "before": 39879,
+   "dropped": 64,
+   "rule": "drop rows with no play type"
+  },
+  {
+   "after": 35481,
+   "before": 39815,
+   "dropped": 4334,
+   "rule": "drop penalty-nullified plays"
+  },
+  {
+   "after": 35481,
+   "before": 35481,
+   "dropped": 0,
+   "rule": "need field position and distance"
+  },
+  {
+   "after": 35481,
+   "before": 35481,
+   "dropped": 0,
+   "rule": "need score and clock"
+  },
+  {
+   "after": 35406,
+   "before": 35481,
+   "dropped": 75,
+   "rule": "action must be one of go, field goal, punt"
+  }
+ ],
+ "min_per_action": 3,
+ "observed_admissibility": {
+  "fg_attempted_yardline_100_max": 49.0,
+  "go_yardline_100_max": 99.0,
+  "go_yardline_100_min": 1.0,
+  "punt_yardline_100_min": 28.0
+ },
+ "per_season": {
+  "2015": 3503,
+  "2016": 3456,
+  "2017": 3560,
+  "2018": 3339,
+  "2019": 3425,
+  "2020": 3257,
+  "2021": 3635,
+  "2022": 3730,
+  "2023": 3863,
+  "2024": 3638
+ },
+ "rows_all": 483605,
+ "seasons": [
+  2015,
+  2016,
+  2017,
+  2018,
+  2019,
+  2020,
+  2021,
+  2022,
+  2023,
+  2024
+ ]
+}
