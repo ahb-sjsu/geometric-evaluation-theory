@@ -95,18 +95,37 @@ def kubectl(*args, check=False):
 
 # ----------------------------------------------------------------------------- sizing
 
+METER_DIRS = ("pilot", "pilot_measure")   # the current design; archived attempts (pilot_run*) ran other workloads
+
+
 def measured_usage(model: str, precision: str):
     """The meter record of a completed pilot calibration on this model and precision, as the
-    time-averaged usage the NRP floors are judged on. None if the model was never measured."""
+    time-averaged usage the NRP floors are judged on. None if the model was never measured.
+
+    Peak memory is the peak the pod cannot give back. Loading maps the weight files, and those
+    clean file-backed pages (RssFile, 2.0 to 5.0 GiB on the pilots) are dropped by the loader when
+    it finishes and can be reclaimed by the kernel under a memory limit, so they set no floor on
+    the request. The peak counted is the larger of the post-load resident peak and the load-phase
+    anonymous peak plus the post-load file-backed peak. `load_under_limit.py` checks this by
+    loading and scoring under a hard cgroup limit on Atlas (recorded in PREREG-G3C Section 7)."""
     import nrp_sizing as sizing
-    cands = sorted(METER_ROOT.glob(f"pilot*/calibration/{model}__{precision}/results.json"))
-    for p in reversed(cands):
-        r = json.load(open(p))
-        w = (r.get("meter") or {}).get("whole_run")
-        if w and w.get("seconds", 0) > 600:
-            return sizing.Usage(mean_cpu_cores=float(w["mean_cores"]),
-                                mean_mem_gib=float(w.get("VmRSS_mean_gib", 0.0)),
-                                peak_mem_gib=float(w.get("VmRSS_peak_gib", 0.0))), str(p), w
+    for d in METER_DIRS:
+        p = METER_ROOT / d / "calibration" / f"{model}__{precision}" / "results.json"
+        if not p.exists():
+            continue
+        m = json.load(open(p)).get("meter") or {}
+        w, ph = m.get("whole_run"), m.get("phases") or {}
+        if not w or w.get("seconds", 0) < 300:
+            continue
+        load = [v for k, v in ph.items() if k.endswith("_load")]
+        after = [v for k, v in ph.items() if not k.endswith("_load") and v.get("VmRSS_peak_gib") is not None]
+        if not load or not after:
+            continue
+        post_peak = max(v["VmRSS_peak_gib"] for v in after)
+        post_file = max(v.get("RssFile_peak_gib", 0.0) for v in after)
+        peak = max(post_peak, load[0].get("RssAnon_peak_gib", 0.0) + post_file)
+        return sizing.Usage(mean_cpu_cores=float(w["mean_cores"]), mean_mem_gib=float(w.get("VmRSS_mean_gib", 0.0)),
+                            peak_mem_gib=float(peak)), str(p), w
     return None, None, None
 
 
@@ -227,7 +246,11 @@ def main(argv=None) -> int:
     if a.cmd == "pvc":
         print(PVC_MANIFEST); return 0
     if a.cmd == "code":
-        files = [G3C.parent / "G3b" / "g3b.py", G3C / "judge.py", G3C / "judge_grade.py", G3C / "prereg_config.json", HERE / "stage_models.py"]
+        helper = next((G3C.parent / d / "g3b.py" for d in ("G3b", "g3b") if (G3C.parent / d / "g3b.py").exists()), None)
+        files = [helper, G3C / "judge.py", G3C / "judge_grade.py", G3C / "prereg_config.json", HERE / "stage_models.py"]
+        missing = [str(f) for f in files if f is None or not f.exists()]
+        if missing:
+            raise SystemExit(f"code: missing {missing}")
         args = ["create", "configmap", CODE_CM, "--dry-run=client", "-o", "yaml"] + [f"--from-file={f}" for f in files]
         y = kubectl(*args, check=True).stdout
         r = subprocess.run(["kubectl", "-n", NS, "apply", "-f", "-"], input=y, capture_output=True, text=True)
