@@ -78,3 +78,15 @@ One model, one numeric task, a known consequence map. The full-weight ladders ar
 nearly a tautology for a competent model and the registration says so; the weight-ladder
 null and the well-separated ordering are the informative results. G4 and G4b are
 reported as indeterminate. No claim about human evaluators.
+
+## Pivot draft, 2026-09-19: `iclr2027-v2.tex`
+
+The pivot the owner asked for: the main text is gate G3c (a judge's threshold predicted from
+calibration before the test seed is drawn, on worksheet grading) and gate G3d (the deliberation
+budget flip, with its crossover predicted), and the theory and the numeric-task gate G3 move to
+Appendices A and B. `iclr2027.tex` is left as the G3 version. Every number that belongs to a
+sealed result is a bold `[pending]` placeholder until the graded record exists; no pilot number is
+written as a result. Builds to 13 pages with no undefined reference. Open before it can replace
+`iclr2027.tex`: results sections, Figures 1 and 2 from the graded records, the related-work
+prior-art check (probability-weighted scores as in G-Eval, cue and authority biases in LLM judges,
+reasoning and judge bias), abstract and introduction numbers, AI use statement.
