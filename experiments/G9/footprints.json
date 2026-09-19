@@ -1,0 +1,12 @@
+{
+ "measured": true,
+ "what": "one sealed G9 cell, primary plane, floor 5, 200 shuffles, on Atlas",
+ "how": "VmHWM and VmRSS read from /proc/<pid>/status during the run, CPU share from utime plus stime against wall clock; the same cell also under /usr/bin/time -v",
+ "when": "2026-09-19",
+ "host": "atlas, one pinned core, OMP and BLAS threads set to 1",
+ "peak_rss_mb": 468.4,
+ "mean_rss_mb": 282.0,
+ "mean_cpu_share": 1.0,
+ "peak_over_mean": 1.66,
+ "note": "The peak is the pandas load of ten seasons and it is transient. The steady state is the shuffle loop, which allocates nothing. Peak over mean is 1.66, well inside the rule that a class is sizeable only when peak is at most five times mean, so one request satisfies the ceiling and the twenty percent floor at once. Sizing from mean alone would have used 282 MB and been wrong by the load spike, which is what the kernel kills on."
+}

@@ -1,0 +1,39 @@
+{
+ "actions": [
+  "run_inside",
+  "run_outside",
+  "pass_short",
+  "pass_deep"
+ ],
+ "carries_bar": true,
+ "mean_candidates": 4.0,
+ "min_per_action": 5,
+ "n_respondents": 962,
+ "n_shuffles": 200,
+ "n_testable": 402,
+ "n_violated": 8,
+ "p_null_mean": 0.2285820895522388,
+ "p_null_sd": 0.020613456917123508,
+ "p_obs": 0.01990049751243781,
+ "p_value_perm": 0.0,
+ "plane": [
+  "y1_epa",
+  "y3_turnover"
+ ],
+ "sealed_floor": 5,
+ "seasons": [
+  2015,
+  2016,
+  2017,
+  2018,
+  2019,
+  2020,
+  2021,
+  2022,
+  2023,
+  2024
+ ],
+ "seed": 20260919,
+ "stratum": "all",
+ "weighted_testable": 402.0
+}
