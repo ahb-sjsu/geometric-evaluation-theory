@@ -842,7 +842,9 @@
    "dev_max": 0.12,
    "z_max": 4.0,
    "threshold_factor": 1.6,
-   "rank_agreement_min": 0.6
+   "rank_agreement_min": 0.6,
+   "vacuity_acc_min": 0.9,
+   "vacuity_bits_min": 1.0
   },
   "J1_prediction": {
    "1-5/argmax": {
@@ -1086,6 +1088,26 @@
    ],
    "mean_p_first": 0.5492018810714285,
    "label": "AT FLOOR"
+  },
+  "anti_vacuity": {
+   "scales": {
+    "1-5": {
+     "argmax_acc_largest_gap": 1.0,
+     "bits": 1.774,
+     "met": true
+    },
+    "0-9": {
+     "argmax_acc_largest_gap": 1.0,
+     "bits": 2.335,
+     "met": true
+    },
+    "0-100": {
+     "argmax_acc_largest_gap": 1.0,
+     "bits": 2.044,
+     "met": true
+    }
+   },
+   "met": true
   },
   "gate": "PASS"
  }

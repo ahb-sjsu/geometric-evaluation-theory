@@ -31,7 +31,9 @@ from pathlib import Path
 import numpy as np
 
 LEVEL = 0.75
-REQUIRED_BARS = ("dev_max", "z_max", "threshold_factor", "rank_agreement_min")
+REQUIRED_BARS = ("dev_max", "z_max", "threshold_factor", "rank_agreement_min", "vacuity_acc_min", "vacuity_bits_min")
+PERMISSIVE = {"dev_max": 1.0, "z_max": 1e9, "threshold_factor": 1e9, "rank_agreement_min": -1,
+              "vacuity_acc_min": 0.0, "vacuity_bits_min": 0.0}
 
 
 # ----------------------------------------------------------------------------- read-outs
@@ -237,8 +239,51 @@ def grade(pred: dict, obs: dict, bars: dict) -> dict:
                               "observed_threshold": ot, "observed_acc": obs["pairwise"]["acc"],
                               "mean_p_first": obs["pairwise"]["mean_p_first"], "label": label}
     vs = [out[k]["verdict"] for k in ("J1_prediction", "J2_effective_vs_nominal", "J3_budget_ordering")]
-    out["gate"] = "PASS" if all(v == "PASS" for v in vs) else "FAIL"
+    out["anti_vacuity"] = anti_vacuity(pred, bars)
+    out["gate"] = ("PASS" if all(v == "PASS" for v in vs) else "FAIL") if out["anti_vacuity"]["met"] else "VACUOUS"
     return out
+
+
+def anti_vacuity(pred: dict, bars: dict) -> dict:
+    """Decided from the calibration block alone: on at least one scale the argmax orders pairs at
+    the largest gap with at least the bar's accuracy, and the argmax carries at least the bar's
+    information about quality. A judge that fails it barely perceives quality, and the gate says
+    nothing about it either way."""
+    rows = {}
+    for key, s in pred["scales"].items():
+        a = float(s["readouts"]["argmax"]["acc"][-1]); b = float(s["codebook"]["information_about_quality_bits"])
+        rows[key] = {"argmax_acc_largest_gap": a, "bits": b,
+                     "met": a >= bars.get("vacuity_acc_min", 0.0) and b >= bars.get("vacuity_bits_min", 0.0)}
+    return {"scales": rows, "met": any(r["met"] for r in rows.values())}
+
+
+def wilson(k: float, n: int, zc: float = 1.96) -> list[float]:
+    if n == 0:
+        return [float("nan"), float("nan")]
+    ph = k / n; d = 1 + zc * zc / n
+    c = (ph + zc * zc / (2 * n)) / d; h = zc * math.sqrt(ph * (1 - ph) / n + zc * zc / (4 * n * n)) / d
+    return [round(c - h, 4), round(c + h, 4)]
+
+
+def compare_precisions(full: dict, low: dict, bars: dict) -> dict:
+    """GET-12e. The same model at bfloat16 and at 4-bit, graded on the same test block. Every
+    read-out's observed threshold at 4-bit must lie within the threshold factor of its bfloat16
+    value; a read-out that never reaches the level must fail to reach it at both. The accuracy at
+    the largest gap is reported with a Wilson interval and is not graded."""
+    F = bars["threshold_factor"]; n = int(full["observed"]["n_per_gap"])
+    rows, ok = {}, True
+    for key, sc in full["observed"]["scales"].items():
+        for name, r in sc.items():
+            a, b = r["threshold"], low["observed"]["scales"][key][name]["threshold"]
+            fin = math.isfinite(a) and math.isfinite(b)
+            within = (1 / F <= b / a <= F) if fin else (math.isfinite(a) == math.isfinite(b))
+            pa, pb = r["plateau"], low["observed"]["scales"][key][name]["plateau"]
+            rows[f"{key}/{name}"] = {"threshold_full": a, "threshold_low": b, "ratio": (b / a) if fin else None,
+                                     "within_factor": bool(within),
+                                     "acc_largest_gap_full": pa, "ci_full": wilson(round(pa * n), n),
+                                     "acc_largest_gap_low": pb, "ci_low": wilson(round(pb * n), n)}
+            ok &= bool(within)
+    return {"readouts": rows, "factor": F, "verdict": "PASS" if ok else "FAIL"}
 
 
 def sha256(path: str) -> str:
@@ -247,14 +292,26 @@ def sha256(path: str) -> str:
 
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("cmd", choices=["predict", "grade"])
+    ap.add_argument("cmd", choices=["predict", "grade", "compare"])
     ap.add_argument("dir")
     ap.add_argument("--config", required=True)
     ap.add_argument("--predictions")
     ap.add_argument("--out")
     ap.add_argument("--pilot", action="store_true", help="grade: report statistics, no verdicts")
+    ap.add_argument("--against", help="compare: the 4-bit grade.json; DIR is the bfloat16 grade.json")
     a = ap.parse_args(argv)
     cfg = json.load(open(a.config, encoding="utf-8"))
+    if a.cmd == "compare":
+        bars = cfg.get("bars", {})
+        if bars.get("threshold_factor") is None:
+            raise SystemExit("bars not fixed: ['threshold_factor']")
+        full, low = json.load(open(a.dir)), json.load(open(a.against))
+        if full.get("predictions_sha256") == low.get("predictions_sha256"):
+            raise SystemExit("both grades were made against the same predictions; pass the bfloat16 and the 4-bit grade")
+        r = compare_precisions(full, low, bars)
+        json.dump(r, open(a.out or "j4_precision.json", "w"), indent=1, default=float)
+        print("J4", r["verdict"])
+        return 0
     if a.cmd == "predict":
         p = predict(a.dir, cfg)
         out = a.out or str(Path(a.dir) / "predictions.json")
@@ -272,7 +329,7 @@ def main(argv=None) -> int:
     if a.pilot or missing:
         if missing and not a.pilot:
             raise SystemExit(f"bars not fixed: {missing}")
-        report["comparison"] = grade(pred, obs, {"dev_max": 1.0, "z_max": 1e9, "threshold_factor": 1e9, "rank_agreement_min": -1})
+        report["comparison"] = grade(pred, obs, PERMISSIVE)
         report["verdicts"] = None
     else:
         report["verdicts"] = grade(pred, obs, bars)

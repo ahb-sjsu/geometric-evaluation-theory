@@ -143,6 +143,102 @@
    "detail": 27.732145868050743
   },
   {
+   "check": "synth_judge: meets anti-vacuity",
+   "pass": true,
+   "detail": {
+    "scales": {
+     "1-5": {
+      "argmax_acc_largest_gap": 1.0,
+      "bits": 1.774,
+      "met": true
+     },
+     "0-9": {
+      "argmax_acc_largest_gap": 1.0,
+      "bits": 2.335,
+      "met": true
+     },
+     "0-100": {
+      "argmax_acc_largest_gap": 1.0,
+      "bits": 2.044,
+      "met": true
+     }
+    },
+    "met": true
+   }
+  },
+  {
+   "check": "synth_blind: VACUOUS from its calibration block",
+   "pass": true,
+   "detail": {
+    "scales": {
+     "1-5": {
+      "argmax_acc_largest_gap": 0.7408,
+      "bits": 0.31,
+      "met": false
+     },
+     "0-9": {
+      "argmax_acc_largest_gap": 0.754,
+      "bits": 0.424,
+      "met": false
+     },
+     "0-100": {
+      "argmax_acc_largest_gap": 0.6726,
+      "bits": 0.323,
+      "met": false
+     }
+    },
+    "met": false
+   }
+  },
+  {
+   "check": "12e: 4-bit noise x1.2 stays within the factor (J4 PASS)",
+   "pass": true,
+   "detail": {
+    "1-5/argmax": 1.0683018225174588,
+    "1-5/expected": 1.1944444444444446,
+    "1-5/mean_1": 1.027391109115402,
+    "1-5/mean_2": 1.0263157894736843,
+    "1-5/mean_4": 1.0857142857142856,
+    "1-5/mean_8": 1.0714285714285714,
+    "0-9/argmax": 1.0957350272232305,
+    "0-9/expected": 1.2058823529411766,
+    "0-9/mean_1": 1.014799154334038,
+    "0-9/mean_2": 1.0559071729957805,
+    "0-9/mean_4": 1.111111111111111,
+    "0-9/mean_8": 1.108815426997245,
+    "0-100/argmax": 1.0194902548725637,
+    "0-100/expected": 1.1268498942917549,
+    "0-100/mean_1": 1.0232558139534884,
+    "0-100/mean_2": 1.0703352769679302,
+    "0-100/mean_4": 1.0205278592375366,
+    "0-100/mean_8": 1.0625482625482627
+   }
+  },
+  {
+   "check": "12e: noise x4 leaves the factor (J4 FAIL, I0)",
+   "pass": true,
+   "detail": {
+    "1-5/argmax": 1.691477885652643,
+    "1-5/expected": 4.25,
+    "1-5/mean_1": 1.448854961832061,
+    "1-5/mean_2": 1.6238767650834403,
+    "1-5/mean_4": 2.765986394557823,
+    "1-5/mean_8": 3.348214285714286,
+    "0-9/argmax": 2.4965373961218833,
+    "0-9/expected": 4.339100346020762,
+    "0-9/mean_1": 2.108742931709439,
+    "0-9/mean_2": 2.4066455696202533,
+    "0-9/mean_4": 3.2000000000000006,
+    "0-9/mean_8": 3.5227272727272725,
+    "0-100/argmax": 1.6976157082748948,
+    "0-100/expected": 3.8222591362126246,
+    "0-100/mean_1": 1.5813953488372094,
+    "0-100/mean_2": 1.8447204968944098,
+    "0-100/mean_4": 1.8203463203463208,
+    "0-100/mean_8": 2.1671957671957673
+   }
+  },
+  {
    "check": "synth_ideal: nominal rival not beaten on 0-100 (J2 is not passed by construction)",
    "pass": true,
    "detail": {
@@ -157,11 +253,13 @@
    }
   }
  ],
- "seconds": 119.1,
+ "seconds": 195.0,
  "bars": {
   "dev_max": 0.12,
   "z_max": 4.0,
   "threshold_factor": 1.6,
-  "rank_agreement_min": 0.6
+  "rank_agreement_min": 0.6,
+  "vacuity_acc_min": 0.9,
+  "vacuity_bits_min": 1.0
  }
 }

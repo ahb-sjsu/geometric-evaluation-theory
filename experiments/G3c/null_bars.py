@@ -37,7 +37,7 @@ import numpy as np
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import judge_grade as jg  # noqa: E402
 
-PERMISSIVE = {"dev_max": 1.0, "z_max": 1e9, "threshold_factor": 1e9, "rank_agreement_min": -1}
+PERMISSIVE = jg.PERMISSIVE
 
 
 def load_pool(pilot: Path, cfg: dict, tag: str) -> tuple[np.ndarray, dict]:
@@ -86,7 +86,7 @@ def one_replicate(rng, e, R, cfg, n_boot):
             take = np.concatenate([rng.choice(ix, size=len(ix), replace=True) for ix in by_level])
             boots[b] = jg.predicted_curve(vc[take], e_cal[take], N, gaps)
         entry = pred["scales"].setdefault(key, {"readouts": {}, "nominal_rival": {"acc": [0.0] * len(gaps), "threshold": math.inf},
-                                               "codebook": {"n_distinct": 0}})
+                                               "codebook": {"n_distinct": 0, "information_about_quality_bits": 0.0}})
         entry["readouts"][name] = {"acc": acc.tolist(), "acc_sd": boots.std(0).tolist(), "threshold": jg.threshold(acc, gaps)}
         with np.errstate(invalid="ignore"):
             correct = v[good] > v[bad]

@@ -14,6 +14,11 @@ real grader, calibration first, predictions written, then the test block.
   synth_ideal   uses every level of every nominal scale with little noise. The nominal rival
                 must then be as good as the effective prediction on 0-100, which is the check
                 that J2 does not pass by construction.
+  synth_blind   perceives quality through noise ten times larger. It must come out VACUOUS
+                from its calibration block, whatever its other verdicts.
+  12e           synth_judge graded again at "int4", where its perception noise is 1.2 times
+                larger, must stay within the threshold factor of its "full" thresholds (J4 PASS);
+                at "int2", four times larger, it must not (J4 FAIL, the I0 for 12e).
 
 Everything the checks saw is written to the output directory (Rule 8).
 """
@@ -31,7 +36,8 @@ import judge  # noqa: E402
 import judge_grade  # noqa: E402
 
 BASE = json.load(open(Path(__file__).resolve().parent / "prereg_config.json"))
-BARS = {"dev_max": 0.12, "z_max": 4.0, "threshold_factor": 1.6, "rank_agreement_min": 0.6}
+BARS = {"dev_max": 0.12, "z_max": 4.0, "threshold_factor": 1.6, "rank_agreement_min": 0.6,
+        "vacuity_acc_min": 0.9, "vacuity_bits_min": 1.0}
 HEAPED = {"0-100": [20, 35, 45, 65, 75, 85, 95, 100]}
 
 
@@ -39,27 +45,32 @@ def config(seed: int) -> dict:
     cfg = copy.deepcopy(BASE)
     cfg["models"] = [
         {"key": "synth_judge", "model_id": "synthetic:judge", "precisions": ["full"],
-         "synthetic": {"noise_sd": 0.05, "tau": 0.45, "heaped_codebooks": HEAPED, "seed": 1}},
+         "synthetic": {"noise_sd": 0.05, "tau": 0.45, "heaped_codebooks": HEAPED, "seed": 1,
+                       "precision_noise": {"int4": 1.2, "int2": 4.0}}},
         {"key": "synth_drift", "model_id": "synthetic:drift", "precisions": ["full"],
          "synthetic": {"noise_sd": 0.05, "tau": 0.45, "heaped_codebooks": HEAPED, "drift": 3.0, "seed": 2}},
         {"key": "synth_ideal", "model_id": "synthetic:ideal", "precisions": ["full"],
          "synthetic": {"noise_sd": 0.004, "tau": 0.2, "heaped_codebooks": {}, "seed": 3}},
+        {"key": "synth_blind", "model_id": "synthetic:blind", "precisions": ["full"],
+         "synthetic": {"noise_sd": 0.5, "tau": 0.45, "heaped_codebooks": HEAPED, "seed": 4}},
     ]
     cfg["seeds"] = {"calibration": seed, "test": seed + 1}
     cfg["bars"] = dict(BARS)
     return cfg
 
 
-def one(cfg: dict, key: str, out: Path) -> tuple[dict, dict]:
-    judge.run_block(cfg, "calibration", key, "full", str(out))
-    cal = out / "calibration" / f"{key}__full"
+def one(cfg: dict, key: str, out: Path, precision: str = "full") -> tuple[dict, dict]:
+    tag = f"{key}__{precision}"
+    judge.run_block(cfg, "calibration", key, precision, str(out))
+    cal = out / "calibration" / tag
     pred = judge_grade.predict(str(cal), cfg, n_boot=200)
     json.dump(pred, open(cal / "predictions.json", "w"), indent=1)
-    judge.run_block(cfg, "test", key, "full", str(out))
-    obs = judge_grade.observed(str(out / "test" / f"{key}__full"), cfg)
+    judge.run_block(cfg, "test", key, precision, str(out))
+    obs = judge_grade.observed(str(out / "test" / tag), cfg)
     v = judge_grade.grade(pred, obs, cfg["bars"])
-    json.dump({"predictions": pred, "observed": obs, "verdicts": v}, open(out / f"grade_{key}.json", "w"), indent=1, default=float)
-    return pred, v
+    name = f"grade_{key}.json" if precision == "full" else f"grade_{tag}.json"
+    json.dump({"predictions": pred, "observed": obs, "verdicts": v}, open(out / name, "w"), indent=1, default=float)
+    return pred, v, obs
 
 
 def main(argv=None) -> int:
@@ -69,9 +80,15 @@ def main(argv=None) -> int:
     out = Path(a.out); out.mkdir(parents=True, exist_ok=True)
     cfg = config(a.seed)
     t0 = time.time()
-    pj, vj = one(cfg, "synth_judge", out)
-    pd_, vd = one(cfg, "synth_drift", out)
-    pi, vi = one(cfg, "synth_ideal", out)
+    pj, vj, oj = one(cfg, "synth_judge", out)
+    pd_, vd, _ = one(cfg, "synth_drift", out)
+    pi, vi, _ = one(cfg, "synth_ideal", out)
+    pb, vb, _ = one(cfg, "synth_blind", out)
+    _, _, o4 = one(cfg, "synth_judge", out, "int4")
+    _, _, o2 = one(cfg, "synth_judge", out, "int2")
+    j4_int4 = judge_grade.compare_precisions({"observed": oj}, {"observed": o4}, cfg["bars"])
+    j4_int2 = judge_grade.compare_precisions({"observed": oj}, {"observed": o2}, cfg["bars"])
+    json.dump({"int4": j4_int4, "int2": j4_int2}, open(out / "j4_precision.json", "w"), indent=1, default=float)
     thr = lambda p, k, n: p["scales"][k]["readouts"][n]["threshold"]
     j2_100 = vj["J2_effective_vs_nominal"]["0-100"]
     checks = [
@@ -92,6 +109,12 @@ def main(argv=None) -> int:
          "detail": {"expected": thr(pj, "0-100", "expected"), "argmax": thr(pj, "0-100", "argmax")}},
         {"check": "synth_drift: J1 FAIL (I0)", "pass": vd["J1_prediction"]["verdict"] == "FAIL",
          "detail": max(r["max_z"] for r in vd["J1_prediction"].values() if isinstance(r, dict))},
+        {"check": "synth_judge: meets anti-vacuity", "pass": vj["anti_vacuity"]["met"], "detail": vj["anti_vacuity"]},
+        {"check": "synth_blind: VACUOUS from its calibration block", "pass": vb["gate"] == "VACUOUS", "detail": vb["anti_vacuity"]},
+        {"check": "12e: 4-bit noise x1.2 stays within the factor (J4 PASS)", "pass": j4_int4["verdict"] == "PASS",
+         "detail": {k: r["ratio"] for k, r in j4_int4["readouts"].items()}},
+        {"check": "12e: noise x4 leaves the factor (J4 FAIL, I0)", "pass": j4_int2["verdict"] == "FAIL",
+         "detail": {k: r["ratio"] for k, r in j4_int2["readouts"].items()}},
         {"check": "synth_ideal: nominal rival not beaten on 0-100 (J2 is not passed by construction)",
          "pass": not vi["J2_effective_vs_nominal"]["0-100"]["effective_wins"] or
                  abs(vi["J2_effective_vs_nominal"]["0-100"]["sse_effective"] - vi["J2_effective_vs_nominal"]["0-100"]["sse_nominal"]) < 0.02,
