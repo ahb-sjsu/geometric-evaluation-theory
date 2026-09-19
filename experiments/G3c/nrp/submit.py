@@ -41,6 +41,26 @@ CODE_CM = "g3c-code"
 BATCH = "g3c-judge"
 IMAGE = "pytorch/pytorch:2.8.0-cuda12.8-cudnn9-runtime"   # the pinned torch 2.8.0 + cu128
 GPU_NODE = {"nvidia.com/gpu.product": "Tesla-V100-SXM2-32GB"}
+# Placement, 2026-09-19, after the seal and before any sealed data: the V100-SXM2-32GB nodes were
+# fully allocated, and the owner asked for a variety of GPUs with small judges packed together so
+# the GPU stays busy. Each group is one pod on one GPU, its members run as concurrent processes,
+# and a judge keeps its group, and so its GPU model, for both blocks. The 7B's two precisions run on
+# the same GPU model, which is what the 4-bit comparison needs. A100/H100 need an access form and L40 is
+# reserved for another group, so neither is used.
+GROUPS = [
+    {"name": "7b", "product": "NVIDIA-L40S", "members": [("qwen7b", "full"), ("qwen7b", "int4")]},
+    {"name": "gemma", "product": "NVIDIA-L40S", "members": [("gemma4b", "full")]},
+    {"name": "1p5b", "product": "NVIDIA-L4", "members": [("qwen1p5b", "full")]},
+    {"name": "14b", "product": "NVIDIA-L40S", "members": [("qwen14b", "full")]},
+]
+# First placement (7B pair and 14B on the one RTX-5000-Ada node) could not schedule, and the first
+# A10 pod hit "CUDA unknown error" on gpu-18.nrp.mghpcc.org before loading; the 7B precisions now
+# take separate A10s (same GPU model for the 4-bit comparison) and the 14B waits for a 32 GB V100.
+# The thirteen A10 nodes then had no free GPU either, so the 24 GB groups moved to the RTX-3090 pool
+# (29 nodes). A judge's test block goes to the GPU model its calibration ran on, read from its record.
+# Then Gemma and the 1.5B packed on an L4 ran out of GPU memory: Gemma alone reached 21.8 GiB of the
+# L4's 22. The pilots ran on 32 GB cards and GPU memory was never measured per judge, so every judge
+# but the 1.5B (about 11 GiB) moves to 48 GB L40S cards, the 7B's two precisions on one card.
 # CPU jobs that write the venv and ~60 GB of weights sit on the Ceph campus; ucsd-nrp scheduled at
 # once on 2026-09-15 where ucsd-suncave left pods pending for 40 minutes
 CPU_ZONE = {"topology.kubernetes.io/zone": "ucsd-nrp"}
@@ -157,14 +177,15 @@ def preflight(desc, usage, gpu: bool) -> list[str]:
 
 # ----------------------------------------------------------------------------- descriptors
 
-def descriptor(name, script, cpu, memory, eph, role, gpu=0, extra=None):
+def descriptor(name, script, cpu, memory, eph, role, gpu=0, extra=None, product=None):
     from nats_bursting import JobDescriptor, Resources, Volume
     vols = [Volume(name="data", mount_path="/data", claim_name=PVC),
             Volume(name="code", mount_path="/code", config_map=CODE_CM, read_only=True)]
     labels = {"app": "g3c", "atlas.io/batch": BATCH, "atlas.io/role": role, **(extra or {})}
     return JobDescriptor(name=name, image=IMAGE, command=["/bin/bash", "-lc", script],
                          resources=Resources(cpu=str(cpu), memory=memory, gpu=gpu, ephemeral_storage=eph),
-                         labels=labels, node_selector=dict(GPU_NODE) if gpu else dict(CPU_ZONE), backoff_limit=0, volumes=vols)
+                         labels=labels, node_selector=({"nvidia.com/gpu.product": product} if product else dict(GPU_NODE)) if gpu else dict(CPU_ZONE),
+                         backoff_limit=0, volumes=vols)
 
 
 def stage_script(key: str, model_id: str, revision: str | None) -> str:
@@ -179,6 +200,22 @@ def run_script(model: str, precision: str, block: str, role: str) -> str:
     return (ENV + f"python judge.py run --config prereg_config.json --role {role} --block {block} "
             f"--model {model} --precision {precision} --out /data/runs/{role}\n"
             f"echo RUN_DONE {model} {precision} {block}\n")
+
+
+def group_script(members, block: str, role: str) -> str:
+    """Every member of a group as a concurrent process on the pod's one GPU. No sleep: the script
+    waits on each process and fails if any member failed. Logs go to the volume."""
+    lines = [ENV, f"mkdir -p /data/runs/{role}/logs"]
+    for i, (m, p) in enumerate(members):
+        lines.append(f"python judge.py run --config prereg_config.json --role {role} --block {block} --model {m} "
+                     f"--precision {p} --out /data/runs/{role} > /data/runs/{role}/logs/{block}_{m}_{p}.log 2>&1 &")
+        lines.append(f"pid{i}=$!")
+    lines.append("rc=0")
+    for i, (m, p) in enumerate(members):
+        lines.append(f"wait $pid{i} || rc=1; echo \"member {m} {p} done\"; tail -3 /data/runs/{role}/logs/{block}_{m}_{p}.log")
+    lines.append(f"echo RUN_DONE {block} rc=$rc")
+    lines.append("exit $rc")
+    return "\n".join(lines) + "\n"
 
 
 def job_name(*parts) -> str:
@@ -268,19 +305,25 @@ def main(argv=None) -> int:
     elif a.cmd == "run":
         want = set(a.models.split(",")) if a.models else None
         import nrp_sizing as sizing
-        for m in c["models"]:
-            if want and m["key"] not in want:
+        for g in GROUPS:
+            members = [(m, p) for m, p in g["members"] if not want or m in want]
+            if not members:
                 continue
-            for prec in m["precisions"]:
-                usage, src, _ = measured_usage(m["key"], prec)
-                req = sizing.request_for(usage, want_cpu=1)
-                if isinstance(req, sizing.Refusal):
-                    print(f"REFUSED {m['key']} {prec}: {req}"); continue
-                d = descriptor(job_name(a.role, a.block[:3], m["key"], prec), run_script(m["key"], prec, a.block, a.role),
-                               req.cpu, f"{req.memory_gib}Gi", "16Gi", a.block, gpu=1,
-                               extra={"g3c/model": m["key"], "g3c/precision": prec})
-                items.append((d, usage, True))
-                print(f"{d.name}: {req} (measured in {src})")
+            parts = [measured_usage(m, p) for m, p in members]
+            if any(u is None for u, _, _ in parts):
+                print(f"REFUSED group {g['name']}: a member was never measured"); continue
+            # a packed pod uses what its members use, added; the GPU is shared, not added
+            usage = sizing.Usage(mean_cpu_cores=sum(u.mean_cpu_cores for u, _, _ in parts),
+                                 mean_mem_gib=sum(u.mean_mem_gib for u, _, _ in parts),
+                                 peak_mem_gib=sum(u.peak_mem_gib for u, _, _ in parts))
+            req = sizing.request_for(usage, want_cpu=len(members))
+            if isinstance(req, sizing.Refusal):
+                print(f"REFUSED group {g['name']}: {req}"); continue
+            d = descriptor(job_name(a.role, a.block[:3], g["name"]), group_script(members, a.block, a.role),
+                           req.cpu, f"{req.memory_gib}Gi", "20Gi", a.block, gpu=1, product=g["product"],
+                           extra={"g3c/group": g["name"], "g3c/gpu": g["product"]})
+            items.append((d, usage, True))
+            print(f"{d.name} on {g['product']}: {req} members {members}")
     elif a.cmd == "fetch":
         script = (f"set -euo pipefail\ncd /data/runs/{a.role}\n"
                   f"tar -czf - {a.block} | base64 -w0\necho\necho FETCH_DONE\n")
