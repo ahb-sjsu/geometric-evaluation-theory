@@ -1,0 +1,15 @@
+added_tokens.json 0 MB written at 0.0 MB/s
+chat_template.jinja 0 MB written at 0.0 MB/s
+chat_template.json 0 MB written at 0.0 MB/s
+config.json 0 MB written at 0.0 MB/s
+generation_config.json 0 MB written at 0.0 MB/s
+model-00001-of-00002.safetensors 4961 MB written at 125.8 MB/s
+model-00002-of-00002.safetensors 3639 MB written at 108.1 MB/s
+model.safetensors.index.json 0 MB written at 0.8 MB/s
+preprocessor_config.json 0 MB written at 0.0 MB/s
+processor_config.json 0 MB written at 0.0 MB/s
+special_tokens_map.json 0 MB written at 0.0 MB/s
+tokenizer.json 33 MB written at 44.2 MB/s
+tokenizer.model 5 MB written at 24.8 MB/s
+tokenizer_config.json 1 MB written at 10.8 MB/s
+STAGED unsloth/gemma-3-4b-it bf46152c47f5dd20b896357cb51abc4c03b8ee8c 8.64 GB in 258.4 s, read 330.9 MB/s

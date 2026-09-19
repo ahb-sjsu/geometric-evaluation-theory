@@ -2,30 +2,102 @@
  "gate": "G3c",
  "status": "DRAFT, not sealed; bars are fixed from the pilot, and the test seed is drawn only after predictions.json is committed",
  "models": [
-  {"key": "qwen7b", "model_id": "Qwen/Qwen2.5-7B-Instruct", "revision": "a09a35458c702b33eeacc393d103063234e8bc28", "precisions": ["full", "int4"]},
-  {"key": "qwen1p5b", "model_id": "Qwen/Qwen2.5-1.5B-Instruct", "revision": null, "precisions": ["full"]},
-  {"key": "qwen14b", "model_id": "Qwen/Qwen2.5-14B-Instruct", "revision": null, "precisions": ["full"]},
-  {"key": "gemma4b", "model_id": "unsloth/gemma-3-4b-it", "revision": null, "precisions": ["full"]}
+  {
+   "key": "qwen7b",
+   "model_id": "Qwen/Qwen2.5-7B-Instruct",
+   "revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+   "precisions": [
+    "full",
+    "int4"
+   ]
+  },
+  {
+   "key": "qwen1p5b",
+   "model_id": "Qwen/Qwen2.5-1.5B-Instruct",
+   "revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+   "precisions": [
+    "full"
+   ]
+  },
+  {
+   "key": "qwen14b",
+   "model_id": "Qwen/Qwen2.5-14B-Instruct",
+   "revision": "cf98f3b3bbb457ad9e2bb7baf9a0125b6b88caa8",
+   "precisions": [
+    "full"
+   ]
+  },
+  {
+   "key": "gemma4b",
+   "model_id": "unsloth/gemma-3-4b-it",
+   "revision": "bf46152c47f5dd20b896357cb51abc4c03b8ee8c",
+   "precisions": [
+    "full"
+   ]
+  }
  ],
  "n_items": 20,
  "n_cal_per_level": 40,
- "gap_ladder": [1, 2, 3, 4, 6, 8, 12],
+ "gap_ladder": [
+  1,
+  2,
+  3,
+  4,
+  6,
+  8,
+  12
+ ],
  "n_pairs_per_gap": 200,
- "scales": [{"lo": 1, "hi": 5}, {"lo": 0, "hi": 9}, {"lo": 0, "hi": 100}],
+ "scales": [
+  {
+   "lo": 1,
+   "hi": 5
+  },
+  {
+   "lo": 0,
+   "hi": 9
+  },
+  {
+   "lo": 0,
+   "hi": 100
+  }
+ ],
  "n_samples": 8,
  "temperature": 1.0,
- "dither_ladder": [1, 2, 4, 8],
+ "dither_ladder": [
+  1,
+  2,
+  4,
+  8
+ ],
  "sample_seed": 20260918,
  "pairwise": true,
  "batch": 16,
- "batch_sample": 4,
+ "batch_tree": 8,
+ "tree_prune": 1e-05,
  "batch_pairwise": 8,
  "prompts": {
   "score": "Below is a worksheet of {n} multiplication problems with a student's answers.\n\n{sheet}\n\nRate the student's answers on a scale from {lo} to {hi}, where {hi} means every answer is correct and {lo} means none is. Reply with a single integer and nothing else.",
   "pairwise": "Two students answered worksheets of {n} multiplication problems.\n\nStudent A:\n{first}\n\nStudent B:\n{second}\n\nWhich student got more problems right? Answer with the single letter A or B.",
   "pairwise_prefix": ""
  },
- "seeds": {"calibration": 20260921, "test": null, "pilot_calibration": 20260919, "pilot_test": 20260920},
- "bars": {"dev_max": null, "z_max": null, "threshold_factor": null, "rank_agreement_min": null},
- "environment": {"python_env_atlas": "/archive/kvbench/venv", "torch": "2.8.0+cu128", "transformers": "4.56.1", "bitsandbytes": "0.50.2", "accelerate": "1.14.0"}
+ "seeds": {
+  "calibration": 20260921,
+  "test": null,
+  "pilot_calibration": 20260919,
+  "pilot_test": 20260920
+ },
+ "bars": {
+  "dev_max": null,
+  "z_max": null,
+  "threshold_factor": null,
+  "rank_agreement_min": null
+ },
+ "environment": {
+  "python_env_atlas": "/archive/kvbench/venv",
+  "torch": "2.8.0+cu128",
+  "transformers": "4.56.1",
+  "bitsandbytes": "0.50.2",
+  "accelerate": "1.14.0"
+ }
 }

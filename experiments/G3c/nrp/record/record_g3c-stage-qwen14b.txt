@@ -1,0 +1,16 @@
+config.json 0 MB written at 0.0 MB/s
+generation_config.json 0 MB written at 0.0 MB/s
+merges.txt 2 MB written at 13.0 MB/s
+model-00001-of-00008.safetensors 3885 MB written at 111.7 MB/s
+model-00002-of-00008.safetensors 3995 MB written at 126.7 MB/s
+model-00003-of-00008.safetensors 3995 MB written at 122.8 MB/s
+model-00004-of-00008.safetensors 3995 MB written at 115.2 MB/s
+model-00005-of-00008.safetensors 3980 MB written at 114.1 MB/s
+model-00006-of-00008.safetensors 3995 MB written at 117.7 MB/s
+model-00007-of-00008.safetensors 3995 MB written at 128.0 MB/s
+model-00008-of-00008.safetensors 1699 MB written at 119.1 MB/s
+model.safetensors.index.json 0 MB written at 0.4 MB/s
+tokenizer.json 7 MB written at 21.2 MB/s
+tokenizer_config.json 0 MB written at 0.1 MB/s
+vocab.json 3 MB written at 9.2 MB/s
+STAGED Qwen/Qwen2.5-14B-Instruct cf98f3b3bbb457ad9e2bb7baf9a0125b6b88caa8 29.55 GB in 498.4 s, read 363.6 MB/s

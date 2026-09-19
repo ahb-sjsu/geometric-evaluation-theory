@@ -1,0 +1,8 @@
+config.json 0 MB written at 0.0 MB/s
+generation_config.json 0 MB written at 0.0 MB/s
+merges.txt 2 MB written at 10.2 MB/s
+model.safetensors 3087 MB written at 101.4 MB/s
+tokenizer.json 7 MB written at 32.0 MB/s
+tokenizer_config.json 0 MB written at 0.1 MB/s
+vocab.json 3 MB written at 14.9 MB/s
+STAGED Qwen/Qwen2.5-1.5B-Instruct 989aa7980e4cf806f80c7fef2b1adb7bc71aa306 3.10 GB in 49.7 s, read 387.2 MB/s

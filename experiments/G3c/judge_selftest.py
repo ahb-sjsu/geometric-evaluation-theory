@@ -88,6 +88,8 @@ def main(argv=None) -> int:
          "detail": {"expected": thr(pj, "0-9", "expected"), "argmax": thr(pj, "0-9", "argmax")}},
         {"check": "synth_judge: 8-sample mean threshold below 1-sample on 0-100", "pass": thr(pj, "0-100", "mean_8") < thr(pj, "0-100", "mean_1"),
          "detail": {"mean_8": thr(pj, "0-100", "mean_8"), "mean_1": thr(pj, "0-100", "mean_1")}},
+        {"check": "synth_judge: expected-score threshold below argmax on 0-100", "pass": thr(pj, "0-100", "expected") < thr(pj, "0-100", "argmax"),
+         "detail": {"expected": thr(pj, "0-100", "expected"), "argmax": thr(pj, "0-100", "argmax")}},
         {"check": "synth_drift: J1 FAIL (I0)", "pass": vd["J1_prediction"]["verdict"] == "FAIL",
          "detail": max(r["max_z"] for r in vd["J1_prediction"].values() if isinstance(r, dict))},
         {"check": "synth_ideal: nominal rival not beaten on 0-100 (J2 is not passed by construction)",

@@ -9,9 +9,10 @@ Elicitations, all on the same worksheets.
   score      the judge rates one worksheet on a scale (1-5, 0-9, 0-100). One forward pass gives
              three read-outs of different symbol budgets:
                argmax    the greedy integer it writes (one symbol from its codebook)
-               expected  the probability-weighted score over the codebook, from the first-token
-                         logits (single-token scales only): the report is a probability vector
-               mean_n    the mean of n samples at temperature T (n symbols, dithered)
+               expected  the probability-weighted score over the codebook: the report is a
+                         probability vector. On single-token scales it is the first-token
+                         distribution; on 0-100 it is computed exactly by a digit tree.
+               mean_n    the mean of n samples at temperature one, drawn from that vector
   pairwise   the judge is shown two worksheets and asked which has more right, both orders,
              read from the letter logits with no deliberation.
 
@@ -33,6 +34,7 @@ import argparse
 import gzip
 import json
 import math
+import os
 import re
 import sys
 import time
@@ -108,10 +110,21 @@ def parse_int(text: str, scale: dict) -> float:
 
 class LMJudge:
     def __init__(self, spec: dict, precision: str, cfg: dict):
-        self.inner = g3b.LMScorer({"model_id": spec["model_id"], "revision": spec.get("revision")}, precision,
-                                  {"use_chat_template": True, "prompt_templates": {}})
+        # On NRP the weights are staged to a plain directory with a manifest of the resolved
+        # revision and checksums; loading from it keeps GPU pods from downloading anything.
+        root = os.environ.get("G3C_MODEL_ROOT")
+        local = Path(root) / spec["key"] if root else None
+        if local is not None and (local / "STAGED.json").exists():
+            staged = json.load(open(local / "STAGED.json"))
+            load = {"model_id": str(local), "revision": None}
+            self.staged_revision = staged["revision"]
+        else:
+            load = {"model_id": spec["model_id"], "revision": spec.get("revision")}
+            self.staged_revision = None
+        self.inner = g3b.LMScorer(load, precision, {"use_chat_template": True, "prompt_templates": {}})
         self.tok, self.model, self.torch = self.inner.tok, self.inner.model, self.inner.torch
-        self.model_class, self.loaded_revision = self.inner.model_class, self.inner.loaded_revision
+        self.model_class = self.inner.model_class
+        self.loaded_revision = self.staged_revision or self.inner.loaded_revision
         self.cfg = cfg
         self.letters = [self._single("A"), self._single("B")]
 
@@ -123,6 +136,96 @@ class LMJudge:
 
     def _chat(self, user: str) -> str:
         return self.tok.apply_chat_template([{"role": "user", "content": user}], tokenize=False, add_generation_prompt=True)
+
+    def _penalize(self, scores, input_ids):
+        """The repetition penalty exactly as transformers' RepetitionPenaltyLogitsProcessor applies it
+        in greedy decoding and in sampling: gather the scores of every token already in the row,
+        padding included, divide the positive ones and multiply the negative ones, scatter back."""
+        pen = getattr(self.model.generation_config, "repetition_penalty", None)
+        if not pen or float(pen) == 1.0:
+            return scores
+        s = self.torch.gather(scores, 1, input_ids)
+        s = self.torch.where(s < 0, s * float(pen), s / float(pen))
+        return scores.scatter(1, input_ids, s)
+
+    def tree_distribution(self, prompts: list[str], scale: dict, prune: float = 1e-5) -> list[dict]:
+        """The exact distribution of the integer a sampler at temperature one would write, for a
+        scale whose scores take more than one token. A score is a run of digit tokens followed by
+        a token that is not a digit; the parsed value is that run read as an integer.
+
+        One pass over the prompts gives the first token. Every digit prefix whose probability
+        exceeds ``prune`` is extended by one cached single-token step, which gives the probability
+        of each next digit and of stopping. Prefixes are at most three digits; a run of four, or a
+        value outside the scale, is an invalid report. Probabilities are conditional on the first
+        token being a digit, and the mass of the first token that is not, of invalid values and of
+        pruned prefixes is recorded beside the vector."""
+        torch = self.torch
+        digit_ids = [self._single(str(d)) for d in range(10)]
+        dig = torch.tensor(digit_ids, device=self.model.device)
+        enc = self.tok(prompts, return_tensors="pt", padding=True).to(self.model.device)
+        ids, mask = enc["input_ids"], enc["attention_mask"]
+        with torch.no_grad():
+            out = self.model(input_ids=ids, attention_mask=mask,
+                             position_ids=(mask.cumsum(-1) - 1).clamp(min=0), use_cache=True)
+        cache = out.past_key_values
+        probs = torch.softmax(self._penalize(out.logits[:, -1, :].float(), ids), dim=-1)
+        n = len(prompts)
+        first_digit_mass = probs[:, dig].sum(1).tolist()
+        pd = probs[:, dig].tolist()
+        dist = [np.zeros(scale["hi"] - scale["lo"] + 1) for _ in range(n)]
+        invalid = [0.0] * n
+        pruned = [0.0] * n
+        # frontier rows: (prompt j, digit string, probability conditional on a first digit, parent row)
+        frontier = []
+        for j in range(n):
+            for d in range(10):
+                p = pd[j][d] / max(first_digit_mass[j], 1e-30)
+                if p > prune:
+                    frontier.append((j, str(d), p, j))
+                else:
+                    pruned[j] += p
+        row_ids, row_mask = ids, mask
+        depth = 1
+        while frontier:
+            parent = torch.tensor([f[3] for f in frontier], device=self.model.device)
+            cache.reorder_cache(parent)
+            new_tok = torch.tensor([[digit_ids[int(f[1][-1])]] for f in frontier], device=self.model.device)
+            row_ids = torch.cat([row_ids.index_select(0, parent), new_tok], dim=1)
+            pmask = row_mask.index_select(0, parent)
+            pos = pmask.sum(1, keepdim=True)
+            row_mask = torch.cat([pmask, torch.ones_like(new_tok)], dim=1)
+            with torch.no_grad():
+                o = self.model(input_ids=new_tok, attention_mask=row_mask, position_ids=pos,
+                               past_key_values=cache, use_cache=True)
+            cache = o.past_key_values
+            pr = torch.softmax(self._penalize(o.logits[:, -1, :].float(), row_ids), dim=-1)
+            p_next = pr[:, dig].tolist()
+            nxt = []
+            for r, (j, s, p, _) in enumerate(frontier):
+                p_stop = max(0.0, 1.0 - sum(p_next[r]))
+                v = int(s)
+                if scale["lo"] <= v <= scale["hi"]:
+                    dist[j][v - scale["lo"]] += p * p_stop
+                else:
+                    invalid[j] += p * p_stop
+                for d in range(10):
+                    q = p * p_next[r][d]
+                    child = s + str(d)
+                    if depth >= 3 or int(child) > scale["hi"]:
+                        invalid[j] += q          # a fourth digit, or a value above the scale
+                    elif q > prune:
+                        nxt.append((j, child, q, r))
+                    else:
+                        pruned[j] += q
+            frontier = nxt
+            depth += 1
+        out_recs = []
+        for j in range(n):
+            valid = float(dist[j].sum())
+            p = dist[j] / valid if valid > 0 else dist[j]
+            out_recs.append({"p": p, "mass_on_codebook": first_digit_mass[j], "tree_valid_mass": valid,
+                             "tree_invalid_mass": invalid[j], "tree_pruned_mass": pruned[j]})
+        return out_recs
 
     def score(self, texts: list[str], scale: dict, n_samples: int, temperature: float, batch: int) -> list[dict]:
         torch = self.torch
@@ -137,39 +240,42 @@ class LMJudge:
                 g = self.model.generate(**enc, max_new_tokens=4, do_sample=False, output_scores=True,
                                         return_dict_in_generate=True, pad_token_id=self.tok.pad_token_id)
                 first = g.scores[0].float()
-                samp = None
-                # On a single-token scale the recorded probability vector is the sampling
-                # distribution at temperature one, so samples are drawn from it exactly and cost
-                # nothing. Real sampling repeats the whole prompt once per sample (HF expands the
-                # inputs before the prefill), which made sixteen samples cost sixteen prefills.
-                if n_samples > 0 and not single:
-                    # sampled in sub-batches: n_samples sequences per prompt multiply the KV cache, and
-                    # 16 prompts x 16 samples of a 350-token prompt ran a 32 GB card out of memory
-                    sb = int(self.cfg.get("batch_sample", 4))
-                    parts = []
-                    for s in range(0, enc["input_ids"].shape[0], sb):
-                        sub = {k: v[s:s + sb] for k, v in enc.items()}
-                        parts.append(self.model.generate(**sub, max_new_tokens=4, do_sample=True, temperature=float(temperature),
-                                                         top_p=1.0, top_k=0, num_return_sequences=int(n_samples),
-                                                         pad_token_id=self.tok.pad_token_id)[:, L:])
-                    width = max(x.shape[1] for x in parts)
-                    samp = torch.cat([torch.nn.functional.pad(x, (0, width - x.shape[1]), value=self.tok.pad_token_id) for x in parts])
+            # The distribution a sampler at temperature one would draw the score from, computed
+            # exactly rather than sampled. On a single-token scale it is the first-token vector
+            # over the codebook. On a scale whose scores take several tokens it is the digit tree.
+            # Samples are then drawn from it, which is exact and costs no generation; generating
+            # them instead repeats the whole prompt once per sample.
+            tree = None
+            if not single:
+                if float(temperature) != 1.0:
+                    raise ValueError("the digit tree gives the distribution at temperature one only")
+                tb = int(self.cfg.get("batch_tree", 8))
+                tree = []
+                for s in range(0, len(prompts), tb):
+                    tree += self.tree_distribution(prompts[s:s + tb], scale, float(self.cfg.get("tree_prune", 1e-5)))
             greedy = [self.tok.decode(r, skip_special_tokens=True) for r in g.sequences[:, L:]]
             for j, txt in enumerate(greedy):
                 rec = {"text": txt, "argmax": parse_int(txt, scale)}
                 if single:
-                    p = torch.softmax(first[j, code_ids], dim=-1).cpu().numpy()
-                    rec["p"] = [round(float(x), 6) for x in p]
+                    p = torch.softmax(first[j, code_ids], dim=-1).cpu().numpy().astype(float)
                     rec["mass_on_codebook"] = round(float(torch.softmax(first[j], dim=-1)[code_ids].sum()), 6)
-                if samp is not None:
-                    rows = samp[j * n_samples:(j + 1) * n_samples]
-                    rec["samples"] = [parse_int(self.tok.decode(r, skip_special_tokens=True), scale) for r in rows]
-                    rec["samples_source"] = "generated"
-                elif n_samples > 0 and single:
-                    pt = p.astype(float) ** (1.0 / max(float(temperature), 1e-6)); pt /= pt.sum()
+                    source = "exact_first_token"
+                else:
+                    t = tree[j]
+                    p = t["p"]
+                    rec["mass_on_codebook"] = round(float(t["mass_on_codebook"]), 6)
+                    rec["tree_valid_mass"] = round(float(t["tree_valid_mass"]), 6)
+                    rec["tree_invalid_mass"] = round(float(t["tree_invalid_mass"]), 6)
+                    rec["tree_pruned_mass"] = round(float(t["tree_pruned_mass"]), 8)
+                    source = "exact_digit_tree"
+                p = p / p.sum()
+                rec["p"] = [round(float(x), 6) for x in p]
+                if n_samples > 0:
+                    pt = p ** (1.0 / max(float(temperature), 1e-6)) if single else p
+                    pt = pt / pt.sum()
                     srng = np.random.default_rng([int(self.cfg.get("sample_seed", 0)), zlib.crc32(texts[i + j].encode()), scale["hi"]])
                     rec["samples"] = [float(x) for x in srng.choice(np.arange(scale["lo"], scale["hi"] + 1), size=int(n_samples), p=pt)]
-                    rec["samples_source"] = "exact_from_p"
+                    rec["samples_source"] = source
                 out.append(rec)
         return out
 
@@ -218,7 +324,6 @@ class SyntheticJudge:
     def score(self, texts, scale, n_samples, temperature, batch):
         key = f"{scale['lo']}-{scale['hi']}"
         book = np.array(self.heaped.get(key, list(range(scale["lo"], scale["hi"] + 1))), float)
-        single = scale["hi"] <= 9
         out = []
         for t in texts:
             z = self._z(t, "score" + key)
@@ -227,11 +332,10 @@ class SyntheticJudge:
             logits = -((book - target) ** 2) / (2 * (self.tau * (book[1] - book[0] if len(book) > 1 else 1)) ** 2)
             p = np.exp(logits - logits.max()); p /= p.sum()
             rec = {"text": str(int(book[int(np.argmax(p))])), "argmax": float(book[int(np.argmax(p))])}
-            if single:
-                full = np.zeros(scale["hi"] - scale["lo"] + 1)
-                for s, ps in zip(book, p):
-                    full[int(s) - scale["lo"]] = ps
-                rec["p"] = [round(float(x), 6) for x in full]; rec["mass_on_codebook"] = 1.0
+            full = np.zeros(scale["hi"] - scale["lo"] + 1)
+            for s, ps in zip(book, p):
+                full[int(s) - scale["lo"]] = ps
+            rec["p"] = [round(float(x), 6) for x in full]; rec["mass_on_codebook"] = 1.0
             if n_samples > 0:
                 pt = p ** (1.0 / max(temperature, 1e-6)); pt /= pt.sum()
                 rec["samples"] = [float(x) for x in rng.choice(book, size=n_samples, p=pt)]

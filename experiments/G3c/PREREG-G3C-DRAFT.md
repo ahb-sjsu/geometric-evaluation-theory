@@ -54,7 +54,7 @@ in the same family, 1.5B and 14B, and a second family, `gemma-3-4b-it`, at bfloa
 
 **Elicitations.** Scoring on three scales, 1 to 5, 0 to 9 and 0 to 100, with the prompt in
 `prereg_config.json`. One forward pass per worksheet gives the greedy integer, the probability
-vector over the codebook where every score is one token, and eight samples at temperature one. On the two single-token scales the samples are drawn from the recorded probability vector, which is the sampling distribution exactly. On the 0 to 100 scale they are generated.
+vector over the codebook, and eight samples at temperature one drawn from that vector. On the two single-token scales the vector is the first-token distribution over the codebook. On the 0 to 100 scale a score takes up to three digit tokens, and the vector is computed exactly by a digit tree: one pass gives the first digit, and every digit prefix above a probability of 0.00001 is extended by one cached single-token step that gives each next digit and the probability of stopping, with the model's repetition penalty applied at every step as sampling applies it. The pruned mass, the mass on values outside the scale and the mass on a first token that is not a digit are recorded per worksheet. Every scale therefore has the expected-score read-out and exact samples, and no sample is generated.
 Pairwise comparison of two worksheets, both orders, read from the answer-letter logits with no
 deliberation; a pair counts as ordered correctly when the order-averaged preference for the
 better sheet exceeds one half.
@@ -126,7 +126,7 @@ Pilot data are not pooled with the run. Two attempts failed before it ran and ar
 record on Atlas. The first ran out of GPU memory generating sixteen samples for sixteen prompts at
 once. The second was stopped after an hour because generated samples cost one full prompt pass
 each. The fix draws samples from the recorded first-token distribution on the two single-token
-scales and generates eight only on the 0 to 100 scale.
+scales and, on the 0 to 100 scale, from the exact digit-tree distribution.
 
 **Sampling verification, 2026-09-19** (`verify/`). On a 42-worksheet block the 7B judge left no
 report unparsable on any scale and put all first-token mass on the codebook. Scoring took 0.49,
@@ -138,9 +138,19 @@ identical alone, in 32 copies and inside a padded mixed batch, which ruled out b
 Redrawn with 2,048 samples, that worksheet sat at 0.015 against a bar of 0.026, p of 0.36, and a
 second worksheet at 0.014 against 0.027. The miss was chance at the smaller sample.
 
+**Digit-tree verification, 2026-09-19** (`verify/verify_tree.json`). On six worksheets of the 0 to
+100 scale, 1,024 real samples each matched the tree's distribution within multinomial noise in
+all six, p from 0.21 to 0.95, with no unparsable or out-of-range draw and at most 0.00006 of the
+mass pruned. Recomputing the tree's 37 largest probabilities by one uncached forward pass gave
+differences of up to 24 percent. That is one bfloat16 rounding step of the logits, about 0.125 at
+the logit sizes seen here, between the cached decoding path that sampling uses and an uncached
+full pass. The judge's score distribution is therefore defined only to one bfloat16 step in its
+logits, depending on the kernel path, and the tree reproduces the path that sampling takes. The
+tree scores a worksheet in 1.16 seconds, against 4.5 for generating eight samples.
+
 ## 7. Compute
 
-The first pilot attempt showed generated sampling costs one prefill per sample, which is why samples are generated only where the scale needs more than one token. Run time per model and precision is measured by the pilot and recorded here before sealing. Raw generations, probability vectors and samples are
+The first pilot attempt showed generated sampling costs one prefill per sample, which is why samples are generated only where the scale needs more than one token. Run time per model and precision is measured by the pilot and recorded here before sealing. The sealed runs go to NRP Nautilus, on untainted V100-SXM2-32GB nodes, the pilot's hardware class. The pinned environment and the weights at the revisions in `prereg_config.json` are staged onto a shared volume by CPU-only jobs (`nrp/stage_models.py`, manifests with sha256 per file), so GPU pods install and download nothing. Each GPU job is sized from the meter record of a measured run of the same model and precision (`nrp/submit.py`), and a model never measured is refused. Raw generations, probability vectors and samples are
 persisted per worksheet.
 
 ## 8. Sealing procedure
