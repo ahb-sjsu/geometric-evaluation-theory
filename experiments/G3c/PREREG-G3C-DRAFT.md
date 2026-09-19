@@ -106,7 +106,11 @@ quantile rounded outward, the z bar and the factor up to the next 0.05, the devi
 
 Counted on the replicates themselves, a faithful judge fails J1 in 1.4 percent of them, z alone
 in 0.9 and the deviation alone in 0.6, and fails J3 in 2.0 percent. It fails either in 3.3 percent.
-The pilot's own statistics sit at the 59th to 83rd percentile of the null on all four.
+The pilot's own statistics sit at the 59th to 83rd percentile of the null on all four. An
+independent run of 1,000 replicates with seed 20260920 (`null/replication_seed20260920.json`)
+matched the medians and 90th percentiles to within 0.03. At the 99th percentile it gave 4.36
+for z, 0.129 for the deviation and 1.54 for the threshold ratio, against 4.51, 0.136 and 1.73.
+Those tails are loosely pinned by 1,000 replicates, and every bar takes the larger value.
 
 The threshold factor is wide, 1.75 against a median of 1.21, because a threshold is interpolated
 between ladder gaps and the ladder is coarse above four errors, where a small change in accuracy
