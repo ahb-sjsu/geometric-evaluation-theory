@@ -1,0 +1,52 @@
+{
+ "verdict": "PASS",
+ "checks": [
+  {
+   "check": "additive: F1 PASS",
+   "pass": true,
+   "detail": 0.7459520112744779
+  },
+  {
+   "check": "additive: F2 PASS (crossover predicted)",
+   "pass": true,
+   "detail": {
+    "predicted_budget": 145.97173994887157,
+    "observed_budget": 121.05270709065817,
+    "z": -0.8394642473910389
+   }
+  },
+  {
+   "check": "additive: F3 PASS (beats both rivals)",
+   "pass": true,
+   "detail": {
+    "additive": 0.06453675143696144,
+    "evidence_only": 40.1234724182817,
+    "cue_only": 23.49453840804795
+   }
+  },
+  {
+   "check": "additive: anti-vacuity met",
+   "pass": true,
+   "detail": {
+    "share_smallest_budget": 0.0,
+    "share_largest_budget": 0.80125,
+    "met": true
+   }
+  },
+  {
+   "check": "interaction: F1 FAIL (I0)",
+   "pass": true,
+   "detail": 10.340528639889497
+  },
+  {
+   "check": "cueblind: VACUOUS",
+   "pass": true,
+   "detail": {
+    "share_smallest_budget": 0.565625,
+    "share_largest_budget": 0.99625,
+    "met": false
+   }
+  }
+ ],
+ "seconds": 2.1
+}
