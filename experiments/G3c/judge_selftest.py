@@ -7,7 +7,7 @@ real grader, calibration first, predictions written, then the test block.
                   J2 PASS   the effective codebook beats the nominal-scale rival, and the rival's
                             0-100 threshold is wrong by more than a factor of two
                   J3 PASS   the predicted ordering of thresholds across read-outs is observed,
-                            with the expected score and the 16-sample mean below the argmax
+                            with the expected score and the 8-sample mean below the argmax
   synth_drift   the same judge, whose perception noise triples on the test block. Its
                 calibration cannot predict its test block: J1 must FAIL. This is the check that
                 the gate rejects a known defect (I0).
@@ -86,8 +86,8 @@ def main(argv=None) -> int:
          "detail": {"tau": vj["J3_budget_ordering"]["kendall_tau"], "within": vj["J3_budget_ordering"]["share_within_factor"]}},
         {"check": "synth_judge: expected-score threshold below argmax on 0-9", "pass": thr(pj, "0-9", "expected") < thr(pj, "0-9", "argmax"),
          "detail": {"expected": thr(pj, "0-9", "expected"), "argmax": thr(pj, "0-9", "argmax")}},
-        {"check": "synth_judge: 16-sample mean threshold below 1-sample on 0-100", "pass": thr(pj, "0-100", "mean_16") < thr(pj, "0-100", "mean_1"),
-         "detail": {"mean_16": thr(pj, "0-100", "mean_16"), "mean_1": thr(pj, "0-100", "mean_1")}},
+        {"check": "synth_judge: 8-sample mean threshold below 1-sample on 0-100", "pass": thr(pj, "0-100", "mean_8") < thr(pj, "0-100", "mean_1"),
+         "detail": {"mean_8": thr(pj, "0-100", "mean_8"), "mean_1": thr(pj, "0-100", "mean_1")}},
         {"check": "synth_drift: J1 FAIL (I0)", "pass": vd["J1_prediction"]["verdict"] == "FAIL",
          "detail": max(r["max_z"] for r in vd["J1_prediction"].values() if isinstance(r, dict))},
         {"check": "synth_ideal: nominal rival not beaten on 0-100 (J2 is not passed by construction)",

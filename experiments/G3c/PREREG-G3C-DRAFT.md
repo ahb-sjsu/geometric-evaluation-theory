@@ -54,7 +54,7 @@ in the same family, 1.5B and 14B, and a second family, `gemma-3-4b-it`, at bfloa
 
 **Elicitations.** Scoring on three scales, 1 to 5, 0 to 9 and 0 to 100, with the prompt in
 `prereg_config.json`. One forward pass per worksheet gives the greedy integer, the probability
-vector over the codebook where every score is one token, and sixteen samples at temperature one.
+vector over the codebook where every score is one token, and eight samples at temperature one. On the two single-token scales the samples are drawn from the recorded probability vector, which is the sampling distribution exactly. On the 0 to 100 scale they are generated.
 Pairwise comparison of two worksheets, both orders, read from the answer-letter logits with no
 deliberation; a pair counts as ordered correctly when the order-averaged preference for the
 better sheet exceeds one half.
@@ -108,7 +108,7 @@ better sheet gets the strictly larger number, so ties and unparsable reports cou
 
 **Self-test, PASS 8 of 8, 2026-09-18** (`judge_selftest.py`, no GPU). A synthetic judge that
 perceives quality with noise and writes a heaped codebook passes 12a, 12b and 12c, with the
-expected-score and sixteen-sample read-outs below the argmax. A judge whose perception noise
+expected-score and eight-sample read-outs below the argmax. A judge whose perception noise
 triples on the test block fails 12a at z of 27.7 against 2.5 for the faithful judge, which is the
 check that the gate rejects a known defect. A judge that uses every nominal level does not beat
 the rival, which is the check that 12b cannot pass by construction. The first run failed 12a on
@@ -122,12 +122,25 @@ scores on the 1 to 5, 1 to 10 and 0 to 100 scales. Pairwise accuracy with both o
 0.98.
 
 **Pilot.** Pilot seeds, the 7B judge at bfloat16, the full design. It fixes every bar in Section 4.
-Pilot data are not pooled with the run.
+Pilot data are not pooled with the run. Two attempts failed before it ran and are kept in the
+record on Atlas. The first ran out of GPU memory generating sixteen samples for sixteen prompts at
+once. The second was stopped after an hour because generated samples cost one full prompt pass
+each. The fix draws samples from the recorded first-token distribution on the two single-token
+scales and generates eight only on the 0 to 100 scale.
+
+**Sampling verification, 2026-09-19** (`verify/`). On a 42-worksheet block the 7B judge left no
+report unparsable on any scale and put all first-token mass on the codebook. Scoring took 0.49,
+0.48 and 4.5 seconds per worksheet on the 1 to 5, 0 to 9 and 0 to 100 scales. Real samples were
+compared with the recorded distribution on six worksheets of the 0 to 9 scale, 256 draws each.
+Five matched within the 95th percentile of multinomial noise and one did not, at 16 errors, a
+distance of 0.105 against a bar of 0.073. The distribution did not depend on batch shape: it was
+identical alone, in 32 copies and inside a padded mixed batch, which ruled out bfloat16 numerics.
+Redrawn with 2,048 samples, that worksheet sat at 0.015 against a bar of 0.026, p of 0.36, and a
+second worksheet at 0.014 against 0.027. The miss was chance at the smaller sample.
 
 ## 7. Compute
 
-About 45 minutes per model and precision on one 32 GB GPU. The whole gate fits on Atlas GPU 1 in
-under six hours and needs no burst to NRP. Raw generations, probability vectors and samples are
+The first pilot attempt showed generated sampling costs one prefill per sample, which is why samples are generated only where the scale needs more than one token. Run time per model and precision is measured by the pilot and recorded here before sealing. Raw generations, probability vectors and samples are
 persisted per worksheet.
 
 ## 8. Sealing procedure

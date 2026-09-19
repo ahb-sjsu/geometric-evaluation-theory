@@ -138,7 +138,11 @@ class LMJudge:
                                         return_dict_in_generate=True, pad_token_id=self.tok.pad_token_id)
                 first = g.scores[0].float()
                 samp = None
-                if n_samples > 0:
+                # On a single-token scale the recorded probability vector is the sampling
+                # distribution at temperature one, so samples are drawn from it exactly and cost
+                # nothing. Real sampling repeats the whole prompt once per sample (HF expands the
+                # inputs before the prefill), which made sixteen samples cost sixteen prefills.
+                if n_samples > 0 and not single:
                     # sampled in sub-batches: n_samples sequences per prompt multiply the KV cache, and
                     # 16 prompts x 16 samples of a 350-token prompt ran a 32 GB card out of memory
                     sb = int(self.cfg.get("batch_sample", 4))
@@ -160,6 +164,12 @@ class LMJudge:
                 if samp is not None:
                     rows = samp[j * n_samples:(j + 1) * n_samples]
                     rec["samples"] = [parse_int(self.tok.decode(r, skip_special_tokens=True), scale) for r in rows]
+                    rec["samples_source"] = "generated"
+                elif n_samples > 0 and single:
+                    pt = p.astype(float) ** (1.0 / max(float(temperature), 1e-6)); pt /= pt.sum()
+                    srng = np.random.default_rng([int(self.cfg.get("sample_seed", 0)), zlib.crc32(texts[i + j].encode()), scale["hi"]])
+                    rec["samples"] = [float(x) for x in srng.choice(np.arange(scale["lo"], scale["hi"] + 1), size=int(n_samples), p=pt)]
+                    rec["samples_source"] = "exact_from_p"
                 out.append(rec)
         return out
 
