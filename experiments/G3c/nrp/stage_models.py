@@ -2,7 +2,7 @@
 
     python stage_models.py --model-id Qwen/Qwen2.5-1.5B-Instruct --revision REV --dest /data/models/qwen1p5b
 
-Two earlier attempts failed on memory, both recorded in PREREG-G3C-DRAFT.md: the Hugging Face
+Two earlier attempts failed on memory, both recorded in PREREG-G3C.md: the Hugging Face
 chunked downloader fetching seven files at once was OOM-killed at 2 GiB, and buffered writes to
 the Ceph volume let unflushed pages pile up against the limit and crawl at 0.26 MB/s. So every
 file goes to the pod's local disk first, one at a time with the chunked downloader off, and is

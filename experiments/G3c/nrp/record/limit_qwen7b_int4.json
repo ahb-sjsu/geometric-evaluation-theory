@@ -1,0 +1,69 @@
+{
+ "model": "qwen7b",
+ "precision": "int4",
+ "memory_max": "2147483648",
+ "evict": {
+  "snapshot": "/home/claude/.cache/huggingface/hub/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28",
+  "resident_and_size_bytes_after_evict": {
+   "model-00002-of-00004.safetensors": [
+    0,
+    3864726352
+   ],
+   "model-00003-of-00004.safetensors": [
+    0,
+    3864726424
+   ],
+   "model-00001-of-00004.safetensors": [
+    0,
+    3945441440
+   ],
+   "model-00004-of-00004.safetensors": [
+    0,
+    3556377672
+   ]
+  }
+ },
+ "load_seconds": 82.5,
+ "after_load": {
+  "VmHWM_gib": 2.027,
+  "VmRSS_gib": 0.894,
+  "RssAnon_gib": 0.498,
+  "RssFile_gib": 0.38
+ },
+ "scores": {
+  "1-5": [
+   5.0,
+   4.0,
+   4.0,
+   3.0,
+   3.0,
+   1.0
+  ],
+  "0-9": [
+   9.0,
+   8.0,
+   8.0,
+   5.0,
+   5.0,
+   2.0
+  ],
+  "0-100": [
+   95.0,
+   95.0,
+   85.0,
+   75.0,
+   65.0,
+   25.0
+  ]
+ },
+ "score_seconds": 30.5,
+ "after_score": {
+  "VmHWM_gib": 2.027,
+  "VmRSS_gib": 1.403,
+  "RssAnon_gib": 0.954,
+  "RssFile_gib": 0.43
+ },
+ "ru_maxrss_gib": 2.027,
+ "cgroup_memory_peak_gib": 2.0,
+ "cgroup_oom_events": "low 0\nhigh 0\nmax 33141\noom 0\noom_kill 0\noom_group_kill 0"
+}

@@ -1,6 +1,6 @@
 {
  "gate": "G3c",
- "status": "DRAFT, not sealed; bars are fixed from the pilot, and the test seed is drawn only after predictions.json is committed",
+ "status": "SEALED 2026-09-19 (PREREG-G3C.md); the test seed is drawn only after predictions.json is committed",
  "models": [
   {
    "key": "qwen7b",

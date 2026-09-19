@@ -1,6 +1,6 @@
 # PREREG G3c: a judge's symbol budget predicts its resolution before the resolution is measured
 
-**Status: DRAFT, NOT SEALED. Self-test PASS 13 of 13, 2026-09-19. Pilot done 2026-09-19. Bars set from the pilot's null simulation. Test seed not drawn.**
+**Status: SEALED 2026-09-19. Self-test PASS 13 of 13. Pilot done. Bars set from the pilot's null simulation. Test seed not drawn.**
 Sealing is the rename to `PREREG-G3C.md`, the commit of that rename, and the recording of its
 blob hash in `CAMPAIGN.md`. The run then has two commits of its own, in this order and never
 merged: the calibration block with `predictions.json` and its sha256, and only after that commit
@@ -253,7 +253,23 @@ Measured on Atlas (Quadro GV100), calibration block, all three scales:
 | Qwen 7B 4-bit | 31 min | 0.98 | 4.5 GiB | 95 percent |
 | Gemma 4B | 17 min | 0.98 | 5.6 GiB | 94 percent |
 | Qwen 1.5B | 8 min | 1.01 | 2.5 GiB | 99 percent |
-| Qwen 14B | QWEN14B_CAL | QWEN14B_CORES | QWEN14B_RSS | QWEN14B_GPU |
+| Qwen 14B | 83 min | 0.99 | 4.4 GiB | 98 percent |
+
+The 14B, with the chunked tree, used 5, 9 and 12 scores and carried 1.36 to 1.86 bits about
+quality, against 1.10 to 1.49 for the 7B, and its rerun reproduced the 1-5 scores of the attempt
+that ran out of memory exactly, all 840 records.
+
+Every judge's resident peak falls in its load phase and is mostly clean pages of the weight files,
+2.0 to 5.0 GiB, which the loader drops when it finishes. The memory the process allocates never
+exceeds 1 GiB, and the steady state is 1.3 to 1.4 GiB. The submitter therefore counts as peak the
+memory the pod cannot give back, and every judge fits the exempt class of 1 CPU and 2 GiB.
+`nrp/load_under_limit.py` checked that premise on Atlas. The judge's weight files were evicted
+from the page cache first, 0 bytes resident by mincore, and it was loaded and scored inside a hard
+2 GiB cgroup with no swap. Gemma 4B loaded in 64 seconds against 42 without the limit, the kernel
+reclaimed at the limit 13,416 times, and the process was never killed. The other four judges did
+the same, the 14B in 113 seconds, the 7B in 63, the 7B at 4-bit in 83 and the 1.5B in 14, with no
+kill in any (`nrp/record/limit_*.json`). Loading under the limit costs up to half a minute more
+per job and nothing else.
 
 The 7B's test block took 2.4 hours, 4.5 times its calibration scoring time, pairwise included.
 At that ratio the whole run is about 13 GPU-hours, and the 14B's test block, about 6 hours, sets
