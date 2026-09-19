@@ -1,0 +1,514 @@
+{
+ "predictions_sha256": "6ac1530d928c38e1d11b99184aac58de4dfefa421d3524acd0b2c56b8113832b",
+ "observed": {
+  "n_per_gap": 200,
+  "scales": {
+   "1-5": {
+    "argmax": {
+     "acc": [
+      0.185,
+      0.255,
+      0.34,
+      0.405,
+      0.605,
+      0.83,
+      0.97
+     ],
+     "threshold": 7.28888888888889,
+     "plateau": 0.97
+    },
+    "expected": {
+     "acc": [
+      0.68,
+      0.74,
+      0.885,
+      0.925,
+      0.985,
+      1.0,
+      1.0
+     ],
+     "threshold": 2.0689655172413794,
+     "plateau": 1.0
+    },
+    "mean_1": {
+     "acc": [
+      0.175,
+      0.255,
+      0.345,
+      0.45,
+      0.605,
+      0.81,
+      0.965
+     ],
+     "threshold": 7.414634146341463,
+     "plateau": 0.965
+    },
+    "mean_2": {
+     "acc": [
+      0.285,
+      0.385,
+      0.47,
+      0.555,
+      0.7,
+      0.9,
+      0.98
+     ],
+     "threshold": 6.5,
+     "plateau": 0.98
+    },
+    "mean_4": {
+     "acc": [
+      0.355,
+      0.47,
+      0.585,
+      0.64,
+      0.735,
+      0.95,
+      0.99
+     ],
+     "threshold": 6.1395348837209305,
+     "plateau": 0.99
+    },
+    "mean_8": {
+     "acc": [
+      0.41,
+      0.515,
+      0.65,
+      0.7,
+      0.83,
+      0.965,
+      1.0
+     ],
+     "threshold": 4.76923076923077,
+     "plateau": 1.0
+    }
+   },
+   "0-9": {
+    "argmax": {
+     "acc": [
+      0.365,
+      0.465,
+      0.61,
+      0.72,
+      0.85,
+      0.985,
+      1.0
+     ],
+     "threshold": 4.461538461538462,
+     "plateau": 1.0
+    },
+    "expected": {
+     "acc": [
+      0.675,
+      0.74,
+      0.84,
+      0.905,
+      0.96,
+      1.0,
+      1.0
+     ],
+     "threshold": 2.1,
+     "plateau": 1.0
+    },
+    "mean_1": {
+     "acc": [
+      0.44,
+      0.485,
+      0.56,
+      0.65,
+      0.805,
+      0.93,
+      0.995
+     ],
+     "threshold": 5.290322580645161,
+     "plateau": 0.995
+    },
+    "mean_2": {
+     "acc": [
+      0.52,
+      0.61,
+      0.69,
+      0.77,
+      0.9,
+      0.98,
+      1.0
+     ],
+     "threshold": 3.75,
+     "plateau": 1.0
+    },
+    "mean_4": {
+     "acc": [
+      0.585,
+      0.645,
+      0.765,
+      0.83,
+      0.915,
+      0.99,
+      1.0
+     ],
+     "threshold": 2.875,
+     "plateau": 1.0
+    },
+    "mean_8": {
+     "acc": [
+      0.61,
+      0.68,
+      0.82,
+      0.85,
+      0.935,
+      0.995,
+      1.0
+     ],
+     "threshold": 2.5,
+     "plateau": 1.0
+    }
+   },
+   "0-100": {
+    "argmax": {
+     "acc": [
+      0.31,
+      0.395,
+      0.56,
+      0.57,
+      0.78,
+      0.92,
+      0.99
+     ],
+     "threshold": 5.714285714285714,
+     "plateau": 0.99
+    },
+    "expected": {
+     "acc": [
+      0.705,
+      0.745,
+      0.88,
+      0.89,
+      0.975,
+      1.0,
+      1.0
+     ],
+     "threshold": 2.037037037037037,
+     "plateau": 1.0
+    },
+    "mean_1": {
+     "acc": [
+      0.425,
+      0.475,
+      0.615,
+      0.66,
+      0.795,
+      0.945,
+      0.98
+     ],
+     "threshold": 5.333333333333333,
+     "plateau": 0.98
+    },
+    "mean_2": {
+     "acc": [
+      0.455,
+      0.565,
+      0.7,
+      0.765,
+      0.89,
+      0.98,
+      1.0
+     ],
+     "threshold": 3.769230769230769,
+     "plateau": 1.0
+    },
+    "mean_4": {
+     "acc": [
+      0.56,
+      0.66,
+      0.79,
+      0.84,
+      0.92,
+      0.985,
+      1.0
+     ],
+     "threshold": 2.692307692307692,
+     "plateau": 1.0
+    },
+    "mean_8": {
+     "acc": [
+      0.61,
+      0.71,
+      0.835,
+      0.86,
+      0.94,
+      0.995,
+      1.0
+     ],
+     "threshold": 2.3200000000000003,
+     "plateau": 1.0
+    }
+   }
+  },
+  "pairwise": {
+   "acc": [
+    0.575,
+    0.68,
+    0.76,
+    0.87,
+    0.925,
+    0.965,
+    1.0
+   ],
+   "threshold": 2.875,
+   "mean_p_first": 0.8566418632142857
+  }
+ },
+ "comparison": {
+  "bars": {
+   "dev_max": 1.0,
+   "z_max": 1000000000.0,
+   "threshold_factor": 1000000000.0,
+   "rank_agreement_min": -1
+  },
+  "J1_prediction": {
+   "1-5/argmax": {
+    "max_abs_dev": 0.06289999999999996,
+    "max_z": 1.7504739751685927,
+    "predicted_threshold": 7.187920513221718,
+    "observed_threshold": 7.28888888888889,
+    "holds": true
+   },
+   "1-5/expected": {
+    "max_abs_dev": 0.05049999999999999,
+    "max_z": 1.684482114576991,
+    "predicted_threshold": 1.6757924123309502,
+    "observed_threshold": 2.0689655172413794,
+    "holds": true
+   },
+   "1-5/mean_1": {
+    "max_abs_dev": 0.0383,
+    "max_z": 1.2794321147163055,
+    "predicted_threshold": 7.383896018291554,
+    "observed_threshold": 7.414634146341463,
+    "holds": true
+   },
+   "1-5/mean_2": {
+    "max_abs_dev": 0.0413,
+    "max_z": 1.2336011545061973,
+    "predicted_threshold": 6.133369503563589,
+    "observed_threshold": 6.5,
+    "holds": true
+   },
+   "1-5/mean_4": {
+    "max_abs_dev": 0.08560000000000001,
+    "max_z": 2.8766902068222087,
+    "predicted_threshold": 5.063611991225932,
+    "observed_threshold": 6.1395348837209305,
+    "holds": true
+   },
+   "1-5/mean_8": {
+    "max_abs_dev": 0.04760000000000009,
+    "max_z": 1.865392925899101,
+    "predicted_threshold": 4.1053704344028095,
+    "observed_threshold": 4.76923076923077,
+    "holds": true
+   },
+   "0-9/argmax": {
+    "max_abs_dev": 0.03290000000000004,
+    "max_z": 1.4973143745777677,
+    "predicted_threshold": 4.259558894346529,
+    "observed_threshold": 4.461538461538462,
+    "holds": true
+   },
+   "0-9/expected": {
+    "max_abs_dev": 0.036599999999999966,
+    "max_z": 1.8490424630833104,
+    "predicted_threshold": 1.7761317782322705,
+    "observed_threshold": 2.1,
+    "holds": true
+   },
+   "0-9/mean_1": {
+    "max_abs_dev": 0.07199999999999995,
+    "max_z": 2.158675085050258,
+    "predicted_threshold": 4.410552971390599,
+    "observed_threshold": 5.290322580645161,
+    "holds": true
+   },
+   "0-9/mean_2": {
+    "max_abs_dev": 0.05069999999999997,
+    "max_z": 1.759260921646376,
+    "predicted_threshold": 3.2217025677924185,
+    "observed_threshold": 3.75,
+    "holds": true
+   },
+   "0-9/mean_4": {
+    "max_abs_dev": 0.040999999999999925,
+    "max_z": 2.5267477533934124,
+    "predicted_threshold": 2.611690632179018,
+    "observed_threshold": 2.875,
+    "holds": true
+   },
+   "0-9/mean_8": {
+    "max_abs_dev": 0.047599999999999976,
+    "max_z": 2.5575233535142665,
+    "predicted_threshold": 2.235191077110071,
+    "observed_threshold": 2.5,
+    "holds": true
+   },
+   "0-100/argmax": {
+    "max_abs_dev": 0.08810000000000007,
+    "max_z": 2.532388755848774,
+    "predicted_threshold": 5.070388349514563,
+    "observed_threshold": 5.714285714285714,
+    "holds": true
+   },
+   "0-100/expected": {
+    "max_abs_dev": 0.04569999999999996,
+    "max_z": 2.4277620112536393,
+    "predicted_threshold": 1.7225455956538618,
+    "observed_threshold": 2.037037037037037,
+    "holds": true
+   },
+   "0-100/mean_1": {
+    "max_abs_dev": 0.03579999999999994,
+    "max_z": 1.2309110662471066,
+    "predicted_threshold": 4.849017074618526,
+    "observed_threshold": 5.333333333333333,
+    "holds": true
+   },
+   "0-100/mean_2": {
+    "max_abs_dev": 0.04269999999999996,
+    "max_z": 1.5231842241730338,
+    "predicted_threshold": 3.3862125885061465,
+    "observed_threshold": 3.769230769230769,
+    "holds": true
+   },
+   "0-100/mean_4": {
+    "max_abs_dev": 0.03320000000000001,
+    "max_z": 2.0073938426508446,
+    "predicted_threshold": 2.6468625893566324,
+    "observed_threshold": 2.692307692307692,
+    "holds": true
+   },
+   "0-100/mean_8": {
+    "max_abs_dev": 0.04400000000000004,
+    "max_z": 2.4299774102256673,
+    "predicted_threshold": 2.1830224481758624,
+    "observed_threshold": 2.3200000000000003,
+    "holds": true
+   },
+   "verdict": "PASS"
+  },
+  "J2_effective_vs_nominal": {
+   "1-5": {
+    "sse_effective": 0.0073,
+    "sse_nominal": 0.4955,
+    "effective_wins": true,
+    "nominal_threshold": 3.53125,
+    "effective_threshold": 7.187920513221718,
+    "observed_threshold": 7.28888888888889,
+    "codebook_levels": 5,
+    "nominal_levels": 5
+   },
+   "0-9": {
+    "sse_effective": 0.0024,
+    "sse_nominal": 0.4932,
+    "effective_wins": true,
+    "nominal_threshold": 1.60313630880579,
+    "effective_threshold": 4.259558894346529,
+    "observed_threshold": 4.461538461538462,
+    "codebook_levels": 8,
+    "nominal_levels": 10
+   },
+   "0-100": {
+    "sse_effective": 0.0116,
+    "sse_nominal": 1.2755,
+    "effective_wins": true,
+    "nominal_threshold": 1.0,
+    "effective_threshold": 5.070388349514563,
+    "observed_threshold": 5.714285714285714,
+    "codebook_levels": 9,
+    "nominal_levels": 101
+   },
+   "verdict": "PASS"
+  },
+  "J3_budget_ordering": {
+   "readouts": [
+    "1-5/argmax",
+    "1-5/expected",
+    "1-5/mean_1",
+    "1-5/mean_2",
+    "1-5/mean_4",
+    "1-5/mean_8",
+    "0-9/argmax",
+    "0-9/expected",
+    "0-9/mean_1",
+    "0-9/mean_2",
+    "0-9/mean_4",
+    "0-9/mean_8",
+    "0-100/argmax",
+    "0-100/expected",
+    "0-100/mean_1",
+    "0-100/mean_2",
+    "0-100/mean_4",
+    "0-100/mean_8"
+   ],
+   "predicted": [
+    7.187920513221718,
+    1.6757924123309502,
+    7.383896018291554,
+    6.133369503563589,
+    5.063611991225932,
+    4.1053704344028095,
+    4.259558894346529,
+    1.7761317782322705,
+    4.410552971390599,
+    3.2217025677924185,
+    2.611690632179018,
+    2.235191077110071,
+    5.070388349514563,
+    1.7225455956538618,
+    4.849017074618526,
+    3.3862125885061465,
+    2.6468625893566324,
+    2.1830224481758624
+   ],
+   "observed": [
+    7.28888888888889,
+    2.0689655172413794,
+    7.414634146341463,
+    6.5,
+    6.1395348837209305,
+    4.76923076923077,
+    4.461538461538462,
+    2.1,
+    5.290322580645161,
+    3.75,
+    2.875,
+    2.5,
+    5.714285714285714,
+    2.037037037037037,
+    5.333333333333333,
+    3.769230769230769,
+    2.692307692307692,
+    2.3200000000000003
+   ],
+   "kendall_tau": 0.9477124183006536,
+   "share_within_factor": 1.0,
+   "verdict": "PASS"
+  },
+  "J5_pairwise": {
+   "predicted_floor_readout": "1-5/expected",
+   "predicted_threshold": 1.6757924123309502,
+   "observed_threshold": 2.875,
+   "observed_acc": [
+    0.575,
+    0.68,
+    0.76,
+    0.87,
+    0.925,
+    0.965,
+    1.0
+   ],
+   "mean_p_first": 0.8566418632142857,
+   "label": "AT FLOOR"
+  },
+  "gate": "PASS"
+ },
+ "verdicts": null
+}
