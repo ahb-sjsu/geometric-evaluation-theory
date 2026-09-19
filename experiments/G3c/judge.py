@@ -374,6 +374,9 @@ def block_seed(cfg: dict, block: str) -> int:
 
 def run_block(cfg: dict, block: str, model_key: str, precision: str, out_dir: str, judge_factory=make_judge) -> dict:
     spec = {m["key"]: m for m in cfg["models"]}[model_key]
+    # batch sizes may be set per model; a 14B model in bfloat16 fills most of a 32 GB card. Batch
+    # shape does not change the first-token distribution (verify/verify_batch_shape.json).
+    cfg = {**cfg, **{k: spec[k] for k in ("batch", "batch_tree", "batch_pairwise") if k in spec}}
     out = Path(out_dir) / block / f"{model_key}__{precision}"
     out.mkdir(parents=True, exist_ok=True)
     data = make_block(cfg, block, block_seed(cfg, block))

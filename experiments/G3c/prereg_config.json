@@ -25,7 +25,10 @@
    "revision": "cf98f3b3bbb457ad9e2bb7baf9a0125b6b88caa8",
    "precisions": [
     "full"
-   ]
+   ],
+   "batch": 4,
+   "batch_tree": 2,
+   "batch_pairwise": 2
   },
   {
    "key": "gemma4b",
