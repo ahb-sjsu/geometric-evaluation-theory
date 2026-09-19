@@ -8,5 +8,20 @@
  "mean_rss_mb": 282.0,
  "mean_cpu_share": 1.0,
  "peak_over_mean": 1.66,
- "note": "The peak is the pandas load of ten seasons and it is transient. The steady state is the shuffle loop, which allocates nothing. Peak over mean is 1.66, well inside the rule that a class is sizeable only when peak is at most five times mean, so one request satisfies the ceiling and the twenty percent floor at once. Sizing from mean alone would have used 282 MB and been wrong by the load spike, which is what the kernel kills on."
+ "note": "The peak is the pandas load of ten seasons and it is transient. The steady state is the shuffle loop, which allocates nothing. Peak over mean is 1.66, well inside the rule that a class is sizeable only when peak is at most five times mean, so one request satisfies the ceiling and the twenty percent floor at once. Sizing from mean alone would have used 282 MB and been wrong by the load spike, which is what the kernel kills on.",
+ "confirmed_in_pod": {
+  "when": "2026-09-19, a running cell on NRP",
+  "request_mi": 585,
+  "cgroup_memory_peak_mib": 587,
+  "cgroup_anon_mib": 349,
+  "cgroup_file_cache_mib": 155,
+  "cgroup_slab_mib": 28,
+  "oom_kills": 0,
+  "reading": "memory.peak came back at 587 MiB against a 585 Mi limit, which looks like a pod about to be killed and is not one. That figure counts the reclaimable page cache of the parquet files the job downloads. The kernel kills on the anonymous set, which is 349 MiB, sixty percent of the request. This is the failure mode the cluster rules name, that sizing read from memory.current is inflated by cache the cluster does not count, and it is recorded here because the first reading looked alarming and the correct one did not."
+ },
+ "version_discrepancy": {
+  "measured_with": "pandas 3.0.2, the interpreter on Atlas",
+  "ran_with": "pandas 2.3.3, pinned in the job",
+  "reading": "The sizing measurement was taken under a different pandas than the run uses, which is the same class of error as verifying a check outside the configuration it runs in. The two agree in practice, 468 MB peak measured against a 349 MiB anonymous set in the pod, so the request stands. The pin should be matched to the measuring environment next time rather than after."
+ }
 }
