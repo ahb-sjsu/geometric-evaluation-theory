@@ -19,7 +19,7 @@ Standing rule inherited from the observation-theory campaigns: every gate regist
 | G6 | Menu-dependent admissibility and the weak axiom | G0 | PENDING |
 | G7 | Human budget manipulation | G3, G5 | PENDING, needs IRB |
 | G8 | Submission and archive | G1, G2, G4, and at least one of G3, G5, G6 | PENDING |
-| G9 | Hull law in a second world, and the budget prediction on natural human decisions at scale | G0, G2, G5 | SEALED 2026-09-19 (`experiments/G9/PREREG-G9.md`, blob f8a18aea4d82bded364b78a6da6c1a39f1fd9f51, commit 4cdff2b; four event-presence probes run on Atlas; NFL play calls 2015 to 2024, 303,414 decisions, 962 testable units across 32 evaluators, 188 of 201 cells in general position on the primary plane; the fourth-down design the gate was first drafted around was abandoned at 41 cells, by its own probe) |
+| G9 | Hull law in a second world, and the budget prediction on natural human decisions at scale | G0, G2, G5 | SEALED 2026-09-19 (`experiments/G9/PREREG-G9.md`, blob f8a18aea4d82bded364b78a6da6c1a39f1fd9f51, commit 3d3c778; four event-presence probes run on Atlas; NFL play calls 2015 to 2024, 303,414 decisions, 962 testable units across 32 evaluators, 188 of 201 cells in general position on the primary plane; the fourth-down design the gate was first drafted around was abandoned at 41 cells, by its own probe) |
 
 ## G0. Foundations frozen
 
