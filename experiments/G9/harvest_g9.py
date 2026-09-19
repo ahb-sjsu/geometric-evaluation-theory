@@ -85,10 +85,51 @@ def grade(rec, carries_bar):
     return "INDETERMINATE"
 
 
+SHORT = {"epa": "y1_epa", "fd": "y2_first_down", "to": "y3_turnover",
+         "sd": "y4_epa_sd", "clk": "y5_clock_stop"}
+BARRED_PLANES = {("y1_epa", "y3_turnover"), ("y3_turnover", "y4_epa_sd"),
+                 ("y1_epa", "y2_first_down"), ("y1_epa", "y4_epa_sd"),
+                 ("y2_first_down", "y4_epa_sd"), ("y2_first_down", "y5_clock_stop")}
+
+
+def cells_from_cluster():
+    """Enumerate the run's cells from the cluster rather than from a local file.
+
+    The submitter writes submitted.json only when it finishes, and its SSH
+    session can drop long before that. A harvester that depends on that file
+    reports nothing at exactly the moment the run is most worth reading, so the
+    cluster's own labels are the source of truth and the file is a bonus.
+    """
+    names = kubectl("get", "jobs", "-l", "app=get-g9", "-o",
+                    "jsonpath={range .items[*]}{.metadata.name}{'\\n'}{end}").split()
+    out = []
+    for n in sorted(names):
+        m = re.match(r"^g9-([a-z]+)-([a-z]+)-f(\d+)$", n)
+        if not m:
+            print("skipping unrecognised job name", n)
+            continue
+        a, b, floor = SHORT.get(m.group(1)), SHORT.get(m.group(2)), int(m.group(3))
+        if not a or not b:
+            print("skipping job with unknown coordinate", n)
+            continue
+        plane = (a, b)
+        out.append({"cell": n, "k8s_job": n, "plane": list(plane), "floor": floor,
+                    "bar": bool(floor == 5 and plane in BARRED_PLANES)})
+    return out
+
+
 def main():
-    if not os.path.exists(SUBMITTED):
-        raise SystemExit("no submitted.json")
-    cells = json.load(open(SUBMITTED))
+    cells = cells_from_cluster()
+    if os.path.exists(SUBMITTED):
+        try:
+            extra = {r["cell"]: r for r in json.load(open(SUBMITTED))}
+            for c in cells:
+                if c["cell"] in extra:
+                    c.setdefault("job_id", extra[c["cell"]].get("job_id"))
+        except (ValueError, KeyError):
+            pass
+    if not cells:
+        raise SystemExit("no g9 jobs found on the cluster")
     os.makedirs(OUTDIR, exist_ok=True)
     summary = []
     for c in cells:
@@ -97,6 +138,14 @@ def main():
         rec, shas = (None, None)
         if st.get("exists"):
             rec, shas = extract(pod_log(name))
+        # A pod is garbage collected after its job succeeds, and it takes the
+        # log with it. One cell's result was lost that way before this existed.
+        # Once a record has been saved it is the copy of record, and the log is
+        # only ever a source for a record not yet held.
+        saved = os.path.join(OUTDIR, "%s.json" % c["cell"])
+        if rec is None and os.path.exists(saved):
+            blob = json.load(open(saved))
+            rec, shas = blob.get("record"), blob.get("sources_sha256")
         row = {"cell": c["cell"], "plane": c["plane"], "floor": c["floor"],
                "carries_bar": c["bar"], "job": name, "status": st}
         if rec is None:
