@@ -1,0 +1,48 @@
+{
+ "gate": "G3b",
+ "status": "DRAFT, not sealed; bars and the run seed are set only at sealing",
+ "models": [
+  {"key": "qwen7b", "model_id": "Qwen/Qwen2.5-7B-Instruct", "revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+   "precisions": ["full", "int8", "int4"], "tasks": ["A", "B"], "cost": 1.0,
+   "report_grid": {"1": 10.0, "2": 1.0, "3": 1.0, "4": 0.1, "5": 0.01, "6": 0.001, "12": 0.001}},
+  {"key": "gemma4b", "model_id": "unsloth/gemma-3-4b-it", "revision": null,
+   "precisions": ["full", "int4"], "tasks": ["A", "B"], "cost": 0.8,
+   "report_grid": {"1": 10.0, "2": 1.0, "3": 1.0, "4": 0.1, "5": 0.01, "6": 0.001, "12": 0.001}},
+  {"key": "llama3b", "model_id": "unsloth/Llama-3.2-3B-Instruct", "revision": null,
+   "precisions": ["full", "int4"], "tasks": ["A", "B"], "cost": 0.7, "conditional": true,
+   "report_grid": {"1": 1.0, "2": 1.0, "3": 0.001, "4": 0.001, "5": 0.001, "6": 0.001, "12": 0.001}}
+ ],
+ "tasks": {
+  "A": {"target": 100.0, "distance_ranges": [[20.0, 10.0, 40.0], [50.0, 10.0, 99.0]], "cost": 1.0},
+  "B": {"target": [100.0, 100.0], "distance_ranges": [[20.0, 10.0, 40.0], [50.0, 10.0, 99.0]], "cost": 1.3}
+ },
+ "prompt_templates": {
+  "A": "Target: {target}\nValue: {value}\nHow far is the value from the target? Answer with a single number and nothing else.",
+  "B": "Target point: {target}\nPoint: {value}\nWhat is the straight-line distance from the point to the target point? Answer with a single number and nothing else."
+ },
+ "use_chat_template": true,
+ "gap_ladder": [0.0005, 0.001, 0.002, 0.005, 0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1.0, 2.0, 5.0, 10.0, 20.0, 30.0, 50.0],
+ "n_pairs_per_gap": 200,
+ "decimals_ladder": [0, 1, 2, 3],
+ "report_token_budgets": [1, 2, 3, 4, 5, 6, 12],
+ "full_report_tokens": 12,
+ "batch": 32,
+ "load_cost": 0.15,
+ "tokenizer_examples": ["27.375", "10.123", "10", "10.", "0.001", "123.456"],
+ "seeds": {"probe": 20260919, "pilot": 20260920, "run": null},
+ "bars": {
+  "anti_vacuity_acc_gap20": null,
+  "floor_max": null,
+  "h_ratio_factor": null,
+  "law_max_abs_dev": null,
+  "weights_step_factor": null,
+  "delta_min_factor": null,
+  "p3_min_acc": null,
+  "p3_min_gaps": null
+ },
+ "environment": {
+  "note": "pinned to the G3 environment for the replication arm; Gemma-3 needs transformers >= 4.50",
+  "python_env_atlas": "/archive/kvbench/venv",
+  "torch": "2.8.0+cu128", "transformers": "4.56.1", "bitsandbytes": "0.50.2", "accelerate": "1.14.0"
+ }
+}

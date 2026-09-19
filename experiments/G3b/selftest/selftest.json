@@ -1,0 +1,261 @@
+{
+ "verdict": "PASS",
+ "n_checks": 36,
+ "n_failed": 0,
+ "checks": [
+  {
+   "check": "synth_char A: 11b PASS",
+   "pass": true,
+   "detail": "PASS"
+  },
+  {
+   "check": "synth_char B: 11b PASS",
+   "pass": true,
+   "detail": "PASS"
+  },
+  {
+   "check": "synth_char: 11c PASS (step unchanged under weights)",
+   "pass": true,
+   "detail": "PASS"
+  },
+  {
+   "check": "synth_char int4: lapse difference interval above zero",
+   "pass": true,
+   "detail": {
+    "synth_char__int8__A__d0__k12": [
+     0.0,
+     0.0
+    ],
+    "synth_char__int8__A__d1__k12": [
+     0.0,
+     0.0
+    ],
+    "synth_char__int8__A__d2__k12": [
+     0.0,
+     0.0
+    ],
+    "synth_char__int8__A__d3__k12": [
+     0.0,
+     0.0
+    ],
+    "synth_char__int4__A__d0__k12": [
+     0.04167031657532652,
+     0.06600890177461342
+    ],
+    "synth_char__int4__A__d1__k12": [
+     0.01369686440771668,
+     0.028200284727024797
+    ],
+    "synth_char__int4__A__d2__k12": [
+     0.0162550463471028,
+     0.02756640017797921
+    ],
+    "synth_char__int4__A__d3__k12": [
+     0.015034744193752702,
+     0.026085513675947216
+    ]
+   }
+  },
+  {
+   "check": "synth_group3: 11d PASS with its own grid",
+   "pass": true,
+   "detail": "PASS"
+  },
+  {
+   "check": "synth_group3 graded with the one-character grid: 11b FAIL (I0)",
+   "pass": true,
+   "detail": "FAIL"
+  },
+  {
+   "check": "synth_coarse: 11b FAIL (I0)",
+   "pass": true,
+   "detail": "FAIL"
+  },
+  {
+   "check": "synth_noise: floor between 1 and 4 noise sd",
+   "pass": true,
+   "detail": 0.033750693900859656
+  },
+  {
+   "check": "synth_noise: 11b not FAIL above its floor",
+   "pass": true,
+   "detail": "PASS"
+  },
+  {
+   "check": "h=1.0 garble=0.0: mean step within 3%",
+   "pass": true,
+   "detail": 0.9901
+  },
+  {
+   "check": "h=1.0 garble=0.0: mean lapse within 0.01 of true",
+   "pass": true,
+   "detail": {
+    "fit": 0.0001,
+    "true": 0.0
+   }
+  },
+  {
+   "check": "h=1.0 garble=0.0: interval coverage in [0.85, 0.995]",
+   "pass": true,
+   "detail": 0.9
+  },
+  {
+   "check": "h=1.0 garble=0.03: mean step within 3%",
+   "pass": true,
+   "detail": 0.9965
+  },
+  {
+   "check": "h=1.0 garble=0.03: mean lapse within 0.01 of true",
+   "pass": true,
+   "detail": {
+    "fit": 0.0222,
+    "true": 0.021
+   }
+  },
+  {
+   "check": "h=1.0 garble=0.03: interval coverage in [0.85, 0.995]",
+   "pass": true,
+   "detail": 0.95
+  },
+  {
+   "check": "h=1.0 garble=0.1: mean step within 3%",
+   "pass": true,
+   "detail": 1.0276
+  },
+  {
+   "check": "h=1.0 garble=0.1: mean lapse within 0.01 of true",
+   "pass": true,
+   "detail": {
+    "fit": 0.0689,
+    "true": 0.068
+   }
+  },
+  {
+   "check": "h=1.0 garble=0.1: interval coverage in [0.85, 0.995]",
+   "pass": true,
+   "detail": 0.85
+  },
+  {
+   "check": "h=0.1 garble=0.0: mean step within 3%",
+   "pass": true,
+   "detail": 0.9761
+  },
+  {
+   "check": "h=0.1 garble=0.0: mean lapse within 0.01 of true",
+   "pass": true,
+   "detail": {
+    "fit": -0.0,
+    "true": 0.0
+   }
+  },
+  {
+   "check": "h=0.1 garble=0.0: interval coverage in [0.85, 0.995]",
+   "pass": true,
+   "detail": 0.925
+  },
+  {
+   "check": "h=0.1 garble=0.03: mean step within 3%",
+   "pass": true,
+   "detail": 0.9855
+  },
+  {
+   "check": "h=0.1 garble=0.03: mean lapse within 0.01 of true",
+   "pass": true,
+   "detail": {
+    "fit": 0.0241,
+    "true": 0.0229
+   }
+  },
+  {
+   "check": "h=0.1 garble=0.03: interval coverage in [0.85, 0.995]",
+   "pass": true,
+   "detail": 0.925
+  },
+  {
+   "check": "h=0.1 garble=0.1: mean step within 3%",
+   "pass": true,
+   "detail": 1.0077
+  },
+  {
+   "check": "h=0.1 garble=0.1: mean lapse within 0.01 of true",
+   "pass": true,
+   "detail": {
+    "fit": 0.0758,
+    "true": 0.0742
+   }
+  },
+  {
+   "check": "h=0.1 garble=0.1: interval coverage in [0.85, 0.995]",
+   "pass": true,
+   "detail": 0.95
+  },
+  {
+   "check": "h=0.01 garble=0.0: mean step within 3%",
+   "pass": true,
+   "detail": 0.974
+  },
+  {
+   "check": "h=0.01 garble=0.0: mean lapse within 0.01 of true",
+   "pass": true,
+   "detail": {
+    "fit": 0.0,
+    "true": 0.0
+   }
+  },
+  {
+   "check": "h=0.01 garble=0.0: interval coverage in [0.85, 0.995]",
+   "pass": true,
+   "detail": 0.875
+  },
+  {
+   "check": "h=0.01 garble=0.03: mean step within 3%",
+   "pass": true,
+   "detail": 0.9752
+  },
+  {
+   "check": "h=0.01 garble=0.03: mean lapse within 0.01 of true",
+   "pass": true,
+   "detail": {
+    "fit": 0.0257,
+    "true": 0.0249
+   }
+  },
+  {
+   "check": "h=0.01 garble=0.03: interval coverage in [0.85, 0.995]",
+   "pass": true,
+   "detail": 0.9
+  },
+  {
+   "check": "h=0.01 garble=0.1: mean step within 3%",
+   "pass": true,
+   "detail": 0.9819
+  },
+  {
+   "check": "h=0.01 garble=0.1: mean lapse within 0.01 of true",
+   "pass": true,
+   "detail": {
+    "fit": 0.0813,
+    "true": 0.0792
+   }
+  },
+  {
+   "check": "h=0.01 garble=0.1: interval coverage in [0.85, 0.995]",
+   "pass": true,
+   "detail": 0.95
+  }
+ ],
+ "seconds": 400.5,
+ "env": {
+  "python": "3.12.3",
+  "host": "atlas",
+  "numpy": "2.5.1",
+  "torch": "2.8.0+cu128",
+  "transformers": "4.56.1",
+  "bitsandbytes": "0.50.2",
+  "accelerate": "1.14.0",
+  "huggingface_hub": "0.36.2",
+  "gpu": "Quadro GV100",
+  "cuda": "12.8",
+  "capability": "7.0"
+ }
+}

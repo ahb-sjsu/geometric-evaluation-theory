@@ -1,0 +1,167 @@
+{
+ "verdict": "PASS",
+ "checks": [
+  {
+   "check": "synth_judge: J1 PASS (calibration predicts the test block)",
+   "pass": true,
+   "detail": {
+    "1-5/argmax": [
+     0.042,
+     1.35
+    ],
+    "1-5/expected": [
+     0.008,
+     1.3
+    ],
+    "1-5/mean_1": [
+     0.085,
+     2.49
+    ],
+    "1-5/mean_2": [
+     0.056,
+     2.15
+    ],
+    "1-5/mean_4": [
+     0.032,
+     1.19
+    ],
+    "1-5/mean_8": [
+     0.037,
+     1.36
+    ],
+    "1-5/mean_16": [
+     0.023,
+     1.89
+    ],
+    "0-9/argmax": [
+     0.014,
+     0.76
+    ],
+    "0-9/expected": [
+     0.021,
+     1.09
+    ],
+    "0-9/mean_1": [
+     0.056,
+     1.63
+    ],
+    "0-9/mean_2": [
+     0.055,
+     1.85
+    ],
+    "0-9/mean_4": [
+     0.016,
+     0.9
+    ],
+    "0-9/mean_8": [
+     0.015,
+     0.68
+    ],
+    "0-9/mean_16": [
+     0.033,
+     1.58
+    ],
+    "0-100/argmax": [
+     0.049,
+     1.51
+    ],
+    "0-100/mean_1": [
+     0.042,
+     1.22
+    ],
+    "0-100/mean_2": [
+     0.043,
+     1.23
+    ],
+    "0-100/mean_4": [
+     0.066,
+     2.01
+    ],
+    "0-100/mean_8": [
+     0.05,
+     1.6
+    ],
+    "0-100/mean_16": [
+     0.045,
+     1.55
+    ]
+   }
+  },
+  {
+   "check": "synth_judge: J2 PASS (effective codebook beats the nominal rival)",
+   "pass": true,
+   "detail": {
+    "1-5": [
+     0.0029,
+     0.0209
+    ],
+    "0-9": [
+     0.0004,
+     0.0643
+    ],
+    "0-100": [
+     0.0047,
+     0.816
+    ]
+   }
+  },
+  {
+   "check": "synth_judge: nominal rival's 0-100 threshold wrong by more than 2x",
+   "pass": true,
+   "detail": {
+    "nominal": 1.0,
+    "observed": 3.3823529411764706
+   }
+  },
+  {
+   "check": "synth_judge: J3 PASS (budget ordering predicted)",
+   "pass": true,
+   "detail": {
+    "tau": 0.9,
+    "within": 1.0
+   }
+  },
+  {
+   "check": "synth_judge: expected-score threshold below argmax on 0-9",
+   "pass": true,
+   "detail": {
+    "expected": 1.0,
+    "argmax": 2.1075689503213746
+   }
+  },
+  {
+   "check": "synth_judge: 16-sample mean threshold below 1-sample on 0-100",
+   "pass": true,
+   "detail": {
+    "mean_16": 1.633798366034334,
+    "mean_1": 3.7497240572642956
+   }
+  },
+  {
+   "check": "synth_drift: J1 FAIL (I0)",
+   "pass": true,
+   "detail": 27.732145868050743
+  },
+  {
+   "check": "synth_ideal: nominal rival not beaten on 0-100 (J2 is not passed by construction)",
+   "pass": true,
+   "detail": {
+    "sse_effective": 0.0,
+    "sse_nominal": 0.0,
+    "effective_wins": false,
+    "nominal_threshold": 1.0,
+    "effective_threshold": 1.0,
+    "observed_threshold": 1.0,
+    "codebook_levels": 60,
+    "nominal_levels": 101
+   }
+  }
+ ],
+ "seconds": 45.3,
+ "bars": {
+  "dev_max": 0.12,
+  "z_max": 4.0,
+  "threshold_factor": 1.6,
+  "rank_agreement_min": 0.6
+ }
+}
