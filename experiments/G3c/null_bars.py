@@ -21,7 +21,12 @@ resamples than the sealed run (--boot), which only affects the z denominator whe
 1/(2n) floor does not already bind.
 
 The pilot's own statistics are placed in this distribution, and the proposed bars are its
-upper quantiles, stated with the family-wise false-alarm rate per judge.
+upper quantiles, rounded outward. With --rows-out every replicate's statistics are saved, and
+--combine reads such files, so replicates can run in parallel processes with different seeds and
+the joint false-alarm rate of all four bars together is counted, not assumed.
+
+    python null_bars.py ... --reps 250 --seed S --rows-out rows_S.json      (one worker)
+    python null_bars.py --config prereg_config.json --pilot pilot_record/pilot --combine rows_*.json --out bars_null.json
 """
 from __future__ import annotations
 
@@ -105,27 +110,65 @@ def summarize(gr: dict) -> dict:
             "kendall_tau": gr["J3_budget_ordering"]["kendall_tau"]}
 
 
+def ceil_to(x: float, step: float) -> float:
+    return round(math.ceil(x / step - 1e-9) * step, 6)
+
+
+def floor_to(x: float, step: float) -> float:
+    return round(math.floor(x / step + 1e-9) * step, 6)
+
+
+def bars_from_rows(rows: list[dict]) -> dict:
+    """Quantiles, the proposed bars rounded outward, and the share of replicates that the four
+    bars together would fail: the per-judge false-alarm rate of J1 and J3 combined."""
+    st = {k: np.array([r[k] for r in rows], float) for k in rows[0]}
+    q = {k: {f"q{p}": float(np.percentile(v, p)) for p in (50, 90, 95, 99)} for k, v in st.items()}
+    q["kendall_tau"] = {f"q{p}": float(np.percentile(st["kendall_tau"], p)) for p in (1, 5, 10, 50)}
+    bars = {"z_max": ceil_to(q["max_z"]["q99"], 0.05), "dev_max": ceil_to(q["max_abs_dev"]["q99"], 0.005),
+            "threshold_factor": ceil_to(q["max_threshold_ratio"]["q99"], 0.05),
+            "rank_agreement_min": floor_to(q["kendall_tau"]["q1"], 0.01)}
+    fail_j1 = (st["max_z"] > bars["z_max"]) | (st["max_abs_dev"] > bars["dev_max"])
+    fail_j3 = (st["max_threshold_ratio"] > bars["threshold_factor"]) | (st["kendall_tau"] < bars["rank_agreement_min"])
+    rates = {"J1": float(fail_j1.mean()), "J3": float(fail_j3.mean()), "J1_or_J3": float((fail_j1 | fail_j3).mean()),
+             "z_only": float((st["max_z"] > bars["z_max"]).mean()), "dev_only": float((st["max_abs_dev"] > bars["dev_max"]).mean())}
+    return {"n_replicates": len(rows), "quantiles": q, "proposed_bars": bars, "false_alarm_rates": rates, "_stats": st}
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--config", required=True); ap.add_argument("--pilot", required=True)
     ap.add_argument("--tag", default="qwen7b__full"); ap.add_argument("--stats", default=None)
     ap.add_argument("--reps", type=int, default=1000); ap.add_argument("--boot", type=int, default=40)
-    ap.add_argument("--seed", type=int, default=20260920); ap.add_argument("--out", required=True)
+    ap.add_argument("--seed", type=int, default=20260920); ap.add_argument("--out")
+    ap.add_argument("--rows-out"); ap.add_argument("--combine", nargs="+")
     a = ap.parse_args(argv)
     cfg = json.load(open(a.config, encoding="utf-8"))
     pilot = Path(a.pilot)
-    e, R = load_pool(pilot, cfg, a.tag)
-    rng = np.random.default_rng(a.seed)
-    rows = []
-    for i in range(a.reps):
-        rows.append(one_replicate(rng, e, R, cfg, a.boot))
-        if (i + 1) % 100 == 0:
-            print(f"{i + 1}/{a.reps}", flush=True)
-    stats = {k: np.array([r[k] for r in rows]) for k in rows[0]}
-    q = {k: {f"q{p}": float(np.percentile(v, p)) for p in (50, 90, 95, 99)} for k, v in stats.items()}
-    q["kendall_tau"] = {f"q{p}": float(np.percentile(stats["kendall_tau"], p)) for p in (1, 5, 10, 50)}
-    report = {"population": {"sheets": int(len(e)), "per_level_min": int(np.bincount(e).min()), "tag": a.tag},
-              "reps": a.reps, "boot": a.boot, "seed": a.seed, "quantiles": q}
+    if a.combine:
+        parts = [json.load(open(f)) for f in a.combine]
+        seeds = [pt["seed"] for pt in parts]
+        if len(set(seeds)) != len(seeds):
+            raise SystemExit(f"two row files share a seed: {seeds}")
+        rows = [r for pt in parts for r in pt["rows"]]
+        meta = {"seeds": seeds, "boot": sorted({pt["boot"] for pt in parts}), "population": parts[0]["population"]}
+    else:
+        e, R = load_pool(pilot, cfg, a.tag)
+        rng = np.random.default_rng(a.seed)
+        rows = []
+        for i in range(a.reps):
+            rows.append(one_replicate(rng, e, R, cfg, a.boot))
+            if (i + 1) % 50 == 0:
+                print(f"{i + 1}/{a.reps}", flush=True)
+        meta = {"seeds": [a.seed], "boot": [a.boot],
+                "population": {"sheets": int(len(e)), "per_level_min": int(np.bincount(e).min()), "tag": a.tag}}
+        if a.rows_out:
+            json.dump({"seed": a.seed, "boot": a.boot, "population": meta["population"], "rows": rows}, open(a.rows_out, "w"))
+            print("rows", a.rows_out)
+            if not a.out:
+                return 0
+    b = bars_from_rows(rows)
+    stats = b.pop("_stats")
+    report = {**meta, **b}
     sf = Path(a.stats) if a.stats else pilot / "pilot_stats_full.json"
     if sf.exists():
         pilot_stat = summarize(json.load(open(sf))["comparison"])

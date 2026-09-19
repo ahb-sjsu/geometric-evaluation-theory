@@ -1,6 +1,6 @@
 # PREREG G3c: a judge's symbol budget predicts its resolution before the resolution is measured
 
-**Status: DRAFT, NOT SEALED. Self-test passed 2026-09-18. Pilot running. No bar fixed, no run seed drawn.**
+**Status: DRAFT, NOT SEALED. Self-test PASS 13 of 13, 2026-09-19. Pilot done 2026-09-19. Bars set from the pilot's null simulation. Test seed not drawn.**
 Sealing is the rename to `PREREG-G3C.md`, the commit of that rename, and the recording of its
 blob hash in `CAMPAIGN.md`. The run then has two commits of its own, in this order and never
 merged: the calibration block with `predictions.json` and its sha256, and only after that commit
@@ -26,7 +26,7 @@ registered bars.
 `GET-12b`, the effective budget and not the nominal one. The threshold under a rating scale is
 set by the codebook the judge actually uses, measured on the calibration block, and not by the
 number of levels the scale offers. The rival is an ideal judge that uses every level of the
-nominal scale. On the 0 to 100 scale the rival predicts a threshold below one error in twenty.
+nominal scale. On the 0 to 100 scale the rival reaches 0.75 already at the smallest gap, one error in twenty.
 
 `GET-12c`, a larger report budget lowers the threshold, by the predicted amount. Reading the
 expected score from the probability vector over the codebook, and averaging n samples drawn at
@@ -82,38 +82,88 @@ better sheet gets the strictly larger number, so ties and unparsable reports cou
   of one over twice the pair count on the prediction's bootstrap deviation. The self-test found
   the uncorrected version scoring z of 5.9 for two misordered pairs in 200.
 
-## 4. Bars (FIXED FROM THE PILOT before sealing)
+## 4. Bars (fixed from the pilot, 2026-09-19)
+
+The prediction bars come from `null_bars.py` (`pilot_record/null/`, 1,000 replicates in four
+workers of 250 with seeds 20260921 to 20260924, every replicate's statistics saved).
+Each replicate draws a calibration block and a test block from disjoint halves of the pilot
+judge's own worksheets and grades them with the run's code, so a replicate is the run with
+nothing wrong. Each bar is the quantile of the statistic taken over all eighteen read-outs and
+seven gaps of one judge at once. The dependence among read-outs that share test pairs is
+therefore in the bar, and the false-alarm rate is per judge, not per cell. Each bar is its
+quantile rounded outward, the z bar and the factor up to the next 0.05, the deviation up to the next
+0.005, and tau down to the next 0.01.
 
 | Quantity | Bar | Fixed by |
 |---|---|---|
-| `dev_max`, largest absolute deviation of observed from predicted accuracy | `[ ]` | pilot |
-| `z_max`, largest deviation in noise units | `[ ]` | pilot, with the false-alarm rate over the number of cells stated |
-| `threshold_factor`, observed over predicted threshold | `[ ]` | pilot |
-| `rank_agreement_min`, Kendall tau between predicted and observed thresholds across read-outs | `[ ]` | pilot |
-| Anti-vacuity: on at least one scale the argmax accuracy at gap 12 is at least 0.9 and the calibration information about quality is at least `[ ]` bits | `[ ]` | pilot |
-| Rival margin: on 0 to 100 the rival's sum of squared errors exceeds the effective prediction's by a factor of at least `[ ]` | `[ ]` | stated before the pilot is read |
+| `z_max`, largest deviation of observed from predicted accuracy in noise units, over all read-outs and gaps | 4.55 | 99th percentile of the null, 4.51 |
+| `dev_max`, largest absolute deviation, same cells | 0.14 | 99th percentile of the null, 0.136 |
+| `threshold_factor`, largest ratio between observed and predicted threshold, either direction | 1.75 | 99th percentile of the null, 1.73 |
+| `rank_agreement_min`, Kendall's tau between predicted and observed thresholds across read-outs | 0.86 | 1st percentile of the null, 0.863 |
+| `vacuity_acc_min`, argmax accuracy at a gap of 12 on some scale, from calibration | 0.9 | written in this draft before any sizing run |
+| `vacuity_bits_min`, information about quality on that same scale, from calibration | 1.0 bit | set after the sizing calibrations were read, see below |
+| Rival margin, the nominal rival's squared error over the effective prediction's | 1, the rival must lose | set after the pilot was read, see below |
+
+Counted on the replicates themselves, a faithful judge fails J1 in 1.4 percent of them, z alone
+in 0.9 and the deviation alone in 0.6, and fails J3 in 2.0 percent. It fails either in 3.3 percent.
+The pilot's own statistics sit at the 59th to 83rd percentile of the null on all four.
+
+The threshold factor is wide, 1.75 against a median of 1.21, because a threshold is interpolated
+between ladder gaps and the ladder is coarse above four errors, where a small change in accuracy
+moves the threshold a long way. The factor still separates read-outs whose predicted thresholds
+span a factor of four, and the order of those thresholds is held separately by tau.
+
+`dev_max` is in accuracy units and the null behind it is the 7B judge's. A judge whose curves
+sit where the binomial variance is larger meets it at a smaller z than the 7B does, so for such a
+judge the false-alarm rate of J1 is higher than 1.4 percent. `z_max` is the bar that scales with
+each judge's own noise.
+
+Two settings were fixed with data in view and are stated so. The rival margin was to be
+stated before the pilot was read, and it was not. It is set at one, the weakest margin the claim
+allows, which no pilot result can have tuned. In the pilot the rival lost by factors of 60 to 200.
+The factor was also fixed after the pilot's pairwise threshold was seen. At the pilot that
+threshold sits 1.71 times the floor, just inside 1.75, so the pilot would read AT FLOOR by a small
+margin. 12d has no failure, and the label is reported with its ratio.
+The bits bar was set after the calibration blocks of all four sizing judges had been read. It
+changes no judge's status, because the accuracy bar alone already decides every judge seen: the
+7B at both precisions reaches 0.999 at a gap of 12, Gemma 4B at most 0.875, and Qwen 1.5B at most
+0.704. One bit is the information of a judge that separates two quality classes without error.
+
+**Verdicts.** Each judge is graded on its own. A judge that fails anti-vacuity, decided from its
+calibration block before its test block is drawn, is VACUOUS, and its curves are reported and not
+graded. `GET-12a` holds if J1 passes for every judge that is not vacuous, `GET-12b` if J2 does,
+and `GET-12c` if J3 does. `GET-12e` holds if J4 passes for the 7B at 4-bit against bfloat16. The
+gate is VACUOUS if every judge is. With k judges graded, the chance that at least one faithful
+judge fails J1 or J3 is at most 3.3 times k percent. The 7B judge at its two precisions is scored on
+the same test worksheets, so the two are far from independent and the bound is loose.
 
 ## 5. What falsifies
 
-* `GET-12a` fails if any scale and read-out misses the bars: the calibration block did not predict
-  the test block.
-* `GET-12b` fails if the nominal rival fits the observed argmax curve at least as well as the
-  effective prediction on any scale, or if the judge turns out to use the 0 to 100 scale at a
-  resolution the rival predicts.
-* `GET-12c` fails if thresholds do not fall in the predicted order, or fall outside the factor.
-* `GET-12e` fails if a 4-bit threshold leaves the factor of its bfloat16 value.
-* The gate is VACUOUS for a judge that fails anti-vacuity, which is a finding about that judge.
+* `GET-12a` fails if any read-out of a graded judge misses `z_max` or `dev_max` at any gap. The
+  calibration block did not predict the test block.
+* `GET-12b` fails if, on any scale, the nominal rival fits a graded judge's observed argmax
+  curve at least as well as the effective prediction does.
+* `GET-12c` fails if a graded judge's observed thresholds leave the factor of their predictions
+  or fall out of the predicted order below `rank_agreement_min`.
+* `GET-12e` fails if a 4-bit threshold leaves the factor of its bfloat16 value, or reaches the
+  level where the bfloat16 threshold does not, or the reverse (`judge_grade.py compare`).
+* `GET-12d` has no failure. The pairwise label is AT FLOOR when the observed pairwise threshold
+  is within the factor of the finest pointwise prediction, and COARSER or FINER otherwise.
 
 ## 6. Self-test, probe and pilot
 
-**Self-test, PASS 9 of 9, rerun 2026-09-19** (`judge_selftest.py`, no GPU). A synthetic judge that
+**Self-test, PASS 13 of 13, 2026-09-19** (`judge_selftest.py`, no GPU). A synthetic judge that
 perceives quality with noise and writes a heaped codebook passes 12a, 12b and 12c, with the
 expected-score and eight-sample read-outs below the argmax. A judge whose perception noise
 triples on the test block fails 12a at z of 27.7 against 2.5 for the faithful judge, which is the
 check that the gate rejects a known defect. A judge that uses every nominal level does not beat
 the rival, which is the check that 12b cannot pass by construction. The first run failed 12a on
 the faithful judge for the variance collapse recorded in Section 3, and the repair was to the
-noise units and not to the bar.
+noise units and not to the bar. A judge with ten times the perception noise comes out VACUOUS
+from its calibration block. For 12e the faithful judge is run again with 1.2 times its noise,
+standing in for 4-bit weights, and stays within the factor on all eighteen read-outs, ratios
+1.01 to 1.21. With four times its noise it leaves the factor on sixteen of eighteen, which is the
+check that J4 rejects a known defect.
 
 **Feasibility probe, 2026-09-18** (`../G3b/feasibility/`, not a registered stage). The 7B judge's
 scores fall monotonically with the error count on every scale. It used 5, 8 and 10 distinct
@@ -145,7 +195,9 @@ chi-square p of 0.63, 0.64 and 0.57 on the three scales, so the blocks are score
 because all eighteen read-outs grade the same 200 pairs per gap, one draw of pairs moves all of
 them together. The bars in Section 4 are therefore set from a simulation that keeps that
 dependence (`null_bars.py`). It redraws a calibration block and a test block from disjoint
-halves of the pilot's worksheets and grades each replicate with the same code as the run.
+halves of the pilot's worksheets and grades each replicate with the same code as the run. In
+that null the pilot's largest deviation, largest z, largest threshold ratio and tau sit at the
+59th, 63rd, 64th and 83rd percentiles. The one-signed excess is what an ordinary draw looks like.
 
 **Sampling verification, 2026-09-19** (`verify/`). On a 42-worksheet block the 7B judge left no
 report unparsable on any scale and put all first-token mass on the codebook. Scoring took 0.49,
@@ -181,16 +233,39 @@ in 3.7 seconds at a peak of 29.5 GiB, and its pairwise pass at batch 2 peaks at 
 
 ## 7. Compute
 
-The first pilot attempt showed generated sampling costs one prefill per sample, which is why samples are generated only where the scale needs more than one token. Run time per model and precision is measured by the pilot and recorded here before sealing. The sealed runs go to NRP Nautilus, on untainted V100-SXM2-32GB nodes, the pilot's hardware class. The pinned environment and the weights at the revisions in `prereg_config.json` are staged onto a shared volume by CPU-only jobs (`nrp/stage_models.py`, manifests with sha256 per file), so GPU pods install and download nothing. Each GPU job is sized from the meter record of a measured run of the same model and precision (`nrp/submit.py`), and a model never measured is refused. Raw generations, probability vectors and samples are
-persisted per worksheet.
+The sealed runs go to NRP Nautilus, on untainted V100-SXM2-32GB nodes, the pilot's hardware class.
+The pinned environment and the weights at the revisions in `prereg_config.json` are staged onto a
+shared volume by CPU-only jobs (`nrp/stage_models.py`, a manifest with the sha256 of every file),
+so GPU pods install and download nothing. The volume reads at 310 to 390 MB per second, which loads
+the 14B judge in about 80 seconds. Each GPU job is sized from the meter record of a measured run of
+the same model and precision (`nrp/submit.py`), a model never measured is refused, and at most four
+GPU jobs run at once.
+
+Measured on Atlas (Quadro GV100), calibration block, all three scales:
+
+| Judge | Calibration | Mean cores | Peak resident memory | GPU busy above 40 percent |
+|---|---|---|---|---|
+| Qwen 7B bfloat16 | 33 min | 0.79 | 4.3 GiB | 85 percent of samples |
+| Qwen 7B 4-bit | 31 min | 0.98 | 4.5 GiB | 95 percent |
+| Gemma 4B | 17 min | 0.98 | 5.6 GiB | 94 percent |
+| Qwen 1.5B | 8 min | 1.01 | 2.5 GiB | 99 percent |
+| Qwen 14B | QWEN14B_CAL | QWEN14B_CORES | QWEN14B_RSS | QWEN14B_GPU |
+
+The 7B's test block took 2.4 hours, 4.5 times its calibration scoring time, pairwise included.
+At that ratio the whole run is about 13 GPU-hours, and the 14B's test block, about 6 hours, sets
+the wall time. The 7B bfloat16 pilot got 0.79 of a core against 0.98 for every other run, and its
+GPU waited on it, which points to contention on the host during the pilot and not to the workload.
 
 ## 8. Sealing procedure
 
-1. Pilot, fill Section 4 with dated bars, cold reread.
-2. Rename to `PREREG-G3C.md`, commit, record the blob hash in `CAMPAIGN.md`.
-3. Draw the calibration seed, run the calibration block, write `predictions.json`, commit both
-   with the file's sha256 in the commit message.
-4. Only then draw the test seed, run the test block, grade, commit.
+1. Fill Section 4 from the null simulation, cold reread.
+2. Rename to `PREREG-G3C.md`, commit, record the blob hash in `CAMPAIGN.md`. The calibration seed
+   is the one already in `prereg_config.json`. Nothing about the calibration block needs to be
+   hidden, since every prediction is made from it.
+3. Run the calibration block of every judge, write each `predictions.json`, and commit them with
+   their sha256 in the commit message.
+4. Only after that commit is pushed, draw the test seed with Python's `secrets.randbits(32)`,
+   write it to `prereg_config.json`, commit it, then run the test block, grade, and commit.
 
 ## 9. Known weaknesses
 
