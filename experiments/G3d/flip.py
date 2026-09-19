@@ -128,8 +128,10 @@ class DeliberatingJudge:
             ids = torch.tensor([[pad] * (m - len(x)) + x for x in rows], device=self.model.device)
             mask = torch.tensor([[0] * (m - len(x)) + [1] * len(x) for x in rows], device=self.model.device)
             with torch.no_grad():
-                lg = self.model(input_ids=ids, attention_mask=mask,
-                                position_ids=(mask.cumsum(-1) - 1).clamp(min=0)).logits[:, -1, :].float()
+                # logits_to_keep=1: only the last position's logits, the ones read. The full tensor at
+                # batch 32 and 1,600 tokens is about 15 GB and ran the first pilot out of memory.
+                lg = self.model(input_ids=ids, attention_mask=mask, position_ids=(mask.cumsum(-1) - 1).clamp(min=0),
+                                logits_to_keep=1).logits[:, -1, :].float()
             d = (lg[:, self.letters[0]] - lg[:, self.letters[1]]).cpu().tolist()
             for r in range(len(chunk)):
                 out.append({"D": d[r], "n_reason": n_reason[r], "hit_budget": bool(k > 0 and n_reason[r] >= k),
