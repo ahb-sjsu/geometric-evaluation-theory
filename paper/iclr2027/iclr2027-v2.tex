@@ -161,7 +161,11 @@ Here the threshold is the budget, so it is a property of the evaluator that can 
 
 On language-model judges, \citet{zheng2023} established the practice and its position and verbosity biases, and \citet{li2026grading} found human alignment highest on a 0 to 5 scale, with finer scales worse.
 That finding is about the scale a judge is asked to use, and ours explains it as a budget the judge does not spend.
-\pending{G-Eval probability-weighted scoring, authority and cue biases in LLM judges, reasoning and judge bias: prior-art check and credit before this section is final.}
+Reading a judge's expected score from its probabilities over the scale is the read-out of G-Eval \citep{liu2023geval}, which introduced it to make scores finer and better aligned with human ratings.
+We use it as one read-out among six and predict its threshold before measuring it.
+Judges are known to favor answers that carry marks of authority, such as citations that are fake \citep{ye2025justice}, and our decoration is a cue of that kind.
+What is new here is not that a cue sways a judge, or that reasoning can weaken it, but that where it stops swaying the judge is predicted from measurements in which evidence and cue never conflict.
+\pending{Reasoning and judge bias: recent work finds reasoning both curbs some biases and introduces others. Cite after checking authors.}
 
 The nearest neighbor with a budget in economics is rational inattention \citep{sims2003,caplin2015,matejka2015}, in which a cost of information about the state produces stochastic choice.
 The budget here limits the resolution of consequences rather than the acquisition of information about states.
