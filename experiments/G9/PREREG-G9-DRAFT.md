@@ -90,8 +90,10 @@ action was called.
 Consequence plane. The hull law in five dimensions is close to vacuous, because a point lies in
 the convex hull of three others with vanishing probability once the ambient dimension exceeds
 two. G2 handled this by testing on pairs of issue scales. This gate does the same. The primary
-plane is `(y1, y3)`, expected points added against turnover probability, and the nine other
-pairs of the five coordinates are registered replications, each reported with its own verdict.
+plane is `(y1, y3)`, expected points added against turnover probability. Of the nine other pairs,
+the five that clear the anti-vacuity floor in Section 6 are registered replications and each is
+reported with its own verdict. The four that do not are named in Section 7 before sealing and are
+reported with their counts and no verdict.
 
 ## 4. Revealed ranking
 
@@ -125,12 +127,17 @@ Primary, carried over from G2 so the two worlds are comparable without adjustmen
     FAIL  observed violation rate at or above the null rate minus 0.02
     otherwise INDETERMINATE
 
-Anti-vacuity. At least 300 testable units, and at least 300 units whose four consequence points
-are in general position in the plane under test, meaning not collinear within the tolerance
-registered in Section 7. A plane failing the general-position floor is reported as vacuous and
-carries no verdict.
+Anti-vacuity, primary arm, applied per plane. At least 300 testable units on that plane, where
+testable carries G2's meaning and not a weaker one. A unit is testable when some action's
+consequence point lies in the convex hull of the other three, ignoring the ranking, because a
+menu in convex position cannot violate the hull law under any ranking whatsoever. A plane below
+the floor is reported as vacuous and carries no verdict. Probe 5 measured this and four of the
+ten planes fall below it, which is recorded in Section 7 before sealing rather than discovered
+after.
 
-Secondary, the budget arm.
+Secondary, the budget arm. Its statistic is not a hull count and its anti-vacuity floor is
+therefore its own. At least 100 cells and 20,000 decisions in each pressure stratum, so that
+the identification estimator has a battery on both sides.
 
     PASS  effective rank strictly lower under high pressure, and at least 60 percent of the
           reversals predicted from the committed low-pressure fit observed under high pressure
@@ -197,12 +204,38 @@ also the call whose outcome varies more, so those two coordinates are the closes
 of the ten pairs. Under high pressure the ratios rise rather than fall, 0.266 against 0.233 on
 the primary plane, so the menus do not flatten in the stratum where the budget arm needs them.
 
-Carried to units, 962 testable units sit in 201 cells and 188 of those cells span two dimensions
-on the primary plane, so about 900 units are testable and in general position against the floor
-of 300 in Section 6.
+**Probe 5, `g9_probe5.py`, output `g9_probe5.json`.** Testable under G2's rule, which supersedes
+probe 4's count for the purpose of the floor in Section 6. Probe 4 asked whether the four points
+span two dimensions. That is the weaker question. G2 asked whether some point lies in the convex
+hull of the others, because a menu in convex position cannot violate the law under any ranking,
+and a gate that counted spanning menus as testable would report a floor it had not met. This
+probe imports G2's own checker so both worlds are counted by identical code.
 
-**Outstanding before seal.** Nothing. The four probes together fill Sections 2, 3 and 7 and meet
-every floor in Section 6. The gate is sealable by the rename, which is the owner's step.
+| plane | units testable, of 962 | cells testable, of 201 | above the floor of 300 |
+|---|---|---|---|
+| turnover probability, risk | 517 | 88 | yes |
+| expected points added, first down probability | 450 | 84 | yes |
+| expected points added, risk | 434 | 88 | yes |
+| expected points added, turnover probability (primary) | 402 | 95 | yes |
+| first down probability, risk | 399 | 89 | yes |
+| first down probability, clock stop | 307 | 42 | yes |
+| expected points added, clock stop | 277 | 37 | no |
+| first down probability, turnover probability | 126 | 84 | no |
+| turnover probability, clock stop | 53 | 65 | no |
+| risk, clock stop | 43 | 28 | no |
+
+The primary plane clears the floor at 402 units. Six of the ten planes clear it and are
+registered replications. The remaining four are declared vacuous here, before sealing, and will
+be reported with their counts and no verdict. Naming them now is the point of the probe, since a
+plane demoted after the fact is a plane chosen after the fact.
+
+The budget arm is measured against its own floor rather than this one. Both strata clear it, 189
+cells and 240,237 decisions at low pressure against 126 cells and 50,143 at high. The hull
+counts under pressure are small, 68 testable units at the best plane, which is why the budget
+arm's statistic is the identification estimator on pooled choices and not a hull count.
+
+**Outstanding before seal.** Nothing. The five probes fill Sections 2, 3 and 7 and every floor in
+Section 6 is either met or its plane is declared vacuous in advance.
 
 ## 8. Confounds declared before sealing
 

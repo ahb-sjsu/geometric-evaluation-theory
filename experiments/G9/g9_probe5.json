@@ -1,0 +1,209 @@
+{
+ "coords": [
+  "y1_epa",
+  "y2_first_down",
+  "y3_turnover",
+  "y4_epa_sd",
+  "y5_clock_stop"
+ ],
+ "high_pressure": {
+  "n_cells": 126,
+  "n_units": 99,
+  "planes": {
+   "y1_epa|y2_first_down": {
+    "cells_testable": 48,
+    "cells_total": 126,
+    "units_testable": 57,
+    "units_total": 99
+   },
+   "y1_epa|y3_turnover": {
+    "cells_testable": 59,
+    "cells_total": 126,
+    "units_testable": 56,
+    "units_total": 99
+   },
+   "y1_epa|y4_epa_sd": {
+    "cells_testable": 47,
+    "cells_total": 126,
+    "units_testable": 44,
+    "units_total": 99
+   },
+   "y1_epa|y5_clock_stop": {
+    "cells_testable": 21,
+    "cells_total": 126,
+    "units_testable": 6,
+    "units_total": 99
+   },
+   "y2_first_down|y3_turnover": {
+    "cells_testable": 59,
+    "cells_total": 126,
+    "units_testable": 45,
+    "units_total": 99
+   },
+   "y2_first_down|y4_epa_sd": {
+    "cells_testable": 46,
+    "cells_total": 126,
+    "units_testable": 68,
+    "units_total": 99
+   },
+   "y2_first_down|y5_clock_stop": {
+    "cells_testable": 31,
+    "cells_total": 126,
+    "units_testable": 42,
+    "units_total": 99
+   },
+   "y3_turnover|y4_epa_sd": {
+    "cells_testable": 55,
+    "cells_total": 126,
+    "units_testable": 25,
+    "units_total": 99
+   },
+   "y3_turnover|y5_clock_stop": {
+    "cells_testable": 68,
+    "cells_total": 126,
+    "units_testable": 18,
+    "units_total": 99
+   },
+   "y4_epa_sd|y5_clock_stop": {
+    "cells_testable": 19,
+    "cells_total": 126,
+    "units_testable": 0,
+    "units_total": 99
+   }
+  }
+ },
+ "low_pressure": {
+  "n_cells": 189,
+  "n_units": 746,
+  "planes": {
+   "y1_epa|y2_first_down": {
+    "cells_testable": 76,
+    "cells_total": 189,
+    "units_testable": 253,
+    "units_total": 746
+   },
+   "y1_epa|y3_turnover": {
+    "cells_testable": 79,
+    "cells_total": 189,
+    "units_testable": 293,
+    "units_total": 746
+   },
+   "y1_epa|y4_epa_sd": {
+    "cells_testable": 74,
+    "cells_total": 189,
+    "units_testable": 245,
+    "units_total": 746
+   },
+   "y1_epa|y5_clock_stop": {
+    "cells_testable": 31,
+    "cells_total": 189,
+    "units_testable": 160,
+    "units_total": 746
+   },
+   "y2_first_down|y3_turnover": {
+    "cells_testable": 78,
+    "cells_total": 189,
+    "units_testable": 129,
+    "units_total": 746
+   },
+   "y2_first_down|y4_epa_sd": {
+    "cells_testable": 79,
+    "cells_total": 189,
+    "units_testable": 350,
+    "units_total": 746
+   },
+   "y2_first_down|y5_clock_stop": {
+    "cells_testable": 42,
+    "cells_total": 189,
+    "units_testable": 252,
+    "units_total": 746
+   },
+   "y3_turnover|y4_epa_sd": {
+    "cells_testable": 89,
+    "cells_total": 189,
+    "units_testable": 466,
+    "units_total": 746
+   },
+   "y3_turnover|y5_clock_stop": {
+    "cells_testable": 65,
+    "cells_total": 189,
+    "units_testable": 52,
+    "units_total": 746
+   },
+   "y4_epa_sd|y5_clock_stop": {
+    "cells_testable": 23,
+    "cells_total": 189,
+    "units_testable": 21,
+    "units_total": 746
+   }
+  }
+ },
+ "min_per_action": 5,
+ "overall": {
+  "n_cells": 201,
+  "n_units": 962,
+  "planes": {
+   "y1_epa|y2_first_down": {
+    "cells_testable": 84,
+    "cells_total": 201,
+    "units_testable": 450,
+    "units_total": 962
+   },
+   "y1_epa|y3_turnover": {
+    "cells_testable": 95,
+    "cells_total": 201,
+    "units_testable": 402,
+    "units_total": 962
+   },
+   "y1_epa|y4_epa_sd": {
+    "cells_testable": 88,
+    "cells_total": 201,
+    "units_testable": 434,
+    "units_total": 962
+   },
+   "y1_epa|y5_clock_stop": {
+    "cells_testable": 37,
+    "cells_total": 201,
+    "units_testable": 277,
+    "units_total": 962
+   },
+   "y2_first_down|y3_turnover": {
+    "cells_testable": 84,
+    "cells_total": 201,
+    "units_testable": 126,
+    "units_total": 962
+   },
+   "y2_first_down|y4_epa_sd": {
+    "cells_testable": 89,
+    "cells_total": 201,
+    "units_testable": 399,
+    "units_total": 962
+   },
+   "y2_first_down|y5_clock_stop": {
+    "cells_testable": 42,
+    "cells_total": 201,
+    "units_testable": 307,
+    "units_total": 962
+   },
+   "y3_turnover|y4_epa_sd": {
+    "cells_testable": 88,
+    "cells_total": 201,
+    "units_testable": 517,
+    "units_total": 962
+   },
+   "y3_turnover|y5_clock_stop": {
+    "cells_testable": 65,
+    "cells_total": 201,
+    "units_testable": 53,
+    "units_total": 962
+   },
+   "y4_epa_sd|y5_clock_stop": {
+    "cells_testable": 28,
+    "cells_total": 201,
+    "units_testable": 43,
+    "units_total": 962
+   }
+  }
+ },
+ "testable_rule": "some action point lies in the convex hull of the other three, G2 rule"
+}
