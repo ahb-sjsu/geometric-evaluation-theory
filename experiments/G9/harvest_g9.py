@@ -74,9 +74,13 @@ def extract(log):
     return rec, shas
 
 
-def grade(rec, carries_bar):
+def grade(rec, carries_bar, floor=5):
     if not carries_bar:
-        return "NO VERDICT, plane declared vacuous before the seal"
+        # Two different reasons for no verdict, and calling both vacuous would
+        # misreport the sensitivity cells, which are not vacuous at all.
+        if floor != 5:
+            return "no bar, registered sensitivity at a floor of %d" % floor
+        return "no verdict, plane declared vacuous before the seal"
     obs, null, p = rec["p_obs"], rec["p_null_mean"], rec["p_value_perm"]
     if obs <= null - PASS_MARGIN and p < P_MAX:
         return "PASS"
@@ -156,7 +160,7 @@ def main():
                         "p_null_sd": rec["p_null_sd"], "p_value_perm": rec["p_value_perm"],
                         "n_testable": rec["n_testable"], "n_violated": rec["n_violated"],
                         "n_units": rec["n_respondents"]})
-            row["verdict"] = grade(rec, c["bar"])
+            row["verdict"] = grade(rec, c["bar"], c["floor"])
             row["state"] = "ok"
             with open(os.path.join(OUTDIR, "%s.json" % c["cell"]), "w") as f:
                 json.dump({"record": rec, "sources_sha256": shas}, f, indent=1, sort_keys=True)

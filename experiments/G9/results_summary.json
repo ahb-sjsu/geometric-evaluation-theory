@@ -1,0 +1,418 @@
+[
+ {
+  "carries_bar": false,
+  "cell": "g9-epa-clk-f5",
+  "floor": 5,
+  "job": "g9-epa-clk-f5",
+  "n_testable": 277,
+  "n_units": 962,
+  "n_violated": 0,
+  "p_null_mean": 0.2326714801444043,
+  "p_null_sd": 0.02523656789736588,
+  "p_obs": 0.0,
+  "p_value_perm": 0.0,
+  "plane": [
+   "y1_epa",
+   "y5_clock_stop"
+  ],
+  "state": "ok",
+  "status": {
+   "active": 0,
+   "created": "2026-09-19T20:38:03Z",
+   "exists": true,
+   "failed": 0,
+   "succeeded": 1
+  },
+  "verdict": "no verdict, plane declared vacuous before the seal"
+ },
+ {
+  "carries_bar": false,
+  "cell": "g9-epa-fd-f10",
+  "floor": 10,
+  "job": "g9-epa-fd-f10",
+  "n_testable": 211,
+  "n_units": 475,
+  "n_violated": 79,
+  "p_null_mean": 0.22490521327014218,
+  "p_null_sd": 0.027957255185686165,
+  "p_obs": 0.3744075829383886,
+  "p_value_perm": 1.0,
+  "plane": [
+   "y1_epa",
+   "y2_first_down"
+  ],
+  "state": "ok",
+  "status": {
+   "active": 0,
+   "created": "2026-09-19T20:56:05Z",
+   "exists": true,
+   "failed": 0,
+   "succeeded": 1
+  },
+  "verdict": "no bar, registered sensitivity at a floor of 10"
+ },
+ {
+  "carries_bar": true,
+  "cell": "g9-epa-fd-f5",
+  "floor": 5,
+  "job": "g9-epa-fd-f5",
+  "n_testable": 450,
+  "n_units": 962,
+  "n_violated": 135,
+  "p_null_mean": 0.22111111111111115,
+  "p_null_sd": 0.017267681937833252,
+  "p_obs": 0.3,
+  "p_value_perm": 1.0,
+  "plane": [
+   "y1_epa",
+   "y2_first_down"
+  ],
+  "state": "ok",
+  "status": {
+   "active": 0,
+   "created": "2026-09-19T20:26:02Z",
+   "exists": true,
+   "failed": 0,
+   "succeeded": 1
+  },
+  "verdict": "FAIL"
+ },
+ {
+  "carries_bar": false,
+  "cell": "g9-epa-sd-f10",
+  "floor": 10,
+  "job": "g9-epa-sd-f10",
+  "n_testable": 271,
+  "n_units": 475,
+  "n_violated": 40,
+  "p_null_mean": 0.23586715867158672,
+  "p_null_sd": 0.026824207959429094,
+  "p_obs": 0.14760147601476015,
+  "p_value_perm": 0.005,
+  "plane": [
+   "y1_epa",
+   "y4_epa_sd"
+  ],
+  "state": "ok",
+  "status": {
+   "active": 0,
+   "created": "2026-09-19T20:59:05Z",
+   "exists": true,
+   "failed": 0,
+   "succeeded": 1
+  },
+  "verdict": "no bar, registered sensitivity at a floor of 10"
+ },
+ {
+  "carries_bar": true,
+  "cell": "g9-epa-sd-f5",
+  "floor": 5,
+  "job": "g9-epa-sd-f5",
+  "n_testable": 434,
+  "n_units": 962,
+  "n_violated": 55,
+  "p_null_mean": 0.22907834101382488,
+  "p_null_sd": 0.01889451499828814,
+  "p_obs": 0.12672811059907835,
+  "p_value_perm": 0.0,
+  "plane": [
+   "y1_epa",
+   "y4_epa_sd"
+  ],
+  "state": "ok",
+  "status": {
+   "active": 0,
+   "created": "2026-09-19T20:29:02Z",
+   "exists": true,
+   "failed": 0,
+   "succeeded": 1
+  },
+  "verdict": "PASS"
+ },
+ {
+  "carries_bar": false,
+  "cell": "g9-epa-to-f10",
+  "floor": 10,
+  "job": "g9-epa-to-f10",
+  "n_testable": 184,
+  "n_units": 475,
+  "n_violated": 1,
+  "p_null_mean": 0.2298913043478261,
+  "p_null_sd": 0.03273526162255565,
+  "p_obs": 0.005434782608695652,
+  "p_value_perm": 0.0,
+  "plane": [
+   "y1_epa",
+   "y3_turnover"
+  ],
+  "state": "ok",
+  "status": {
+   "active": 0,
+   "created": "2026-09-19T20:50:04Z",
+   "exists": true,
+   "failed": 0,
+   "succeeded": 1
+  },
+  "verdict": "no bar, registered sensitivity at a floor of 10"
+ },
+ {
+  "carries_bar": true,
+  "cell": "g9-epa-to-f5",
+  "floor": 5,
+  "job": "g9-epa-to-f5",
+  "n_testable": 402,
+  "n_units": 962,
+  "n_violated": 8,
+  "p_null_mean": 0.2285820895522388,
+  "p_null_sd": 0.020613456917123508,
+  "p_obs": 0.01990049751243781,
+  "p_value_perm": 0.0,
+  "plane": [
+   "y1_epa",
+   "y3_turnover"
+  ],
+  "state": "ok",
+  "status": {
+   "active": 0,
+   "created": "2026-09-19T20:17:38Z",
+   "exists": true,
+   "failed": 0,
+   "succeeded": 1
+  },
+  "verdict": "PASS"
+ },
+ {
+  "carries_bar": false,
+  "cell": "g9-fd-clk-f10",
+  "floor": 10,
+  "job": "g9-fd-clk-f10",
+  "n_testable": 184,
+  "n_units": 475,
+  "n_violated": 0,
+  "p_null_mean": 0.23934782608695648,
+  "p_null_sd": 0.031134427118302294,
+  "p_obs": 0.0,
+  "p_value_perm": 0.0,
+  "plane": [
+   "y2_first_down",
+   "y5_clock_stop"
+  ],
+  "state": "ok",
+  "status": {
+   "active": 0,
+   "created": "2026-09-19T21:05:05Z",
+   "exists": true,
+   "failed": 0,
+   "succeeded": 1
+  },
+  "verdict": "no bar, registered sensitivity at a floor of 10"
+ },
+ {
+  "carries_bar": true,
+  "cell": "g9-fd-clk-f5",
+  "floor": 5,
+  "job": "g9-fd-clk-f5",
+  "n_testable": 307,
+  "n_units": 962,
+  "n_violated": 0,
+  "p_null_mean": 0.23558631921824114,
+  "p_null_sd": 0.024255484397957473,
+  "p_obs": 0.0,
+  "p_value_perm": 0.0,
+  "plane": [
+   "y2_first_down",
+   "y5_clock_stop"
+  ],
+  "state": "ok",
+  "status": {
+   "active": 0,
+   "created": "2026-09-19T20:35:03Z",
+   "exists": true,
+   "failed": 0,
+   "succeeded": 1
+  },
+  "verdict": "PASS"
+ },
+ {
+  "carries_bar": false,
+  "cell": "g9-fd-sd-f10",
+  "floor": 10,
+  "job": "g9-fd-sd-f10",
+  "n_testable": 187,
+  "n_units": 475,
+  "n_violated": 39,
+  "p_null_mean": 0.23385026737967912,
+  "p_null_sd": 0.03145417088438659,
+  "p_obs": 0.20855614973262032,
+  "p_value_perm": 0.23,
+  "plane": [
+   "y2_first_down",
+   "y4_epa_sd"
+  ],
+  "state": "ok",
+  "status": {
+   "active": 0,
+   "created": "2026-09-19T21:02:05Z",
+   "exists": true,
+   "failed": 0,
+   "succeeded": 1
+  },
+  "verdict": "no bar, registered sensitivity at a floor of 10"
+ },
+ {
+  "carries_bar": true,
+  "cell": "g9-fd-sd-f5",
+  "floor": 5,
+  "job": "g9-fd-sd-f5",
+  "n_testable": 399,
+  "n_units": 962,
+  "n_violated": 78,
+  "p_null_mean": 0.22556390977443608,
+  "p_null_sd": 0.020070478391500175,
+  "p_obs": 0.19548872180451127,
+  "p_value_perm": 0.07,
+  "plane": [
+   "y2_first_down",
+   "y4_epa_sd"
+  ],
+  "state": "ok",
+  "status": {
+   "active": 0,
+   "created": "2026-09-19T20:32:03Z",
+   "exists": true,
+   "failed": 0,
+   "succeeded": 1
+  },
+  "verdict": "INDETERMINATE"
+ },
+ {
+  "carries_bar": false,
+  "cell": "g9-fd-to-f5",
+  "floor": 5,
+  "job": "g9-fd-to-f5",
+  "n_testable": 126,
+  "n_units": 962,
+  "n_violated": 9,
+  "p_null_mean": 0.21023809523809522,
+  "p_null_sd": 0.04053831211714581,
+  "p_obs": 0.07142857142857142,
+  "p_value_perm": 0.0,
+  "plane": [
+   "y2_first_down",
+   "y3_turnover"
+  ],
+  "state": "ok",
+  "status": {
+   "active": 0,
+   "created": "2026-09-19T20:41:04Z",
+   "exists": true,
+   "failed": 0,
+   "succeeded": 1
+  },
+  "verdict": "no verdict, plane declared vacuous before the seal"
+ },
+ {
+  "carries_bar": false,
+  "cell": "g9-sd-clk-f5",
+  "floor": 5,
+  "job": "g9-sd-clk-f5",
+  "n_testable": 43,
+  "n_units": 962,
+  "n_violated": 1,
+  "p_null_mean": 0.20395348837209304,
+  "p_null_sd": 0.062259162804874535,
+  "p_obs": 0.023255813953488372,
+  "p_value_perm": 0.0,
+  "plane": [
+   "y4_epa_sd",
+   "y5_clock_stop"
+  ],
+  "state": "ok",
+  "status": {
+   "active": 0,
+   "created": "2026-09-19T20:47:04Z",
+   "exists": true,
+   "failed": 0,
+   "succeeded": 1
+  },
+  "verdict": "no verdict, plane declared vacuous before the seal"
+ },
+ {
+  "carries_bar": false,
+  "cell": "g9-to-clk-f5",
+  "floor": 5,
+  "job": "g9-to-clk-f5",
+  "n_testable": 53,
+  "n_units": 962,
+  "n_violated": 5,
+  "p_null_mean": 0.27603773584905666,
+  "p_null_sd": 0.053940819066381936,
+  "p_obs": 0.09433962264150944,
+  "p_value_perm": 0.0,
+  "plane": [
+   "y3_turnover",
+   "y5_clock_stop"
+  ],
+  "state": "ok",
+  "status": {
+   "active": 0,
+   "created": "2026-09-19T20:44:04Z",
+   "exists": true,
+   "failed": 0,
+   "succeeded": 1
+  },
+  "verdict": "no verdict, plane declared vacuous before the seal"
+ },
+ {
+  "carries_bar": false,
+  "cell": "g9-to-sd-f10",
+  "floor": 10,
+  "job": "g9-to-sd-f10",
+  "n_testable": 265,
+  "n_units": 475,
+  "n_violated": 1,
+  "p_null_mean": 0.2366792452830189,
+  "p_null_sd": 0.026100989616360603,
+  "p_obs": 0.0037735849056603774,
+  "p_value_perm": 0.0,
+  "plane": [
+   "y3_turnover",
+   "y4_epa_sd"
+  ],
+  "state": "ok",
+  "status": {
+   "active": 0,
+   "created": "2026-09-19T20:53:05Z",
+   "exists": true,
+   "failed": 0,
+   "succeeded": 1
+  },
+  "verdict": "no bar, registered sensitivity at a floor of 10"
+ },
+ {
+  "carries_bar": true,
+  "cell": "g9-to-sd-f5",
+  "floor": 5,
+  "job": "g9-to-sd-f5",
+  "n_testable": 517,
+  "n_units": 962,
+  "n_violated": 9,
+  "p_null_mean": 0.23150870406189555,
+  "p_null_sd": 0.018269460359761267,
+  "p_obs": 0.017408123791102514,
+  "p_value_perm": 0.0,
+  "plane": [
+   "y3_turnover",
+   "y4_epa_sd"
+  ],
+  "state": "ok",
+  "status": {
+   "active": 0,
+   "created": "2026-09-19T20:43:39Z",
+   "exists": true,
+   "failed": 0,
+   "succeeded": 1
+  },
+  "verdict": "PASS"
+ }
+]

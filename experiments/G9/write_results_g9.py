@@ -25,6 +25,44 @@ def plane_name(p):
     return "%s against %s" % (PRETTY[p[0]], PRETTY[p[1]])
 
 
+def collinearity_check():
+    """Rank correlation between a plane's collinearity and its violation rate.
+
+    Exploratory, registered nowhere, and included only because it kills an
+    explanation offered after the fact rather than supporting one.
+    """
+    probe4 = os.path.join(HERE, "g9_probe4.json")
+    if not os.path.exists(probe4):
+        return None
+    ratios = {k: v["median_singular_ratio"]
+              for k, v in json.load(io.open(probe4, encoding="utf-8"))["overall"]["planes"].items()}
+    rows = json.load(io.open(SUMMARY, encoding="utf-8"))
+    pairs = []
+    for r in rows:
+        if r.get("state") != "ok" or r["floor"] != 5:
+            continue
+        k = "%s|%s" % (r["plane"][0], r["plane"][1])
+        if k in ratios and ratios[k] is not None:
+            pairs.append((ratios[k], r["p_obs"]))
+    if len(pairs) < 5:
+        return None
+
+    def rank(xs):
+        order = sorted(range(len(xs)), key=lambda i: xs[i])
+        out = [0.0] * len(xs)
+        for pos, i in enumerate(order):
+            out[i] = pos + 1.0
+        return out
+
+    x = rank([a for a, _ in pairs])
+    y = rank([b for _, b in pairs])
+    n = len(pairs)
+    mx, my = sum(x) / n, sum(y) / n
+    num = sum((a - mx) * (b - my) for a, b in zip(x, y))
+    den = (sum((a - mx) ** 2 for a in x) * sum((b - my) ** 2 for b in y)) ** 0.5
+    return num / den if den else None
+
+
 def main():
     rows = json.load(io.open(SUMMARY, encoding="utf-8"))
     ok = [r for r in rows if r.get("state") == "ok"]
@@ -48,13 +86,18 @@ def main():
         print("wrote", OUT, "with no primary record")
         return 0
 
-    w("**Verdict: %s on the primary plane, %s across the six planes that carry bars.** Graded "
-      "against PREREG-G9.md, blob %s, sealed before any ranking was formed on real data. The "
-      "statistic, the null and the tie rule are G2's, run through G2's own checker, so the "
+    n_pass = sum(1 for r in barred if r["verdict"] == "PASS")
+    n_fail = sum(1 for r in barred if r["verdict"] == "FAIL")
+    n_ind = sum(1 for r in barred if r["verdict"] == "INDETERMINATE")
+    w("**Verdict: %s on the primary plane. Across the six planes that carry bars, %d pass, %d is "
+      "indeterminate and %d refutes.** The gate as a whole does not pass. By the sealed "
+      "sensitivity clause it grades INDETERMINATE, for the reason set out under that heading. "
+      "Graded against PREREG-G9.md, blob %s, sealed before any ranking was formed on real data. "
+      "The statistic, the null and the tie rule are G2's, run through G2's own checker, so the "
       "difference between this and the 1972 survey is a difference between two populations and "
       "not between two pieces of code. Every number below is read from the cell records by "
       "`write_results_g9.py`."
-      % (primary["verdict"], overall, BLOB))
+      % (primary["verdict"], n_pass, n_ind, n_fail, BLOB))
     w("")
     w("## The primary plane")
     w("")
@@ -117,6 +160,24 @@ def main():
               "on %d of %d planes." % (len(would), len(sens)))
             for nm, a, b in would:
                 w("- %s, %s at the sealed floor and %s at ten." % (nm, a, b))
+            w("")
+            w("**A registration defect, recorded rather than resolved in the gate's favour.** The "
+              "sealed sentence reads that a reversing verdict grades \"the gate\" INDETERMINATE, "
+              "and it does not say whether that means the plane that reversed or every plane at "
+              "once. Written before any number was seen, the ambiguity was invisible. Read after, "
+              "one reading costs a single replication and the other costs the primary result, and "
+              "choosing between them now is choosing a verdict. The stricter reading is taken "
+              "here, so the gate is graded INDETERMINATE overall, and the defect is named so the "
+              "next registration says which it means.")
+            prim10 = next((r for r in sens if r["plane"] == PRIMARY), None)
+            if prim10 is not None:
+                w("")
+                w("What the ambiguity does not touch. The primary plane does not reverse. It "
+                  "passes at the sealed floor at %.4f against a null of %.4f, and at a floor of "
+                  "ten at %.4f against %.4f, with a permutation p of zero at both. The headline "
+                  "claim stands under either reading."
+                  % (primary["p_obs"], primary["p_null_mean"],
+                     prim10["p_obs"], prim10["p_null_mean"]))
         else:
             w("No plane's verdict reverses between the two floors, so the result does not turn on "
               "the floor the registration had to take.")
@@ -147,6 +208,34 @@ def main():
       "states the bins do not separate, choice share reveals a ranking only to the extent the "
       "caller is choosing rather than mixing on purpose, and the franchise pools coaching staffs "
       "across ten seasons.")
+    fails = [r for r in barred if r["verdict"] == "FAIL"]
+    if fails:
+        w("")
+        w("## The plane that refutes, and an explanation that did not survive")
+        w("")
+        for r in fails:
+            w("On %s the law does not merely fail to clear its bar. It is violated more often "
+              "than chance, %.4f against a null of %.4f in %d testable units, with a permutation "
+              "p of %.4f, meaning every one of the 200 shuffles produced a rate at or below the "
+              "observed one. That is a refutation on that plane and it is recorded at the same "
+              "size as the passes."
+              % (plane_name(r["plane"]), r["p_obs"], r["p_null_mean"], r["n_testable"],
+                 r["p_value_perm"]))
+        w("")
+        w("An explanation offered after seeing it, and then tested. Expected points added and "
+          "first down probability are close to redundant, so the four points lie near a line, and "
+          "GET's own Theorem 3 says consequences on a line represent exactly the single-peaked "
+          "orders, a stronger requirement that should produce more violations. The story is "
+          "principled rather than invented for the occasion, and it is still post hoc, so it was "
+          "checked against the other nine planes using probe 4's collinearity measure.")
+        w("")
+        rho = collinearity_check()
+        if rho is not None:
+            w("It does not survive. The rank correlation between how collinear a plane is and how "
+              "often it is violated is %.3f across the ten planes, which is nothing, and the most "
+              "collinear plane of all has one of the lowest violation rates. The cause of this "
+              "plane's failure is open, and no account of it is offered here." % rho)
+        w("")
     w("- Nothing in the registration was changed after the seal. This document was written after "
       "grading and does not alter the verdict.")
     w("")
