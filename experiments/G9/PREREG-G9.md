@@ -1,10 +1,13 @@
 # PREREG G9: the hull law and the budget prediction on natural human decisions at scale
 
-Status. DRAFT, not sealed. Sections 2, 3 and 7 are filled from three committed probes that
-opened the data only to count events. No ranking, no hull violation and no statistic of any
-hypothesis has been computed. One pre-seal probe is still outstanding and is named in
-Section 7. Sealing is by the rename to `PREREG-G9.md` with the blob hash recorded in
-`CAMPAIGN.md`, and is the owner's step.
+Status: SEALED 2026-09-19 by the rename to `PREREG-G9.md`, on the owner's instruction of the
+same day; blob hash recorded in `CAMPAIGN.md`. Sections 2, 3, 4 and 7 were filled from six
+committed probes that opened the data only to count events and to measure the analysis code
+against synthetic worlds. At the moment of sealing no ranking had been formed on real data, no
+hull violation had been computed, and no value of the statistic had been seen. The analysis code
+is committed and passes its synthetic self-test on Atlas (`g9_hull_law.py --selftest`, run of
+2026-09-19). The source files are fetched by the run and are gitignored, with the sha256 of each
+recorded in the result.
 
 Why this gate exists. G2 measured the hull law on 489 survey respondents and found it holds
 as a population tendency and fails as a deterministic statement for about half of them. That

@@ -295,6 +295,7 @@ def floorsweep(planes, floors=(5, 10, 15, 20)) -> int:
 
 
 def main(argv=None) -> int:
+    global MIN_PER_ACTION
     ap = argparse.ArgumentParser()
     ap.add_argument("--selftest", action="store_true")
     ap.add_argument("--floorsweep", action="store_true")
@@ -302,6 +303,8 @@ def main(argv=None) -> int:
     ap.add_argument("--stratum", default="all", choices=["all", "low", "high"])
     ap.add_argument("--shuffles", type=int, default=N_SHUFFLES)
     ap.add_argument("--seed", type=int, default=SEED)
+    ap.add_argument("--floor", type=int, default=MIN_PER_ACTION,
+                    help="minimum calls per action; 5 is sealed, 10 is the sensitivity")
     ap.add_argument("--out")
     a = ap.parse_args(argv)
 
@@ -319,6 +322,7 @@ def main(argv=None) -> int:
         if c not in COORDS:
             ap.error("unknown coordinate %s" % c)
 
+    MIN_PER_ACTION = a.floor
     df = prepare()
     if a.stratum != "all":
         df = df[df["pressure"] == a.stratum].copy()
@@ -328,7 +332,10 @@ def main(argv=None) -> int:
     res["plane"] = list(plane)
     res["stratum"] = a.stratum
     res["min_per_action"] = MIN_PER_ACTION
+    res["sealed_floor"] = 5
+    res["carries_bar"] = bool(a.floor == 5)
     res["actions"] = list(ACTIONS)
+    res["seasons"] = SEASONS
     with open(a.out, "w") as f:
         json.dump(res, f, indent=1, sort_keys=True)
     print(json.dumps(res, indent=1, sort_keys=True))
