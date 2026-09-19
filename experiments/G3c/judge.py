@@ -43,7 +43,9 @@ from pathlib import Path
 
 import numpy as np
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "G3b"))
+# The G3b helper sits beside this directory: "G3b" in the repo, "g3b" on Atlas and in the NRP pods.
+_UP = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(next((_UP / d for d in ("G3b", "g3b") if (_UP / d / "g3b.py").exists()), _UP / "G3b")))
 import g3b  # noqa: E402  (Meter, env_versions, host-memory release)
 
 INT_RE = re.compile(r"-?\d+")
@@ -107,6 +109,26 @@ def parse_int(text: str, scale: dict) -> float:
 
 
 # ----------------------------------------------------------------------------- judges
+
+def _select_cache(cache, idx):
+    """A new DynamicCache holding the rows idx of cache, leaving cache itself untouched. For
+    caches whose layers are all full attention, which is what the chunked tree is used with."""
+    from transformers import DynamicCache
+    legacy = cache.to_legacy_cache()
+    return DynamicCache.from_legacy_cache(tuple((k.index_select(0, idx), v.index_select(0, idx)) for k, v in legacy))
+
+
+def _cat_caches(caches):
+    from transformers import DynamicCache
+    legacy = [c.to_legacy_cache() for c in caches]
+    return DynamicCache.from_legacy_cache(tuple((torch_cat([l[i][0] for l in legacy]), torch_cat([l[i][1] for l in legacy]))
+                                                for i in range(len(legacy[0]))))
+
+
+def torch_cat(ts):
+    import torch
+    return torch.cat(ts, dim=0)
+
 
 class LMJudge:
     def __init__(self, spec: dict, precision: str, cfg: dict):
@@ -186,37 +208,73 @@ class LMJudge:
                     pruned[j] += p
         row_ids, row_mask = ids, mask
         depth = 1
+        rows = self.cfg.get("tree_rows")
+
+        def expand(r, j, s, p, pn, nxt):
+            """Book the stop mass of prefix s and queue its children; r is its row in this depth."""
+            p_stop = max(0.0, 1.0 - sum(pn))
+            v = int(s)
+            if scale["lo"] <= v <= scale["hi"]:
+                dist[j][v - scale["lo"]] += p * p_stop
+            else:
+                invalid[j] += p * p_stop
+            for d in range(10):
+                q = p * pn[d]
+                child = s + str(d)
+                if depth >= 3 or int(child) > scale["hi"]:
+                    invalid[j] += q          # a fourth digit, or a value above the scale
+                elif q > prune:
+                    nxt.append((j, child, q, r))
+                else:
+                    pruned[j] += q
+
         while frontier:
             parent = torch.tensor([f[3] for f in frontier], device=self.model.device)
-            cache.reorder_cache(parent)
             new_tok = torch.tensor([[digit_ids[int(f[1][-1])]] for f in frontier], device=self.model.device)
             row_ids = torch.cat([row_ids.index_select(0, parent), new_tok], dim=1)
             pmask = row_mask.index_select(0, parent)
             pos = pmask.sum(1, keepdim=True)
             row_mask = torch.cat([pmask, torch.ones_like(new_tok)], dim=1)
-            with torch.no_grad():
-                o = self.model(input_ids=new_tok, attention_mask=row_mask, position_ids=pos,
-                               past_key_values=cache, use_cache=True)
-            cache = o.past_key_values
-            pr = torch.softmax(self._penalize(o.logits[:, -1, :].float(), row_ids), dim=-1)
-            p_next = pr[:, dig].tolist()
             nxt = []
-            for r, (j, s, p, _) in enumerate(frontier):
-                p_stop = max(0.0, 1.0 - sum(p_next[r]))
-                v = int(s)
-                if scale["lo"] <= v <= scale["hi"]:
-                    dist[j][v - scale["lo"]] += p * p_stop
-                else:
-                    invalid[j] += p * p_stop
-                for d in range(10):
-                    q = p * p_next[r][d]
-                    child = s + str(d)
-                    if depth >= 3 or int(child) > scale["hi"]:
-                        invalid[j] += q          # a fourth digit, or a value above the scale
-                    elif q > prune:
-                        nxt.append((j, child, q, r))
-                    else:
-                        pruned[j] += q
+            if rows is None:
+                # every live prefix in one batch; each row carries a copy of its prompt's cache
+                cache.reorder_cache(parent)
+                with torch.no_grad():
+                    o = self.model(input_ids=new_tok, attention_mask=row_mask, position_ids=pos,
+                                   past_key_values=cache, use_cache=True)
+                cache = o.past_key_values
+                pr = torch.softmax(self._penalize(o.logits[:, -1, :].float(), row_ids), dim=-1)
+                p_next = pr[:, dig].tolist()
+                for r, (j, s, p, _) in enumerate(frontier):
+                    expand(r, j, s, p, p_next[r], nxt)
+            else:
+                # The same single-token step on at most `rows` prefixes at a time, for a model whose
+                # per-row cache does not fit the whole frontier (a 14B model on a 32 GB card). Only
+                # the rows that have children keep their cache for the next depth.
+                kept, keep_rows = [], []
+                for c0 in range(0, len(frontier), int(rows)):
+                    sl = slice(c0, c0 + int(rows))
+                    cc = _select_cache(cache, parent[sl])
+                    with torch.no_grad():
+                        o = self.model(input_ids=new_tok[sl], attention_mask=row_mask[sl], position_ids=pos[sl],
+                                       past_key_values=cc, use_cache=True)
+                    pr = torch.softmax(self._penalize(o.logits[:, -1, :].float(), row_ids[sl]), dim=-1)
+                    p_next = pr[:, dig].tolist()
+                    n0 = len(nxt)
+                    for r_loc, (j, s, p, _) in enumerate(frontier[sl]):
+                        expand(c0 + r_loc, j, s, p, p_next[r_loc], nxt)
+                    need = sorted({f[3] for f in nxt[n0:]})
+                    if need:
+                        kept.append(_select_cache(o.past_key_values, torch.tensor([r - c0 for r in need], device=self.model.device)))
+                        keep_rows += need
+                    del o, cc, pr
+                if nxt:
+                    remap = {r: i for i, r in enumerate(keep_rows)}
+                    nxt = [(j, s, q, remap[r]) for (j, s, q, r) in nxt]
+                    sel = torch.tensor(keep_rows, device=self.model.device)
+                    row_ids, row_mask = row_ids.index_select(0, sel), row_mask.index_select(0, sel)
+                    cache = _cat_caches(kept)
+                del kept
             frontier = nxt
             depth += 1
         out_recs = []
@@ -376,7 +434,7 @@ def run_block(cfg: dict, block: str, model_key: str, precision: str, out_dir: st
     spec = {m["key"]: m for m in cfg["models"]}[model_key]
     # batch sizes may be set per model; a 14B model in bfloat16 fills most of a 32 GB card. Batch
     # shape does not change the first-token distribution (verify/verify_batch_shape.json).
-    cfg = {**cfg, **{k: spec[k] for k in ("batch", "batch_tree", "batch_pairwise") if k in spec}}
+    cfg = {**cfg, **{k: spec[k] for k in ("batch", "batch_tree", "batch_pairwise", "tree_rows") if k in spec}}
     out = Path(out_dir) / block / f"{model_key}__{precision}"
     out.mkdir(parents=True, exist_ok=True)
     data = make_block(cfg, block, block_seed(cfg, block))

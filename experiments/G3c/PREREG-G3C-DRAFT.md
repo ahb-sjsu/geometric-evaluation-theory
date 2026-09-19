@@ -106,7 +106,7 @@ better sheet gets the strictly larger number, so ties and unparsable reports cou
 
 ## 6. Self-test, probe and pilot
 
-**Self-test, PASS 8 of 8, 2026-09-18** (`judge_selftest.py`, no GPU). A synthetic judge that
+**Self-test, PASS 9 of 9, rerun 2026-09-19** (`judge_selftest.py`, no GPU). A synthetic judge that
 perceives quality with noise and writes a heaped codebook passes 12a, 12b and 12c, with the
 expected-score and eight-sample read-outs below the argmax. A judge whose perception noise
 triples on the test block fails 12a at z of 27.7 against 2.5 for the faithful judge, which is the
@@ -128,6 +128,25 @@ once. The second was stopped after an hour because generated samples cost one fu
 each. The fix draws samples from the recorded first-token distribution on the two single-token
 scales and, on the 0 to 100 scale, from the exact digit-tree distribution.
 
+**Pilot outcome, 2026-09-19** (`pilot_record/`, graded with `pilot_summary.py`). The calibration
+predictions were written and hashed (sha256 `6ac1530d`) before the test block was scored. On all
+eighteen read-outs, three scales times six, the observed accuracy stayed within 0.088 of the
+prediction at every gap, the largest deviation in noise units was 2.88, and the nominal rival fit
+60 to 200 times worse than the effective codebook. The judge used 5, 8 and 9 distinct scores on
+the three scales. Kendall's tau between predicted and observed thresholds was 0.95. Pairwise
+grading reached 0.75 at 2.9 errors, against a floor of 1.7 predicted from the expected score on
+the 1 to 5 scale. Its first-position preference was 0.86, which the order-averaged preference
+cancels by design.
+
+Every observed threshold came out above its prediction, by 1 to 21 percent. The deviations sat
+at gaps 2, 4 and 6 with one sign across every scale and read-out. Two checks placed this as
+chance. Calibration and test worksheets at equal error counts got the same scores, with a
+chi-square p of 0.63, 0.64 and 0.57 on the three scales, so the blocks are scored alike. And
+because all eighteen read-outs grade the same 200 pairs per gap, one draw of pairs moves all of
+them together. The bars in Section 4 are therefore set from a simulation that keeps that
+dependence (`null_bars.py`). It redraws a calibration block and a test block from disjoint
+halves of the pilot's worksheets and grades each replicate with the same code as the run.
+
 **Sampling verification, 2026-09-19** (`verify/`). On a 42-worksheet block the 7B judge left no
 report unparsable on any scale and put all first-token mass on the codebook. Scoring took 0.49,
 0.48 and 4.5 seconds per worksheet on the 1 to 5, 0 to 9 and 0 to 100 scales. Real samples were
@@ -147,6 +166,18 @@ the logit sizes seen here, between the cached decoding path that sampling uses a
 full pass. The judge's score distribution is therefore defined only to one bfloat16 step in its
 logits, depending on the kernel path, and the tree reproduces the path that sampling takes. The
 tree scores a worksheet in 1.16 seconds, against 4.5 for generating eight samples.
+
+**Chunked digit tree for the 14B judge, 2026-09-19** (`verify/verify_tree_chunked.json`). The
+pilot's sizing run of the 14B judge ran out of GPU memory at the second digit of the 0 to 100 tree.
+Every live two-digit prefix carried its own copy of the prompt's cache, about 65 MB for a prompt
+of 337 tokens, beside 27.5 GiB of weights on a 31.7 GiB card. With `tree_rows` set, the tree runs
+the same single-token step on at most that many prefixes at a time and keeps the cache only of
+prefixes that have children. Only the 14B uses it, at one prompt and eight rows. The whole-frontier
+tree used by every other judge is unchanged. On 22 worksheets the 7B's chunked and whole-frontier
+trees differed by at most 0.00005 in any probability, which is batch composition in bfloat16. The
+14B's chunked tree matched brute force to a relative difference of at most 0.21, against 0.24 for
+the 7B's verified tree, with the largest gap on a score of probability 0.07. It scores a worksheet
+in 3.7 seconds at a peak of 29.5 GiB, and its pairwise pass at batch 2 peaks at 28.1 GiB.
 
 ## 7. Compute
 

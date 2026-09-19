@@ -29,10 +29,6 @@
      0.037,
      1.36
     ],
-    "1-5/mean_16": [
-     0.023,
-     1.89
-    ],
     "0-9/argmax": [
      0.014,
      0.76
@@ -47,7 +43,7 @@
     ],
     "0-9/mean_2": [
      0.055,
-     1.85
+     1.83
     ],
     "0-9/mean_4": [
      0.016,
@@ -55,35 +51,31 @@
     ],
     "0-9/mean_8": [
      0.015,
-     0.68
-    ],
-    "0-9/mean_16": [
-     0.033,
-     1.58
+     0.69
     ],
     "0-100/argmax": [
      0.049,
-     1.51
+     1.52
+    ],
+    "0-100/expected": [
+     0.021,
+     0.8
     ],
     "0-100/mean_1": [
      0.042,
-     1.22
+     1.21
     ],
     "0-100/mean_2": [
      0.043,
-     1.23
+     1.22
     ],
     "0-100/mean_4": [
      0.066,
-     2.01
+     2.02
     ],
     "0-100/mean_8": [
      0.05,
      1.6
-    ],
-    "0-100/mean_16": [
-     0.045,
-     1.55
     ]
    }
   },
@@ -117,7 +109,7 @@
    "check": "synth_judge: J3 PASS (budget ordering predicted)",
    "pass": true,
    "detail": {
-    "tau": 0.9,
+    "tau": 0.9019607843137255,
     "within": 1.0
    }
   },
@@ -130,11 +122,19 @@
    }
   },
   {
-   "check": "synth_judge: 16-sample mean threshold below 1-sample on 0-100",
+   "check": "synth_judge: 8-sample mean threshold below 1-sample on 0-100",
    "pass": true,
    "detail": {
-    "mean_16": 1.633798366034334,
+    "mean_8": 1.8895845085400924,
     "mean_1": 3.7497240572642956
+   }
+  },
+  {
+   "check": "synth_judge: expected-score threshold below argmax on 0-100",
+   "pass": true,
+   "detail": {
+    "expected": 1.0,
+    "argmax": 3.136297376093295
    }
   },
   {
@@ -157,7 +157,7 @@
    }
   }
  ],
- "seconds": 45.3,
+ "seconds": 119.1,
  "bars": {
   "dev_max": 0.12,
   "z_max": 4.0,

@@ -78,7 +78,7 @@ export PYTHONUNBUFFERED=1 HF_HUB_OFFLINE=1 PYTORCH_CUDA_ALLOC_CONF=expandable_se
 tar -xf /data/env/g3c-env.tar -C /tmp
 export PATH=/tmp/venv/bin:$PATH
 mkdir -p /work/g3b /work/g3c && cp /code/g3b.py /work/g3b/ && cp /code/judge.py /code/judge_grade.py /code/prereg_config.json /work/g3c/
-cd /work/g3c && sed -i 's#parents\\[1\\] / "G3b"#parents[1] / "g3b"#' judge.py
+cd /work/g3c
 """
 
 

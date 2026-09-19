@@ -1,0 +1,89 @@
+{
+ "chunked_vs_whole_7b": {
+  "n_sheets": 22,
+  "batch_tree": 8,
+  "tree_rows": 4,
+  "max_abs_diff_p": 5.1937102627530336e-05,
+  "max_abs_diff_masses": 6.972355542922415e-07,
+  "identical": false
+ },
+ "brute_force_14b": {
+  "rows": [
+   {
+    "e": 0,
+    "value": 100,
+    "tree": 0.999997,
+    "brute_force": 0.999997,
+    "rel_diff": 0.0
+   },
+   {
+    "e": 0,
+    "value": 100,
+    "tree": 0.999809,
+    "brute_force": 0.999809,
+    "rel_diff": 0.0
+   },
+   {
+    "e": 8,
+    "value": 40,
+    "tree": 0.013189,
+    "brute_force": 0.013189,
+    "rel_diff": 0.0
+   },
+   {
+    "e": 8,
+    "value": 45,
+    "tree": 0.142637,
+    "brute_force": 0.142638,
+    "rel_diff": 0.0
+   },
+   {
+    "e": 8,
+    "value": 50,
+    "tree": 0.022192,
+    "brute_force": 0.022192,
+    "rel_diff": 0.0
+   },
+   {
+    "e": 8,
+    "value": 55,
+    "tree": 0.490276,
+    "brute_force": 0.490275,
+    "rel_diff": 0.0
+   },
+   {
+    "e": 8,
+    "value": 60,
+    "tree": 0.074224,
+    "brute_force": 0.061538,
+    "rel_diff": 0.20615
+   },
+   {
+    "e": 8,
+    "value": 65,
+    "tree": 0.244096,
+    "brute_force": 0.256781,
+    "rel_diff": 0.0494
+   }
+  ],
+  "max_rel_diff": 0.20615,
+  "reference_7b_max_rel_diff": 0.24057
+ },
+ "timing_14b": {
+  "batch": 4,
+  "batch_tree": 1,
+  "tree_rows": 8,
+  "batch_pairwise": 2,
+  "prompt_tokens_min_max": [
+   335,
+   339
+  ],
+  "seconds_per_sheet_0_100": 3.656,
+  "projection_hours_calibration_0_100": 0.85,
+  "seconds_per_pair_pairwise": 1.781,
+  "peak_gib_score": 29.49,
+  "peak_gib_pairwise": 28.09,
+  "card_gib": 31.73,
+  "max_pruned_mass": 6.631e-05
+ }
+}
