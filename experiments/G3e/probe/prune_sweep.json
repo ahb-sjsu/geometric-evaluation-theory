@@ -1,0 +1,38 @@
+{
+ "0.0001": {
+  "qwen3_27b": {
+   "asks_per_sheet": 34.55,
+   "max_tree_pruned": 0.001296,
+   "distinct_scores": 10
+  },
+  "gemma31b": {
+   "asks_per_sheet": 7.81,
+   "max_tree_pruned": 0.00044144,
+   "distinct_scores": 13
+  }
+ },
+ "0.001": {
+  "qwen3_27b": {
+   "asks_per_sheet": 23.93,
+   "max_tree_pruned": 0.00700153,
+   "distinct_scores": 10
+  },
+  "gemma31b": {
+   "asks_per_sheet": 5.4,
+   "max_tree_pruned": 0.00417003,
+   "distinct_scores": 13
+  }
+ },
+ "0.01": {
+  "qwen3_27b": {
+   "asks_per_sheet": 17.12,
+   "max_tree_pruned": 0.06014002,
+   "distinct_scores": 10
+  },
+  "gemma31b": {
+   "asks_per_sheet": 4.62,
+   "max_tree_pruned": 0.01076472,
+   "distinct_scores": 13
+  }
+ }
+}

@@ -1,0 +1,437 @@
+{
+ "probe_seed": 20260920,
+ "sheets": 42,
+ "levels": [
+  0,
+  2,
+  5,
+  8,
+  12,
+  16,
+  20
+ ],
+ "models": {
+  "gemma31b": {
+   "model_id": "api:gemma",
+   "expected": "google/gemma-4-31B-it-qat-w4a16-ct",
+   "scales": {
+    "1-5": {
+     "requests": 42,
+     "seconds": 9.5,
+     "requests_per_sheet": 1.0,
+     "seconds_per_sheet": 0.227,
+     "distinct_scores": 5,
+     "unparsed": 0,
+     "rank_correlation_with_quality": 0.968,
+     "accuracy_at_gap_12": 1.0,
+     "bits_about_quality": 1.0,
+     "mean_mass_on_codebook": 0.99994,
+     "max_unseen": 0.000103,
+     "scores_by_error_count": {
+      "0": [
+       5.0
+      ],
+      "2": [
+       4.0
+      ],
+      "5": [
+       3.0,
+       4.0
+      ],
+      "8": [
+       3.0
+      ],
+      "12": [
+       2.0
+      ],
+      "16": [
+       2.0
+      ],
+      "20": [
+       1.0
+      ]
+     }
+    },
+    "0-9": {
+     "requests": 42,
+     "seconds": 3.2,
+     "requests_per_sheet": 1.0,
+     "seconds_per_sheet": 0.076,
+     "distinct_scores": 10,
+     "unparsed": 0,
+     "rank_correlation_with_quality": 0.993,
+     "accuracy_at_gap_12": 1.0,
+     "bits_about_quality": 1.0,
+     "mean_mass_on_codebook": 0.99989,
+     "max_unseen": 0.00036,
+     "scores_by_error_count": {
+      "0": [
+       9.0
+      ],
+      "2": [
+       8.0
+      ],
+      "5": [
+       7.0
+      ],
+      "8": [
+       5.0,
+       6.0
+      ],
+      "12": [
+       3.0,
+       4.0
+      ],
+      "16": [
+       1.0,
+       2.0
+      ],
+      "20": [
+       0.0,
+       1.0
+      ]
+     }
+    },
+    "0-100": {
+     "requests": 574,
+     "seconds": 20.3,
+     "requests_per_sheet": 13.67,
+     "seconds_per_sheet": 0.484,
+     "distinct_scores": 13,
+     "unparsed": 0,
+     "rank_correlation_with_quality": 0.995,
+     "accuracy_at_gap_12": 1.0,
+     "bits_about_quality": 1.0,
+     "mean_mass_on_codebook": 0.99986,
+     "max_unseen": 0.000722,
+     "scores_by_error_count": {
+      "0": [
+       100.0
+      ],
+      "2": [
+       90.0
+      ],
+      "5": [
+       70.0,
+       75.0
+      ],
+      "8": [
+       50.0,
+       55.0,
+       60.0
+      ],
+      "12": [
+       30.0,
+       35.0
+      ],
+      "16": [
+       15.0,
+       20.0
+      ],
+      "20": [
+       0.0,
+       5.0
+      ]
+     },
+     "max_tree_invalid": 0.000101,
+     "max_tree_pruned": 7.874e-05
+    }
+   },
+   "served_as": "google/gemma-4-31B-it-qat-w4a16-ct",
+   "pairwise": {
+    "requests": 12,
+    "seconds": 2.6,
+    "order_averaged_accuracy_at_gap_12_plus": 1.0,
+    "first_position_preference": 1.0,
+    "unreadable": 0
+   },
+   "total_requests": 671
+  },
+  "gemma12b": {
+   "model_id": "api:gemma4-12b",
+   "expected": "google/gemma-4-12B-it-qat-w4a16-ct",
+   "scales": {
+    "1-5": {
+     "requests": 42,
+     "seconds": 4.1,
+     "requests_per_sheet": 1.0,
+     "seconds_per_sheet": 0.097,
+     "distinct_scores": 4,
+     "unparsed": 0,
+     "rank_correlation_with_quality": 0.891,
+     "accuracy_at_gap_12": 0.958,
+     "bits_about_quality": 1.0,
+     "mean_mass_on_codebook": 0.99996,
+     "max_unseen": 0.000181,
+     "scores_by_error_count": {
+      "0": [
+       5.0
+      ],
+      "2": [
+       4.0,
+       5.0
+      ],
+      "5": [
+       3.0,
+       4.0
+      ],
+      "8": [
+       3.0,
+       4.0
+      ],
+      "12": [
+       3.0
+      ],
+      "16": [
+       3.0
+      ],
+      "20": [
+       2.0,
+       3.0
+      ]
+     }
+    },
+    "0-9": {
+     "requests": 42,
+     "seconds": 2.3,
+     "requests_per_sheet": 1.0,
+     "seconds_per_sheet": 0.055,
+     "distinct_scores": 8,
+     "unparsed": 0,
+     "rank_correlation_with_quality": 0.933,
+     "accuracy_at_gap_12": 0.986,
+     "bits_about_quality": 1.0,
+     "mean_mass_on_codebook": 0.99994,
+     "max_unseen": 9.9e-05,
+     "scores_by_error_count": {
+      "0": [
+       9.0
+      ],
+      "2": [
+       7.0,
+       8.0,
+       9.0
+      ],
+      "5": [
+       6.0,
+       7.0
+      ],
+      "8": [
+       4.0,
+       6.0
+      ],
+      "12": [
+       4.0,
+       5.0
+      ],
+      "16": [
+       4.0,
+       6.0
+      ],
+      "20": [
+       2.0,
+       3.0,
+       4.0
+      ]
+     }
+    },
+    "0-100": {
+     "requests": 1023,
+     "seconds": 31.4,
+     "requests_per_sheet": 24.36,
+     "seconds_per_sheet": 0.749,
+     "distinct_scores": 12,
+     "unparsed": 0,
+     "rank_correlation_with_quality": 0.963,
+     "accuracy_at_gap_12": 1.0,
+     "bits_about_quality": 1.0,
+     "mean_mass_on_codebook": 0.99993,
+     "max_unseen": 9.6e-05,
+     "scores_by_error_count": {
+      "0": [
+       100.0
+      ],
+      "2": [
+       85.0,
+       95.0,
+       100.0
+      ],
+      "5": [
+       80.0,
+       85.0
+      ],
+      "8": [
+       70.0,
+       75.0,
+       80.0
+      ],
+      "12": [
+       60.0,
+       65.0
+      ],
+      "16": [
+       50.0,
+       60.0,
+       75.0
+      ],
+      "20": [
+       30.0,
+       35.0,
+       40.0,
+       50.0
+      ]
+     },
+     "max_tree_invalid": 7.1e-05,
+     "max_tree_pruned": 0.00011932
+    }
+   },
+   "served_as": "google/gemma-4-12B-it-qat-w4a16-ct",
+   "pairwise": {
+    "requests": 12,
+    "seconds": 2.7,
+    "order_averaged_accuracy_at_gap_12_plus": 1.0,
+    "first_position_preference": 1.0,
+    "unreadable": 0
+   },
+   "total_requests": 1120
+  },
+  "qwen3_27b": {
+   "model_id": "api:qwen3-small",
+   "expected": "Qwen/Qwen3.8-27B",
+   "scales": {
+    "1-5": {
+     "requests": 42,
+     "seconds": 8.6,
+     "requests_per_sheet": 1.0,
+     "seconds_per_sheet": 0.204,
+     "distinct_scores": 5,
+     "unparsed": 0,
+     "rank_correlation_with_quality": 0.971,
+     "accuracy_at_gap_12": 1.0,
+     "bits_about_quality": 1.0,
+     "mean_mass_on_codebook": 0.94678,
+     "max_unseen": 0.001132,
+     "scores_by_error_count": {
+      "0": [
+       5.0
+      ],
+      "2": [
+       4.0
+      ],
+      "5": [
+       4.0
+      ],
+      "8": [
+       3.0
+      ],
+      "12": [
+       2.0,
+       3.0
+      ],
+      "16": [
+       1.0,
+       2.0
+      ],
+      "20": [
+       1.0
+      ]
+     }
+    },
+    "0-9": {
+     "requests": 42,
+     "seconds": 3.1,
+     "requests_per_sheet": 1.0,
+     "seconds_per_sheet": 0.073,
+     "distinct_scores": 9,
+     "unparsed": 0,
+     "rank_correlation_with_quality": 0.988,
+     "accuracy_at_gap_12": 1.0,
+     "bits_about_quality": 1.0,
+     "mean_mass_on_codebook": 0.99656,
+     "max_unseen": 0.001588,
+     "scores_by_error_count": {
+      "0": [
+       9.0
+      ],
+      "2": [
+       8.0
+      ],
+      "5": [
+       7.0,
+       8.0
+      ],
+      "8": [
+       5.0,
+       6.0
+      ],
+      "12": [
+       4.0,
+       5.0
+      ],
+      "16": [
+       1.0,
+       2.0
+      ],
+      "20": [
+       0.0,
+       1.0
+      ]
+     }
+    },
+    "0-100": {
+     "requests": 2375,
+     "seconds": 176.1,
+     "requests_per_sheet": 56.55,
+     "seconds_per_sheet": 4.194,
+     "distinct_scores": 10,
+     "unparsed": 0,
+     "rank_correlation_with_quality": 0.98,
+     "accuracy_at_gap_12": 1.0,
+     "bits_about_quality": 1.0,
+     "mean_mass_on_codebook": 0.99623,
+     "max_unseen": 0.001184,
+     "scores_by_error_count": {
+      "0": [
+       100.0
+      ],
+      "2": [
+       90.0,
+       95.0
+      ],
+      "5": [
+       75.0,
+       85.0
+      ],
+      "8": [
+       55.0,
+       75.0
+      ],
+      "12": [
+       35.0,
+       45.0,
+       55.0
+      ],
+      "16": [
+       15.0
+      ],
+      "20": [
+       0.0,
+       15.0
+      ]
+     },
+     "max_tree_invalid": 0.074817,
+     "max_tree_pruned": 0.00023689
+    }
+   },
+   "served_as": "Qwen/Qwen3.8-27B",
+   "pairwise": {
+    "requests": 12,
+    "seconds": 1.7,
+    "order_averaged_accuracy_at_gap_12_plus": 1.0,
+    "first_position_preference": 1.0,
+    "unreadable": 0
+   },
+   "total_requests": 2472
+  }
+ }
+}

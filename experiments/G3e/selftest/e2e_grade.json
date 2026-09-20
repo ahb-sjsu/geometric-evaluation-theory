@@ -1,0 +1,708 @@
+{
+ "predictions": {
+  "gate": "G3c",
+  "model": "fake",
+  "precision": "served",
+  "calibration_seed": 4242,
+  "level": 0.75,
+  "gaps": [
+   1,
+   2,
+   4,
+   8,
+   12
+  ],
+  "scales": {
+   "0-9": {
+    "codebook": {
+     "distinct_scores": [
+      0.0,
+      1.0,
+      2.0,
+      3.0,
+      4.0,
+      5.0,
+      6.0,
+      7.0,
+      8.0,
+      9.0
+     ],
+     "n_distinct": 10,
+     "levels_carrying_95pct": 10,
+     "entropy_bits": 3.309,
+     "information_about_quality_bits": 3.309,
+     "unparsed_share": 0.0
+    },
+    "readouts": {
+     "argmax": {
+      "acc": [
+       0.45,
+       0.9474,
+       1.0,
+       1.0,
+       1.0
+      ],
+      "acc_sd": [
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0
+      ],
+      "threshold": 1.6031746031746033,
+      "threshold_ci": [
+       1.6031746031746033,
+       1.6031746031746033
+      ]
+     },
+     "expected": {
+      "acc": [
+       1.0,
+       1.0,
+       1.0,
+       1.0,
+       1.0
+      ],
+      "acc_sd": [
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0
+      ],
+      "threshold": 1.0,
+      "threshold_ci": [
+       1.0,
+       1.0
+      ]
+     },
+     "mean_1": {
+      "acc": [
+       0.4742,
+       0.5707,
+       0.7436,
+       0.9651,
+       0.9983
+      ],
+      "acc_sd": [
+       0.0133,
+       0.0162,
+       0.0213,
+       0.0123,
+       0.0028
+      ],
+      "threshold": 4.116145500957244,
+      "threshold_ci": [
+       3.6399033506324656,
+       4.7173092759389625
+      ]
+     },
+     "mean_2": {
+      "acc": [
+       0.5555,
+       0.6562,
+       0.8493,
+       0.9988,
+       1.0
+      ],
+      "acc_sd": [
+       0.0107,
+       0.0184,
+       0.0192,
+       0.0023,
+       0.0
+      ],
+      "threshold": 2.9714285714285715,
+      "threshold_ci": [
+       2.7246643611729593,
+       3.39873417721519
+      ]
+     },
+     "mean_4": {
+      "acc": [
+       0.6211,
+       0.7722,
+       0.9467,
+       1.0,
+       1.0
+      ],
+      "acc_sd": [
+       0.016,
+       0.0173,
+       0.0145,
+       0.0,
+       0.0
+      ],
+      "threshold": 1.8530612244897962,
+      "threshold_ci": [
+       1.6572672510504909,
+       2.1274349825607826
+      ]
+     },
+     "mean_8": {
+      "acc": [
+       0.7016,
+       0.8692,
+       0.9917,
+       1.0,
+       1.0
+      ],
+      "acc_sd": [
+       0.0174,
+       0.013,
+       0.0048,
+       0.0,
+       0.0
+      ],
+      "threshold": 1.2888670917116234,
+      "threshold_ci": [
+       1.1014496895683885,
+       1.4383403789379314
+      ]
+     }
+    },
+    "nominal_rival": {
+     "acc": [
+      0.45,
+      0.9474,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "threshold": 1.60313630880579
+    }
+   },
+   "0-100": {
+    "codebook": {
+     "distinct_scores": [
+      0.0,
+      5.0,
+      10.0,
+      15.0,
+      20.0,
+      25.0,
+      30.0,
+      35.0,
+      40.0,
+      45.0,
+      50.0,
+      55.0,
+      60.0,
+      65.0,
+      70.0,
+      75.0,
+      80.0,
+      85.0,
+      90.0,
+      95.0,
+      100.0
+     ],
+     "n_distinct": 21,
+     "levels_carrying_95pct": 20,
+     "entropy_bits": 4.392,
+     "information_about_quality_bits": 4.392,
+     "unparsed_share": 0.0
+    },
+    "readouts": {
+     "argmax": {
+      "acc": [
+       1.0,
+       1.0,
+       1.0,
+       1.0,
+       1.0
+      ],
+      "acc_sd": [
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0
+      ],
+      "threshold": 1.0,
+      "threshold_ci": [
+       1.0,
+       1.0
+      ]
+     },
+     "expected": {
+      "acc": [
+       1.0,
+       1.0,
+       1.0,
+       1.0,
+       1.0
+      ],
+      "acc_sd": [
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0
+      ],
+      "threshold": 1.0,
+      "threshold_ci": [
+       1.0,
+       1.0
+      ]
+     },
+     "mean_1": {
+      "acc": [
+       0.5594,
+       0.6801,
+       0.8438,
+       0.9844,
+       1.0
+      ],
+      "acc_sd": [
+       0.0139,
+       0.0169,
+       0.0206,
+       0.0078,
+       0.0
+      ],
+      "threshold": 2.8542713567839195,
+      "threshold_ci": [
+       2.4767370495495498,
+       3.210029828486204
+      ]
+     },
+     "mean_2": {
+      "acc": [
+       0.6367,
+       0.7574,
+       0.9366,
+       0.9988,
+       1.0
+      ],
+      "acc_sd": [
+       0.0145,
+       0.0164,
+       0.0141,
+       0.0024,
+       0.0
+      ],
+      "threshold": 1.938671209540034,
+      "threshold_ci": [
+       1.7558169517682922,
+       2.2457512564616056
+      ]
+     },
+     "mean_4": {
+      "acc": [
+       0.6945,
+       0.8322,
+       0.9835,
+       1.0,
+       1.0
+      ],
+      "acc_sd": [
+       0.017,
+       0.0192,
+       0.007,
+       0.0,
+       0.0
+      ],
+      "threshold": 1.4028068080023885,
+      "threshold_ci": [
+       1.200404358976328,
+       1.669540229885057
+      ]
+     },
+     "mean_8": {
+      "acc": [
+       0.7469,
+       0.912,
+       0.9982,
+       1.0,
+       1.0
+      ],
+      "acc_sd": [
+       0.0163,
+       0.0144,
+       0.0022,
+       0.0,
+       0.0
+      ],
+      "threshold": 1.0189243027888448,
+      "threshold_ci": [
+       1.0,
+       1.2118937042179667
+      ]
+     }
+    },
+    "nominal_rival": {
+     "acc": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "threshold": 1.0
+    }
+   }
+  },
+  "pairwise_prediction": {
+   "claim": "the pairwise elicitation resolves at the floor of the pointwise read-outs",
+   "floor_readout": "0-9/expected",
+   "threshold": 1.0,
+   "acc": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+   ]
+  }
+ },
+ "observed": {
+  "n_per_gap": 40,
+  "scales": {
+   "0-9": {
+    "argmax": {
+     "acc": [
+      0.525,
+      0.975,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "threshold": 1.5,
+     "plateau": 1.0
+    },
+    "expected": {
+     "acc": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "threshold": 1.0,
+     "plateau": 1.0
+    },
+    "mean_1": {
+     "acc": [
+      0.45,
+      0.6,
+      0.75,
+      0.9,
+      1.0
+     ],
+     "threshold": 4.0,
+     "plateau": 1.0
+    },
+    "mean_2": {
+     "acc": [
+      0.55,
+      0.75,
+      0.9,
+      1.0,
+      1.0
+     ],
+     "threshold": 2.0,
+     "plateau": 1.0
+    },
+    "mean_4": {
+     "acc": [
+      0.6,
+      0.8,
+      0.95,
+      1.0,
+      1.0
+     ],
+     "threshold": 1.75,
+     "plateau": 1.0
+    },
+    "mean_8": {
+     "acc": [
+      0.675,
+      0.925,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "threshold": 1.2999999999999998,
+     "plateau": 1.0
+    }
+   },
+   "0-100": {
+    "argmax": {
+     "acc": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "threshold": 1.0,
+     "plateau": 1.0
+    },
+    "expected": {
+     "acc": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "threshold": 1.0,
+     "plateau": 1.0
+    },
+    "mean_1": {
+     "acc": [
+      0.625,
+      0.75,
+      0.85,
+      0.95,
+      1.0
+     ],
+     "threshold": 2.0,
+     "plateau": 1.0
+    },
+    "mean_2": {
+     "acc": [
+      0.725,
+      0.8,
+      0.95,
+      1.0,
+      1.0
+     ],
+     "threshold": 1.3333333333333333,
+     "plateau": 1.0
+    },
+    "mean_4": {
+     "acc": [
+      0.8,
+      0.775,
+      0.95,
+      1.0,
+      1.0
+     ],
+     "threshold": 1.0,
+     "plateau": 1.0
+    },
+    "mean_8": {
+     "acc": [
+      0.75,
+      0.925,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "threshold": 1.0,
+     "plateau": 1.0
+    }
+   }
+  },
+  "pairwise": {
+   "acc": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "threshold": Infinity,
+   "mean_p_first": 0.7
+  }
+ },
+ "verdicts": {
+  "bars": {
+   "dev_max": 0.14,
+   "z_max": 4.55,
+   "threshold_factor": 1.75,
+   "rank_agreement_min": 0.0,
+   "vacuity_acc_min": 0.9,
+   "vacuity_bits_min": 1.0
+  },
+  "J1_prediction": {
+   "0-9/argmax": {
+    "max_abs_dev": 0.07500000000000001,
+    "max_z": 0.9412162686025605,
+    "predicted_threshold": 1.6031746031746033,
+    "observed_threshold": 1.5,
+    "holds": true
+   },
+   "0-9/expected": {
+    "max_abs_dev": 0.0,
+    "max_z": 0.0,
+    "predicted_threshold": 1.0,
+    "observed_threshold": 1.0,
+    "holds": true
+   },
+   "0-9/mean_1": {
+    "max_abs_dev": 0.06509999999999994,
+    "max_z": 1.6802701488892557,
+    "predicted_threshold": 4.116145500957244,
+    "observed_threshold": 4.0,
+    "holds": true
+   },
+   "0-9/mean_2": {
+    "max_abs_dev": 0.0938,
+    "max_z": 1.2074054756327075,
+    "predicted_threshold": 2.9714285714285715,
+    "observed_threshold": 2.0,
+    "holds": true
+   },
+   "0-9/mean_4": {
+    "max_abs_dev": 0.027800000000000047,
+    "max_z": 0.39839774359499547,
+    "predicted_threshold": 1.8530612244897962,
+    "observed_threshold": 1.75,
+    "holds": true
+   },
+   "0-9/mean_8": {
+    "max_abs_dev": 0.05580000000000007,
+    "max_z": 0.9672437706109276,
+    "predicted_threshold": 1.2888670917116234,
+    "observed_threshold": 1.2999999999999998,
+    "holds": true
+   },
+   "0-100/argmax": {
+    "max_abs_dev": 0.0,
+    "max_z": 0.0,
+    "predicted_threshold": 1.0,
+    "observed_threshold": 1.0,
+    "holds": true
+   },
+   "0-100/expected": {
+    "max_abs_dev": 0.0,
+    "max_z": 0.0,
+    "predicted_threshold": 1.0,
+    "observed_threshold": 1.0,
+    "holds": true
+   },
+   "0-100/mean_1": {
+    "max_abs_dev": 0.06989999999999996,
+    "max_z": 1.044084742505858,
+    "predicted_threshold": 2.8542713567839195,
+    "observed_threshold": 2.0,
+    "holds": true
+   },
+   "0-100/mean_2": {
+    "max_abs_dev": 0.08829999999999993,
+    "max_z": 1.1364954608029343,
+    "predicted_threshold": 1.938671209540034,
+    "observed_threshold": 1.3333333333333333,
+    "holds": true
+   },
+   "0-100/mean_4": {
+    "max_abs_dev": 0.10550000000000004,
+    "max_z": 1.3996953543904118,
+    "predicted_threshold": 1.4028068080023885,
+    "observed_threshold": 1.0,
+    "holds": true
+   },
+   "0-100/mean_8": {
+    "max_abs_dev": 0.013000000000000012,
+    "max_z": 0.2545455087626402,
+    "predicted_threshold": 1.0189243027888448,
+    "observed_threshold": 1.0,
+    "holds": true
+   },
+   "verdict": "PASS"
+  },
+  "J2_effective_vs_nominal": {
+   "0-9": {
+    "sse_effective": 0.0064,
+    "sse_nominal": 0.0064,
+    "effective_wins": false,
+    "nominal_threshold": 1.60313630880579,
+    "effective_threshold": 1.6031746031746033,
+    "observed_threshold": 1.5,
+    "codebook_levels": 10,
+    "nominal_levels": 10
+   },
+   "0-100": {
+    "sse_effective": 0.0,
+    "sse_nominal": 0.0,
+    "effective_wins": false,
+    "nominal_threshold": 1.0,
+    "effective_threshold": 1.0,
+    "observed_threshold": 1.0,
+    "codebook_levels": 21,
+    "nominal_levels": 101
+   },
+   "verdict": "FAIL"
+  },
+  "J3_budget_ordering": {
+   "readouts": [
+    "0-9/argmax",
+    "0-9/expected",
+    "0-9/mean_1",
+    "0-9/mean_2",
+    "0-9/mean_4",
+    "0-9/mean_8",
+    "0-100/argmax",
+    "0-100/expected",
+    "0-100/mean_1",
+    "0-100/mean_2",
+    "0-100/mean_4",
+    "0-100/mean_8"
+   ],
+   "predicted": [
+    1.6031746031746033,
+    1.0,
+    4.116145500957244,
+    2.9714285714285715,
+    1.8530612244897962,
+    1.2888670917116234,
+    1.0,
+    1.0,
+    2.8542713567839195,
+    1.938671209540034,
+    1.4028068080023885,
+    1.0189243027888448
+   ],
+   "observed": [
+    1.5,
+    1.0,
+    4.0,
+    2.0,
+    1.75,
+    1.2999999999999998,
+    1.0,
+    1.0,
+    2.0,
+    1.3333333333333333,
+    1.0,
+    1.0
+   ],
+   "kendall_tau": 0.7424242424242424,
+   "share_within_factor": 1.0,
+   "verdict": "PASS"
+  },
+  "J5_pairwise": {
+   "predicted_floor_readout": "0-9/expected",
+   "predicted_threshold": 1.0,
+   "observed_threshold": Infinity,
+   "observed_acc": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "mean_p_first": 0.7,
+   "label": "COARSER"
+  },
+  "anti_vacuity": {
+   "scales": {
+    "0-9": {
+     "argmax_acc_largest_gap": 1.0,
+     "bits": 3.309,
+     "met": true
+    },
+    "0-100": {
+     "argmax_acc_largest_gap": 1.0,
+     "bits": 4.392,
+     "met": true
+    }
+   },
+   "met": true
+  },
+  "gate": "FAIL"
+ }
+}

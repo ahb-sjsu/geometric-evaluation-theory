@@ -167,7 +167,8 @@ class APIJudge:
         self.lock = threading.Lock()
         self.model_class = "api:" + api["base_url"]
         self.loaded_revision = None
-        self.n_requests = 0
+        self.n_requests = 0      # sent to the service
+        self.n_asks = 0          # asked for, cache hits included
         # The harness records who served the block before the first worksheet is scored, so ask once now.
         self._ask([{"role": "user", "content": "Reply with the digit 1 and nothing else."}], 1, False)
 
@@ -179,6 +180,8 @@ class APIJudge:
         body.update(self.extra)
         if forced:
             body.update({"continue_final_message": True, "add_generation_prompt": False})
+        with self.lock:
+            self.n_asks += 1
         v = self.cache.get(body) if self.cache else None
         if v is None:
             v = reduce_response(self.transport(body))

@@ -1,0 +1,134 @@
+{
+ "verdict": "PASS",
+ "checks": [
+  {
+   "check": "single-token scale: the vector read back is the server's",
+   "pass": true,
+   "detail": {
+    "largest difference": 4.986489064995325e-07
+   }
+  },
+  {
+   "check": "single-token scale: the greedy text is the argmax",
+   "pass": true,
+   "detail": {
+    "argmax": [
+     9.0,
+     7.0,
+     4.0,
+     1.0,
+     0.0
+    ]
+   }
+  },
+  {
+   "check": "digit tree: the distribution over 0 to 100 is the server's",
+   "pass": true,
+   "detail": {
+    "largest difference": 4.994565640038849e-07,
+    "invalid": 0.0
+   }
+  },
+  {
+   "check": "grouped digits: a tokenizer that writes a whole score as one token is read correctly",
+   "pass": true,
+   "detail": {
+    "largest difference": 4.994565640038849e-07
+   }
+  },
+  {
+   "check": "grouped digits behind the wall: the reported bound covers the mass lost",
+   "pass": true,
+   "detail": {
+    "bound": 0.16190061,
+    "lost": 0.139341
+   }
+  },
+  {
+   "check": "the twenty-token wall: the reported bound covers the mass actually lost",
+   "pass": true,
+   "detail": {
+    "bound": 0.47205294,
+    "lost": 0.428067
+   }
+  },
+  {
+   "check": "pruning: what is pruned is reported and the vector still sums to one",
+   "pass": true,
+   "detail": {
+    "pruned": 0.99719114,
+    "sum": 1.0
+   }
+  },
+  {
+   "check": "the model pin: a server that changes model stops the run",
+   "pass": true,
+   "detail": "pinned 'fake/judge-1', served 'fake/judge-1-v2'"
+  },
+  {
+   "check": "the model pin: a served name other than the registered one stops the run",
+   "pass": true,
+   "detail": null
+  },
+  {
+   "check": "the cache: a second pass sends no request and returns the same records",
+   "pass": true,
+   "detail": {
+    "calls first pass": 6,
+    "calls after second": 6,
+    "records equal": true
+   }
+  },
+  {
+   "check": "end to end: the harness records who served the block",
+   "pass": true,
+   "detail": null
+  },
+  {
+   "check": "end to end: J1 PASS, the calibration block predicts the test block",
+   "pass": true,
+   "detail": {
+    "0-9/argmax": 0.075,
+    "0-9/expected": 0.0,
+    "0-9/mean_1": 0.065,
+    "0-9/mean_2": 0.094,
+    "0-9/mean_4": 0.028,
+    "0-9/mean_8": 0.056,
+    "0-100/argmax": 0.0,
+    "0-100/expected": 0.0,
+    "0-100/mean_1": 0.07,
+    "0-100/mean_2": 0.088,
+    "0-100/mean_4": 0.106,
+    "0-100/mean_8": 0.013
+   }
+  },
+  {
+   "check": "end to end: the fake judge meets anti-vacuity",
+   "pass": true,
+   "detail": {
+    "scales": {
+     "0-9": {
+      "argmax_acc_largest_gap": 1.0,
+      "bits": 3.309,
+      "met": true
+     },
+     "0-100": {
+      "argmax_acc_largest_gap": 1.0,
+      "bits": 4.392,
+      "met": true
+     }
+    },
+    "met": true
+   }
+  },
+  {
+   "check": "end to end: the expected-score threshold is below the argmax on 0 to 9",
+   "pass": true,
+   "detail": {
+    "expected": 1.0,
+    "argmax": 1.6031746031746033
+   }
+  }
+ ],
+ "seconds": 62.3
+}
