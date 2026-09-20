@@ -1,0 +1,54 @@
+[start] 2026-09-20T07:00:08Z month=2026-07 code=aecf7d9
+[sampled] 2026-09-20T08:00:08Z 853189 positions
+[stage] 2026-09-20T08:00:09Z screen 853189 positions in 96 shards
+[submit] 2026-09-20T08:41:35Z screen
+[poll] 2026-09-20T09:29:56Z screen outputs=65 of 96 failed_jobs=0
+[poll] 2026-09-20T09:32:58Z screen outputs=72 of 96 failed_jobs=0
+[poll] 2026-09-20T09:36:01Z screen outputs=78 of 96 failed_jobs=0
+[poll] 2026-09-20T09:39:03Z screen outputs=84 of 96 failed_jobs=0
+[poll] 2026-09-20T09:42:05Z screen outputs=87 of 96 failed_jobs=0
+[poll] 2026-09-20T09:45:08Z screen outputs=92 of 96 failed_jobs=0
+[poll] 2026-09-20T09:48:15Z screen outputs=94 of 96 failed_jobs=0
+[poll] 2026-09-20T09:51:18Z screen outputs=96 of 96 failed_jobs=0
+[fetch] 2026-09-20T09:51:18Z screen
+[fetched] 2026-09-20T09:53:05Z screen 853189 labels
+[select] 2026-09-20T09:53:05Z 
+[selected] 2026-09-20T09:53:24Z {"screened": 853189, "sent_to_deep": 147467, "share": 0.17284212525009113}
+[stage] 2026-09-20T09:53:25Z deep 147467 positions in 96 shards
+[submit] 2026-09-20T10:01:04Z deep
+[poll] 2026-09-20T10:49:09Z deep outputs=21 of 96 failed_jobs=0
+[poll] 2026-09-20T10:52:11Z deep outputs=27 of 96 failed_jobs=0
+[poll] 2026-09-20T10:55:13Z deep outputs=31 of 96 failed_jobs=0
+[poll] 2026-09-20T10:58:15Z deep outputs=38 of 96 failed_jobs=0
+[poll] 2026-09-20T11:01:18Z deep outputs=40 of 96 failed_jobs=0
+[poll] 2026-09-20T11:04:20Z deep outputs=43 of 96 failed_jobs=0
+[poll] 2026-09-20T11:07:22Z deep outputs=44 of 96 failed_jobs=0
+[poll] 2026-09-20T11:10:24Z deep outputs=48 of 96 failed_jobs=0
+[poll] 2026-09-20T11:13:26Z deep outputs=53 of 96 failed_jobs=0
+[poll] 2026-09-20T11:16:28Z deep outputs=58 of 96 failed_jobs=0
+[poll] 2026-09-20T11:19:30Z deep outputs=61 of 96 failed_jobs=0
+[poll] 2026-09-20T11:22:33Z deep outputs=62 of 96 failed_jobs=0
+[poll] 2026-09-20T11:25:35Z deep outputs=66 of 96 failed_jobs=0
+[poll] 2026-09-20T11:28:55Z deep outputs=67 of 96 failed_jobs=0
+[poll] 2026-09-20T11:31:57Z deep outputs=71 of 96 failed_jobs=0
+[poll] 2026-09-20T11:34:59Z deep outputs=74 of 96 failed_jobs=0
+[poll] 2026-09-20T11:38:01Z deep outputs=75 of 96 failed_jobs=0
+[poll] 2026-09-20T11:41:03Z deep outputs=75 of 96 failed_jobs=0
+[poll] 2026-09-20T11:44:07Z deep outputs=77 of 96 failed_jobs=0
+[poll] 2026-09-20T11:47:09Z deep outputs=78 of 96 failed_jobs=0
+[poll] 2026-09-20T11:50:12Z deep outputs=82 of 96 failed_jobs=0
+[poll] 2026-09-20T11:53:14Z deep outputs=82 of 96 failed_jobs=0
+[poll] 2026-09-20T11:56:16Z deep outputs=82 of 96 failed_jobs=0
+[poll] 2026-09-20T11:59:18Z deep outputs=83 of 96 failed_jobs=0
+[poll] 2026-09-20T12:02:21Z deep outputs=83 of 96 failed_jobs=0
+[poll] 2026-09-20T12:05:24Z deep outputs=85 of 96 failed_jobs=0
+[poll] 2026-09-20T12:08:26Z deep outputs=86 of 96 failed_jobs=0
+[poll] 2026-09-20T12:11:29Z deep outputs=89 of 96 failed_jobs=0
+[poll] 2026-09-20T12:14:31Z deep outputs=90 of 96 failed_jobs=0
+[poll] 2026-09-20T12:17:34Z deep outputs=92 of 96 failed_jobs=0
+[poll] 2026-09-20T12:20:36Z deep outputs=95 of 96 failed_jobs=0
+[poll] 2026-09-20T12:23:38Z deep outputs=96 of 96 failed_jobs=0
+[fetch] 2026-09-20T12:23:38Z deep
+[fetched] 2026-09-20T12:25:18Z deep 147467 labels
+[grade] 2026-09-20T12:25:52Z 
+[finished] 2026-09-20T13:30:14Z exit=0

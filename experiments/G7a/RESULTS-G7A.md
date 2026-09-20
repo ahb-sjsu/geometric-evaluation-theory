@@ -129,6 +129,72 @@ sizes. It moves files and touches no label.
 **One file to ignore.** `grade_EMPTY_no_labels_atlas_script.json` on Atlas is the first run script
 grading zero labels after its engine stages had been blocked. It carries no information.
 
-## August 2026
+## August 2026: two readers on one month, both reported
 
-Running. Same bars, same code. It is the same population a month later and not an independent world.
+Graded 2026-09-20. Same population a month later, not an independent world. 845,664 positions drawn,
+845,664 screen labels and 146,159 deep labels returned from NRP with none lost and no job failed.
+Three deep pods were lost to an NRP node that went unreachable and their shards completed on
+replacements. Engine floor 0.0142, against 0.0143 in July. All four levels entered under both
+readers. sha256 of the drawn positions `e17179ed`, screen labels `f34550ce`, deep labels `acedd18d`.
+
+### G7a, the sealed reader: C1 INDETERMINATE, C2 INDETERMINATE
+
+`results/grade_2026-08.json`, sha256 `2785a4da`. Exponent +0.068, interval -0.211 to +0.199, width
+0.410. As in July the interval is too wide to decide, and as in July minus one half lies outside it.
+
+| clock, seconds | threshold | same players at 300 s | ratio | 95 percent interval | bridge predicts |
+|---|---|---|---|---|---|
+| 60 | 0.117 | 0.134 | 0.88 | 0.72 to 1.68 | 2.24 |
+| 180 | 0.116 | 0.068 | 1.70 | 0.54 to 2.31 | 1.29 |
+| 600 | 0.116 | 0.089 | 1.30 | 0.76 to 2.09 | 0.71 |
+| 1,800 | 0.093 | 0.087 | 1.08 | 0.50 to 1.81 | 0.41 |
+
+**G7a's verdict over both months: INDETERMINATE on both claims.** The gate as registered could not
+resolve its question, for the reason recorded under July.
+
+### G7a-r, the tied reader: C1r INDETERMINATE, C2r FAIL
+
+Registration `PREREG-G7AR.md`, blob 2e786c44, sealed 2026-09-20T14:16:48Z. August's first engine jobs
+were submitted at 15:30:32Z, 74 minutes after the seal, which is the condition the registration set
+for its own validity. `results/grade_tied_2026-08.json`, sha256 `8098538d`.
+
+| | value |
+|---|---|
+| exponent | -0.041 |
+| 95 percent interval | -0.113 to +0.035, width 0.147 |
+| C1r, needs the upper end below -0.05 | INDETERMINATE, the interval contains zero |
+| C2r, needs minus one half inside an interval no wider than 0.30 | FAIL, minus one half is outside a decisive interval |
+
+| clock, seconds | ratio | 95 percent interval | bridge predicts | July, calibration | shared lapse |
+|---|---|---|---|---|---|
+| 60 | 0.87 | 0.71 to 1.06 | 2.24 | 1.31 | 0.000 |
+| 180 | 1.09 | 0.88 to 1.31 | 1.29 | 1.06 | 0.058 |
+| 600 | 0.91 | 0.77 to 1.08 | 0.71 | 0.94 | 0.000 |
+| 1,800 | 0.83 | 0.68 to 1.00 | 0.41 | 0.81 | 0.052 |
+
+**The bridge is refuted in this world.** The inverse square root predicts that the same players are
+2.24 times coarser at one minute than at five and 0.41 times as coarse at thirty. The measured ratios
+are 0.87 and 0.83, in an interval a third as wide as the bar allows. GET-18 fails at the size a pass
+would have had.
+
+**The registration's stated expectation was wrong.** It said C1r would pass with an exponent between
+-0.25 and -0.05. The exponent is -0.041 and the interval contains zero. July's pattern under this
+reader, monotone ratios with the largest effect at one minute, was the basis for that expectation,
+and the one-minute effect did not come back: 1.31 in July, 0.87 in August. What did come back is the
+long end, 0.81 and 0.83 at thirty minutes, with August's interval touching one. A pattern found by
+looking at one month was partly noise, which is what a second month is for.
+
+**What stands.** Nothing about the threshold tracking the budget in people. GET-11 stays
+`[predicted]` for human evaluators: two months and two readers did not show the fall and did not
+exclude a shallow one. An exponent steeper than about -0.11 is excluded by the tied reader on August.
+
+**What this world can and cannot say.** The clock is chosen by the player, not assigned. A player
+who sits down to thirty-minute games is not in the state of the same player in a bullet session, and
+the declared confounds, premoves and time forfeits at one minute, all act at the short end, which is
+where the two months disagree. A budget that is assigned, or halved by choice inside one format as
+in the berserk plan, is a cleaner manipulation than a format.
+
+**Read against the table written before any grade** (`../G7b/PLAN-AFTER-G7A.md`). The row is "C1 not
+PASS", under both readers: no new gate is drafted from this result. The berserk plan's predictions
+were written under the bridge, 1.414 for a halved clock, and the bridge has now failed, so that plan
+needs rewriting before it could be registered, with C1 alone as its claim.
