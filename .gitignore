@@ -17,3 +17,4 @@ experiments/*/data/
 !experiments/*/pilot*.log
 !experiments/*/pp.log
 !experiments/*/probe_*.log
+experiments/G3c/nrp/batch_probe.tgz.b64

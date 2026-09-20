@@ -69,6 +69,7 @@ GROUPS = [
 # once on 2026-09-15 where ucsd-suncave left pods pending for 40 minutes
 CPU_ZONE = {"topology.kubernetes.io/zone": "ucsd-nrp"}
 MAX_HEAVY = 4
+nl = chr(10)
 PINS = "transformers==4.56.1 bitsandbytes==0.50.2 accelerate==1.14.0 huggingface_hub safetensors numpy"
 METER_ROOT = Path("/home/claude/g3c")          # pilot results carrying the meter record
 
@@ -102,6 +103,9 @@ export PYTHONUNBUFFERED=1 HF_HUB_OFFLINE=1 PYTORCH_CUDA_ALLOC_CONF=expandable_se
 tar -xf /data/env/g3c-env.tar -C /tmp
 export PATH=/tmp/venv/bin:$PATH
 mkdir -p /work/g3b /work/g3c && cp /code/g3b.py /work/g3b/ && cp /code/judge.py /code/judge_grade.py /code/prereg_config.json /work/g3c/
+cp /code/probe_batch.py /work/g3c/
+base64 -d /code/batch_probe.tgz.b64 | tar -xzf - -C /work
+export PYTHONPATH=/work:$PYTHONPATH
 cd /work/g3c
 """
 
@@ -207,19 +211,28 @@ def run_script(model: str, precision: str, block: str, role: str) -> str:
 
 
 def group_script(members, block: str, role: str) -> str:
-    """Every member of a group as a concurrent process on the pod's one GPU. No sleep: the script
-    waits on each process and fails if any member failed. Logs go to the volume."""
-    lines = [ENV, f"mkdir -p /data/runs/{role}/logs"]
-    for i, (m, p) in enumerate(members):
-        lines.append(f"python judge.py run --config prereg_config.json --role {role} --block {block} --model {m} "
-                     f"--precision {p} --out /data/runs/{role} > /data/runs/{role}/logs/{block}_{m}_{p}.log 2>&1 &")
+    """Every member of a group as a concurrent process on the pod's one GPU. Each member first
+    sizes its batches to this GPU with batch-probe, writing the choice beside its data and into its
+    own copy of the config (the sealed file is untouched), because the sealed sizes were fitted on a
+    card whose bfloat16 path is slow and leave a fast card under the NRP utilization floor. Output
+    goes to the volume and to the pod's stdout, so kubectl logs streams progress. No sleep: the
+    script waits on each process and fails if any member failed."""
+    out = f"/data/runs/{role}"
+    lines = [ENV, f"mkdir -p {out}/logs {out}/{block}"]
+    for i, (m, pr) in enumerate(members):
+        tag, log = f"{m}__{pr}", f"{out}/logs/{block}_{m}_{pr}.log"
+        lines.append(f"( cp prereg_config.json cfg_{tag}.json && "
+                     f"python probe_batch.py --config cfg_{tag}.json --model {m} --precision {pr} "
+                     f"--out {out}/{block}/{tag}.batch_probe.json --write-config && "
+                     f"python judge.py run --config cfg_{tag}.json --role {role} --block {block} "
+                     f"--model {m} --precision {pr} --out {out} ) 2>&1 | tee {log} &")
         lines.append(f"pid{i}=$!")
     lines.append("rc=0")
-    for i, (m, p) in enumerate(members):
-        lines.append(f"wait $pid{i} || rc=1; echo \"member {m} {p} done\"; tail -3 /data/runs/{role}/logs/{block}_{m}_{p}.log")
+    for i, (m, pr) in enumerate(members):
+        lines.append(f"wait $pid{i} || rc=1; echo \"member {m} {pr} done\"")
     lines.append(f"echo RUN_DONE {block} rc=$rc")
     lines.append("exit $rc")
-    return "\n".join(lines) + "\n"
+    return nl.join(lines) + nl
 
 
 def job_name(*parts) -> str:
@@ -288,7 +301,20 @@ def main(argv=None) -> int:
         print(PVC_MANIFEST); return 0
     if a.cmd == "code":
         helper = next((G3C.parent / d / "g3b.py" for d in ("G3b", "g3b") if (G3C.parent / d / "g3b.py").exists()), None)
-        files = [helper, G3C / "judge.py", G3C / "judge_grade.py", G3C / "prereg_config.json", HERE / "stage_models.py"]
+        # batch-probe travels with the code: 33 KB of pure Python, so a GPU pod installs nothing
+        import base64
+        import importlib.util
+        spec = importlib.util.find_spec("batch_probe")
+        pkg = Path(spec.origin).parent if spec and spec.origin else None
+        if pkg is None:
+            raise SystemExit("batch_probe not importable here; the pods need it for sizing")
+        buf = io.BytesIO()
+        with tarfile.open(fileobj=buf, mode="w:gz") as tf:
+            tf.add(pkg, arcname="batch_probe", filter=lambda t: None if "__pycache__" in t.name else t)
+        b64 = HERE / "batch_probe.tgz.b64"
+        b64.write_text(base64.b64encode(buf.getvalue()).decode(), encoding="utf-8")
+        files = [helper, G3C / "judge.py", G3C / "judge_grade.py", G3C / "prereg_config.json",
+                 HERE / "stage_models.py", HERE / "probe_batch.py", b64]
         missing = [str(f) for f in files if f is None or not f.exists()]
         if missing:
             raise SystemExit(f"code: missing {missing}")
