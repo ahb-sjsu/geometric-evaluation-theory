@@ -1,0 +1,15 @@
+# A small shared volume for the G7a labelling run. It carries the engine binary,
+# one small script, the sharded positions in, and the sharded labels out.
+# The work is not volume-heavy: each pod reads one shard of a few megabytes at
+# the start and writes one file at the end, so nothing is pinned near the Ceph.
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: g7a-data
+  labels: {app: get-g7a}
+spec:
+  storageClassName: rook-cephfs
+  accessModes: [ReadWriteMany]
+  resources:
+    requests:
+      storage: 5Gi

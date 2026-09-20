@@ -1,0 +1,10 @@
+{
+ "measured": true,
+ "what": "g7a_label.py driving Stockfish 19, one thread, 64 MB hash, three principal variations",
+ "how": "/usr/bin/time -v on Atlas, one pinned core, 150 positions at 50,000 nodes and 25 at 1,000,000",
+ "when": "2026-09-20",
+ "peak_rss_mb": 318,
+ "mean_cpu_share": 0.99,
+ "seconds_per_position": {"50000": 0.135, "1000000": 2.6},
+ "note": "time -v reports the largest single process in the tree, which is the engine with its network and hash. Python is a second process of about 60 MB, so the request is 1.6 times the reported peak and not the usual 1.25. The peak is the same at both node counts, since the hash is fixed."
+}

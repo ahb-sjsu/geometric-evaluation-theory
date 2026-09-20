@@ -18,6 +18,16 @@ the interpretation to a later stage that can be rerun for free.
 
 A fixed node count, and not a fixed time, because labels must not depend on how
 busy the machine was. One thread and a fixed hash for the same reason.
+
+And the hash is cleared before every position. The first version did not, and a
+check run before any evaluation position was labelled showed what that costs:
+the same 200 positions labelled on Atlas and on NRP agreed on 4 of 200 score
+triples, and on one machine 40 positions analysed in forward and in reversed
+order agreed on 1 of 40. The engine's hash table carries what it learned from
+earlier positions into later ones, so a label depended on its neighbours in the
+queue, which means on the shard layout. With a new game declared per position
+the two orders agree on 40 of 40, and a label is a function of the position and
+the node count and nothing else.
 """
 import argparse
 import json
@@ -48,7 +58,10 @@ def main():
                 continue
             row = json.loads(line)
             board = chess.Board(row["fen"])
-            info = eng.analyse(board, chess.engine.Limit(nodes=a.nodes), multipv=3)
+            # A new game object for every position, which makes the engine clear
+            # its hash first. Without it a label depends on which positions were
+            # analysed before it, and so on how the work happened to be sharded.
+            info = eng.analyse(board, chess.engine.Limit(nodes=a.nodes), multipv=3, game=object())
             if len(info) < 3:
                 continue
             cps = [pv["score"].pov(board.turn).score(mate_score=MATE) for pv in info]
