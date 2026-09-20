@@ -105,7 +105,7 @@ export PATH=/tmp/venv/bin:$PATH
 mkdir -p /work/g3b /work/g3c && cp /code/g3b.py /work/g3b/ && cp /code/judge.py /code/judge_grade.py /code/prereg_config.json /work/g3c/
 cp /code/probe_batch.py /work/g3c/
 base64 -d /code/batch_probe.tgz.b64 | tar -xzf - -C /work
-export PYTHONPATH=/work:$PYTHONPATH
+export PYTHONPATH=/work:${PYTHONPATH:-}
 cd /work/g3c
 """
 
@@ -221,9 +221,11 @@ def group_script(members, block: str, role: str) -> str:
     lines = [ENV, f"mkdir -p {out}/logs {out}/{block}"]
     for i, (m, pr) in enumerate(members):
         tag, log = f"{m}__{pr}", f"{out}/logs/{block}_{m}_{pr}.log"
+        # a judge's later block reuses what its calibration chose, so both blocks run one set of shapes
+        reuse = "" if block == "calibration" else f" --reuse-from {out}/calibration/{tag}.batch_probe.json"
         lines.append(f"( cp prereg_config.json cfg_{tag}.json && "
                      f"python probe_batch.py --config cfg_{tag}.json --model {m} --precision {pr} "
-                     f"--out {out}/{block}/{tag}.batch_probe.json --write-config && "
+                     f"--out {out}/{block}/{tag}.batch_probe.json --write-config{reuse} && "
                      f"python judge.py run --config cfg_{tag}.json --role {role} --block {block} "
                      f"--model {m} --precision {pr} --out {out} ) 2>&1 | tee {log} &")
         lines.append(f"pid{i}=$!")
@@ -302,7 +304,6 @@ def main(argv=None) -> int:
     if a.cmd == "code":
         helper = next((G3C.parent / d / "g3b.py" for d in ("G3b", "g3b") if (G3C.parent / d / "g3b.py").exists()), None)
         # batch-probe travels with the code: 33 KB of pure Python, so a GPU pod installs nothing
-        import base64
         import importlib.util
         spec = importlib.util.find_spec("batch_probe")
         pkg = Path(spec.origin).parent if spec and spec.origin else None

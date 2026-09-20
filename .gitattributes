@@ -1,1 +1,4 @@
 *.sh text eol=lf
+experiments/G3c/run_record/** -text
+experiments/G3c/pilot_record/** -text
+experiments/G3d/pilot_record/** -text

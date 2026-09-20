@@ -34,12 +34,28 @@ def main() -> int:
     ap.add_argument("--config", required=True); ap.add_argument("--model", required=True)
     ap.add_argument("--precision", default="full"); ap.add_argument("--out", required=True)
     ap.add_argument("--write-config", action="store_true")
+    ap.add_argument("--reuse-from", help="a batch_probe.json written by this judge's other block: take its "
+                                         "chosen sizes and probe nothing, so both blocks run the same shapes")
     ap.add_argument("--score-tokens", type=int, default=420); ap.add_argument("--pair-tokens", type=int, default=820)
     a = ap.parse_args()
     import torch
     from batch_probe import probe_batch_size
 
     cfg = json.load(open(a.config, encoding="utf-8"))
+    if a.reuse_from and Path(a.reuse_from).exists():
+        # A judge's two blocks must run the same shapes, so the second block takes what the first
+        # chose rather than probing again on a card with different free memory.
+        prev = json.load(open(a.reuse_from))
+        for m in cfg["models"]:
+            if m["key"] == a.model:
+                m.update({k: v for k, v in prev["chosen"].items() if v is not None})
+        Path(a.out).parent.mkdir(parents=True, exist_ok=True)
+        json.dump({**prev, "reused_from": a.reuse_from}, open(a.out, "w"), indent=1)
+        if a.write_config:
+            json.dump(cfg, open(a.config, "w"), indent=1)
+        print(json.dumps({"reused_from": a.reuse_from, "chosen": prev["chosen"]}))
+        print("PROBE_DONE")
+        return 0
     spec = {m["key"]: m for m in cfg["models"]}[a.model]
     merged = {**cfg, **{k: spec[k] for k in ("batch", "batch_tree", "batch_pairwise", "tree_rows") if k in spec}}
     J = judge.LMJudge(spec, a.precision, merged)
