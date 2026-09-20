@@ -10,8 +10,10 @@ forward pass fits, with headroom, so the device is actually saturated.
 
 Two shapes are probed under no_grad, both the ones the run performs: a scoring prompt of about 400
 tokens, which is also the digit tree's first pass, and a pairwise prompt of about 800 tokens. The
-scoring batch is used for `batch` and `batch_tree`, the pairwise one for `batch_pairwise`, and
-`tree_rows` is left as the registration sets it. With --write-config the pod's own copy of the
+scoring batch is used for `batch` and the pairwise one for `batch_pairwise`. `batch_tree` and
+`tree_rows` keep the values the registration sets, because the digit tree's memory is set by its
+one key-value cache per live score prefix and not by a forward pass: a probed `batch_tree` ran the
+4-bit judge out of memory on a 24 GB card. With --write-config the pod's own copy of the
 config is updated in place; the sealed file in the repository and the ConfigMap are untouched, and
 the JSON written beside the run's data records what the pod used.
 """
@@ -56,8 +58,8 @@ def main() -> int:
            "sealed": {k: merged.get(k) for k in ("batch", "batch_tree", "batch_pairwise", "tree_rows")},
            "probed": {"score_tokens": a.score_tokens, "score_batch": score_b,
                       "pair_tokens": a.pair_tokens, "pair_batch": pair_b},
-           "chosen": {"batch": max(1, score_b), "batch_tree": max(1, score_b), "batch_pairwise": max(1, pair_b),
-                      "tree_rows": merged.get("tree_rows")},
+           "chosen": {"batch": max(1, score_b), "batch_tree": merged.get("batch_tree"),
+                      "batch_pairwise": max(1, pair_b), "tree_rows": merged.get("tree_rows")},
            "total_gib": round(torch.cuda.get_device_properties(0).total_memory / 2**30, 2)}
     J.close()
     Path(a.out).parent.mkdir(parents=True, exist_ok=True)
