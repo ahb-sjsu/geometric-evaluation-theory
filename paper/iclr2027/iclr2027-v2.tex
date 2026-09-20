@@ -200,7 +200,8 @@ Among the uses the policy lists as recommended for disclosure, the tools drafted
 Verification was as follows.
 Every experiment was registered and sealed with its hash before its run seed was drawn, its self-test and probe were run first, its calibration predictions were committed with their hash before the test block was scored, and its verdict was produced by a grading script against the sealed bars and not by any model.
 The exact score distributions that replace sampling were checked against real samples and against brute force (Appendix~\ref{app:verify}).
-\pending{Proof verification: state which theorems are machine-checked and which were checked by hand, from the proof record at submission.}
+Parts of the theory are machine-checked in Lean against Mathlib, in seven files with no unproven step and no axiom beyond the standard ones: the tolerance condition of Theorem~\ref{thm:dist}(c), the semiorder of Theorem~\ref{thm:pref}(b), the hull law of Theorem~\ref{thm:repr}(b), the whole-space case of the uniqueness in Theorem~\ref{thm:repr}(c), the reversal example, and the two statements on shared-representation regret in Appendix~ef{app:gates}, with Ky Fan's principle taken as a named hypothesis.
+The remaining statements, among them the open-set form of Theorem~\ref{thm:repr}(c) and Proposition~\ref{prop:channel}, were checked by hand, and the open-set form was corrected after an external reader found a defect in it.
 Every citation was checked against the publisher's record.
 All AI-assisted text, code, and proofs were reviewed by the authors, who take responsibility for the final content of this work, including text, claims, and artifacts produced with the aid of generative AI.
 
