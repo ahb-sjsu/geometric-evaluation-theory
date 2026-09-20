@@ -1,11 +1,16 @@
 # PREREG G7a: the indifference threshold tracks the time budget, in the same players across chess clocks
 
-Status. DRAFT, not sealed. Every section is filled. No threshold has been fitted on any evaluation
-month, and on the shakedown month none has been fitted outside the reference level. What has touched
-the evaluation months is a header-only count of players and games and an engine-free draw of
-positions from the first 1.4 percent of July to check the sampler's mechanics. Neither parses a
-quality of any move. Sealing is by the rename to
-`PREREG-G7A.md` with the blob hash recorded in `CAMPAIGN.md`.
+Status: SEALED 2026-09-20 by the rename to `PREREG-G7A.md`, under the owner's instruction of
+2026-09-19 to proceed with this gate with elegance and rigor; blob hash recorded in `CAMPAIGN.md`.
+At the seal no threshold had been fitted on either evaluation month and no engine had been run on
+any position from them. What had touched them is a header-only count of players and games, and an
+engine-free draw of positions from the first 1.4 percent of July to check the sampler's mechanics.
+On the shakedown month no threshold was fitted outside the reference category, and in it the sample
+was too small for the reader to return one. The reader passes its synthetic self-test in both noise
+worlds and the grader passes its own (`g7a_grade.py --selftest`, 2026-09-20): an inverse-root world
+read as -0.504 with interval [-0.553, -0.459] passes both claims, a flat world read as +0.015 with
+interval [-0.021, +0.050] does not pass C1 and fails C2, and an inverse world read as -0.977 with
+interval [-1.016, -0.940] passes C1 and fails C2.
 
 ## Why this gate exists
 
@@ -200,8 +205,7 @@ between 96,000 and 124,000 positions an arm over the month.
 
 **Grader self-test, `g7a_grade.py --selftest`.** The bars themselves on synthetic cohorts whose law
 is known. An inverse-root world must pass both claims, a flat world must not pass C1, and an inverse
-world must pass C1 and fail C2. Its result is recorded in the seal commit, and the gate is not
-sealed unless it passes.
+world must pass C1 and fail C2. It passed on 2026-09-20 with the readings in the status paragraph.
 
 ## 8. Confounds declared before sealing
 
