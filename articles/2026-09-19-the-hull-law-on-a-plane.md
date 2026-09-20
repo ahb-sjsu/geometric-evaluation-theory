@@ -102,12 +102,41 @@ respondents on all four scales at once, where five candidates in four dimensions
 above the Radon bound of six and is therefore thin but not empty. Until then, G2's "about half"
 should be read as an upper bound on the true violation rate rather than an estimate of it.
 
-## 6. What would settle it
+## 6. What would settle it, and why the obvious answer does not
 
-More actions, so the law can be read in the space the evaluator actually uses. For a
-five-dimensional consequence space the menu must hold at least seven actions to be testable at
-all, and comfortably more to be testable often. The nflverse data supports this directly: run
-location crossed with run gap, and pass length crossed with pass location, give ten to thirteen
-play types in place of the four this gate used.
+**Superseded the same day. Read Section 7.**
 
-That is the experiment the refuting plane calls for, and it is not run here.
+The obvious answer is more actions, so the law can be read in the space the evaluator actually
+uses. For a five-dimensional consequence space the menu must hold at least seven actions to be
+testable at all, and comfortably more to be testable often. The nflverse data supports this
+directly: run location crossed with run gap, and pass length crossed with pass location, give
+nine to thirteen play types in place of the four this gate used.
+
+## 7. Correction, 2026-09-19: Radon's bound is necessary and nowhere near sufficient
+
+Section 6 was written before it was measured, and it is wrong. `experiments/G9b/g9b_probe.py`
+built those larger action spaces and counted testable units in the full five-dimensional space.
+
+| action space | actions | cells carrying every action | testable units in full 5-D |
+|---|---|---|---|
+| 13 play types | 13 | 126 | 3 |
+| 9 play types | 9 | 151 | 12 |
+| 7 play types | 7 | 175 | 0 |
+
+Seven actions clears the bound of `d + 2` and produces nothing at all. Thirteen produces three,
+against G2's 489 testable respondents and G9's 402 testable units.
+
+The bound counts points and ignores where they sit. The five consequence coordinates are
+strongly dependent, so real consequence points lie close to a low-dimensional curved set inside
+the five-dimensional space, and a point on a surface is almost never strictly inside the hull of
+other points on that surface. Adding actions adds points to the same surface.
+
+This makes Section 2's conclusion worse rather than better. Projection is not an avoidable
+artifact of how G2 and G9 happened to be designed. It is forced by the geometry of real
+consequence spaces, and the hull law may be practically untestable in any consequence space
+whose coordinates are as dependent as these are.
+
+**Open, and reframed.** The question is no longer whether projection can be avoided. It is what
+the violation rate does as less of it is applied, which is measurable on this data by walking
+the dimension ladder from two coordinates to five. That measurement is in progress and is not
+reported here.
