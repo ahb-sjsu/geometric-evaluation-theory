@@ -51,6 +51,34 @@ defect of the registration and is recorded as one.
 PASS": the instrument is the first suspect, no new gate is drafted, and the diagnosis comes first.
 G7b stays a plan.
 
+## Diagnosis of the reader, July, EXPLORATORY
+
+Run after the grade, on graded labels, so it tests nothing (`g7a_instrument_diagnosis.py`,
+`results/instrument_diagnosis_2026-07.json`, 100 bootstrap draws over players). The question was where
+the spread of a ratio comes from.
+
+The sealed reader fits threshold, shape and lapse freely in each arm. Its lapse swung from arm to
+arm, 0.009 against 0.121 at 60 seconds and 0.114 against 0.000 at 180, and the threshold moved to
+compensate. Fitting one shape and one lapse per level on the two arms pooled, and then only a
+threshold per arm, cut the spread of a log ratio about threefold.
+
+| clock, seconds | bridge predicts, log ratio | sealed reader | spread | tied reader | spread | tied 95 percent interval |
+|---|---|---|---|---|---|---|
+| 60 | +0.80 | +0.91 | 0.39 | +0.26 | 0.11 | +0.05 to +0.49 |
+| 180 | +0.26 | -0.57 | 0.31 | +0.06 | 0.10 | -0.09 to +0.27 |
+| 600 | -0.35 | -0.06 | 0.18 | -0.06 | 0.10 | -0.26 to +0.14 |
+| 1,800 | -0.90 | +0.20 | 0.31 | -0.21 | 0.09 | -0.37 to -0.04 |
+
+Under the tied reader the ratios are monotone in the clock, in the direction C1 states, and about a
+quarter of the size the bridge states. A curve-free check agrees in sign at the ends: among reader
+positions with a gap of 0.03 to 0.15 the same players chose the better move 3.9 points less often at
+60 seconds than at 300, interval 1.3 to 6.5, and no level above 300 seconds differs from zero.
+
+This reading was found after the grade and by looking. It changes no verdict above. The tied
+intervals here hold the shared parameters fixed across draws and are too narrow for that reason. It
+is the motive for a second registration, sealed before August's deep labels exist, if its self-test
+passes.
+
 ## Run record, July
 
 | stage | where | count |
