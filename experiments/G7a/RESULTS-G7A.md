@@ -79,6 +79,34 @@ intervals here hold the shared parameters fixed across draws and are too narrow 
 is the motive for a second registration, sealed before August's deep labels exist, if its self-test
 passes.
 
+## G7a-r calibration on July, tests nothing
+
+The tied reader was sealed as `PREREG-G7AR.md` (blob 2e786c44, 2026-09-20T14:16:48Z) with August as
+its test. Run on July afterwards with the sealed code and 1,000 draws that refit the shared
+parameters each time (`results/grade_tied_CALIBRATION_2026-07.json`). July motivated the reader, so
+this is calibration and is not a verdict.
+
+| | value |
+|---|---|
+| exponent | -0.130 |
+| 95 percent interval | -0.216 to -0.050, width 0.166 |
+| against the C1r bar, upper end below -0.05 | not met, by 0.0004 |
+| against the C2r bar | minus one half is outside a decisive interval |
+
+| clock, seconds | ratio | 95 percent interval | bridge predicts | shared lapse |
+|---|---|---|---|---|
+| 60 | 1.31 | 1.06 to 1.63 | 2.24 | 0.097 |
+| 180 | 1.06 | 0.87 to 1.29 | 1.29 | 0.051 |
+| 600 | 0.94 | 0.77 to 1.13 | 0.71 | 0.000 |
+| 1,800 | 0.81 | 0.67 to 0.98 | 0.41 | 0.000 |
+
+Two things to carry into August. The honest intervals are about as wide as the quick diagnosis
+suggested, so the reader is three times tighter than the sealed one and that part holds. And the
+shared lapse falls with the clock, 0.097, 0.051, 0.000, 0.000, which is the gradient the self-test
+showed leaking about -0.05 into the exponent. The registration's expectation that C1r passes was
+written before this was known and is at risk from exactly the confound its bar was moved for. If
+August reads like July, C1r lands on its bar and the bridge fails.
+
 ## Run record, July
 
 | stage | where | count |
