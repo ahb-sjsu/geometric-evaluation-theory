@@ -275,7 +275,7 @@ def wait(names: list[str]) -> dict:
 
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("cmd", choices=["pvc", "code", "setup", "stage", "run", "fetch"])
+    ap.add_argument("cmd", choices=["pvc", "code", "setup", "stage", "run", "clean", "fetch"])
     ap.add_argument("--role", default="run"); ap.add_argument("--block", default="calibration")
     ap.add_argument("--models", default=""); ap.add_argument("--dry-run", action="store_true")
     a = ap.parse_args(argv)
@@ -324,6 +324,19 @@ def main(argv=None) -> int:
                            extra={"g3c/group": g["name"], "g3c/gpu": g["product"]})
             items.append((d, usage, True))
             print(f"{d.name} on {g['product']}: {req} members {members}")
+    elif a.cmd == "clean":
+        # Rename aside any block directory left by a failed attempt, so a rerun cannot mix files
+        # written on one GPU model with files written on another. Rename, never rm -rf: CephFS walks
+        # metadata per file, a rename is O(1).
+        want = set(a.models.split(",")) if a.models else None
+        names = [f"{m}__{p}" for g in GROUPS for m, p in g["members"] if not want or m in want]
+        nl = chr(10)
+        lines = ["set -euo pipefail", f"cd /data/runs/{a.role}/{a.block}", "ts=$(date +%s)"]
+        lines += [f'if [ -d {n} ] && [ ! -f {n}/results.json ]; then mv {n} {n}.stale.$ts; echo "moved {n}"; fi'
+                  for n in names]
+        lines += ["ls", "echo CLEAN_DONE"]
+        script = nl.join(lines) + nl
+        items = [(descriptor(job_name("clean", a.role, a.block[:3]), script, 1, "2Gi", "2Gi", "clean"), None, False)]
     elif a.cmd == "fetch":
         script = (f"set -euo pipefail\ncd /data/runs/{a.role}\n"
                   f"tar -czf - {a.block} | base64 -w0\necho\necho FETCH_DONE\n")

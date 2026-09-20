@@ -125,18 +125,27 @@ class DeliberatingJudge:
                 reasons.append(self.tok.decode(g[:cut], skip_special_tokens=True))
             m = max(len(x) for x in rows)
             pad = self.tok.pad_token_id
-            ids = torch.tensor([[pad] * (m - len(x)) + x for x in rows], device=self.model.device)
-            mask = torch.tensor([[0] * (m - len(x)) + [1] * len(x) for x in rows], device=self.model.device)
-            with torch.no_grad():
-                # logits_to_keep=1: only the last position's logits, the ones read. The full tensor at
-                # batch 32 and 1,600 tokens is about 15 GB and ran the first pilot out of memory.
-                lg = self.model(input_ids=ids, attention_mask=mask, position_ids=(mask.cumsum(-1) - 1).clamp(min=0),
-                                logits_to_keep=1).logits[:, -1, :].float()
-            d = (lg[:, self.letters[0]] - lg[:, self.letters[1]]).cpu().tolist()
+            # The forced-answer pass attends over prompt plus reasoning, so its cost grows with the
+            # budget: at 32 rows of 1,700 tokens the attention alone is several GB per layer and ran
+            # two pilots out of memory. Rows are taken in chunks that hold the token count fixed,
+            # while generation keeps the configured batch. Only the last position's logits are read.
+            sub = max(1, int(self.cfg.get("final_tokens", 8192)) // max(m, 1))
+            d = []
+            for c0 in range(0, len(rows), sub):
+                part = rows[c0:c0 + sub]
+                ids = torch.tensor([[pad] * (m - len(x)) + x for x in part], device=self.model.device)
+                mask = torch.tensor([[0] * (m - len(x)) + [1] * len(x) for x in part], device=self.model.device)
+                with torch.no_grad():
+                    lg = self.model(input_ids=ids, attention_mask=mask, position_ids=(mask.cumsum(-1) - 1).clamp(min=0),
+                                    logits_to_keep=1).logits[:, -1, :].float()
+                d += (lg[:, self.letters[0]] - lg[:, self.letters[1]]).cpu().tolist()
+                del ids, mask, lg
             for r in range(len(chunk)):
                 out.append({"D": d[r], "n_reason": n_reason[r], "hit_budget": bool(k > 0 and n_reason[r] >= k),
                             "reason": reasons[r]})
-            del gen, ids, mask, lg
+            del gen
+            if torch.cuda.is_available():
+                torch.cuda.empty_cache()
         return out
 
     def close(self):

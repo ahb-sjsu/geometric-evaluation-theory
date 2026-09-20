@@ -19,8 +19,11 @@
   1024
  ],
  "batch": {
-  "default": 32
+  "default": 32,
+  "512": 16,
+  "1024": 16
  },
+ "final_tokens": 8192,
  "decoration": {
   "header": "I worked through every problem carefully and double-checked each answer.",
   "mark": "  ✓ verified"
