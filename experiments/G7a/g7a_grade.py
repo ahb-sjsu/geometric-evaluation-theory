@@ -39,22 +39,48 @@ CI_MAX_WIDTH = 0.30
 
 # --------------------------------------------------------------------------- arms and ratios
 
+class Arm:
+    """One arm as arrays, built once. The first grader rebuilt these from a list
+    of dictionaries on every bootstrap draw, which was correct and slow, and it
+    runs on a machine whose electricity somebody pays for."""
+
+    def __init__(self, rows):
+        cp = np.array([r["cp"] for r in rows], dtype=float).reshape(-1, 3)
+        self.g12, self.g23, und = T.gaps_from_cp(cp)
+        self.ch = np.array([r["choice"] for r in rows])
+        # Only undecided positions can ever enter the reader, so drop the rest now.
+        self.g12, self.g23, self.ch = self.g12[und], self.g23[und], self.ch[und]
+        who = np.array([r["player"] for r in rows])[und]
+        self.players = sorted(set(who.tolist()))
+        order = np.argsort(who, kind="stable")
+        bounds = np.searchsorted(who[order], self.players, side="left")
+        ends = np.searchsorted(who[order], self.players, side="right")
+        self.idx = [order[a:b] for a, b in zip(bounds, ends)]
+
+    def threshold(self, sel=None):
+        if sel is None:
+            fit = T.fit_threshold(self.g12, self.g23, self.ch)
+        else:
+            fit = T.fit_threshold(self.g12[sel], self.g23[sel], self.ch[sel])
+        return fit.get("eps"), fit.get("n_used", 0)
+
+    def draw(self, rng):
+        pick = rng.integers(0, len(self.players), size=len(self.players))
+        return np.concatenate([self.idx[j] for j in pick])
+
+
 def arm_threshold(rows):
     if not rows:
         return None, 0
-    cp = np.array([r["cp"] for r in rows], dtype=float)
-    g12, g23, und = T.gaps_from_cp(cp)
-    ch = np.array([r["choice"] for r in rows])
-    fit = T.fit_threshold(g12[und], g23[und], ch[und])
-    return fit.get("eps"), fit.get("n_used", 0)
+    return Arm(rows).threshold()
 
 
-def ratios(by_arm):
-    """by_arm[(L, 'level' or 'ref')] -> rows. Returns per-level dict."""
+def ratios(arms):
+    """arms[(L, 'level' or 'ref')] -> Arm. Returns per-level dict."""
     out = {}
     for L in LEVELS:
-        e_l, n_l = arm_threshold(by_arm.get((L, "level"), []))
-        e_r, n_r = arm_threshold(by_arm.get((L, "ref"), []))
+        e_l, n_l = arms[(L, "level")].threshold() if (L, "level") in arms else (None, 0)
+        e_r, n_r = arms[(L, "ref")].threshold() if (L, "ref") in arms else (None, 0)
         out[L] = {"eps_level": e_l, "eps_ref": e_r, "n_level": n_l, "n_ref": n_r,
                   "ratio": (e_l / e_r) if (e_l and e_r) else None}
     return out
@@ -77,7 +103,8 @@ def split_arms(rows):
 def grade(rows, engine_floor, n_boot=N_BOOT, seed=20260920):
     rng = np.random.default_rng(seed)
     by_arm = split_arms(rows)
-    point = ratios(by_arm)
+    arms = {k: Arm(v) for k, v in by_arm.items() if v}
+    point = ratios(arms)
 
     # Which levels may enter: both arms populated, both thresholds clear of the engine floor.
     entering, why_not = [], {}
@@ -91,21 +118,13 @@ def grade(rows, engine_floor, n_boot=N_BOOT, seed=20260920):
             entering.append(L)
 
     # Cluster bootstrap over players, within each arm.
-    players = {k: sorted({r["player"] for r in v}) for k, v in by_arm.items()}
-    idx = {k: {} for k in by_arm}
-    for k, v in by_arm.items():
-        for r in v:
-            idx[k].setdefault(r["player"], []).append(r)
     boot = {L: [] for L in LEVELS}
     for _ in range(n_boot):
         for L in entering:
             es = []
             for side in ("level", "ref"):
-                k = (L, side)
-                pl = players[k]
-                draw = rng.integers(0, len(pl), size=len(pl))
-                sample = [r for j in draw for r in idx[k][pl[j]]]
-                e, _n = arm_threshold(sample)
+                arm = arms[(L, side)]
+                e, _n = arm.threshold(arm.draw(rng))
                 es.append(e)
             if all(es):
                 boot[L].append(np.log(es[0] / es[1]))
