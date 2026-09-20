@@ -48,10 +48,11 @@ GPU_NODE = {"nvidia.com/gpu.product": "Tesla-V100-SXM2-32GB"}
 # the same GPU model, which is what the 4-bit comparison needs. A100/H100 need an access form and L40 is
 # reserved for another group, so neither is used.
 GROUPS = [
-    {"name": "7b", "product": "NVIDIA-L40S", "members": [("qwen7b", "full"), ("qwen7b", "int4")]},
-    {"name": "gemma", "product": "NVIDIA-L40S", "members": [("gemma4b", "full")]},
+    {"name": "7bfull", "product": "NVIDIA-GeForce-RTX-3090", "members": [("qwen7b", "full")]},
+    {"name": "7bint4", "product": "NVIDIA-GeForce-RTX-3090", "members": [("qwen7b", "int4")]},
+    {"name": "gemma", "product": "NVIDIA-A10", "members": [("gemma4b", "full")]},
     {"name": "1p5b", "product": "NVIDIA-L4", "members": [("qwen1p5b", "full")]},
-    {"name": "14b", "product": "NVIDIA-L40S", "members": [("qwen14b", "full")]},
+    {"name": "14b", "product": "Tesla-V100-SXM2-32GB", "members": [("qwen14b", "full")]},
 ]
 # First placement (7B pair and 14B on the one RTX-5000-Ada node) could not schedule, and the first
 # A10 pod hit "CUDA unknown error" on gpu-18.nrp.mghpcc.org before loading; the 7B precisions now
@@ -61,6 +62,9 @@ GROUPS = [
 # Then Gemma and the 1.5B packed on an L4 ran out of GPU memory: Gemma alone reached 21.8 GiB of the
 # L4's 22. The pilots ran on 32 GB cards and GPU memory was never measured per judge, so every judge
 # but the 1.5B (about 11 GiB) moves to 48 GB L40S cards, the 7B's two precisions on one card.
+# The L40S pool is two nodes and stayed full for seven hours, so the remaining judges moved to the
+# 32 GB V100 pool the registration names, one judge per pod: 20 GB of 7B weights on one 32 GB card
+# is the packing that ran Gemma out of memory on a 24 GB card. The 1.5B keeps its finished L4 run.
 # CPU jobs that write the venv and ~60 GB of weights sit on the Ceph campus; ucsd-nrp scheduled at
 # once on 2026-09-15 where ucsd-suncave left pods pending for 40 minutes
 CPU_ZONE = {"topology.kubernetes.io/zone": "ucsd-nrp"}

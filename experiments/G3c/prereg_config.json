@@ -1,6 +1,6 @@
 {
  "gate": "G3c",
- "status": "SEALED 2026-09-19 (PREREG-G3C.md); the test seed is drawn only after predictions.json is committed",
+ "status": "SEALED 2026-09-19 (PREREG-G3C.md); the test seed is drawn only after predictions.json is committed. Deviation 2026-09-20: tree_rows 8 added for qwen7b and gemma4b so they fit 24 GB NRP cards, the same bounded digit tree the registration gives the 14B; see CAMPAIGN.md",
  "models": [
   {
    "key": "qwen7b",
@@ -9,7 +9,9 @@
    "precisions": [
     "full",
     "int4"
-   ]
+   ],
+   "tree_rows": 8,
+   "batch_tree": 8
   },
   {
    "key": "qwen1p5b",
@@ -37,7 +39,9 @@
    "revision": "bf46152c47f5dd20b896357cb51abc4c03b8ee8c",
    "precisions": [
     "full"
-   ]
+   ],
+   "tree_rows": 8,
+   "batch_tree": 8
   }
  ],
  "n_items": 20,
