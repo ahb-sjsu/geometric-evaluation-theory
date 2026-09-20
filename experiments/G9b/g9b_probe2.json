@@ -1,0 +1,118 @@
+{
+ "A13": {
+  "by_dimension": {
+   "2": {
+    "n_subsets": 10,
+    "testable_cells_max": 126,
+    "testable_cells_mean": 126.0,
+    "testable_units_max": 199,
+    "testable_units_mean": 199.0,
+    "testable_units_min": 199
+   },
+   "3": {
+    "n_subsets": 10,
+    "testable_cells_max": 126,
+    "testable_cells_mean": 124.7,
+    "testable_units_max": 199,
+    "testable_units_mean": 193.2,
+    "testable_units_min": 179
+   },
+   "4": {
+    "n_subsets": 5,
+    "testable_cells_max": 103,
+    "testable_cells_mean": 91.2,
+    "testable_units_max": 168,
+    "testable_units_mean": 92.6,
+    "testable_units_min": 42
+   },
+   "5": {
+    "n_subsets": 1,
+    "testable_cells_max": 35,
+    "testable_cells_mean": 35.0,
+    "testable_units_max": 3,
+    "testable_units_mean": 3.0,
+    "testable_units_min": 3
+   }
+  },
+  "cells": 126,
+  "cumulative_energy": [
+   0.549143872919936,
+   0.780851976557312,
+   0.8899297995073111,
+   0.9593482611619287,
+   1.0
+  ],
+  "dims_for_95pct_energy": 4,
+  "n_actions": 13,
+  "singular_energy": [
+   0.549143872919936,
+   0.23170810363737596,
+   0.10907782294999914,
+   0.06941846165461765,
+   0.04065173883807122
+  ],
+  "units": 199
+ },
+ "A9": {
+  "by_dimension": {
+   "2": {
+    "n_subsets": 10,
+    "testable_cells_max": 151,
+    "testable_cells_mean": 151.0,
+    "testable_units_max": 237,
+    "testable_units_mean": 237.0,
+    "testable_units_min": 237
+   },
+   "3": {
+    "n_subsets": 10,
+    "testable_cells_max": 130,
+    "testable_cells_mean": 120.1,
+    "testable_units_max": 192,
+    "testable_units_mean": 158.4,
+    "testable_units_min": 109
+   },
+   "4": {
+    "n_subsets": 5,
+    "testable_cells_max": 41,
+    "testable_cells_mean": 38.0,
+    "testable_units_max": 77,
+    "testable_units_mean": 45.8,
+    "testable_units_min": 12
+   },
+   "5": {
+    "n_subsets": 1,
+    "testable_cells_max": 6,
+    "testable_cells_mean": 6.0,
+    "testable_units_max": 12,
+    "testable_units_mean": 12.0,
+    "testable_units_min": 12
+   }
+  },
+  "cells": 151,
+  "cumulative_energy": [
+   0.5105671894377117,
+   0.7709968124678973,
+   0.8864766499360928,
+   0.9616498696750223,
+   1.0
+  ],
+  "dims_for_95pct_energy": 4,
+  "n_actions": 9,
+  "singular_energy": [
+   0.5105671894377117,
+   0.2604296230301856,
+   0.11547983746819546,
+   0.07517321973892954,
+   0.03835013032497768
+  ],
+  "units": 237
+ },
+ "coords": [
+  "y1_epa",
+  "y2_first_down",
+  "y3_turnover",
+  "y4_epa_sd",
+  "y5_clock_stop"
+ ],
+ "floor": 5
+}
