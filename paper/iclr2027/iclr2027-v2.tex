@@ -173,11 +173,34 @@ The budget here limits the resolution of consequences rather than the acquisitio
 \section{Scope}
 \label{sec:scope}
 
-\pending{Written after the sealed grades: one stimulus family with an exact quality scale; judges that failed anti-vacuity; the bars fixed from one judge's pilot; the flip at one gap and one decoration.}
+The stimuli are one family.
+Arithmetic worksheets give an exact quality scale, and a judge's resolution on them need not transfer to prose answers.
+The prediction assumes that a worksheet's score depends on how many items are wrong and not on which, and the record reports the score variance within an error count so that a reader can see how much noise that assumption absorbs.
+Matching predicted to observed accuracy is by itself a test that the judge scores the two blocks alike.
+The content is in the two comparisons that can fail separately, the effective codebook against the nominal scale and the predicted ordering of the read-outs.
+The bars were fixed from one judge's pilot, the 7B judge at bfloat16, as quantiles of a simulation that redraws calibration and test blocks from disjoint halves of the pilot's worksheets.
+Two constants were fixed after pilot values they bear on had been seen, the factor that labels the pairwise threshold and the information bar for anti-vacuity, and the registration says so for each.
+\pending{Anti-vacuity, from the sealed grade: which judges were VACUOUS from their calibration blocks and so reported but not graded, and how many judges the verdicts therefore rest on.}
+The reversal is measured on one judge, at one gap of three errors in ten, with one decoration.
+Additivity of evidence and cue at that gap need not hold at others.
+The budget there is a ceiling on reasoning tokens and not the reasoning spent, and the record keeps the tokens each pair used.
+Reasoning cut off by the ceiling is worse than none, so the budget axis is not monotone and the middle of the ladder reflects the ceiling as well as the balance of evidence against cue.
+Reasoning is decoded greedily, so the noise in those estimates is over worksheets and not over samples of the judge.
+The appendix gates on survey and play-calling data test other parts of the theory and carry their own limits there.
 Nothing here is a claim about human evaluators.
 
 \subsection*{AI use statement}
-\pending{Adapt from the G3 version after the text settles.}
+Generative AI tools were used in this work, and the uses that the ICLR policy lists as requiring disclosure were the following.
+They assisted in the writing of proofs of the theorems in Appendix~\ref{app:theory}, in refining the predictions into registered hypotheses with bars, in designing and giving feedback on the experimental protocols, in implementing the methods (the stimulus generators, the judge harness, the exact score distributions, the estimators, and the grading scripts), in generating the synthetic judges on which every gate's self-test was run, and in interpreting results into the written record.
+They were not used to generate the theory's definitions or its central claims, which were the authors' and precede the tools' involvement, and they were not used to produce any reported number, which come from executing the registered code on the recorded seeds.
+The language-model judges are the objects measured and had no part in the writing.
+Among the uses the policy lists as recommended for disclosure, the tools drafted and edited sections of this paper, searched and summarized related literature, produced the figures from the graded records, wrote and edited code, and formatted references.
+Verification was as follows.
+Every experiment was registered and sealed with its hash before its run seed was drawn, its self-test and probe were run first, its calibration predictions were committed with their hash before the test block was scored, and its verdict was produced by a grading script against the sealed bars and not by any model.
+The exact score distributions that replace sampling were checked against real samples and against brute force (Appendix~\ref{app:verify}).
+\pending{Proof verification: state which theorems are machine-checked and which were checked by hand, from the proof record at submission.}
+Every citation was checked against the publisher's record.
+All AI-assisted text, code, and proofs were reviewed by the authors, who take responsibility for the final content of this work, including text, claims, and artifacts produced with the aid of generative AI.
 
 \subsection*{Reproducibility statement}
 The supplementary material contains, for every gate, the sealed registration with its hash, the configuration with model revisions and library versions, the seeds, the commits that order prediction before measurement, the graded records, and the scripts that produce every figure and table from them.
@@ -457,7 +480,41 @@ Further sealed gates, a hull law on a public survey that held as a population te
 \section{Verification of the exact distributions}
 \label{app:verify}
 
-\pending{From G3c PREREG Section 6 and verify/*.json: sampling against the first-token distribution, the digit tree against real sampling and against brute force, the chunked tree for the 14B judge.}
+The read-outs that use samples do not generate them.
+They draw from a score distribution computed exactly, which removes one full pass of the prompt per sample.
+This appendix reports the checks that the computed distribution is the one the judge samples from.
+All were run before the registration was sealed, on the 7B judge at bfloat16 unless stated, and the records are in the supplementary material.
+
+\paragraph{Single-token scales.}
+On the 1 to 5 and 0 to 9 scales a score is one token, and the distribution is the first-token distribution restricted to the codebook.
+On a block of 42 worksheets no report was unparsable on any scale and all first-token mass fell on the codebook.
+Real samples at temperature one were compared with the recorded distribution on six worksheets of the 0 to 9 scale, at 0, 4, 8, 12, 16 and 20 errors, with 256 draws each.
+The statistic is the total variation distance, and the bar is the 95th percentile of that distance under multinomial sampling from the recorded distribution.
+Five worksheets fell inside the bar.
+The worksheet with 16 errors did not, at 0.105 against 0.073.
+Two follow-ups placed the miss as chance.
+The distribution did not depend on batch shape: computed alone, in 32 copies, and inside a padded batch of mixed prompts, it was identical, which rules out bfloat16 batch numerics.
+Redrawn with 2{,}048 samples the same worksheet sat at 0.015 against a bar of 0.026 ($p=0.36$), and the worksheet with 12 errors at 0.014 against 0.027 ($p=0.59$).
+
+\paragraph{The digit tree.}
+On the 0 to 100 scale a score takes up to three digit tokens.
+One pass gives the first digit.
+Every digit prefix with probability above $10^{-5}$ is extended by one cached single-token step that gives each next digit and the probability of stopping, with the model's repetition penalty applied as sampling applies it.
+The pruned mass, the mass on values outside the scale, and the mass on a first token that is not a digit are recorded for every worksheet.
+On six worksheets, 1{,}024 real samples each matched the tree's distribution within multinomial noise in all six, with $p$ from 0.21 to 0.95, no unparsable or out-of-range draw, and at most $6.2\times10^{-5}$ of the mass pruned.
+Over the 42-worksheet block the pruned mass was at most $1.2\times10^{-4}$, no mass fell outside the scale, and the first token was always a digit.
+Recomputing the tree's 37 largest probabilities by one uncached forward pass each gave relative differences of up to 24 percent.
+That is one bfloat16 rounding step in the logits, about 0.125 at the logit sizes seen here, between the cached decoding path that sampling uses and an uncached full pass.
+A judge's score distribution is therefore defined only up to one bfloat16 step in its logits, depending on the kernel path, and the tree reproduces the path that sampling takes, which is what the agreement with real samples shows.
+The tree scores a worksheet in 1.16 seconds, against 4.5 for generating eight samples.
+
+\paragraph{The chunked tree for the 14B judge.}
+The 14B judge ran out of memory at the second digit of the tree, because every live two-digit prefix carried its own copy of the prompt's cache beside 27.5 GiB of weights on a 31.7 GiB card.
+For that judge alone the tree runs the same single-token step on at most eight prefixes at a time and keeps the cache only of prefixes that have children.
+Every other judge uses the whole-frontier tree unchanged.
+On 22 worksheets the 7B judge's chunked and whole-frontier trees differed by at most $5.2\times10^{-5}$ in any probability, which is batch composition in bfloat16.
+The 14B judge's chunked tree matched brute force on eight scores to a relative difference of at most 0.21, the largest on a score of probability 0.07, against 0.24 for the 7B judge's tree.
+It scores a worksheet in 3.7 seconds at a peak of 29.5 GiB.
 
 
 \section{Proofs}
