@@ -42,7 +42,7 @@ if [ ! -s "$W/screen.done" ]; then
        --engine "$SF" --nodes 50000 --shard $i --of $NCORE > "$W/screen_$i.log" 2>&1 &
   done
   wait
-  touch "$W/screen.done"
+  echo done > "$W/screen.done"
 fi
 say screened "$(cat "$W"/screen_*.jsonl | wc -l) labelled"
 
@@ -60,7 +60,7 @@ if [ ! -s "$W/deep.done" ]; then
        --engine "$SF" --nodes 1000000 --shard $i --of $NCORE > "$W/deep_$i.log" 2>&1 &
   done
   wait
-  touch "$W/deep.done"
+  echo done > "$W/deep.done"
 fi
 say deep_done "$(cat "$W"/deep_*.jsonl | wc -l) labelled"
 

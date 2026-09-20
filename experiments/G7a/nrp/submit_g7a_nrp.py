@@ -116,9 +116,10 @@ def main():
                 backoff_limit=1,
                 volumes=[Volume(name="data", mount_path="/data", claim_name=PVC)],
             )
-            # Acceptance is all that is waited for. The job runs for an hour and
-            # waiting on its completion would make submission take days.
-            r = client.submit_and_wait(d, timeout=20.0)
+            # Submit and move on. The job runs for up to an hour, and waiting on
+            # its completion, as submit_and_wait does, made the G9 submission take
+            # three minutes a job.
+            r = client.submit(d)
             print("%s job_id=%s" % (names[i], r.job_id), flush=True)
     return 0
 
