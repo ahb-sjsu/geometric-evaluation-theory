@@ -122,6 +122,55 @@ It is better supported than any single gate showed. The law is a claim about the
 consequence space. Read at four and five coordinates, across three independent action spaces and
 several hundred testable units, the measured violation rate is zero.
 
+## Correction the same day: this is a flip, and "artifact" was the wrong word
+
+The owner's reading, and it is right. Everything above calls the two-coordinate result an
+artifact of projection and the four-coordinate result the truth. Observation Theory says there is
+no such asymmetry to appeal to.
+
+Reading two of five consequence coordinates is an orthogonal projector of rank two. That is a read
+operator, `P_C`, in exactly the sense of the flip paper (`geometric-observation`,
+`paper/flip_paper_revtex.tex`), where distortion is `tr(P_C Sigma_delta)` and is relative to the
+consumer who reads. The flip is two objects reversing order depending on whose read operator
+scores them, and the paper's point is that neither ordering is the defective one. Each is correct
+for its consumer.
+
+That is the structure measured here. On expected points added against first down probability the
+verdict is FAIL under the rank-two read operator and PASS under the rank-four one. The verdict is
+read-operator-relative. Nothing was broken in either reading.
+
+**The dimension ladder is a rank-budget ladder.** GET-1 says a rank budget coarsens the
+distinctions an evaluator can make, and GET-7 says a change of rank budget reverses preference
+between fixed actions. What this file calls projection is that budget, applied by the analyst
+rather than by the coach. A verdict that reverses with rank is prediction (ii) appearing in the
+observer, and it was filed above as a measurement defect.
+
+What a violation actually detects. The ranking comes from the evaluator's own consequence space and
+the geometry is read in the analyst's. A violation appears when the analyst's read operator has
+lower rank than the evaluator's. So the violation rate as a function of coordinates read is not a
+statistic about the hull law. It is an observability statistic, a measure of how much of the
+evaluator's consequence space the analyst is failing to read, which places it beside GET-16 rather
+than beside GET-12.
+
+Read that way the surface says something it did not say before. Violations vanish at four
+coordinates at seven and nine actions, and the consequence cloud carries 95 percent of its energy
+in four directions. **The rank at which violations vanish estimates the effective rank of the
+evaluator's consequence space from choices alone**, which is what a blind probe does. The two
+fours are not independent, since both reflect the same cloud, and that is stated here so it is not
+later mistaken for a convergence of separate measurements.
+
+What stays true from the sections above. The refuting plane is still not robust to one standard
+error of sampling noise, its margin of 0.079 against a displacement of 0.089, and that fragility is
+a fact about the estimate regardless of how the reversal is interpreted. The flip reading explains
+why the verdict moves with rank. It does not rescue a number whose own noise exceeds its margin.
+
+**What this buys.** The budget arm of G9 was graded NOT MEASURABLE because the G5 estimator
+recovers no metric from pooled choices. The vanishing rank is a second instrument for the same
+quantity, and it works on this data. The budget prediction becomes: under time pressure the
+evaluator's effective rank is lower, so violations vanish at a smaller number of coordinates in the
+high-pressure stratum than in the low. That is measurable here and it is not measured here, because
+it needs its own registration and because this file was written after seeing the surface.
+
 ## What any future hull-law gate must report
 
 The action space, the reading dimension, both aggregations, and the testable-unit count, as
