@@ -1,0 +1,18 @@
+{
+ "drawn": 3996926402,
+ "method": "secrets.randbits(32)",
+ "predictions_pinned": {
+  "gemma31b": {
+   "blob": "f0ac5644c776342ad801a1ff0c0fe928177ec3a0",
+   "sha256": "ed224c55a4b52787f009992c0b689bdc20365e1bab6889d0675e58335eed2524"
+  },
+  "gemma12b": {
+   "blob": "03a31705c7f2a588a95afcc2ed942630ea5f7bfc",
+   "sha256": "5dfb29a7c890860641fe1ffd93282a0452042712ae82cbf5736b37485ff72086"
+  },
+  "qwen3_27b": {
+   "blob": "388908c326eac646a1a83bdb28f98f4242c8e2a2",
+   "sha256": "75cf216e0ca446e91f4b35271c4d4c09351d9e9925c57f69833b87a80a948e8e"
+  }
+ }
+}

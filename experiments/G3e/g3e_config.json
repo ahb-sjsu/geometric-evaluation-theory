@@ -5,21 +5,72 @@
   "base_url": "https://ellm.nrp-nautilus.io/v1",
   "token_file": "/home/claude/.llmtoken",
   "concurrency": 8,
-  "extra_body": {"chat_template_kwargs": {"enable_thinking": false}}
+  "extra_body": {
+   "chat_template_kwargs": {
+    "enable_thinking": false
+   }
+  }
  },
  "models": [
-  {"key": "gemma31b", "model_id": "api:gemma", "served_as": "google/gemma-4-31B-it-qat-w4a16-ct", "precisions": ["served"]},
-  {"key": "gemma12b", "model_id": "api:gemma4-12b", "served_as": "google/gemma-4-12B-it-qat-w4a16-ct", "precisions": ["served"]},
-  {"key": "qwen3_27b", "model_id": "api:qwen3-small", "served_as": "Qwen/Qwen3.8-27B", "precisions": ["served"]}
+  {
+   "key": "gemma31b",
+   "model_id": "api:gemma",
+   "served_as": "google/gemma-4-31B-it-qat-w4a16-ct",
+   "precisions": [
+    "served"
+   ]
+  },
+  {
+   "key": "gemma12b",
+   "model_id": "api:gemma4-12b",
+   "served_as": "google/gemma-4-12B-it-qat-w4a16-ct",
+   "precisions": [
+    "served"
+   ]
+  },
+  {
+   "key": "qwen3_27b",
+   "model_id": "api:qwen3-small",
+   "served_as": "Qwen/Qwen3.8-27B",
+   "precisions": [
+    "served"
+   ]
+  }
  ],
  "n_items": 20,
  "n_cal_per_level": 40,
- "gap_ladder": [1, 2, 3, 4, 6, 8, 12],
+ "gap_ladder": [
+  1,
+  2,
+  3,
+  4,
+  6,
+  8,
+  12
+ ],
  "n_pairs_per_gap": 200,
- "scales": [{"lo": 1, "hi": 5}, {"lo": 0, "hi": 9}, {"lo": 0, "hi": 100}],
+ "scales": [
+  {
+   "lo": 1,
+   "hi": 5
+  },
+  {
+   "lo": 0,
+   "hi": 9
+  },
+  {
+   "lo": 0,
+   "hi": 100
+  }
+ ],
  "n_samples": 8,
  "temperature": 1.0,
- "dither_ladder": [1, 2, 4, 8],
+ "dither_ladder": [
+  1,
+  2,
+  4,
+  8
+ ],
  "sample_seed": 20260920,
  "pairwise": true,
  "batch": 16,
@@ -31,7 +82,11 @@
   "pairwise": "Two students answered worksheets of {n} multiplication problems.\n\nStudent A:\n{first}\n\nStudent B:\n{second}\n\nWhich student got more problems right? Answer with the single letter A or B.",
   "pairwise_prefix": ""
  },
- "seeds": {"probe": 20260920, "calibration": 20260922},
+ "seeds": {
+  "probe": 20260920,
+  "calibration": 20260922,
+  "test": 3996926402
+ },
  "bars": {
   "dev_max": 0.14,
   "z_max": 4.55,
