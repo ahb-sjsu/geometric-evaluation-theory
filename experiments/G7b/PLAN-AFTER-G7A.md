@@ -58,6 +58,25 @@ control it counts the within-player cohort, players with at least m berserk and 
 arena games at that control, the placebo cohort, and the mean rating edge of a berserker. The gate
 is drafted only if both cohorts can put 3,000 positions into the reader at two controls or more.
 
+**Event presence, August, 2026-09-20** (`g7b_probe_2026-08.json`, 91,741,946 games, no engine).
+Present, by a wide margin, at four controls without an increment. Players with at least ten
+berserk and at least ten plain arena games at the same control, then players with at least ten
+games facing a berserker on a full clock:
+
+| control | arena games | one berserker | within-player cohort, players, berserk games | placebo cohort, players, games | berserker's mean rating edge |
+|---|---|---|---|---|---|
+| 60+0 | 2,030,302 | 250,318 | 3,854, 182,389 | 5,966, 162,719 | +337 |
+| 180+0 | 2,125,083 | 488,109 | 7,908, 438,171 | 11,705, 346,785 | +213 |
+| 300+0 | 900,199 | 190,116 | 2,870, 121,299 | 4,486, 100,545 | +206 |
+| 600+0 | 609,732 | 117,987 | 1,945, 75,280 | 2,445, 53,307 | +210 |
+
+About one reader position survives per 25 sampled in G7a's shakedown, so 3,000 needs on the order
+of 13,000 games at six positions a game, and every cell above clears that several times over. The
+rating edge is large, 200 to 340 points, which makes matching on it a requirement and not a
+refinement: an unmatched comparison would read the berserker's opponents as weaker play. At 60+0
+a berserker has thirty seconds, where premoves dominate, so 60+0 is a candidate for exclusion on
+the same ground as ultrabullet. The July count is running.
+
 **Instrument.** G7a's, unchanged: same sampler logic, same labeller with the hash cleared per
 position, same two-pass labelling, same reader, same grader with its ratio taken against one instead
 of a power of the budget. No new instrument is a feature. A result that differs from G7a's then
@@ -86,8 +105,8 @@ G7a's 1,800-second level bends.
    counts while the hash carried over between positions, so it mixed depth with queue position.
    G7a's grader measures it properly on the sealed run. Until then the figure of 0.02 is an upper
    bound.
-2. The bridge has no ledger row. It is a claim under test and belongs in `claims/LEDGER.md` as
-   posited, with G7a as its gate.
+2. PAID in the commit that added this plan. The bridge had no ledger row. It is a claim under test
+   and is now GET-18, posited, with G7a as its gate.
 3. The prior-art note is recon grade. Anything from it that reaches a paper owes a
    quote-verification sweep first.
 4. The grader rebuilds arrays from dictionaries on every bootstrap draw. Correct and slow. Worth an
