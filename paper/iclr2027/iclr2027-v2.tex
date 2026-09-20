@@ -165,7 +165,9 @@ Reading a judge's expected score from its probabilities over the scale is the re
 We use it as one read-out among six and predict its threshold before measuring it.
 Judges are known to favor answers that carry marks of authority, such as citations that are fake \citep{ye2025justice}, and our decoration is a cue of that kind.
 What is new here is not that a cue sways a judge, or that reasoning can weaken it, but that where it stops swaying the judge is predicted from measurements in which evidence and cue never conflict.
-\pending{Reasoning and judge bias: recent work finds reasoning both curbs some biases and introduces others. Cite after checking authors.}
+Reasoning does not remove such cues: \citet{wang2025judgingbias} find that large reasoning models used as judges remain susceptible to authority, bandwagon, position and distraction biases, are more robust than other models only on fact-related data, and are swayed by text that merely imitates reflection.
+Their comparison is across models.
+Ours is along one judge's reasoning budget, with the turning point predicted.
 
 The nearest neighbor with a budget in economics is rational inattention \citep{sims2003,caplin2015,matejka2015}, in which a cost of information about the state produces stochastic choice.
 The budget here limits the resolution of consequences rather than the acquisition of information about states.
