@@ -86,7 +86,14 @@ calibration before the test seed is drawn, on worksheet grading) and gate G3d (t
 budget flip, with its crossover predicted), and the theory and the numeric-task gate G3 move to
 Appendices A and B. `iclr2027.tex` is left as the G3 version. Every number that belongs to a
 sealed result is a bold `[pending]` placeholder until the graded record exists; no pilot number is
-written as a result. Builds to 13 pages with no undefined reference. Open before it can replace
-`iclr2027.tex`: results sections, Figures 1 and 2 from the graded records, the related-work
-prior-art check (probability-weighted scores as in G-Eval, cue and authority biases in LLM judges,
-reasoning and judge bias), abstract and introduction numbers, AI use statement.
+written as a result. Filled with the sealed numbers on 2026-09-20: seven pages of main text plus references and
+appendices, no undefined reference, no placeholder left. Figures come from the graded records
+through `build/make_v2_figures.py`: Figure 1 the prediction against measurement, Figure 2 the
+three regimes, Figure 3 the crossover. Tables 1 and 2 are the sealed thresholds and the flip
+cells. Open before it can replace `iclr2027.tex`: the owner's read, one citation for reasoning
+and judge bias, and the supplementary zip.
+
+A `ef` in the AI use statement had lost its backslash when this file was first assembled by
+script and printed as literal text. It is repaired. Both checks from the paper skill now run
+against the built source, the binary one for control bytes and the grep for commands missing a
+backslash, including the partial forms a lost backslash leaves.

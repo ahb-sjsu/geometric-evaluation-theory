@@ -42,12 +42,12 @@ We show that the threshold can be predicted before it is measured, from the symb
 Judges grade worksheets whose quality is known exactly.
 A calibration block records the scores each judge uses, and from it alone we predict, and commit, how often the judge will order fresh pairs correctly at every difference in quality, on three rating scales and six ways of reading its report.
 Only then is the seed of the test block drawn.
-\pending{G3c headline, from the sealed grade}
+On three judges the prediction held at every gap of every scale and read-out, with the largest deviation 0.078 in accuracy and 2.2 in noise units against registered bars of 0.14 and 4.55.
 The scale a judge is offered is the wrong budget.
-\pending{effective codebook against the nominal scale, from the sealed grade}
+Asked for a score from 0 to 100, the 7B judge writes nine distinct scores and resolves 5.3 wrong answers in twenty where the scale promises one, and the codebook it uses fits its accuracy better than the scale does on every scale of every judge.
 Reading more of the judge's report, its expected score or the mean of several samples, lowers the threshold, and the calibration predicts by how much.
 A second budget, the tokens a judge may spend reasoning, reverses its preference between a better plain worksheet and a worse one decorated with confident check marks.
-\pending{G3d headline: where the preference turns over, predicted from pairs in which evidence and decoration never conflict}
+Measuring the evidence and the decoration apart, in blocks where they never conflict, predicts where that reversal ends: at 174 tokens of reasoning, against 128 observed, 0.37 of the noise that separates them.
 \end{abstract}
 
 \section{Introduction}
@@ -72,14 +72,18 @@ Five judges from two model families graded worksheets of twenty multiplications 
 Each judge's calibration was run, its predictions were written and committed with their hash, and only after that commit was the seed of the test block drawn.
 The order of the two commits is the evidence that the threshold was predicted before it was measured.
 
-\pending{Findings paragraph from the sealed G3c grade: prediction at every gap on every scale and read-out; effective against nominal; the read-out ordering; pairwise at floor or not; 4-bit weights.}
+Four things came out of the sealed run.
+The calibration predicted the test block for every graded judge, at every gap of every scale and read-out, inside bars fixed beforehand from a simulation in which a faithful judge fails 3.3 percent of the time.
+The codebook a judge actually writes fits its accuracy far better than the scale it was offered: on the 0 to 100 scale the scale predicts a threshold of one wrong answer and the judges resolve 5.3 and 2.8.
+Reading more of the same report lowers the threshold in the predicted order and by close to the predicted amount, by a factor of 3.5 on the 7B without changing judge, prompt or scale.
+Quantizing the 7B to 4-bit weights left every threshold within the registered factor of its bfloat16 value, so it moved reliability and not resolution.
 
 The same theory says what a second budget does.
 A judge that may reason before answering spends tokens on the comparison, and with too few tokens it falls back on whatever is cheapest to read.
 We decorated the worse of two worksheets with a confident header and a check mark on every line.
 With no reasoning the judge preferred the decorated worse sheet, and with enough reasoning it preferred the better one.
 That is the theory's three regimes on one axis, reversal, indifference, and distinction.
-\pending{G3d finding: the budget at which the preference turns over, predicted from calibration cells in which evidence and decoration never conflict, against the observed one.}
+Where it turns over was predicted from blocks in which the decoration never sat on the worse sheet, at 174 tokens of reasoning against 128 observed, and the additive account of the two influences fit the sealed test cells seven times better than ignoring the decoration and twenty times better than ignoring the evidence.
 
 An earlier gate measured the same judge on a numeric task and found its threshold equal to the grid on the numbers it reads and writes (Appendix~\ref{app:numeric}).
 That result is a calibration of the instrument rather than a test of the theory, since the judge does the arithmetic exactly and the grid is then the whole story.
@@ -146,12 +150,128 @@ A judge that cannot order worksheets twelve errors apart with accuracy 0.9 on so
 \section{The threshold is predicted before it is measured}
 \label{sec:results}
 
-\pending{Figure 1: predicted against observed accuracy curves, one panel per scale, read-outs as marker shapes, prediction bands from the calibration bootstrap. Table 1: predicted and observed thresholds per judge and read-out, with the nominal rival. Paragraphs on 12a to 12e from the sealed grade only.}
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figures/v2_prediction.pdf}
+\caption{Left, the 7B judge on the 0 to 100 scale. Lines are what the calibration block predicts, bands two standard deviations of its bootstrap, points the sealed test block on worksheets the judge had not seen. The dotted line is the 0.75 level that defines the threshold. Right, every read-out of every graded judge, 54 points, predicted threshold against observed. Points on the diagonal were predicted before the test seed existed. The crosses are the rival that reads the scale at face value: it predicts a finer threshold than the judge has, by up to a factor of five.}
+\label{fig:prediction}
+\end{figure}
 
-\section{Reversal, indifference, and distinction on one budget}
+\begin{table}[t]
+\centering
+\small
+\caption{Sealed thresholds in wrong answers out of twenty, predicted from each judge's calibration block and observed on its test block. The scale a judge is offered is not its budget: on 0 to 100 the 7B writes nine distinct scores and the 14B thirteen, and a rival that used all 101 levels would predict a threshold of one. Gemma 4B and Qwen 1.5B fail anti-vacuity from their calibration blocks and are reported, not graded.}
+\label{tab:thresholds}
+\begin{tabular}{llrrrrrr}
+\toprule
+ & & \multicolumn{2}{c}{greedy score} & \multicolumn{2}{c}{expected score} & \multicolumn{2}{c}{mean of 8 samples} \\
+\cmidrule(lr){3-4}\cmidrule(lr){5-6}\cmidrule(lr){7-8}
+Judge & scale (levels used) & pred. & obs. & pred. & obs. & pred. & obs. \\
+\midrule
+Qwen 7B      & 1 to 5 \ \ (5)   & 7.29 & 7.26 & 1.84 & 1.48 & 4.33 & 3.78 \\
+             & 0 to 9 \ \ (8)   & 4.56 & 4.91 & 1.88 & 1.45 & 2.31 & 2.38 \\
+             & 0 to 100 (9)     & 5.35 & 5.29 & 1.83 & 1.50 & 2.29 & 1.79 \\
+Qwen 7B 4-bit & 1 to 5 \ \ (5)  & 6.81 & 6.91 & 2.03 & 1.79 & 3.65 & 3.36 \\
+             & 0 to 9 \ \ (8)   & 4.58 & 4.65 & 2.05 & 1.78 & 2.57 & 2.50 \\
+             & 0 to 100 (9)     & 6.02 & 6.00 & 1.97 & 1.68 & 2.56 & 2.88 \\
+Qwen 14B     & 1 to 5 \ \ (5)   & 6.26 & 6.86 & 1.52 & 1.36 & 3.68 & 4.00 \\
+             & 0 to 9 \ \ (9)   & 3.26 & 2.98 & 1.52 & 1.42 & 2.08 & 1.79 \\
+             & 0 to 100 (13)    & 3.18 & 2.76 & 1.46 & 1.18 & 1.69 & 1.44 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{The calibration block predicts the test block.}
+For every graded judge, on every scale and every read-out, the observed accuracy stayed inside the registered bars at every gap.
+The largest deviation was 0.078 for the 7B, 0.055 at 4-bit and 0.072 for the 14B, against a bar of 0.14, and the largest deviation in noise units was 2.17, 1.62 and 2.20 against a bar of 4.55.
+Those bars came from a simulation on pilot data in which a faithful judge fails 3.3 percent of the time, and they were fixed before the run.
+Figure~\ref{fig:prediction} shows the curves and the 54 thresholds.
+The order of the two commits is what makes this a prediction: each judge's predictions were published with their sha256, and the test seed was drawn from a system random source only after that commit was pushed.
+
+\paragraph{The budget is the codebook the judge uses, not the scale it is given.}
+On the 0 to 100 scale the 7B judge writes nine distinct scores and the 14B thirteen.
+A rival judge that used all 101 levels exactly would order two worksheets one wrong answer apart, and the sealed thresholds are 5.29 and 2.76.
+On the same scale the rival's squared error against the observed curve is 1.169 and the codebook's is 0.001, and the codebook fits better on every scale of every graded judge.
+The scale is not the resolution. What the judge spends is.
+
+\paragraph{Reading more of the report lowers the threshold, by the predicted amount.}
+The greedy score is one symbol from the codebook, the expected score reads the whole distribution over it, and the mean of eight samples reads eight.
+Their thresholds fall in that order, and the calibration predicts each one.
+On the 7B's 0 to 100 scale the threshold falls from 5.29 to 1.50 wrong answers, a factor of 3.5, without changing the judge, the prompt or the scale.
+Kendall's tau between predicted and observed thresholds across read-outs was 0.876, 0.908 and 0.948, against a registered floor of 0.86.
+
+\paragraph{Quantization moves reliability and not resolution.}
+The 7B at 4-bit weights passed on its own terms, and every one of its eighteen read-out thresholds sits within a factor of 1.75 of the bfloat16 value, ratios 0.85 to 1.60.
+This repeats on a task the judge cannot do exactly what an earlier gate found on arithmetic it can (Appendix~\ref{app:numeric}).
+
+\paragraph{Pairwise comparison resolves near the floor of the pointwise read-outs.}
+Shown both worksheets and asked which student did better, with no reasoning, the 7B reached 0.75 accuracy at 2.88 wrong answers against a floor of 1.83 predicted from its finest pointwise read-out, and the 14B at 1.96 against 1.46, both inside the registered factor.
+The 4-bit judge was coarser, 3.60 against 1.97.
+The judge's first-position preference was 0.85 to 0.86, which the two-order average removes by construction.
+
+\paragraph{Two judges are declared vacuous before their test blocks are drawn.}
+Gemma 4B and Qwen 1.5B order worksheets twelve wrong answers apart with their greedy score at best 0.86 and 0.72 of the time, below the registered 0.9, and carry at best 0.98 and 0.45 bits about quality.
+The registration calls such a judge vacuous from its calibration block, and its curves are reported rather than graded.
+Their predictions were nonetheless accurate, with largest deviations 0.097 and 0.083, which says the method describes a judge that cannot do the task as well as one that can.
+
+\section{Reversal, indifference and distinction on one budget}
 \label{sec:flip}
 
-\pending{Figure 2, three panels: the judge's log-odds of preferring the better sheet against its reasoning budget, for plain pairs (distinction), decorated equal pairs (the cue alone), and the decorated worse sheet (reversal turning to distinction), with the additive prediction and the predicted crossover. Text from the sealed G3d grade only.}
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figures/v2_regimes.pdf}
+\caption{The sealed test block of the second gate, the cell where the worse worksheet carries the decoration. Each panel is the distribution over pairs of the judge's log-odds for the better worksheet at one reasoning budget, with the calibration's prediction and the observed mean. With no reasoning the judge prefers the decorated worse sheet. With reasoning it cannot finish, it is near indifferent. With reasoning it can finish, it prefers the better sheet. The prediction at each budget comes from blocks in which the decoration never sat on the worse sheet.}
+\label{fig:regimes}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.62\columnwidth]{figures/v2_crossover.pdf}
+\caption{Where the preference turns over. The share of test pairs on which the judge prefers the better worksheet, against the reasoning budget it was allowed. The line is predicted from the calibration blocks, the points are the sealed test block. The crossing was predicted at 174 tokens and observed at 128, a deviation of 0.37 in noise units against a registered bar of 2.576.}
+\label{fig:crossover}
+\end{figure}
+
+A judge that may reason before it answers spends a second budget, and the theory says the same thing about it: below the resolution that budget buys, the judge is indifferent to the quality difference and decides on whatever else is in front of it.
+We gave the worse of two worksheets a confident header and a check mark on every line, a decoration that carries no information about quality, and measured the two influences apart.
+One calibration cell shows plain worksheets three wrong answers apart, which measures what the evidence is worth at each budget.
+The other shows worksheets of equal quality with one of them decorated, which measures what the decoration is worth.
+Neither cell contains a pair in which the two conflict.
+
+Their sum on the log-odds scale predicts both test cells at every budget and the budget at which the judge stops preferring the decorated worse sheet, and the registration fixed the bars for that prediction before any pilot.
+On the sealed test block the prediction held, with deviations of at most 2.51 and 3.11 noise units against a bar of 3.341.
+The crossing was predicted at 174 tokens of reasoning and observed at 128, a deviation of 0.37 against a bar of 2.576 (Figure~\ref{fig:crossover}).
+The additive account fit the two test cells with a squared error of 10.1, against 70.7 for an account that ignores the decoration and 228.7 for one that ignores the evidence.
+
+\begin{table}[t]
+\centering
+\small
+\caption{The second gate, sealed. The two calibration cells measure the evidence and the decoration apart, in log-odds for the sheet of interest. Their difference and sum predict the two test cells, where the decoration sits on the worse and on the better worksheet. The last columns are the share of test pairs preferring the better worksheet, predicted and observed, whose crossing of one half is the flip.}
+\label{tab:flip}
+\begin{tabular}{rrrrrrrrr}
+\toprule
+ & \multicolumn{2}{c}{calibration} & \multicolumn{2}{c}{decoration on worse} & \multicolumn{2}{c}{decoration on better} & \multicolumn{2}{c}{share better} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}\cmidrule(lr){8-9}
+tokens & evidence & cue & pred. & obs. & pred. & obs. & pred. & obs. \\
+\midrule
+    0 & 2.45 & 6.15 & -3.70 & -3.09 & 8.59 & 7.66 & 0.11 & 0.12 \\
+   16 & 0.67 & 1.54 & -0.87 & -0.41 & 2.21 & 2.28 & 0.24 & 0.31 \\
+   64 & 0.33 & 0.63 & -0.30 & -0.03 & 0.96 & 1.27 & 0.41 & 0.49 \\
+  256 & 0.67 & 0.44 & 0.23 & 0.01 & 1.11 & 0.81 & 0.53 & 0.51 \\
+  512 & 5.53 & 0.77 & 4.76 & 3.60 & 6.31 & 4.09 & 0.79 & 0.80 \\
+ 1024 & 10.44 & 1.00 & 9.44 & 9.13 & 11.44 & 10.02 & 0.98 & 0.95 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Figure~\ref{fig:regimes} is the theory's three regimes on one axis.
+With no reasoning the judge prefers the decorated worse worksheet, at log-odds of $-3.09$ where the calibration predicted $-3.70$.
+At 256 tokens it is near indifferent, $+0.01$ against a predicted $+0.23$.
+At 1024 tokens it prefers the better worksheet, $+9.13$ against a predicted $+9.44$.
+
+One feature of the middle regime was not anticipated and is worth stating plainly.
+The evidence term is not monotone in the budget: it is $+2.45$ with no reasoning, falls to $+0.33$ at 64 tokens and reaches $+10.44$ at 1024.
+Reasoning that stops mid-count leaves the judge worse than answering at once, so the indifference in the middle of the ladder is made by truncation as much as by any balance of evidence against cue.
+The prediction does not depend on monotonicity, since each budget is calibrated on its own, and the registration records the effect as a weakness of the ladder rather than a finding about judges.
 
 \section{Related work}
 \label{sec:related}
@@ -182,7 +302,7 @@ Matching predicted to observed accuracy is by itself a test that the judge score
 The content is in the two comparisons that can fail separately, the effective codebook against the nominal scale and the predicted ordering of the read-outs.
 The bars were fixed from one judge's pilot, the 7B judge at bfloat16, as quantiles of a simulation that redraws calibration and test blocks from disjoint halves of the pilot's worksheets.
 Two constants were fixed after pilot values they bear on had been seen, the factor that labels the pairwise threshold and the information bar for anti-vacuity, and the registration says so for each.
-\pending{Anti-vacuity, from the sealed grade: which judges were VACUOUS from their calibration blocks and so reported but not graded, and how many judges the verdicts therefore rest on.}
+Two of the five judges, Gemma 4B and Qwen 1.5B, failed the anti-vacuity rule on their calibration blocks and are reported and not graded, so the verdicts rest on three judges of one family, the 7B at two precisions and the 14B.
 The reversal is measured on one judge, at one gap of three errors in ten, with one decoration.
 Additivity of evidence and cue at that gap need not hold at others.
 The budget there is a ceiling on reasoning tokens and not the reasoning spent, and the record keeps the tokens each pair used.
@@ -200,7 +320,7 @@ Among the uses the policy lists as recommended for disclosure, the tools drafted
 Verification was as follows.
 Every experiment was registered and sealed with its hash before its run seed was drawn, its self-test and probe were run first, its calibration predictions were committed with their hash before the test block was scored, and its verdict was produced by a grading script against the sealed bars and not by any model.
 The exact score distributions that replace sampling were checked against real samples and against brute force (Appendix~\ref{app:verify}).
-Parts of the theory are machine-checked in Lean against Mathlib, in seven files with no unproven step and no axiom beyond the standard ones: the tolerance condition of Theorem~\ref{thm:dist}(c), the semiorder of Theorem~\ref{thm:pref}(b), the hull law of Theorem~\ref{thm:repr}(b), the whole-space case of the uniqueness in Theorem~\ref{thm:repr}(c), the reversal example, and the two statements on shared-representation regret in Appendix~ef{app:gates}, with Ky Fan's principle taken as a named hypothesis.
+Parts of the theory are machine-checked in Lean against Mathlib, in seven files with no unproven step and no axiom beyond the standard ones: the tolerance condition of Theorem~\ref{thm:dist}(c), the semiorder of Theorem~\ref{thm:pref}(b), the hull law of Theorem~\ref{thm:repr}(b), the whole-space case of the uniqueness in Theorem~\ref{thm:repr}(c), the reversal example, and the two statements on shared-representation regret in Appendix~\ref{app:gates}, with Ky Fan's principle taken as a named hypothesis.
 The remaining statements, among them the open-set form of Theorem~\ref{thm:repr}(c) and Proposition~\ref{prop:channel}, were checked by hand, and the open-set form was corrected after an external reader found a defect in it.
 Every citation was checked against the publisher's record.
 All AI-assisted text, code, and proofs were reviewed by the authors, who take responsibility for the final content of this work, including text, claims, and artifacts produced with the aid of generative AI.
