@@ -1,6 +1,6 @@
 # PREREG G3d: where a deliberation budget reverses a judge's preference, predicted before it is seen
 
-**Status: DRAFT, NOT SEALED. Self-test PASS 6 of 6, 2026-09-19. Bars fixed before any pilot. No pilot yet. Test seed not drawn.**
+**Status: SEALED 2026-09-20. Self-test PASS 6 of 6. Bars fixed before any pilot. Pilot PASS on pilot seeds. Test seed not drawn.**
 
 The feasibility probe (`../G3b/feasibility/feasibility_flip*.json`, not registered) showed a
 7B judge preferring a worse worksheet that was decorated with a confident header and check marks
@@ -40,7 +40,10 @@ forward pass. D is the logit of A minus the logit of B. Each pair is run in both
 pair's log-odds of preferring the sheet of interest is half of D with that sheet first minus D with
 it second. A position preference cancels in that difference. Budgets 0, 16, 64, 256, 512, 1024.
 
-**Cells.** 40 pairs each, error counts drawn afresh per pair.
+**Cells.** 80 pairs each, error counts drawn afresh per pair. The pilot ran 40 and passed, and its
+crossover sat 1.96 noise units from its prediction against a bar of 2.576, the closest of the three
+checks. Section 4 allows the pilot to change the number of pairs and not a bar, so the run doubles
+them, which sharpens every check rather than loosening it.
 
 | Cell | Block | Pair | Sheet of interest |
 |---|---|---|---|
@@ -85,9 +88,33 @@ one at 121, a z of −0.84. A judge whose cue is discounted when the evidence is
 z of 10.3, which is the check that the gate rejects a known defect. A judge with no cue predicts no
 flip and reads VACUOUS.
 
+**Smoke test and pilot, 2026-09-20** (`pilot_record/`, Atlas GPU 1, pilot seeds, the full design).
+The smoke test measured the cost: a budget of 1,024 tokens takes about 19 seconds per prompt on
+this card, and reasoning ends on its own at 430 to 900 tokens, so the ceiling rarely binds. Two
+pilot attempts ran out of GPU memory and are kept in the record. The first computed logits at every
+position of the forced-answer pass; the second attended over all 32 rows of about 1,700 tokens at
+once. The fix reads only the last position and takes the rows in chunks of fixed token count, and
+on the 7B it leaves every value unchanged, maximum difference 0.0 with identical reasoning text.
+
+The pilot then passed all three checks against the bars fixed before it. Additivity held at every
+budget, largest deviation 1.74 noise units in the reversal cell and 2.92 in the control cell
+against a bar of 3.341. The crossover was predicted at 113 tokens and observed at 30, a deviation
+of 1.96 against a bar of 2.576, which is a pass and also a warning that this statistic is the
+noisiest of the three, since the ladder is coarse where the curve crosses. The additive prediction
+fit the two test cells with a squared error of 14.6 against 60.9 for evidence alone and 233.2 for
+the cue alone.
+
+The budget axis is not monotone, which the registration did not anticipate and the record now
+states. The evidence term is 2.02 with no reasoning, falls to 0.32 at 64 tokens, and rises to
+10.03 at 1,024. Reasoning cut off mid-count leaves the judge worse than answering at once, so the
+three regimes appear in the order reversal, indifference, distinction, with the indifference
+region produced by truncation rather than by a balance of evidence and cue. Nothing in the
+prediction depends on monotonicity: the calibration measures each budget separately.
+
 ## 7. Sealing procedure
 
-1. Smoke test on Atlas for throughput, pilot on Atlas with pilot seeds, cold reread.
+1. Smoke test on Atlas for throughput, pilot on Atlas with pilot seeds, cold reread. Both blocks
+   run on Atlas GPU 1, about 1.4 hours each at these budgets.
 2. Rename to `PREREG-G3D.md`, commit, record the blob hash in `CAMPAIGN.md`.
 3. Run the calibration block, write `predictions.json`, commit with its sha256.
 4. Only after that commit is pushed, draw the test seed with `secrets.randbits(32)`, commit it,
@@ -98,5 +125,9 @@ flip and reads VACUOUS.
 * One decoration and one gap. Additivity at a gap of three errors in ten need not hold at others.
 * The budget is a ceiling on reasoning, not the reasoning spent. The record keeps the tokens each
   pair actually used, so a reader can see how often the ceiling binds.
+* The crossover is read by interpolating a share across a coarse ladder, and it is the noisiest of
+  the three statistics. Its bar is in noise units, so the coarseness is inside the comparison.
+* The budget axis is not monotone. Truncated reasoning is worse than none, so the middle of the
+  ladder is an artifact of the ceiling as much as a balance of evidence against cue.
 * Greedy reasoning makes each pair's result a deterministic function of its text. The noise in the
   estimates is over worksheets, not over samples of the judge.

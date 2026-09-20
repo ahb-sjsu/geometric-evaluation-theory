@@ -1,6 +1,6 @@
 {
  "gate": "G3d",
- "status": "DRAFT, not sealed; test seed drawn only after predictions.json is committed",
+ "status": "SEALED 2026-09-20 (PREREG-G3D.md); the test seed is drawn only after predictions.json is committed",
  "model": {
   "key": "qwen7b",
   "model_id": "Qwen/Qwen2.5-7B-Instruct",
@@ -9,7 +9,7 @@
  "precision": "full",
  "n_items": 10,
  "gap": 3,
- "n_pairs": 40,
+ "n_pairs": 80,
  "budgets": [
   0,
   16,
