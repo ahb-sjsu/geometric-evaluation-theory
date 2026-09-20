@@ -1,0 +1,147 @@
+{
+ "A13": {
+  "action_counts": {
+   "pass_deep_left": 12214,
+   "pass_deep_middle": 6433,
+   "pass_deep_right": 12666,
+   "pass_short_left": 52351,
+   "pass_short_middle": 32662,
+   "pass_short_right": 57230,
+   "run_left_end": 16995,
+   "run_left_guard": 15784,
+   "run_left_tackle": 15222,
+   "run_middle": 34786,
+   "run_right_end": 15669,
+   "run_right_guard": 16401,
+   "run_right_tackle": 14998
+  },
+  "actions": [
+   "pass_deep_left",
+   "pass_deep_middle",
+   "pass_deep_right",
+   "pass_short_left",
+   "pass_short_middle",
+   "pass_short_right",
+   "run_left_end",
+   "run_left_guard",
+   "run_left_tackle",
+   "run_middle",
+   "run_right_end",
+   "run_right_guard",
+   "run_right_tackle"
+  ],
+  "decisions": 303411,
+  "floor_10": {
+   "cells_all_actions": 80,
+   "cells_testable_full_space": 18,
+   "decisions_high_pressure": 56371,
+   "units_all_actions": 60,
+   "units_testable_full_space": 0
+  },
+  "floor_5": {
+   "cells_all_actions": 126,
+   "cells_testable_full_space": 35,
+   "decisions_high_pressure": 56371,
+   "units_all_actions": 199,
+   "units_testable_full_space": 3
+  },
+  "n_actions": 13
+ },
+ "A7": {
+  "action_counts": {
+   "pass_deep": 31313,
+   "pass_short_left": 52351,
+   "pass_short_middle": 32662,
+   "pass_short_right": 57230,
+   "run_end_left": 16995,
+   "run_end_right": 15669,
+   "run_inside": 97191
+  },
+  "actions": [
+   "pass_deep",
+   "pass_short_left",
+   "pass_short_middle",
+   "pass_short_right",
+   "run_end_left",
+   "run_end_right",
+   "run_inside"
+  ],
+  "decisions": 303411,
+  "floor_10": {
+   "cells_all_actions": 146,
+   "cells_testable_full_space": 0,
+   "decisions_high_pressure": 56371,
+   "units_all_actions": 261,
+   "units_testable_full_space": 0
+  },
+  "floor_5": {
+   "cells_all_actions": 175,
+   "cells_testable_full_space": 0,
+   "decisions_high_pressure": 56371,
+   "units_all_actions": 498,
+   "units_testable_full_space": 0
+  },
+  "n_actions": 7
+ },
+ "A9": {
+  "action_counts": {
+   "pass_deep_left": 12214,
+   "pass_deep_middle": 6433,
+   "pass_deep_right": 12666,
+   "pass_short_left": 52351,
+   "pass_short_middle": 32662,
+   "pass_short_right": 57230,
+   "run_left": 48003,
+   "run_middle": 34786,
+   "run_right": 47069
+  },
+  "actions": [
+   "pass_deep_left",
+   "pass_deep_middle",
+   "pass_deep_right",
+   "pass_short_left",
+   "pass_short_middle",
+   "pass_short_right",
+   "run_left",
+   "run_middle",
+   "run_right"
+  ],
+  "decisions": 303414,
+  "floor_10": {
+   "cells_all_actions": 109,
+   "cells_testable_full_space": 3,
+   "decisions_high_pressure": 56372,
+   "units_all_actions": 74,
+   "units_testable_full_space": 0
+  },
+  "floor_5": {
+   "cells_all_actions": 151,
+   "cells_testable_full_space": 6,
+   "decisions_high_pressure": 56372,
+   "units_all_actions": 237,
+   "units_testable_full_space": 12
+  },
+  "n_actions": 9
+ },
+ "coords": [
+  "y1_epa",
+  "y2_first_down",
+  "y3_turnover",
+  "y4_epa_sd",
+  "y5_clock_stop"
+ ],
+ "note": "a menu in five dimensions needs at least seven actions before a violation is possible at all",
+ "radon_bound_for_5d": 7,
+ "seasons": [
+  2015,
+  2016,
+  2017,
+  2018,
+  2019,
+  2020,
+  2021,
+  2022,
+  2023,
+  2024
+ ]
+}
