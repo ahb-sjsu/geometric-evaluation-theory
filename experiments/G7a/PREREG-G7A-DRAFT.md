@@ -1,8 +1,10 @@
 # PREREG G7a: the indifference threshold tracks the time budget, in the same players across chess clocks
 
-Status. DRAFT, not sealed. Section 7 is incomplete. The cohort count it needs is running and its
-numbers are marked PENDING below. No threshold has been fitted on any evaluation month, and on the
-shakedown month none has been fitted outside the reference level. Sealing is by the rename to
+Status. DRAFT, not sealed. Every section is filled. No threshold has been fitted on any evaluation
+month, and on the shakedown month none has been fitted outside the reference level. What has touched
+the evaluation months is a header-only count of players and games and an engine-free draw of
+positions from the first 1.4 percent of July to check the sampler's mechanics. Neither parses a
+quality of any move. Sealing is by the rename to
 `PREREG-G7A.md` with the blob hash recorded in `CAMPAIGN.md`.
 
 ## Why this gate exists
@@ -72,9 +74,20 @@ Games. Both players human, rated 1200 to 2399 in that game's category, ended nor
 Games lost on time are kept on purpose. They are far commoner at short budgets, and dropping them
 would keep, at short budgets only, the games where clocks were managed well.
 
-Positions. At most two per game, at plies 16 to 80, drawn by a generator seeded from the game's
-identifier, where the mover belongs to the cohort and has at least three legal moves. The sample is
-fixed before any engine runs.
+Games are taken by a keyed hash of the game identifier falling under a per-arm rate. The file is
+chronological, so filling a quota would sample the first days of the month, and the hash spreads the
+sample over all of it, reproducibly, owing nothing to what happened in the game. Rates are set from
+the cohort counts so every arm aims at 100,000 positions.
+
+Positions. Up to six per game, at plies 16 to 80, drawn by a generator seeded from the game's
+identifier, where the mover belongs to the cohort and has at least three legal moves. Six and not
+two because of the 1,800-second cohort, which holds about 25,000 games in a month and would fall
+under the anti-vacuity floor at two. It is six for every arm so that the rule is one rule. The
+bootstrap resamples players, so several positions from one game do not narrow an interval. The
+sample is fixed before any engine runs.
+
+An arm is a cohort read at one budget. A reference position can serve several cohorts, since one
+player can be in several. It is labelled once and tagged with every arm it serves.
 
 Usernames are replaced by a keyed hash. The key is held in a mode-600 file outside the repository.
 
@@ -162,10 +175,33 @@ cutoff on the third move is the only fix that is right under both Gaussian and G
 a threshold for the reference category alone, and the script asserts as much. 21,000 positions, 72
 percent undecided, 4.7 to 6.4 percent surviving every restriction, similar across categories.
 
-**Cohort count, `g7a_cohort_probe.py`. PENDING.** Header-only, on both evaluation months. It parses
-no move and runs no engine. Cohort sizes, and the games each cohort holds at its level and at the
-reference, go here before sealing, with the sha256 of both files. The gate is not sealable until
-every level's cohort is shown to be able to meet the floor of 3,000.
+**Cohort count, `g7a_cohort_probe.py`.** Header-only, on both evaluation months in full, 88,905,085
+games in July and 91,741,946 in August. It parses no move and runs no engine. Players with at least
+ten games at the level and at least ten at 300 seconds, and the player-games they hold.
+
+| level | July players | July games at level | July games at 300 s | August players | August games at level |
+|---|---|---|---|---|---|
+| 60 s | 17,639 | 2,851,362 | 1,101,341 | 18,699 | 2,950,332 |
+| 180 s | 34,840 | 4,601,917 | 2,649,333 | 35,645 | 4,804,746 |
+| 600 s | 24,294 | 1,670,121 | 2,024,970 | 25,200 | 1,741,062 |
+| 1,800 s | 754 | 24,819 | 57,741 | 819 | 26,643 |
+
+File sha256. July `68738b1c448f051dc8d42db645d5b01749988a3bc1c24981adfe44ea92060dc7`, August
+`6bf6fa8a5dee7bb81d1874ac312160060daf12f18a29dc2740a3bf6f5e5e6248`.
+
+The 1,800-second cohort is the binding constraint and it set the six-positions rule in Section 2.
+At the shakedown's survival share of about 5.5 percent, an arm of 100,000 positions puts about 5,500
+into the reader against a floor of 3,000. The floor is expected to hold at every level and is not
+expected to hold with much room at 1,800 seconds.
+
+**Sampler check, `g7a_sample_cohort.py`.** Engine-free, on the first 1.4 percent of July. The eight
+arms drew between 1,338 and 1,718 positions each, so the per-arm rates balance and extrapolate to
+between 96,000 and 124,000 positions an arm over the month.
+
+**Grader self-test, `g7a_grade.py --selftest`.** The bars themselves on synthetic cohorts whose law
+is known. An inverse-root world must pass both claims, a flat world must not pass C1, and an inverse
+world must pass C1 and fail C2. Its result is recorded in the seal commit, and the gate is not
+sealed unless it passes.
 
 ## 8. Confounds declared before sealing
 
@@ -190,6 +226,8 @@ Every number names its file and commit. A miss is recorded in the ledger, the ca
 at the size of a pass. The run persists raw centipawns for every labelled position, so any later
 change of consequence map or cutoff is a recomputation and not a rerun.
 
-Runs on Atlas, pinned to a fixed set of cores at the lowest priority. The work is CPU-bound engine
-search, which is the kind of load the cluster rules favour, but the sampled positions live on Atlas
-and the labels are a few hundred megabytes, so moving them buys nothing.
+Runs on Atlas, pinned to a fixed set of cores at the lowest priority. About 800,000 positions a
+month, some 47 core-hours of screening and 116 of deep labelling. The work is CPU-bound engine
+search, which is the kind of load the cluster rules favour, but the source files and the sampled
+positions live on Atlas, so moving them buys nothing. July runs first and is graded before August is
+labelled, and August is graded by the same code at the same commit.

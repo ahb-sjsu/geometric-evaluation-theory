@@ -57,9 +57,9 @@ MIN_POSITIONS = 800
 # --------------------------------------------------------------------------- the consequence map
 
 # Centipawns to the mover's expected score, by the logistic Lichess publishes
-# for its accuracy measure, fitted to games between humans on that site
-# (lichess.org/page/accuracy; the constant is to be re-verified against that
-# page at seal). It is the world's consequence map for this population. The
+# for its accuracy measure, which that page says is based on real game data
+# (lichess.org/page/accuracy; constant verified against the page 2026-09-20).
+# It is the world's consequence map for this population. The
 # engine's own win-draw-loss model is NOT used: it describes engines playing
 # engines, where a pawn and a half is nearly a won game, and the shakedown lost
 # 62 percent of its positions to it before the mistake was seen.

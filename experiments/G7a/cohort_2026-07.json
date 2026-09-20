@@ -1,0 +1,89 @@
+{
+ "cohorts": {
+  "180": {
+   "m>=10": {
+    "players": 34840,
+    "their_games_at_level": 4601917,
+    "their_games_at_reference": 2649333
+   },
+   "m>=20": {
+    "players": 20245,
+    "their_games_at_level": 3297203,
+    "their_games_at_reference": 2010636
+   },
+   "m>=5": {
+    "players": 53125,
+    "their_games_at_level": 5864117,
+    "their_games_at_reference": 3216794
+   }
+  },
+  "1800": {
+   "m>=10": {
+    "players": 754,
+    "their_games_at_level": 24819,
+    "their_games_at_reference": 57741
+   },
+   "m>=20": {
+    "players": 282,
+    "their_games_at_level": 15158,
+    "their_games_at_reference": 30503
+   },
+   "m>=5": {
+    "players": 1814,
+    "their_games_at_level": 39057,
+    "their_games_at_reference": 107276
+   }
+  },
+  "60": {
+   "m>=10": {
+    "players": 17639,
+    "their_games_at_level": 2851362,
+    "their_games_at_reference": 1101341
+   },
+   "m>=20": {
+    "players": 9283,
+    "their_games_at_level": 1820125,
+    "their_games_at_reference": 792995
+   },
+   "m>=5": {
+    "players": 29235,
+    "their_games_at_level": 3969794,
+    "their_games_at_reference": 1403575
+   }
+  },
+  "600": {
+   "m>=10": {
+    "players": 24294,
+    "their_games_at_level": 1670121,
+    "their_games_at_reference": 2024970
+   },
+   "m>=20": {
+    "players": 12870,
+    "their_games_at_level": 1174361,
+    "their_games_at_reference": 1417375
+   },
+   "m>=5": {
+    "players": 40511,
+    "their_games_at_level": 2172936,
+    "their_games_at_reference": 2641486
+   }
+  }
+ },
+ "games_at_level": {
+  "180": 16750139,
+  "1800": 263139,
+  "300": 11419859,
+  "60": 23532205,
+  "600": 11115954
+ },
+ "games_scanned": 88905085,
+ "player_games_in_window": {
+  "180": 29764724,
+  "1800": 462848,
+  "300": 18498004,
+  "60": 40320503,
+  "600": 16971407
+ },
+ "players_seen": 1146702,
+ "reference": 300
+}
