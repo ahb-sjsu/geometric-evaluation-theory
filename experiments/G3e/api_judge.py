@@ -56,6 +56,16 @@ import judge as J  # noqa: E402
 TOP = 20
 
 
+def ascii_digits(tok: str) -> bool:
+    """A token that is a run of ASCII digits, and so can extend a numeric score.
+
+    Not `str.isdigit()`, which is true for superscripts, subscripts and other Unicode
+    number characters that `int()` then refuses. A served vocabulary contains them: a
+    calibration block stopped on the token "1\u2083". G3c reads exactly the ten ASCII
+    digit tokens, so this reader does too, and anything else ends the score."""
+    return bool(tok) and tok.isascii() and tok.isdigit()
+
+
 class ModelChanged(RuntimeError):
     pass
 
@@ -222,13 +232,13 @@ class APIJudge:
         lo, hi = scale["lo"], scale["hi"]
         dist = np.zeros(hi - lo + 1)
         invalid = pruned = 0.0
-        digit_mass = sum(v for k, v in first["p"].items() if k.isdigit())
+        digit_mass = sum(v for k, v in first["p"].items() if ascii_digits(k))
         # Everything here is conditional on the first token being a digit, so the mass the server
         # did not show at the first position enters the bound on that scale.
         unseen = first["missing"] / max(digit_mass, 1e-30)
         frontier = []
         for tok, v in first["p"].items():
-            if not tok.isdigit():
+            if not ascii_digits(tok):
                 continue
             p = v / max(digit_mass, 1e-30)
             if len(tok) > 3 or int(tok) > hi:
@@ -245,7 +255,7 @@ class APIJudge:
             nxt = []
             for (s, p), a in zip(frontier, answers):
                 pn, missing = self._probs(a["top"][0])
-                digits = {k: v for k, v in pn.items() if k.isdigit()}
+                digits = {k: v for k, v in pn.items() if ascii_digits(k)}
                 # Whatever is not a visible digit ends the score. The mass the server did not show
                 # might have been a digit instead, so it is booked as stopping and bounded here.
                 p_stop = max(0.0, 1.0 - sum(digits.values()))

@@ -223,6 +223,24 @@ rest of the design against G3c's own config, and refuses a test block while no t
 It was checked against the defect it was written for and three neighbours of it, and refuses all
 four.
 
+## Reader defect, recorded 2026-09-20T22:05Z
+
+`gemma31b`'s calibration block stopped on the 0 to 100 scale with
+`ValueError: invalid literal for int() with base 10: '1₃'`. The reader admitted a token as a
+digit with `str.isdigit()`, which is true for Unicode subscripts, superscripts and other number
+characters that `int()` then refuses, and the served vocabulary contains them. G3c reads exactly the
+ten ASCII digit tokens and nothing else, so the repair makes this reader agree with the one the
+registration says it reproduces: a token extends a numeric score only if it is a run of ASCII
+digits, and anything else ends the score.
+
+It is a correction toward the registered instrument and not away from it, and it changes no bar, no
+seed, no judge and no worksheet. The self-test now includes a server whose vocabulary carries such
+tokens, so the defect cannot return unnoticed; with it the self-test is 16 checks and passes.
+
+Both calibration blocks in flight were stopped and re-run from the start under the fixed reader.
+Their response caches were kept, since a response is what the judge said and does not depend on the
+reader; no worksheet was scored twice by the service, and no prediction had been written.
+
 ## 9. Sealing procedure
 
 1. Self-test and probe first, both committed with their records.

@@ -45,6 +45,21 @@
    }
   },
   {
+   "check": "a Unicode number character in the vocabulary does not stop the reader",
+   "pass": true,
+   "detail": {
+    "sums": [
+     1.000002,
+     1.0
+    ]
+   }
+  },
+  {
+   "check": "and it is not counted as a score on a single-token scale",
+   "pass": true,
+   "detail": null
+  },
+  {
    "check": "the twenty-token wall: the reported bound covers the mass actually lost",
    "pass": true,
    "detail": {
@@ -130,5 +145,5 @@
    }
   }
  ],
- "seconds": 62.3
+ "seconds": 49.8
 }

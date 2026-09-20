@@ -187,6 +187,25 @@ def main(argv=None) -> int:
           rg20["tree_unseen_bound"] + 1e-9 >= lost_g,
           {"bound": rg20["tree_unseen_bound"], "lost": round(lost_g, 6)})
 
+    # 3b. a vocabulary that contains Unicode number characters. `str.isdigit()` is true for
+    # them and `int()` refuses them, which stopped a calibration block on the token "1\u2083".
+    class OddTokenServer(FakeServer):
+        def __call__(self, body):
+            r = super().__call__(body)
+            pos = r["choices"][0]["logprobs"]["content"][0]["top_logprobs"]
+            pos.append({"token": "1\u2083", "logprob": math.log(0.02)})
+            pos.append({"token": "\u00b2", "logprob": math.log(0.01)})
+            return r
+    odd = judge_on(OddTokenServer(), cfg).score(texts[:2], {"lo": 0, "hi": 100}, 0, 1.0, 16)
+    # The vector is written rounded to six decimals, so 101 entries may sum to one only to
+    # about 5e-5. The check is that the reader finishes and returns a distribution at all.
+    check("a Unicode number character in the vocabulary does not stop the reader",
+          all(abs(sum(r["p"]) - 1.0) < 1e-4 and r["argmax"] == r["argmax"] for r in odd),
+          {"sums": [round(sum(r["p"]), 6) for r in odd]})
+    odd9 = judge_on(OddTokenServer(), cfg_for([{"lo": 0, "hi": 9}])).score(texts[:2], {"lo": 0, "hi": 9}, 0, 1.0, 16)
+    check("and it is not counted as a score on a single-token scale",
+          all(abs(sum(r["p"]) - 1.0) < 1e-6 for r in odd9))
+
     # 4. the twenty-token wall, and 5. pruning
     srvv = FakeServer(visible=6, sd=3.0)
     rec = judge_on(srvv, cfg).score(texts[:1], {"lo": 0, "hi": 100}, 0, 1.0, 16)[0]
