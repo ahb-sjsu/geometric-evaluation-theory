@@ -360,7 +360,7 @@ The registration, with its hypothesis, world, statistic, bars, exclusions and nu
 The self-test, the probes, and the pilot were run and recorded before sealing, and the run was graded by a script against the sealed bars.
 
 \subsection{Results}
-\label{sec:results}
+\label{app:numeric-results}
 
 \begin{figure}[t]
 \centering
@@ -452,7 +452,7 @@ Forty evaluators per cell, in two to four dimensions with random metrics includi
 Errors were scored against the chance level of guesses from the evaluator prior.
 In all twelve cells on a fresh seed, under a sealed registration, the metric and the ideal's range component were recovered at 64 consequences above the dimension, to a few percent of chance, with the error falling at every step as the battery grew, while at or below the design bound, off the span of a battery confined to a subspace, and in the kernel of a singular metric, nothing was recovered.
 A semiorder that withholds the fifth of pairs closest in distance identified more slowly, to between 5 and 25 percent of chance at the same battery.
-Two further sealed gates, a hull law on a public survey that held as a population tendency and a shared-representation bound on attention heads that returned indeterminate, are reported in Appendix~\ref{app:gates} at the size of their verdicts.
+Further sealed gates, a hull law on a public survey that held as a population tendency, the same law on natural decisions where the violation rate fell with the rank at which consequences were read, as registered, and a shared-representation bound on attention heads that returned indeterminate, are reported in Appendix~\ref{app:gates} at the size of their verdicts.
 
 \section{Verification of the exact distributions}
 \label{app:verify}
@@ -556,7 +556,25 @@ In the 1972 American National Election Study respondents placed candidates and p
 On the registered pair, 489 of 557 respondents had a menu in which the law could bind, and 246 of them, 50.3 percent, violated it at least once, against 66.4 percent when each respondent's ratings are shuffled among that respondent's own objects, with none of 200 shuffles reaching the observed rate.
 Five other pairs of scales gave the same ordering, observed rates of 54 to 63 percent against shuffled rates of 67 to 74 percent.
 The rates sit well below the geometric base rate of violation and well above zero.
-On this world the law holds as a population tendency and fails as the deterministic statement of the theorem for about half of the respondents, and the registration records both halves.
+The registration recorded both halves, that the law holds as a population tendency and that about half of the respondents violate it.
+The second half needs a qualification found after that gate was graded.
+A pair of scales is a rank-two reading of whatever space a respondent evaluates in.
+A convex combination survives any linear map, so a point inside a hull stays inside under projection while a point outside can fall inside.
+Reading fewer coordinates can therefore add violations and cannot remove them, and the observed rate bounds the rate in the respondent's own space from above rather than estimating it.
+That omitted attributes can make rational choice fail a revealed-preference test is established for characteristics models \citep{blow2008revealed}, and the next gate measures the size of the effect.
+
+\paragraph{The same law on natural decisions, read at increasing rank, pass.}
+The cap of Theorem~\ref{thm:dist}(b) is a cap on the rank at which consequences are read, and two sealed gates apply it from the analyst's side to choices nobody elicited.
+In ten regular seasons of professional football play calls, 303{,}414 decisions, the consequence of a call is a five-coordinate vector estimated from outcomes and pooled over every team, and a team's ranking of calls in a game state is its choice share.
+With four calls a menu can bind only on a plane, because four points in general position never place one inside the hull of the others above two dimensions.
+On the registered pair of coordinates 8 of 402 testable units violated the law, 2.0 percent against 22.9 percent shuffled, with none of 200 shuffles reaching the observed rate, and on one replication pair the law was violated above chance, 30.0 against 22.1 percent.
+That gate graded indeterminate under its own sensitivity clause.
+A follow-on gate with thirteen calls registered, before any rate in that menu had been computed, that the violation rate would not rise as more of the five coordinates are read.
+Over every graded subset the mean rate was 0.914 at two coordinates, 0.444 at three, and 0.139 at four, and all 26 subsets sat below their shuffled rate, including the pair that had been violated above chance.
+Perturbing each consequence by its own standard error moved that pair's rate by 0.089 against a margin of 0.079 over its null, and moved the registered pair's by 0.006 against a margin of 0.209.
+Reading more of the consequence space lowers the rate, which is the ordering Section~\ref{sec:budgets} predicts for a judge's read-outs, in a world with no language model in it.
+A second arm, which tried to recover a metric from pooled choices, recovered none.
+One metric and one ideal served about eight game states and a stratum held 189, so that arm is a miss of the measurement and is reported as one.
 
 \paragraph{Shared-representation regret, indeterminate.}
 Let $N$ evaluators share a representation space $\R^{d}$ with constant pullbacks $P_{1},\dots,P_{N}$ and a common isotropic source of second moment $\sigma^{2}I$, and let a shared representation at budget $k$ be an orthogonal projector $\Pi$ of rank $k$.
