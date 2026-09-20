@@ -1,0 +1,1132 @@
+{
+ "A13": {
+  "actions": [
+   "pass_deep_left",
+   "pass_deep_middle",
+   "pass_deep_right",
+   "pass_short_left",
+   "pass_short_middle",
+   "pass_short_right",
+   "run_left_end",
+   "run_left_guard",
+   "run_left_tackle",
+   "run_middle",
+   "run_right_end",
+   "run_right_guard",
+   "run_right_tackle"
+  ],
+  "by_dimension": {
+   "2": {
+    "mean_violations_per_unit": 1.9592964824120602,
+    "n_subsets_with_data": 10,
+    "p_action_mean": 0.15071511403169696,
+    "p_unit_mean": 0.914070351758794,
+    "subsets": [
+     {
+      "coords": [
+       "y1_epa",
+       "y2_first_down"
+      ],
+      "mean_violations_per_unit": 2.0854271356783918,
+      "p_action": 0.16041747197526093,
+      "p_unit": 0.9447236180904522,
+      "testable": 199
+     },
+     {
+      "coords": [
+       "y1_epa",
+       "y3_turnover"
+      ],
+      "mean_violations_per_unit": 1.899497487437186,
+      "p_action": 0.146115191341322,
+      "p_unit": 0.9095477386934674,
+      "testable": 199
+     },
+     {
+      "coords": [
+       "y1_epa",
+       "y4_epa_sd"
+      ],
+      "mean_violations_per_unit": 2.251256281407035,
+      "p_action": 0.17317356010823348,
+      "p_unit": 0.949748743718593,
+      "testable": 199
+     },
+     {
+      "coords": [
+       "y1_epa",
+       "y5_clock_stop"
+      ],
+      "mean_violations_per_unit": 2.030150753768844,
+      "p_action": 0.1561654425976034,
+      "p_unit": 0.9296482412060302,
+      "testable": 199
+     },
+     {
+      "coords": [
+       "y2_first_down",
+       "y3_turnover"
+      ],
+      "mean_violations_per_unit": 1.8241206030150754,
+      "p_action": 0.14031696946269812,
+      "p_unit": 0.8944723618090452,
+      "testable": 199
+     },
+     {
+      "coords": [
+       "y2_first_down",
+       "y4_epa_sd"
+      ],
+      "mean_violations_per_unit": 2.0653266331658293,
+      "p_action": 0.15887127947429455,
+      "p_unit": 0.9547738693467337,
+      "testable": 199
+     },
+     {
+      "coords": [
+       "y2_first_down",
+       "y5_clock_stop"
+      ],
+      "mean_violations_per_unit": 1.8040201005025125,
+      "p_action": 0.13877077696173173,
+      "p_unit": 0.8994974874371859,
+      "testable": 199
+     },
+     {
+      "coords": [
+       "y3_turnover",
+       "y4_epa_sd"
+      ],
+      "mean_violations_per_unit": 1.864321608040201,
+      "p_action": 0.14340935446463085,
+      "p_unit": 0.8793969849246231,
+      "testable": 199
+     },
+     {
+      "coords": [
+       "y3_turnover",
+       "y5_clock_stop"
+      ],
+      "mean_violations_per_unit": 1.9949748743718594,
+      "p_action": 0.15345960572091225,
+      "p_unit": 0.914572864321608,
+      "testable": 199
+     },
+     {
+      "coords": [
+       "y4_epa_sd",
+       "y5_clock_stop"
+      ],
+      "mean_violations_per_unit": 1.7738693467336684,
+      "p_action": 0.1364514882102822,
+      "p_unit": 0.864321608040201,
+      "testable": 199
+     }
+    ],
+    "testable_mean": 199.0
+   },
+   "3": {
+    "mean_violations_per_unit": 0.5189488878283409,
+    "n_subsets_with_data": 10,
+    "p_action_mean": 0.03991914521756469,
+    "p_unit_mean": 0.443931809887426,
+    "subsets": [
+     {
+      "coords": [
+       "y1_epa",
+       "y2_first_down",
+       "y3_turnover"
+      ],
+      "mean_violations_per_unit": 0.5175879396984925,
+      "p_action": 0.03981445689988403,
+      "p_unit": 0.4472361809045226,
+      "testable": 199
+     },
+     {
+      "coords": [
+       "y1_epa",
+       "y2_first_down",
+       "y4_epa_sd"
+      ],
+      "mean_violations_per_unit": 0.5376884422110553,
+      "p_action": 0.04136064940085041,
+      "p_unit": 0.44221105527638194,
+      "testable": 199
+     },
+     {
+      "coords": [
+       "y1_epa",
+       "y2_first_down",
+       "y5_clock_stop"
+      ],
+      "mean_violations_per_unit": 0.32663316582914576,
+      "p_action": 0.02512562814070352,
+      "p_unit": 0.31155778894472363,
+      "testable": 199
+     },
+     {
+      "coords": [
+       "y1_epa",
+       "y3_turnover",
+       "y4_epa_sd"
+      ],
+      "mean_violations_per_unit": 0.6934673366834171,
+      "p_action": 0.05334364128333977,
+      "p_unit": 0.5979899497487438,
+      "testable": 199
+     },
+     {
+      "coords": [
+       "y1_epa",
+       "y3_turnover",
+       "y5_clock_stop"
+      ],
+      "mean_violations_per_unit": 0.4723618090452261,
+      "p_action": 0.0363355237727097,
+      "p_unit": 0.4120603015075377,
+      "testable": 199
+     },
+     {
+      "coords": [
+       "y1_epa",
+       "y4_epa_sd",
+       "y5_clock_stop"
+      ],
+      "mean_violations_per_unit": 0.5611111111111111,
+      "p_action": 0.04316239316239316,
+      "p_unit": 0.48333333333333334,
+      "testable": 180
+     },
+     {
+      "coords": [
+       "y2_first_down",
+       "y3_turnover",
+       "y4_epa_sd"
+      ],
+      "mean_violations_per_unit": 0.5175879396984925,
+      "p_action": 0.03981445689988403,
+      "p_unit": 0.457286432160804,
+      "testable": 199
+     },
+     {
+      "coords": [
+       "y2_first_down",
+       "y3_turnover",
+       "y5_clock_stop"
+      ],
+      "mean_violations_per_unit": 0.5555555555555556,
+      "p_action": 0.042735042735042736,
+      "p_unit": 0.4666666666666667,
+      "testable": 180
+     },
+     {
+      "coords": [
+       "y2_first_down",
+       "y4_epa_sd",
+       "y5_clock_stop"
+      ],
+      "mean_violations_per_unit": 0.4245810055865922,
+      "p_action": 0.03266007735281478,
+      "p_unit": 0.3687150837988827,
+      "testable": 179
+     },
+     {
+      "coords": [
+       "y3_turnover",
+       "y4_epa_sd",
+       "y5_clock_stop"
+      ],
+      "mean_violations_per_unit": 0.5829145728643216,
+      "p_action": 0.04483958252802474,
+      "p_unit": 0.45226130653266333,
+      "testable": 199
+     }
+    ],
+    "testable_mean": 193.2
+   },
+   "4": {
+    "mean_violations_per_unit": 0.17301963569886789,
+    "n_subsets_with_data": 5,
+    "p_action_mean": 0.013309202746066761,
+    "p_unit_mean": 0.17301963569886789,
+    "subsets": [
+     {
+      "coords": [
+       "y1_epa",
+       "y2_first_down",
+       "y3_turnover",
+       "y4_epa_sd"
+      ],
+      "mean_violations_per_unit": 0.18452380952380953,
+      "p_action": 0.014194139194139194,
+      "p_unit": 0.18452380952380953,
+      "testable": 168
+     },
+     {
+      "coords": [
+       "y1_epa",
+       "y2_first_down",
+       "y3_turnover",
+       "y5_clock_stop"
+      ],
+      "mean_violations_per_unit": 0.2857142857142857,
+      "p_action": 0.02197802197802198,
+      "p_unit": 0.2857142857142857,
+      "testable": 42
+     },
+     {
+      "coords": [
+       "y1_epa",
+       "y2_first_down",
+       "y4_epa_sd",
+       "y5_clock_stop"
+      ],
+      "mean_violations_per_unit": 0.15217391304347827,
+      "p_action": 0.011705685618729096,
+      "p_unit": 0.15217391304347827,
+      "testable": 46
+     },
+     {
+      "coords": [
+       "y1_epa",
+       "y3_turnover",
+       "y4_epa_sd",
+       "y5_clock_stop"
+      ],
+      "mean_violations_per_unit": 0.09375,
+      "p_action": 0.007211538461538462,
+      "p_unit": 0.09375,
+      "testable": 160
+     },
+     {
+      "coords": [
+       "y2_first_down",
+       "y3_turnover",
+       "y4_epa_sd",
+       "y5_clock_stop"
+      ],
+      "mean_violations_per_unit": 0.14893617021276595,
+      "p_action": 0.011456628477905073,
+      "p_unit": 0.14893617021276595,
+      "testable": 47
+     }
+    ],
+    "testable_mean": 92.6
+   },
+   "5": {
+    "mean_violations_per_unit": 0.0,
+    "n_subsets_with_data": 1,
+    "p_action_mean": 0.0,
+    "p_unit_mean": 0.0,
+    "subsets": [
+     {
+      "coords": [
+       "y1_epa",
+       "y2_first_down",
+       "y3_turnover",
+       "y4_epa_sd",
+       "y5_clock_stop"
+      ],
+      "mean_violations_per_unit": 0.0,
+      "p_action": 0.0,
+      "p_unit": 0.0,
+      "testable": 3
+     }
+    ],
+    "testable_mean": 3.0
+   }
+  },
+  "cells": 126,
+  "decisions": 303411,
+  "n_actions": 13,
+  "units": 199
+ },
+ "A4": {
+  "actions": [
+   "pass_deep",
+   "pass_short",
+   "run_inside",
+   "run_outside"
+  ],
+  "by_dimension": {
+   "2": {
+    "mean_violations_per_unit": 0.08485494617306992,
+    "n_subsets_with_data": 10,
+    "p_action_mean": 0.02121373654326748,
+    "p_unit_mean": 0.08485494617306992,
+    "subsets": [
+     {
+      "coords": [
+       "y1_epa",
+       "y2_first_down"
+      ],
+      "mean_violations_per_unit": 0.3,
+      "p_action": 0.075,
+      "p_unit": 0.3,
+      "testable": 450
+     },
+     {
+      "coords": [
+       "y1_epa",
+       "y3_turnover"
+      ],
+      "mean_violations_per_unit": 0.01990049751243781,
+      "p_action": 0.004975124378109453,
+      "p_unit": 0.01990049751243781,
+      "testable": 402
+     },
+     {
+      "coords": [
+       "y1_epa",
+       "y4_epa_sd"
+      ],
+      "mean_violations_per_unit": 0.12672811059907835,
+      "p_action": 0.03168202764976959,
+      "p_unit": 0.12672811059907835,
+      "testable": 434
+     },
+     {
+      "coords": [
+       "y1_epa",
+       "y5_clock_stop"
+      ],
+      "mean_violations_per_unit": 0.0,
+      "p_action": 0.0,
+      "p_unit": 0.0,
+      "testable": 277
+     },
+     {
+      "coords": [
+       "y2_first_down",
+       "y3_turnover"
+      ],
+      "mean_violations_per_unit": 0.07142857142857142,
+      "p_action": 0.017857142857142856,
+      "p_unit": 0.07142857142857142,
+      "testable": 126
+     },
+     {
+      "coords": [
+       "y2_first_down",
+       "y4_epa_sd"
+      ],
+      "mean_violations_per_unit": 0.19548872180451127,
+      "p_action": 0.04887218045112782,
+      "p_unit": 0.19548872180451127,
+      "testable": 399
+     },
+     {
+      "coords": [
+       "y2_first_down",
+       "y5_clock_stop"
+      ],
+      "mean_violations_per_unit": 0.0,
+      "p_action": 0.0,
+      "p_unit": 0.0,
+      "testable": 307
+     },
+     {
+      "coords": [
+       "y3_turnover",
+       "y4_epa_sd"
+      ],
+      "mean_violations_per_unit": 0.017408123791102514,
+      "p_action": 0.004352030947775629,
+      "p_unit": 0.017408123791102514,
+      "testable": 517
+     },
+     {
+      "coords": [
+       "y3_turnover",
+       "y5_clock_stop"
+      ],
+      "mean_violations_per_unit": 0.09433962264150944,
+      "p_action": 0.02358490566037736,
+      "p_unit": 0.09433962264150944,
+      "testable": 53
+     },
+     {
+      "coords": [
+       "y4_epa_sd",
+       "y5_clock_stop"
+      ],
+      "mean_violations_per_unit": 0.023255813953488372,
+      "p_action": 0.005813953488372093,
+      "p_unit": 0.023255813953488372,
+      "testable": 43
+     }
+    ],
+    "testable_mean": 300.8
+   }
+  },
+  "cells": 201,
+  "decisions": 303411,
+  "n_actions": 4,
+  "units": 962
+ },
+ "A7": {
+  "actions": [
+   "pass_deep",
+   "pass_short_left",
+   "pass_short_middle",
+   "pass_short_right",
+   "run_inside",
+   "run_left_end",
+   "run_right_end"
+  ],
+  "by_dimension": {
+   "2": {
+    "mean_violations_per_unit": 0.6652480891307164,
+    "n_subsets_with_data": 10,
+    "p_action_mean": 0.09503544130438807,
+    "p_unit_mean": 0.5368389687783391,
+    "subsets": [
+     {
+      "coords": [
+       "y1_epa",
+       "y2_first_down"
+      ],
+      "mean_violations_per_unit": 1.0883534136546185,
+      "p_action": 0.15547905909351692,
+      "p_unit": 0.8032128514056225,
+      "testable": 498
+     },
+     {
+      "coords": [
+       "y1_epa",
+       "y3_turnover"
+      ],
+      "mean_violations_per_unit": 0.5622489959839357,
+      "p_action": 0.08032128514056225,
+      "p_unit": 0.4759036144578313,
+      "testable": 498
+     },
+     {
+      "coords": [
+       "y1_epa",
+       "y4_epa_sd"
+      ],
+      "mean_violations_per_unit": 0.7289156626506024,
+      "p_action": 0.10413080895008606,
+      "p_unit": 0.5522088353413654,
+      "testable": 498
+     },
+     {
+      "coords": [
+       "y1_epa",
+       "y5_clock_stop"
+      ],
+      "mean_violations_per_unit": 0.4859437751004016,
+      "p_action": 0.06942053930005737,
+      "p_unit": 0.45180722891566266,
+      "testable": 498
+     },
+     {
+      "coords": [
+       "y2_first_down",
+       "y3_turnover"
+      ],
+      "mean_violations_per_unit": 0.5341365461847389,
+      "p_action": 0.07630522088353414,
+      "p_unit": 0.4598393574297189,
+      "testable": 498
+     },
+     {
+      "coords": [
+       "y2_first_down",
+       "y4_epa_sd"
+      ],
+      "mean_violations_per_unit": 0.9497991967871486,
+      "p_action": 0.13568559954102122,
+      "p_unit": 0.7048192771084337,
+      "testable": 498
+     },
+     {
+      "coords": [
+       "y2_first_down",
+       "y5_clock_stop"
+      ],
+      "mean_violations_per_unit": 0.37751004016064255,
+      "p_action": 0.05393000573723465,
+      "p_unit": 0.3473895582329317,
+      "testable": 498
+     },
+     {
+      "coords": [
+       "y3_turnover",
+       "y4_epa_sd"
+      ],
+      "mean_violations_per_unit": 0.4397590361445783,
+      "p_action": 0.06282271944922548,
+      "p_unit": 0.3674698795180723,
+      "testable": 498
+     },
+     {
+      "coords": [
+       "y3_turnover",
+       "y5_clock_stop"
+      ],
+      "mean_violations_per_unit": 0.6344086021505376,
+      "p_action": 0.09062980030721966,
+      "p_unit": 0.5290322580645161,
+      "testable": 465
+     },
+     {
+      "coords": [
+       "y4_epa_sd",
+       "y5_clock_stop"
+      ],
+      "mean_violations_per_unit": 0.8514056224899599,
+      "p_action": 0.12162937464142283,
+      "p_unit": 0.6767068273092369,
+      "testable": 498
+     }
+    ],
+    "testable_mean": 494.7
+   },
+   "3": {
+    "mean_violations_per_unit": 0.11949707107171408,
+    "n_subsets_with_data": 10,
+    "p_action_mean": 0.01707101015310201,
+    "p_unit_mean": 0.11025376512313656,
+    "subsets": [
+     {
+      "coords": [
+       "y1_epa",
+       "y2_first_down",
+       "y3_turnover"
+      ],
+      "mean_violations_per_unit": 0.11986301369863013,
+      "p_action": 0.017123287671232876,
+      "p_unit": 0.11986301369863013,
+      "testable": 292
+     },
+     {
+      "coords": [
+       "y1_epa",
+       "y2_first_down",
+       "y4_epa_sd"
+      ],
+      "mean_violations_per_unit": 0.38977635782747605,
+      "p_action": 0.05568233683249658,
+      "p_unit": 0.3003194888178914,
+      "testable": 313
+     },
+     {
+      "coords": [
+       "y1_epa",
+       "y2_first_down",
+       "y5_clock_stop"
+      ],
+      "mean_violations_per_unit": 0.024475524475524476,
+      "p_action": 0.0034965034965034965,
+      "p_unit": 0.024475524475524476,
+      "testable": 286
+     },
+     {
+      "coords": [
+       "y1_epa",
+       "y3_turnover",
+       "y4_epa_sd"
+      ],
+      "mean_violations_per_unit": 0.0625,
+      "p_action": 0.008928571428571428,
+      "p_unit": 0.05952380952380952,
+      "testable": 336
+     },
+     {
+      "coords": [
+       "y1_epa",
+       "y3_turnover",
+       "y5_clock_stop"
+      ],
+      "mean_violations_per_unit": 0.09743589743589744,
+      "p_action": 0.01391941391941392,
+      "p_unit": 0.09743589743589744,
+      "testable": 195
+     },
+     {
+      "coords": [
+       "y1_epa",
+       "y4_epa_sd",
+       "y5_clock_stop"
+      ],
+      "mean_violations_per_unit": 0.03349282296650718,
+      "p_action": 0.004784688995215311,
+      "p_unit": 0.03349282296650718,
+      "testable": 209
+     },
+     {
+      "coords": [
+       "y2_first_down",
+       "y3_turnover",
+       "y4_epa_sd"
+      ],
+      "mean_violations_per_unit": 0.07586206896551724,
+      "p_action": 0.01083743842364532,
+      "p_unit": 0.07586206896551724,
+      "testable": 290
+     },
+     {
+      "coords": [
+       "y2_first_down",
+       "y3_turnover",
+       "y5_clock_stop"
+      ],
+      "mean_violations_per_unit": 0.14942528735632185,
+      "p_action": 0.021346469622331693,
+      "p_unit": 0.14942528735632185,
+      "testable": 174
+     },
+     {
+      "coords": [
+       "y2_first_down",
+       "y4_epa_sd",
+       "y5_clock_stop"
+      ],
+      "mean_violations_per_unit": 0.05,
+      "p_action": 0.007142857142857143,
+      "p_unit": 0.05,
+      "testable": 240
+     },
+     {
+      "coords": [
+       "y3_turnover",
+       "y4_epa_sd",
+       "y5_clock_stop"
+      ],
+      "mean_violations_per_unit": 0.19213973799126638,
+      "p_action": 0.02744853399875234,
+      "p_unit": 0.19213973799126638,
+      "testable": 229
+     }
+    ],
+    "testable_mean": 256.4
+   },
+   "4": {
+    "mean_violations_per_unit": 0.0,
+    "n_subsets_with_data": 5,
+    "p_action_mean": 0.0,
+    "p_unit_mean": 0.0,
+    "subsets": [
+     {
+      "coords": [
+       "y1_epa",
+       "y2_first_down",
+       "y3_turnover",
+       "y4_epa_sd"
+      ],
+      "mean_violations_per_unit": 0.0,
+      "p_action": 0.0,
+      "p_unit": 0.0,
+      "testable": 40
+     },
+     {
+      "coords": [
+       "y1_epa",
+       "y2_first_down",
+       "y3_turnover",
+       "y5_clock_stop"
+      ],
+      "mean_violations_per_unit": 0.0,
+      "p_action": 0.0,
+      "p_unit": 0.0,
+      "testable": 23
+     },
+     {
+      "coords": [
+       "y1_epa",
+       "y2_first_down",
+       "y4_epa_sd",
+       "y5_clock_stop"
+      ],
+      "mean_violations_per_unit": 0.0,
+      "p_action": 0.0,
+      "p_unit": 0.0,
+      "testable": 32
+     },
+     {
+      "coords": [
+       "y1_epa",
+       "y3_turnover",
+       "y4_epa_sd",
+       "y5_clock_stop"
+      ],
+      "mean_violations_per_unit": 0.0,
+      "p_action": 0.0,
+      "p_unit": 0.0,
+      "testable": 46
+     },
+     {
+      "coords": [
+       "y2_first_down",
+       "y3_turnover",
+       "y4_epa_sd",
+       "y5_clock_stop"
+      ],
+      "mean_violations_per_unit": 0.0,
+      "p_action": 0.0,
+      "p_unit": 0.0,
+      "testable": 51
+     }
+    ],
+    "testable_mean": 38.4
+   }
+  },
+  "cells": 175,
+  "decisions": 303411,
+  "n_actions": 7,
+  "units": 498
+ },
+ "A9": {
+  "actions": [
+   "pass_deep_left",
+   "pass_deep_middle",
+   "pass_deep_right",
+   "pass_short_left",
+   "pass_short_middle",
+   "pass_short_right",
+   "run_left",
+   "run_middle",
+   "run_right"
+  ],
+  "by_dimension": {
+   "2": {
+    "mean_violations_per_unit": 0.22911392405063294,
+    "n_subsets_with_data": 10,
+    "p_action_mean": 0.025457102672292543,
+    "p_unit_mean": 0.21308016877637131,
+    "subsets": [
+     {
+      "coords": [
+       "y1_epa",
+       "y2_first_down"
+      ],
+      "mean_violations_per_unit": 0.4388185654008439,
+      "p_action": 0.04875761837787154,
+      "p_unit": 0.4177215189873418,
+      "testable": 237
+     },
+     {
+      "coords": [
+       "y1_epa",
+       "y3_turnover"
+      ],
+      "mean_violations_per_unit": 0.1940928270042194,
+      "p_action": 0.02156586966713549,
+      "p_unit": 0.18565400843881857,
+      "testable": 237
+     },
+     {
+      "coords": [
+       "y1_epa",
+       "y4_epa_sd"
+      ],
+      "mean_violations_per_unit": 0.11814345991561181,
+      "p_action": 0.013127051101734646,
+      "p_unit": 0.11814345991561181,
+      "testable": 237
+     },
+     {
+      "coords": [
+       "y1_epa",
+       "y5_clock_stop"
+      ],
+      "mean_violations_per_unit": 0.25316455696202533,
+      "p_action": 0.02812939521800281,
+      "p_unit": 0.2320675105485232,
+      "testable": 237
+     },
+     {
+      "coords": [
+       "y2_first_down",
+       "y3_turnover"
+      ],
+      "mean_violations_per_unit": 0.28270042194092826,
+      "p_action": 0.031411157993436474,
+      "p_unit": 0.25316455696202533,
+      "testable": 237
+     },
+     {
+      "coords": [
+       "y2_first_down",
+       "y4_epa_sd"
+      ],
+      "mean_violations_per_unit": 0.19831223628691982,
+      "p_action": 0.02203469292076887,
+      "p_unit": 0.18565400843881857,
+      "testable": 237
+     },
+     {
+      "coords": [
+       "y2_first_down",
+       "y5_clock_stop"
+      ],
+      "mean_violations_per_unit": 0.12236286919831224,
+      "p_action": 0.013595874355368026,
+      "p_unit": 0.12236286919831224,
+      "testable": 237
+     },
+     {
+      "coords": [
+       "y3_turnover",
+       "y4_epa_sd"
+      ],
+      "mean_violations_per_unit": 0.18143459915611815,
+      "p_action": 0.02015939990623535,
+      "p_unit": 0.16033755274261605,
+      "testable": 237
+     },
+     {
+      "coords": [
+       "y3_turnover",
+       "y5_clock_stop"
+      ],
+      "mean_violations_per_unit": 0.22784810126582278,
+      "p_action": 0.02531645569620253,
+      "p_unit": 0.1940928270042194,
+      "testable": 237
+     },
+     {
+      "coords": [
+       "y4_epa_sd",
+       "y5_clock_stop"
+      ],
+      "mean_violations_per_unit": 0.2742616033755274,
+      "p_action": 0.030473511486169714,
+      "p_unit": 0.2616033755274262,
+      "testable": 237
+     }
+    ],
+    "testable_mean": 237.0
+   },
+   "3": {
+    "mean_violations_per_unit": 0.0175120818238513,
+    "n_subsets_with_data": 10,
+    "p_action_mean": 0.0019457868693168114,
+    "p_unit_mean": 0.0175120818238513,
+    "subsets": [
+     {
+      "coords": [
+       "y1_epa",
+       "y2_first_down",
+       "y3_turnover"
+      ],
+      "mean_violations_per_unit": 0.09947643979057591,
+      "p_action": 0.011052937754508435,
+      "p_unit": 0.09947643979057591,
+      "testable": 191
+     },
+     {
+      "coords": [
+       "y1_epa",
+       "y2_first_down",
+       "y4_epa_sd"
+      ],
+      "mean_violations_per_unit": 0.017543859649122806,
+      "p_action": 0.001949317738791423,
+      "p_unit": 0.017543859649122806,
+      "testable": 171
+     },
+     {
+      "coords": [
+       "y1_epa",
+       "y2_first_down",
+       "y5_clock_stop"
+      ],
+      "mean_violations_per_unit": 0.0,
+      "p_action": 0.0,
+      "p_unit": 0.0,
+      "testable": 192
+     },
+     {
+      "coords": [
+       "y1_epa",
+       "y3_turnover",
+       "y4_epa_sd"
+      ],
+      "mean_violations_per_unit": 0.011049723756906077,
+      "p_action": 0.0012277470841006752,
+      "p_unit": 0.011049723756906077,
+      "testable": 181
+     },
+     {
+      "coords": [
+       "y1_epa",
+       "y3_turnover",
+       "y5_clock_stop"
+      ],
+      "mean_violations_per_unit": 0.0,
+      "p_action": 0.0,
+      "p_unit": 0.0,
+      "testable": 110
+     },
+     {
+      "coords": [
+       "y1_epa",
+       "y4_epa_sd",
+       "y5_clock_stop"
+      ],
+      "mean_violations_per_unit": 0.0,
+      "p_action": 0.0,
+      "p_unit": 0.0,
+      "testable": 158
+     },
+     {
+      "coords": [
+       "y2_first_down",
+       "y3_turnover",
+       "y4_epa_sd"
+      ],
+      "mean_violations_per_unit": 0.011560693641618497,
+      "p_action": 0.0012845215157353885,
+      "p_unit": 0.011560693641618497,
+      "testable": 173
+     },
+     {
+      "coords": [
+       "y2_first_down",
+       "y3_turnover",
+       "y5_clock_stop"
+      ],
+      "mean_violations_per_unit": 0.0,
+      "p_action": 0.0,
+      "p_unit": 0.0,
+      "testable": 109
+     },
+     {
+      "coords": [
+       "y2_first_down",
+       "y4_epa_sd",
+       "y5_clock_stop"
+      ],
+      "mean_violations_per_unit": 0.009174311926605505,
+      "p_action": 0.0010193679918450561,
+      "p_unit": 0.009174311926605505,
+      "testable": 109
+     },
+     {
+      "coords": [
+       "y3_turnover",
+       "y4_epa_sd",
+       "y5_clock_stop"
+      ],
+      "mean_violations_per_unit": 0.02631578947368421,
+      "p_action": 0.0029239766081871343,
+      "p_unit": 0.02631578947368421,
+      "testable": 190
+     }
+    ],
+    "testable_mean": 158.4
+   },
+   "4": {
+    "mean_violations_per_unit": 0.0,
+    "n_subsets_with_data": 5,
+    "p_action_mean": 0.0,
+    "p_unit_mean": 0.0,
+    "subsets": [
+     {
+      "coords": [
+       "y1_epa",
+       "y2_first_down",
+       "y3_turnover",
+       "y4_epa_sd"
+      ],
+      "mean_violations_per_unit": 0.0,
+      "p_action": 0.0,
+      "p_unit": 0.0,
+      "testable": 62
+     },
+     {
+      "coords": [
+       "y1_epa",
+       "y2_first_down",
+       "y3_turnover",
+       "y5_clock_stop"
+      ],
+      "mean_violations_per_unit": 0.0,
+      "p_action": 0.0,
+      "p_unit": 0.0,
+      "testable": 12
+     },
+     {
+      "coords": [
+       "y1_epa",
+       "y2_first_down",
+       "y4_epa_sd",
+       "y5_clock_stop"
+      ],
+      "mean_violations_per_unit": 0.0,
+      "p_action": 0.0,
+      "p_unit": 0.0,
+      "testable": 35
+     },
+     {
+      "coords": [
+       "y1_epa",
+       "y3_turnover",
+       "y4_epa_sd",
+       "y5_clock_stop"
+      ],
+      "mean_violations_per_unit": 0.0,
+      "p_action": 0.0,
+      "p_unit": 0.0,
+      "testable": 77
+     },
+     {
+      "coords": [
+       "y2_first_down",
+       "y3_turnover",
+       "y4_epa_sd",
+       "y5_clock_stop"
+      ],
+      "mean_violations_per_unit": 0.0,
+      "p_action": 0.0,
+      "p_unit": 0.0,
+      "testable": 43
+     }
+    ],
+    "testable_mean": 45.8
+   },
+   "5": {
+    "mean_violations_per_unit": 0.0,
+    "n_subsets_with_data": 1,
+    "p_action_mean": 0.0,
+    "p_unit_mean": 0.0,
+    "subsets": [
+     {
+      "coords": [
+       "y1_epa",
+       "y2_first_down",
+       "y3_turnover",
+       "y4_epa_sd",
+       "y5_clock_stop"
+      ],
+      "mean_violations_per_unit": 0.0,
+      "p_action": 0.0,
+      "p_unit": 0.0,
+      "testable": 12
+     }
+    ],
+    "testable_mean": 12.0
+   }
+  },
+  "cells": 151,
+  "decisions": 303411,
+  "n_actions": 9,
+  "units": 237
+ },
+ "aggregations": {
+  "p_action": "fraction of (unit, action) pairs that are violations",
+  "p_unit": "fraction of testable units with at least one violation"
+ },
+ "chain": "A4 subset of A7 subset of A13, each coarser space a pooling of A13",
+ "coords": [
+  "y1_epa",
+  "y2_first_down",
+  "y3_turnover",
+  "y4_epa_sd",
+  "y5_clock_stop"
+ ],
+ "floor": 5
+}
