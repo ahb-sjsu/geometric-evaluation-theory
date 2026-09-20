@@ -70,8 +70,9 @@ games facing a berserker on a full clock:
 | 300+0 | 900,199 | 190,116 | 2,870, 121,299 | 4,486, 100,545 | +206 |
 | 600+0 | 609,732 | 117,987 | 1,945, 75,280 | 2,445, 53,307 | +210 |
 
-About one reader position survives per 25 sampled in G7a's shakedown, so 3,000 needs on the order
-of 13,000 games at six positions a game, and every cell above clears that several times over. The
+In G7a's shakedown 4.7 to 6.4 percent of labelled positions survived the reader's restrictions
+(`shakedown_pass2.json`). At the lowest rate 3,000 needs about 64,000 positions, near 11,000 games
+at six positions a game, and every cell above clears that several times over. The
 rating edge is large, 200 to 340 points, which makes matching on it a requirement and not a
 refinement: an unmatched comparison would read the berserker's opponents as weaker play. At 60+0
 a berserker has thirty seconds, where premoves dominate, so 60+0 is a candidate for exclusion on
