@@ -34,6 +34,7 @@ import g7a_grade as G
 import g7a_threshold as T
 
 N_BOOT = 1000
+C1_MARGIN = -0.05   # the leak a lapse gradient produced in the self-test, PREREG-G7AR section 3
 
 
 def reader_view(arm, sel=None):
@@ -116,7 +117,7 @@ def grade(rows, engine_floor, n_boot=N_BOOT, seed=20260921):
     draws = [G.slope_through_origin(entering, [boot[L][i] for L in entering], w) for i in range(n_boot)]
     lo, hi = float(np.quantile(draws, 0.025)), float(np.quantile(draws, 0.975))
     rec["exponent_ci"] = [lo, hi]
-    rec["C1"] = "PASS" if hi < 0 else ("FAIL" if lo > 0 else "INDETERMINATE")
+    rec["C1"] = "PASS" if hi < C1_MARGIN else ("FAIL" if lo > 0 else "INDETERMINATE")
     if hi - lo > G.CI_MAX_WIDTH:
         rec["C2"] = "INDETERMINATE"
     else:

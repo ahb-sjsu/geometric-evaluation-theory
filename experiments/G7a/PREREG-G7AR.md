@@ -1,6 +1,8 @@
-﻿# PREREG G7a-r: the same gate read with shape and lapse tied, tested on August
+# PREREG G7a-r: the same gate read with shape and lapse tied, tested on August
 
-Status: DRAFT. Sealed by the rename to `PREREG-G7AR.md` and the blob hash in `CAMPAIGN.md`.
+Status: SEALED 2026-09-20 by the rename to `PREREG-G7AR.md`, under the owner's instruction of
+2026-09-20 to keep going after G7a's July grade; blob hash recorded in `CAMPAIGN.md`. The owner has
+not reviewed this text, and may void it.
 
 ## What had been seen when this was written
 
