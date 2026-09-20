@@ -206,6 +206,23 @@ so that nothing is chosen after the fact.
 * The reading is through a cache. A run resumed from the cache checks the served name against what
   the cache recorded, not against the service.
 
+## Registration defect, recorded 2026-09-20T21:50Z
+
+At the seal, `g3e_config.json` carried `tree_prune` 1e-5, G3c's value, while Section 3 of this file
+registered 1e-4 and gave the measurement that justified it. The two disagreed. It was found when the
+calibration run printed the config's value at start-up, thirty seconds in, before any worksheet of
+any graded block had been scored. The run was stopped, its partial record deleted, the config
+corrected to the registered 1e-4, and the correction committed before the block was started again.
+
+The registration is the authority. Nothing here was chosen after seeing a result: the value 1e-4 and
+the reason for it are in the sealed text at blob `4c0b1cb1a4f3705e7700a237cd09c1715838e36a`. The
+defect is that a constant was written twice and checked once, and the repair is a preflight in the
+runner that refuses to start a block unless the config matches this file: `g3e_preflight.py`,
+which reads the prune, every bar, the judges and their order out of this text by name, checks the
+rest of the design against G3c's own config, and refuses a test block while no test seed exists.
+It was checked against the defect it was written for and three neighbours of it, and refuses all
+four.
+
 ## 9. Sealing procedure
 
 1. Self-test and probe first, both committed with their records.

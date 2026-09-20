@@ -1,6 +1,6 @@
 {
  "gate": "G3e",
- "status": "DRAFT. Sealed by the rename of PREREG-G3E-DRAFT.md to PREREG-G3E.md and the blob hash in CAMPAIGN.md; the test seed is drawn only after predictions.json is committed.",
+ "status": "SEALED 2026-09-20 (PREREG-G3E.md, blob 4c0b1cb1a4f3705e7700a237cd09c1715838e36a). Corrected 2026-09-20T21:50Z, before any calibration worksheet was scored: tree_prune was 1e-05 here and 1e-4 in the sealed registration, Section 3. The registration is the authority and the value is now 1e-4. Registration defect recorded in PREREG-G3E.md. The test seed is drawn only after predictions.json is committed.",
  "api": {
   "base_url": "https://ellm.nrp-nautilus.io/v1",
   "token_file": "/home/claude/.llmtoken",
@@ -24,7 +24,7 @@
  "pairwise": true,
  "batch": 16,
  "batch_tree": 8,
- "tree_prune": 1e-05,
+ "tree_prune": 0.0001,
  "batch_pairwise": 8,
  "prompts": {
   "score": "Below is a worksheet of {n} multiplication problems with a student's answers.\n\n{sheet}\n\nRate the student's answers on a scale from {lo} to {hi}, where {hi} means every answer is correct and {lo} means none is. Reply with a single integer and nothing else.",
