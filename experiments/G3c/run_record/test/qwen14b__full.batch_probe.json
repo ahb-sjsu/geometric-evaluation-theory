@@ -1,0 +1,24 @@
+{
+ "gpu": "Tesla V100-SXM2-32GB",
+ "model": "qwen14b",
+ "precision": "full",
+ "sealed": {
+  "batch": 4,
+  "batch_tree": 1,
+  "batch_pairwise": 2,
+  "tree_rows": 8
+ },
+ "probed": {
+  "score_tokens": 420,
+  "score_batch": 13,
+  "pair_tokens": 820,
+  "pair_batch": 5
+ },
+ "chosen": {
+  "batch": 13,
+  "batch_tree": 1,
+  "batch_pairwise": 5,
+  "tree_rows": 8
+ },
+ "total_gib": 31.73
+}

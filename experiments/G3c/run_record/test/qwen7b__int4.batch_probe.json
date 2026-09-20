@@ -1,0 +1,25 @@
+{
+ "gpu": "NVIDIA GeForce RTX 3090",
+ "model": "qwen7b",
+ "precision": "int4",
+ "sealed": {
+  "batch": 16,
+  "batch_tree": 8,
+  "batch_pairwise": 8,
+  "tree_rows": 8
+ },
+ "probed": {
+  "score_tokens": 420,
+  "score_batch": 90,
+  "pair_tokens": 820,
+  "pair_batch": 46
+ },
+ "chosen": {
+  "batch": 90,
+  "batch_tree": 8,
+  "batch_pairwise": 46,
+  "tree_rows": 8
+ },
+ "total_gib": 23.56,
+ "reused_from": "/data/runs/run/calibration/qwen7b__int4.batch_probe.json"
+}
