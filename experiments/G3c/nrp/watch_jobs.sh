@@ -4,6 +4,7 @@
 # the NRP floor of 40 percent for three samples in a row, so no pod idles on a GPU; when every job
 # has finished, fetch the block's results to Atlas. Runs on Atlas, not in the cluster.
 BLOCK=${1:?block}
+EXPECT=${2:-1}   # jobs this block should have; zero jobs means the submitter has not created them yet
 NS=ssu-atlas-ai
 K="kubectl -n $NS --request-timeout=60s"
 LOG=/home/claude/g3c/nrp/watch_${BLOCK}.log
@@ -48,6 +49,8 @@ while true; do
     case "$jst" in */*/1) active=1 ;; //) active=1 ;; esac
     [ "$phase" = "Pending" ] && active=1
   done
+  n_jobs=$($K get jobs -l app=g3c,atlas.io/role=$BLOCK --no-headers 2>/dev/null | wc -l)
+  if [ "$n_jobs" -lt "$EXPECT" ]; then active=1; fi
   if [ $active -eq 0 ]; then
     echo "$now all jobs finished" >> $LOG
     /usr/bin/python3 /home/claude/g3c/nrp/submit.py fetch --role run --block $BLOCK >> $LOG 2>&1
