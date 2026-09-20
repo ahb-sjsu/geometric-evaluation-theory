@@ -82,17 +82,19 @@ def battery(stratum):
         raise SystemExit("no rows in stratum %s" % stratum)
     cmap = g9.consequence_map(df)
 
-    counts = df.groupby(["posteam"] + CELLKEYS + ["action"], observed=True).size()
-    counts = counts.unstack(fill_value=0)
+    # League evaluator, which is what the registration puts this arm at, because
+    # no per-evaluator definition leaves enough high-pressure units to fit
+    # anything. The menu filter is therefore applied to the league's own counts
+    # in a cell. An earlier version filtered per franchise first and then pooled
+    # the survivors, which is a different and much stricter object: it kept only
+    # cells where some single team had five of every action, and it cut the
+    # battery from about 756 points to 208.
+    counts = df.groupby(CELLKEYS + ["action"], observed=True).size().unstack(fill_value=0)
     for a in ACTIONS:
         if a not in counts.columns:
             counts[a] = 0
     counts = counts[list(ACTIONS)]
-    counts = counts[(counts >= g9.MIN_PER_ACTION).all(axis=1)]
-    # League evaluator: pool the franchises, which is what the registration says
-    # this arm must do, because no per-evaluator definition leaves enough
-    # high-pressure units to fit anything.
-    pooled = counts.groupby(level=list(range(1, counts.index.nlevels))).sum()
+    pooled = counts[(counts >= g9.MIN_PER_ACTION).all(axis=1)]
 
     rows, pairs, meta = [], [], []
     index = {}
@@ -119,6 +121,21 @@ def battery(stratum):
             elif c[j] > c[i]:
                 pairs.append((base + j, base + i))
     return np.array(rows, dtype=float), pairs, meta
+
+
+# A fit whose top eigenvalue is this small, or whose margin is not positive,
+# has not recovered a metric. The max-margin program is homogeneous and bounded
+# by the unit norm of (G, h), so a genuine solution has a top eigenvalue of
+# order one tenth, not one billionth. Reading a rank off numerical dust is the
+# failure this guard exists to prevent, and the first low-pressure fit did
+# exactly that before the battery bug beneath it was found.
+DEGENERATE_EIG = 1e-6
+DEGENERATE_MARGIN = 1e-9
+
+
+def is_degenerate(G, margin):
+    w = np.clip(np.linalg.eigvalsh(G), 0, None)
+    return bool(w.max() < DEGENERATE_EIG or margin <= DEGENERATE_MARGIN), float(w.max())
 
 
 def effective_rank(G, cut=RANK_CUT):
@@ -148,6 +165,7 @@ def fit_low(out_path):
     fit = g5.estimate(Y, pairs)
     G, h = fit["G"], fit["h"]
     rank, eig = effective_rank(G)
+    degenerate, top_eig = is_degenerate(G, fit["margin"])
     base = order_under(G, h, Y, pairs)
 
     # The prediction. Theorem 5 says a rank cut reverses preference between
@@ -171,6 +189,8 @@ def fit_low(out_path):
         "margin": fit["margin"],
         "solver_status": fit["status"],
         "effective_rank": rank,
+        "degenerate": degenerate,
+        "top_eigenvalue": top_eig,
         "eigenvalues": eig,
         "G": G.tolist(),
         "h": h.tolist(),
@@ -186,7 +206,8 @@ def fit_low(out_path):
     print("wrote", out_path)
     print("points %d pairs %d margin %.6f status %s"
           % (rec["n_points"], rec["n_pairs"], rec["margin"], rec["solver_status"]))
-    print("effective rank (low) =", rank)
+    print("degenerate fit:", degenerate, " top eigenvalue %.4g" % top_eig)
+    print("effective rank (low) =", rank, "(meaningless if degenerate)")
     print("eigenvalues:", ["%.4g" % v for v in sorted(eig, reverse=True)])
     print("predicted reversals per budget:", rec["predicted_counts"])
     print("sha256 of the committed fit:", hashlib.sha256(open(out_path, "rb").read()).hexdigest())
@@ -205,7 +226,9 @@ def score_high(fit_path, out_path):
     fit = g5.estimate(Y, pairs)
     G, h = fit["G"], fit["h"]
     rank_high, eig_high = effective_rank(G)
+    deg_high, top_high = is_degenerate(G, fit["margin"])
     rank_low = low["effective_rank"]
+    deg_low = bool(low.get("degenerate", False))
 
     # Score the committed prediction for the budget the high stratum turned out
     # to sit at. The set was fixed before this stratum was opened.
@@ -241,7 +264,12 @@ def score_high(fit_path, out_path):
     share = (hits / checked) if checked else None
 
     rank_falls = rank_high < rank_low
-    if rank_falls and share is not None and share >= 0.60:
+    if deg_low or deg_high:
+        # Neither stratum recovered a metric, so there is no rank to compare and
+        # the registered statistic does not exist on this world. That is a miss
+        # of the arm, not a verdict on the prediction.
+        verdict = "NOT MEASURABLE, the representation program is degenerate"
+    elif rank_falls and share is not None and share >= 0.60:
         verdict = "PASS"
     elif rank_high >= rank_low:
         verdict = "FAIL"
@@ -264,6 +292,9 @@ def score_high(fit_path, out_path):
         "predicted_reversals_observed": int(hits),
         "observed_share": share,
         "rank_falls": bool(rank_falls),
+        "degenerate_low": deg_low,
+        "degenerate_high": deg_high,
+        "top_eigenvalue_high": top_high,
         "verdict": verdict,
         "bars": {"pass": "rank strictly lower and at least 0.60 of predicted reversals observed",
                  "fail": "rank equal or higher under high pressure"},
@@ -277,6 +308,81 @@ def score_high(fit_path, out_path):
 
 
 # --------------------------------------------------------------------------- self-test
+
+def diagnose(stratum="low", out_path=None, seed=11) -> int:
+    """Where does one evaluator stop being able to serve every game state?
+
+    Required by protocol rule 8. The low-pressure fit is degenerate, meaning no
+    single convex quadratic evaluator separates the revealed preferences with a
+    positive margin, and a verdict of "degenerate" that cannot be diagnosed
+    from its own record is a verdict that has to be run again to be understood.
+
+    Two things are measured. One cell at a time, which the theory says must be
+    representable, since four consequence points in general position represent
+    every order. Then pools of growing size, which locates the number of
+    distinct game states one metric and one ideal can cover before the
+    representation program collapses.
+    """
+    rng = np.random.default_rng(seed)
+    Y, pairs, meta = battery(stratum)
+    cells = {}
+    for i, m in enumerate(meta):
+        cells.setdefault(tuple(m["cell"]), []).append(i)
+    keys = sorted(cells)
+    rng.shuffle(keys)
+
+    def fit_subset(sub_keys):
+        idx = [i for k in sub_keys for i in cells[k]]
+        remap = {old: new for new, old in enumerate(idx)}
+        sub_pairs = [(remap[a], remap[b]) for a, b in pairs
+                     if a in remap and b in remap]
+        if not sub_pairs:
+            return None
+        try:
+            f = g5.estimate(Y[idx], sub_pairs)
+        except RuntimeError:
+            return None
+        deg, top = is_degenerate(f["G"], f["margin"])
+        r, _ = effective_rank(f["G"])
+        return {"cells": len(sub_keys), "points": len(idx), "pairs": len(sub_pairs),
+                "margin": f["margin"], "top_eigenvalue": top,
+                "degenerate": deg, "effective_rank": r}
+
+    singles = []
+    for k in keys[:25]:
+        r = fit_subset([k])
+        if r:
+            singles.append(r)
+    n_single_ok = sum(1 for r in singles if not r["degenerate"])
+
+    ladder = []
+    for n in (1, 2, 3, 5, 8, 12, 20, 35, 60, 100, 150, len(keys)):
+        if n > len(keys):
+            continue
+        r = fit_subset(keys[:n])
+        if r:
+            ladder.append(r)
+            print("cells %4d points %5d pairs %5d margin %12.3g top eig %10.3g rank %d %s"
+                  % (r["cells"], r["points"], r["pairs"], r["margin"], r["top_eigenvalue"],
+                     r["effective_rank"], "DEGENERATE" if r["degenerate"] else ""))
+
+    last_ok = max((r["cells"] for r in ladder if not r["degenerate"]), default=0)
+    rec = {"stratum": stratum, "n_cells_available": len(keys),
+           "single_cells_fitted": len(singles),
+           "single_cells_nondegenerate": n_single_ok,
+           "ladder": ladder,
+           "largest_nondegenerate_pool_cells": last_ok,
+           "reading": "one evaluator serves this many game states before the representation "
+                      "program collapses"}
+    print()
+    print("single cells fitted %d, of which non-degenerate %d" % (len(singles), n_single_ok))
+    print("largest non-degenerate pool: %d cells of %d" % (last_ok, len(keys)))
+    if out_path:
+        with open(out_path, "w") as f:
+            json.dump(rec, f, indent=1, sort_keys=True)
+        print("wrote", out_path)
+    return 0
+
 
 def calibrate(out_path=None, trials=6, seed=99) -> int:
     """Fix the eigenvalue cut on synthetic evaluators of known rank.
@@ -378,6 +484,7 @@ def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--selftest", action="store_true")
     ap.add_argument("--calibrate", action="store_true")
+    ap.add_argument("--diagnose", choices=["low", "high"])
     ap.add_argument("--fit-low", action="store_true")
     ap.add_argument("--score-high", action="store_true")
     ap.add_argument("--fit", help="the committed low-pressure fit")
@@ -387,6 +494,8 @@ def main(argv=None):
         return selftest()
     if a.calibrate:
         return calibrate(a.out)
+    if a.diagnose:
+        return diagnose(a.diagnose, a.out)
     if a.fit_low:
         if not a.out:
             ap.error("--out is required")
