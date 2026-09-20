@@ -17,7 +17,7 @@ while true; do
     pod=$($K get pods -l job-name=$n -o jsonpath='{.items[0].metadata.name}' 2>/dev/null)
     phase=$($K get pod $pod -o jsonpath='{.status.phase}' 2>/dev/null)
     node=$($K get pod $pod -o jsonpath='{.spec.nodeName}' 2>/dev/null)
-    util=""
+    util=""; gmem=""; age=""
     if [ "$phase" = "Running" ]; then
       util=$($K exec $pod -- nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits 2>/dev/null | head -1)
       gmem=$($K exec $pod -- nvidia-smi --query-gpu=memory.used --format=csv,noheader,nounits 2>/dev/null | head -1)
