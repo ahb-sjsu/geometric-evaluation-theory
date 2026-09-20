@@ -1,0 +1,37 @@
+{
+ "bars": {
+  "fail": "rank equal or higher under high pressure",
+  "pass": "rank strictly lower and at least 0.60 of predicted reversals observed"
+ },
+ "committed_fit_sha256": "1a057761790d691dc77b1e7623198677ebaf12bee2c6a3721903acfa858e63c6",
+ "degenerate_high": true,
+ "degenerate_low": true,
+ "effective_rank_high": 1,
+ "effective_rank_low": 2,
+ "eigenvalues_high": [
+  0.0,
+  0.0,
+  0.0,
+  0.0,
+  1.4176945543182766e-09
+ ],
+ "eigenvalues_low": [
+  0.0,
+  0.0,
+  0.0,
+  5.294225857259015e-10,
+  1.8617310117124033e-09
+ ],
+ "margin_high": 9.413453474334326e-09,
+ "margin_low": 9.361319779411315e-09,
+ "n_pairs_high": 749,
+ "n_pairs_low": 1131,
+ "n_points_high": 504,
+ "n_points_low": 756,
+ "observed_share": 0.5376344086021505,
+ "predicted_reversals_observed": 50,
+ "predicted_reversals_scored": 93,
+ "rank_falls": true,
+ "top_eigenvalue_high": 1.4176945543182766e-09,
+ "verdict": "NOT MEASURABLE, the representation program is degenerate"
+}

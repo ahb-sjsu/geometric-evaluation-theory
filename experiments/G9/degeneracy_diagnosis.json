@@ -1,0 +1,118 @@
+{
+ "ladder": [
+  {
+   "cells": 1,
+   "degenerate": false,
+   "effective_rank": 1,
+   "margin": 2.3597572067752637,
+   "pairs": 6,
+   "points": 4,
+   "top_eigenvalue": 0.8479400824066178
+  },
+  {
+   "cells": 2,
+   "degenerate": false,
+   "effective_rank": 2,
+   "margin": 0.47802698963302376,
+   "pairs": 12,
+   "points": 8,
+   "top_eigenvalue": 0.7336011288887929
+  },
+  {
+   "cells": 3,
+   "degenerate": false,
+   "effective_rank": 2,
+   "margin": 0.20021094757479874,
+   "pairs": 18,
+   "points": 12,
+   "top_eigenvalue": 0.5698169444029654
+  },
+  {
+   "cells": 5,
+   "degenerate": false,
+   "effective_rank": 3,
+   "margin": 0.18044146416622375,
+   "pairs": 30,
+   "points": 20,
+   "top_eigenvalue": 0.6193823452983886
+  },
+  {
+   "cells": 8,
+   "degenerate": false,
+   "effective_rank": 2,
+   "margin": 0.07662327471655454,
+   "pairs": 48,
+   "points": 32,
+   "top_eigenvalue": 0.5152822018442245
+  },
+  {
+   "cells": 12,
+   "degenerate": true,
+   "effective_rank": 2,
+   "margin": -5.8843032663783156e-08,
+   "pairs": 72,
+   "points": 48,
+   "top_eigenvalue": 5.136115530944794e-07
+  },
+  {
+   "cells": 20,
+   "degenerate": true,
+   "effective_rank": 1,
+   "margin": -1.6947314047965644e-09,
+   "pairs": 120,
+   "points": 80,
+   "top_eigenvalue": 1.2564340241204695e-08
+  },
+  {
+   "cells": 35,
+   "degenerate": true,
+   "effective_rank": 2,
+   "margin": -2.1196418639572216e-07,
+   "pairs": 210,
+   "points": 140,
+   "top_eigenvalue": 1.2636565804607587e-06
+  },
+  {
+   "cells": 60,
+   "degenerate": true,
+   "effective_rank": 1,
+   "margin": -3.537941731664656e-08,
+   "pairs": 359,
+   "points": 240,
+   "top_eigenvalue": 9.612324845340048e-08
+  },
+  {
+   "cells": 100,
+   "degenerate": true,
+   "effective_rank": 2,
+   "margin": -4.0534333234805085e-08,
+   "pairs": 597,
+   "points": 400,
+   "top_eigenvalue": 7.401744733710745e-09
+  },
+  {
+   "cells": 150,
+   "degenerate": true,
+   "effective_rank": 2,
+   "margin": 3.883540090675215e-09,
+   "pairs": 897,
+   "points": 600,
+   "top_eigenvalue": 4.955447930077268e-09
+  },
+  {
+   "cells": 189,
+   "degenerate": true,
+   "effective_rank": 2,
+   "margin": 9.361319779411315e-09,
+   "pairs": 1131,
+   "points": 756,
+   "top_eigenvalue": 1.8617310117124033e-09
+  }
+ ],
+ "largest_nondegenerate_pool_cells": 8,
+ "n_cells_available": 189,
+ "reading": "one evaluator serves this many game states before the representation program collapses",
+ "single_cells_fitted": 25,
+ "single_cells_nondegenerate": 25,
+ "stratum": "low"
+}
