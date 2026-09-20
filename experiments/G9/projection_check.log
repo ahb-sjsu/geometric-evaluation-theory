@@ -1,0 +1,10 @@
+trial 1000  full 0/0  proj 60/361
+trial 2000  full 0/0  proj 117/739
+trial 3000  full 0/0  proj 160/1084
+trial 4000  full 0/0  proj 219/1454
+
+In the evaluator's own 5-D space: 0 testable, 0 violating, rate n/a
+Read on 2 of the 5 coordinates: 1454 testable, 219 violating, rate 0.1506
+
+Every violation in the second line is manufactured by the projection,
+because the ranking came from a genuine convex evaluator.
