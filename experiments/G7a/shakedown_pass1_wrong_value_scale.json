@@ -1,0 +1,50 @@
+{
+ "calibration_category": "blitz",
+ "calibration_fit": {
+  "eps": null,
+  "n_positions": 4619,
+  "n_used": 490,
+  "share_in_top_two": 0.49556180991556614,
+  "share_two_alternative": 0.17103269105867072,
+  "share_used": 0.10608356787183373
+ },
+ "counts": {
+  "blitz": {
+   "labelled_undecided": 4619,
+   "played_one_of_top_two": 2289,
+   "share_survive": 0.114743450963412,
+   "survive_both": 530,
+   "two_alternative": 790
+  },
+  "bullet": {
+   "labelled_undecided": 1060,
+   "played_one_of_top_two": 514,
+   "share_survive": 0.10849056603773585,
+   "survive_both": 115,
+   "two_alternative": 170
+  },
+  "classical": {
+   "labelled_undecided": 1061,
+   "played_one_of_top_two": 545,
+   "share_survive": 0.12158341187558906,
+   "survive_both": 129,
+   "two_alternative": 188
+  },
+  "rapid": {
+   "labelled_undecided": 1128,
+   "played_one_of_top_two": 593,
+   "share_survive": 0.12677304964539007,
+   "survive_both": 143,
+   "two_alternative": 210
+  }
+ },
+ "gap12_quantiles_calibration": [
+  0.0010000000000000009,
+  0.006500000000000061,
+  0.0295,
+  0.11900000000000005,
+  0.33449999999999996
+ ],
+ "n_rows": 7868,
+ "third_cutoff": 0.1
+}

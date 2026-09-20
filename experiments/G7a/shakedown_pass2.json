@@ -1,0 +1,70 @@
+{
+ "calibration_category": "blitz",
+ "calibration_fit": {
+  "eps": null,
+  "n_positions": 9009,
+  "n_used": 667,
+  "share_in_top_two": 0.5211455211455212,
+  "share_two_alternative": 0.09324009324009325,
+  "share_used": 0.07403707403707403
+ },
+ "consequence_map": "Lichess logistic, k=0.00368208",
+ "counts": {
+  "blitz": {
+   "labelled": 12000,
+   "played_one_of_top_two": 4695,
+   "share_of_labelled_surviving": 0.058,
+   "survive_all": 696,
+   "two_alternative": 840,
+   "undecided": 9009
+  },
+  "bullet": {
+   "labelled": 3000,
+   "played_one_of_top_two": 1025,
+   "share_of_labelled_surviving": 0.04666666666666667,
+   "survive_all": 140,
+   "two_alternative": 179,
+   "undecided": 2067
+  },
+  "classical": {
+   "labelled": 3000,
+   "played_one_of_top_two": 1070,
+   "share_of_labelled_surviving": 0.05733333333333333,
+   "survive_all": 172,
+   "two_alternative": 217,
+   "undecided": 2100
+  },
+  "rapid": {
+   "labelled": 3000,
+   "played_one_of_top_two": 1185,
+   "share_of_labelled_surviving": 0.06433333333333334,
+   "survive_all": 193,
+   "two_alternative": 233,
+   "undecided": 2202
+  }
+ },
+ "engine_sensitivity_pooled": {
+  "correct_at_deep_among_both": 0.7114093959731543,
+  "correct_at_shallow_among_both": 0.7449664429530202,
+  "gap12_correlation_among_both": 0.9289184877410926,
+  "kept_at_both": 149,
+  "kept_at_deep": 181,
+  "kept_at_shallow": 184,
+  "nodes": [
+   50000,
+   200000
+  ],
+  "positions_compared": 3200,
+  "same_best_move": 0.6996875,
+  "same_choice_index": 0.745
+ },
+ "gap12_quantiles_calibration": [
+  0.0012683811257746872,
+  0.0064360821829519965,
+  0.020178584309823444,
+  0.05955523846385746,
+  0.15213750297888817
+ ],
+ "n_rows": 21000,
+ "third_cutoff": 0.1
+}

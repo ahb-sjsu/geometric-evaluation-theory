@@ -2,29 +2,30 @@
 """G7a stage 2: ask the engine what the human was choosing between.
 
 For each sampled position the engine reports its three best moves at a fixed
-node count. Values are converted to a win expectation with the engine's own
-win-draw-loss model, so gaps are in the units the outcome is in rather than in
-centipawns, whose meaning changes with the position.
+node count. What is written is RAW: the three centipawn scores from the mover's
+side, the three moves, and where the human's move falls among them. No
+conversion to win probability happens here and no position is filtered out.
 
-Written per position: the gap between the engine's first and second move, the
-gap between its second and third, and where the human's move falls in the
-engine's ordering. Nothing is fitted here.
+That is a correction. The first version converted scores with the engine's own
+win-draw-loss model and dropped "decided" positions as it went, and the
+shakedown lost 62 percent of its positions to that filter. The engine's model
+describes engines playing engines, where a pawn and a half is nearly a won game.
+For humans rated 1200 to 2400 it is not, so the conversion was the wrong
+consequence map for this population, and because it was applied inside the
+labeller the raw scores were gone and the labels had to be made again. A stage
+that can be wrong about an interpretation should persist what it saw and leave
+the interpretation to a later stage that can be rerun for free.
 
-A fixed node count, and not a fixed time, because the labels must not depend on
-how busy the machine was. One thread and a fixed hash for the same reason.
-
-Decided positions are dropped. When the better side's expectation is already
-outside [0.10, 0.90] the gaps compress toward zero and the player's task has
-changed from choosing to converting.
+A fixed node count, and not a fixed time, because labels must not depend on how
+busy the machine was. One thread and a fixed hash for the same reason.
 """
 import argparse
 import json
-import sys
 
 import chess
 import chess.engine
 
-DECIDED_LO, DECIDED_HI = 0.10, 0.90
+MATE = 100000
 
 
 def main():
@@ -35,11 +36,12 @@ def main():
     ap.add_argument("--nodes", type=int, required=True)
     ap.add_argument("--shard", type=int, default=0)
     ap.add_argument("--of", type=int, default=1)
+    ap.add_argument("--limit", type=int, default=0, help="stop after this many, 0 for all")
     a = ap.parse_args()
 
     eng = chess.engine.SimpleEngine.popen_uci(a.engine)
     eng.configure({"Threads": 1, "Hash": 64})
-    n = kept = decided = 0
+    n = 0
     with open(a.todo) as f, open(a.out, "w") as out:
         for i, line in enumerate(f):
             if i % a.of != a.shard:
@@ -49,26 +51,19 @@ def main():
             info = eng.analyse(board, chess.engine.Limit(nodes=a.nodes), multipv=3)
             if len(info) < 3:
                 continue
-            n += 1
-            ex, moves = [], []
-            for pv in info:
-                sc = pv["score"].pov(board.turn)
-                ex.append(sc.wdl(model="sf", ply=board.ply()).expectation())
-                moves.append(pv["pv"][0].uci())
-            if not (DECIDED_LO <= ex[0] <= DECIDED_HI):
-                decided += 1
-                continue
-            choice = moves.index(row["played"]) if row["played"] in moves else 3
-            row.update({"gap12": ex[0] - ex[1], "gap23": ex[1] - ex[2], "best_expectation": ex[0],
-                        "choice": choice, "nodes": a.nodes, "engine": eng.id.get("name")})
-            row.pop("fen", None)
+            cps = [pv["score"].pov(board.turn).score(mate_score=MATE) for pv in info]
+            moves = [pv["pv"][0].uci() for pv in info]
+            row.update({"cp": cps, "engine_moves": moves,
+                        "choice": moves.index(row["played"]) if row["played"] in moves else 3,
+                        "nodes": a.nodes, "engine": eng.id.get("name")})
             out.write(json.dumps(row) + "\n")
-            kept += 1
+            n += 1
             if n % 500 == 0:
-                print("shard", a.shard, "labelled", n, "kept", kept, flush=True)
+                print("shard", a.shard, "labelled", n, flush=True)
+            if a.limit and n >= a.limit:
+                break
     eng.quit()
-    print(json.dumps({"shard": a.shard, "labelled": n, "kept": kept, "decided_dropped": decided}),
-          flush=True)
+    print(json.dumps({"shard": a.shard, "labelled": n}), flush=True)
 
 
 if __name__ == "__main__":

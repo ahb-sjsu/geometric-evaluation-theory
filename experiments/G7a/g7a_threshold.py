@@ -54,6 +54,31 @@ from scipy.optimize import minimize
 THIRD_CUTOFF = 0.10          # win-probability units, frozen by the diagnosis
 MIN_POSITIONS = 800
 
+# --------------------------------------------------------------------------- the consequence map
+
+# Centipawns to the mover's expected score, by the logistic Lichess publishes
+# for its accuracy measure, fitted to games between humans on that site
+# (lichess.org/page/accuracy; the constant is to be re-verified against that
+# page at seal). It is the world's consequence map for this population. The
+# engine's own win-draw-loss model is NOT used: it describes engines playing
+# engines, where a pawn and a half is nearly a won game, and the shakedown lost
+# 62 percent of its positions to it before the mistake was seen.
+LICHESS_K = 0.00368208
+DECIDED_LO, DECIDED_HI = 0.10, 0.90
+
+
+def win_expectation(cp):
+    return 1.0 / (1.0 + np.exp(-LICHESS_K * np.asarray(cp, dtype=float)))
+
+
+def gaps_from_cp(cp3):
+    """From the engine's three scores: gap12, gap23, and whether the position is
+    still undecided. A decided position is dropped because gaps compress toward
+    zero there and the task has changed from choosing to converting."""
+    e = win_expectation(cp3)
+    undecided = (e[..., 0] >= DECIDED_LO) & (e[..., 0] <= DECIDED_HI)
+    return e[..., 0] - e[..., 1], e[..., 1] - e[..., 2], undecided
+
 
 # --------------------------------------------------------------------------- the reader
 
