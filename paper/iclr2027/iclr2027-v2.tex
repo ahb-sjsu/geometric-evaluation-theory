@@ -470,7 +470,7 @@ A pairwise chooser measures its position bias before it measures a threshold, so
 
 \paragraph{Consequences.}
 The target is 100.
-An option is a number in $[50,150]$ and its consequence is its distance from the target, between 10 and 40, two digits before the decimal point so that a report of fixed length has fixed resolution.
+An option is a number whose distance from the target lies between 10 and 40, on either side with equal probability, so that options fall in $[60,90]$ or $[110,140]$. Its consequence is that distance, which has two digits before the decimal point so that a report of fixed length has fixed resolution.
 A pair is two options whose distances differ by a gap on the ladder 0.0005, 0.001, 0.002, 0.005, 0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1, 2, 5, 10, 20, each option on either side of the target with equal probability, 200 pairs per gap drawn by seed.
 The options are drawn continuously, so their positions relative to any grid on the ladder are uniform, which is the hypothesis of Proposition~\ref{prop:channel}.
 

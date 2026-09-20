@@ -210,7 +210,7 @@ A pairwise chooser measures its position bias before it measures a threshold, so
 
 \paragraph{Consequences.}
 The target is 100.
-An option is a number in $[50,150]$ and its consequence is its distance from the target, between 10 and 40, two digits before the decimal point so that a report of fixed length has fixed resolution.
+An option is a number whose distance from the target lies between 10 and 40, on either side with equal probability, so that options fall in $[60,90]$ or $[110,140]$. Its consequence is that distance, which has two digits before the decimal point so that a report of fixed length has fixed resolution.
 A pair is two options whose distances differ by a gap on the ladder 0.0005, 0.001, 0.002, 0.005, 0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1, 2, 5, 10, 20, each option on either side of the target with equal probability, 200 pairs per gap drawn by seed.
 The options are drawn continuously, so their positions relative to any grid on the ladder are uniform, which is the hypothesis of Proposition~\ref{prop:channel}.
 
@@ -351,7 +351,7 @@ The nearest neighbor with a budget is rational inattention and limited attention
 The budget here is a different quantity.
 It limits the resolution of consequences under the evaluator's metric, not the acquisition of information about states.
 The decision geometry of \citet{dawid2007} derives a geometry on distributions from a scoring rule and is the case of an identity evaluator with the true distribution as ideal and no budget.
-The pullback construction that gives an evaluator its geometry, and the regret bound of Appendix~\ref{app:gates}, come from a companion draft on observer representation \citep{bond2026or}, and the economics application is in \citet{bond2026tcss}.
+The pullback construction that gives an evaluator its geometry, and the regret bound of Appendix~\ref{app:gates}, come from prior work on observer representation \citep{bond2026or}, and the economics application is in \citet{bond2026tcss}.
 
 On language-model judges, \citet{zheng2023} established the practice and its position and verbosity biases, and \citet{li2026grading} found human alignment highest on a 0 to 5 scale, with finer scales worse.
 That finding is about the scale a judge is asked to use.
@@ -377,7 +377,7 @@ What would fail the threshold claim is stated in the registration: a threshold t
 
 \subsection*{AI use statement}
 Generative AI tools were used in this work, and the uses that the ICLR policy lists as requiring disclosure were the following.
-They assisted in the writing of proofs of the theorems stated here and in the companion draft, in refining the predictions into registered hypotheses with bars, in designing and giving feedback on the experimental protocols, in implementing the methods (the stimulus generators, the judge harness, the estimators, and the grading scripts), in generating the synthetic evaluators on which the identification gate was run, and in interpreting results into the written record.
+They assisted in the writing of proofs of the theorems stated here and in that prior work, in refining the predictions into registered hypotheses with bars, in designing and giving feedback on the experimental protocols, in implementing the methods (the stimulus generators, the judge harness, the estimators, and the grading scripts), in generating the synthetic evaluators on which the identification gate was run, and in interpreting results into the written record.
 They were not used to generate the theory's definitions or its central claims, which were the authors' and precede the tools' involvement, and they were not used to produce any reported number, which come from executing the registered code on the recorded seeds.
 Among the uses the policy lists as recommended for disclosure, the tools drafted and edited sections of this paper, searched and summarized related literature, produced the figures from the graded records, wrote and edited code, and formatted references.
 Verification was as follows.
