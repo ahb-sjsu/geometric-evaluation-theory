@@ -1,0 +1,781 @@
+{
+ "all_controls_top40": [
+  {
+   "control": "60+0",
+   "estimated_seconds": 60,
+   "games": 23532205
+  },
+  {
+   "control": "180+0",
+   "estimated_seconds": 180,
+   "games": 16750139
+  },
+  {
+   "control": "300+0",
+   "estimated_seconds": 300,
+   "games": 11419859
+  },
+  {
+   "control": "600+0",
+   "estimated_seconds": 600,
+   "games": 11115954
+  },
+  {
+   "control": "180+2",
+   "estimated_seconds": 260,
+   "games": 7896117
+  },
+  {
+   "control": "120+1",
+   "estimated_seconds": 160,
+   "games": 5688466
+  },
+  {
+   "control": "300+3",
+   "estimated_seconds": 420,
+   "games": 4339312
+  },
+  {
+   "control": "600+5",
+   "estimated_seconds": 800,
+   "games": 2238015
+  },
+  {
+   "control": "15+0",
+   "estimated_seconds": 15,
+   "games": 857488
+  },
+  {
+   "control": "30+0",
+   "estimated_seconds": 30,
+   "games": 763294
+  },
+  {
+   "control": "900+10",
+   "estimated_seconds": 1300,
+   "games": 653309
+  },
+  {
+   "control": "60+1",
+   "estimated_seconds": 100,
+   "games": 605070
+  },
+  {
+   "control": "0+1",
+   "estimated_seconds": 40,
+   "games": 552085
+  },
+  {
+   "control": "1800+0",
+   "estimated_seconds": 1800,
+   "games": 263139
+  },
+  {
+   "control": "900+0",
+   "estimated_seconds": 900,
+   "games": 223605
+  },
+  {
+   "control": "120+0",
+   "estimated_seconds": 120,
+   "games": 145157
+  },
+  {
+   "control": "480+0",
+   "estimated_seconds": 480,
+   "games": 116772
+  },
+  {
+   "control": "300+5",
+   "estimated_seconds": 500,
+   "games": 107216
+  },
+  {
+   "control": "1500+0",
+   "estimated_seconds": 1500,
+   "games": 98559
+  },
+  {
+   "control": "600+2",
+   "estimated_seconds": 680,
+   "games": 83790
+  },
+  {
+   "control": "-",
+   "estimated_seconds": null,
+   "games": 82845
+  },
+  {
+   "control": "180+1",
+   "estimated_seconds": 220,
+   "games": 70880
+  },
+  {
+   "control": "600+3",
+   "estimated_seconds": 720,
+   "games": 66491
+  },
+  {
+   "control": "300+2",
+   "estimated_seconds": 380,
+   "games": 66172
+  },
+  {
+   "control": "420+2",
+   "estimated_seconds": 500,
+   "games": 53128
+  },
+  {
+   "control": "240+0",
+   "estimated_seconds": 240,
+   "games": 46884
+  },
+  {
+   "control": "1800+20",
+   "estimated_seconds": 2600,
+   "games": 42193
+  },
+  {
+   "control": "420+3",
+   "estimated_seconds": 540,
+   "games": 38875
+  },
+  {
+   "control": "480+2",
+   "estimated_seconds": 560,
+   "games": 38558
+  },
+  {
+   "control": "1200+0",
+   "estimated_seconds": 1200,
+   "games": 37135
+  },
+  {
+   "control": "420+0",
+   "estimated_seconds": 420,
+   "games": 32671
+  },
+  {
+   "control": "60+2",
+   "estimated_seconds": 140,
+   "games": 32509
+  },
+  {
+   "control": "180+3",
+   "estimated_seconds": 300,
+   "games": 30777
+  },
+  {
+   "control": "900+5",
+   "estimated_seconds": 1100,
+   "games": 29866
+  },
+  {
+   "control": "600+10",
+   "estimated_seconds": 1000,
+   "games": 27250
+  },
+  {
+   "control": "1200+10",
+   "estimated_seconds": 1600,
+   "games": 25539
+  },
+  {
+   "control": "420+5",
+   "estimated_seconds": 620,
+   "games": 24629
+  },
+  {
+   "control": "300+4",
+   "estimated_seconds": 460,
+   "games": 23734
+  },
+  {
+   "control": "300+8",
+   "estimated_seconds": 620,
+   "games": 23381
+  },
+  {
+   "control": "900+3",
+   "estimated_seconds": 1020,
+   "games": 20926
+  }
+ ],
+ "controls": {
+  "120+0": {
+   "arena_games": 33022,
+   "games": 145157,
+   "mean_rating_edge_of_berserker": 289.4324477908794,
+   "one_berserker": 7039,
+   "placebo_opponent_cohort": {
+    "m>=10": {
+     "games_facing_berserker": 2343,
+     "plain_arena_games": 8706,
+     "players": 122
+    },
+    "m>=20": {
+     "games_facing_berserker": 1009,
+     "plain_arena_games": 3280,
+     "players": 25
+    },
+    "m>=5": {
+     "games_facing_berserker": 4052,
+     "plain_arena_games": 15988,
+     "players": 389
+    }
+   },
+   "two_berserkers": 1304,
+   "within_player_cohort": {
+    "m>=10": {
+     "berserk_games": 3631,
+     "plain_arena_games": 5170,
+     "players": 135
+    },
+    "m>=20": {
+     "berserk_games": 2093,
+     "plain_arena_games": 2688,
+     "players": 42
+    },
+    "m>=5": {
+     "berserk_games": 5259,
+     "plain_arena_games": 9272,
+     "players": 307
+    }
+   }
+  },
+  "180+0": {
+   "arena_games": 2007847,
+   "games": 16750139,
+   "mean_rating_edge_of_berserker": 210.79899654856814,
+   "one_berserker": 453435,
+   "placebo_opponent_cohort": {
+    "m>=10": {
+     "games_facing_berserker": 323001,
+     "plain_arena_games": 1766192,
+     "players": 11031
+    },
+    "m>=20": {
+     "games_facing_berserker": 247097,
+     "plain_arena_games": 1312486,
+     "players": 5433
+    },
+    "m>=5": {
+     "games_facing_berserker": 380437,
+     "plain_arena_games": 2113825,
+     "players": 19647
+    }
+   },
+   "two_berserkers": 76971,
+   "within_player_cohort": {
+    "m>=10": {
+     "berserk_games": 411759,
+     "plain_arena_games": 731674,
+     "players": 7409
+    },
+    "m>=20": {
+     "berserk_games": 332049,
+     "plain_arena_games": 538067,
+     "players": 4009
+    },
+    "m>=5": {
+     "berserk_games": 474724,
+     "plain_arena_games": 919150,
+     "players": 12289
+    }
+   }
+  },
+  "180+2": {
+   "arena_games": 219947,
+   "games": 7896117,
+   "mean_rating_edge_of_berserker": 284.29164811021053,
+   "one_berserker": 33681,
+   "placebo_opponent_cohort": {
+    "m>=10": {
+     "games_facing_berserker": 6633,
+     "plain_arena_games": 22365,
+     "players": 438
+    },
+    "m>=20": {
+     "games_facing_berserker": 1792,
+     "plain_arena_games": 4517,
+     "players": 64
+    },
+    "m>=5": {
+     "games_facing_berserker": 15200,
+     "plain_arena_games": 60444,
+     "players": 1767
+    }
+   },
+   "two_berserkers": 6603,
+   "within_player_cohort": {
+    "m>=10": {
+     "berserk_games": 11942,
+     "plain_arena_games": 18228,
+     "players": 566
+    },
+    "m>=20": {
+     "berserk_games": 4578,
+     "plain_arena_games": 6419,
+     "players": 129
+    },
+    "m>=5": {
+     "berserk_games": 21397,
+     "plain_arena_games": 35880,
+     "players": 1588
+    }
+   }
+  },
+  "30+0": {
+   "arena_games": 340578,
+   "games": 763294,
+   "mean_rating_edge_of_berserker": 340.43891747665333,
+   "one_berserker": 52470,
+   "placebo_opponent_cohort": {
+    "m>=10": {
+     "games_facing_berserker": 32480,
+     "plain_arena_games": 316259,
+     "players": 1178
+    },
+    "m>=20": {
+     "games_facing_berserker": 23615,
+     "plain_arena_games": 230471,
+     "players": 517
+    },
+    "m>=5": {
+     "games_facing_berserker": 39512,
+     "plain_arena_games": 376731,
+     "players": 2251
+    }
+   },
+   "two_berserkers": 5753,
+   "within_player_cohort": {
+    "m>=10": {
+     "berserk_games": 40154,
+     "plain_arena_games": 182526,
+     "players": 827
+    },
+    "m>=20": {
+     "berserk_games": 34642,
+     "plain_arena_games": 135142,
+     "players": 456
+    },
+    "m>=5": {
+     "berserk_games": 44357,
+     "plain_arena_games": 232443,
+     "players": 1382
+    }
+   }
+  },
+  "300+0": {
+   "arena_games": 902910,
+   "games": 11419859,
+   "mean_rating_edge_of_berserker": 208.76952988629833,
+   "one_berserker": 186189,
+   "placebo_opponent_cohort": {
+    "m>=10": {
+     "games_facing_berserker": 96783,
+     "plain_arena_games": 560710,
+     "players": 4405
+    },
+    "m>=20": {
+     "games_facing_berserker": 59717,
+     "plain_arena_games": 353418,
+     "players": 1653
+    },
+    "m>=5": {
+     "games_facing_berserker": 130734,
+     "plain_arena_games": 736819,
+     "players": 9488
+    }
+   },
+   "two_berserkers": 38071,
+   "within_player_cohort": {
+    "m>=10": {
+     "berserk_games": 119443,
+     "plain_arena_games": 168541,
+     "players": 2868
+    },
+    "m>=20": {
+     "berserk_games": 79472,
+     "plain_arena_games": 104420,
+     "players": 1202
+    },
+    "m>=5": {
+     "berserk_games": 156987,
+     "plain_arena_games": 243142,
+     "players": 5920
+    }
+   }
+  },
+  "300+3": {
+   "arena_games": 49445,
+   "games": 4339312,
+   "mean_rating_edge_of_berserker": 314.8703275295264,
+   "one_berserker": 8213,
+   "placebo_opponent_cohort": {
+    "m>=10": {
+     "games_facing_berserker": 1398,
+     "plain_arena_games": 4942,
+     "players": 80
+    },
+    "m>=20": {
+     "games_facing_berserker": 644,
+     "plain_arena_games": 2053,
+     "players": 24
+    },
+    "m>=5": {
+     "games_facing_berserker": 2178,
+     "plain_arena_games": 8269,
+     "players": 199
+    }
+   },
+   "two_berserkers": 1047,
+   "within_player_cohort": {
+    "m>=10": {
+     "berserk_games": 2706,
+     "plain_arena_games": 3920,
+     "players": 90
+    },
+    "m>=20": {
+     "berserk_games": 1856,
+     "plain_arena_games": 2086,
+     "players": 36
+    },
+    "m>=5": {
+     "berserk_games": 4422,
+     "plain_arena_games": 6953,
+     "players": 266
+    }
+   }
+  },
+  "420+2": {
+   "arena_games": 32194,
+   "games": 53128,
+   "mean_rating_edge_of_berserker": 252.0888725128961,
+   "one_berserker": 6785,
+   "placebo_opponent_cohort": {
+    "m>=10": {
+     "games_facing_berserker": 1029,
+     "plain_arena_games": 3371,
+     "players": 71
+    },
+    "m>=20": {
+     "games_facing_berserker": 238,
+     "plain_arena_games": 1034,
+     "players": 10
+    },
+    "m>=5": {
+     "games_facing_berserker": 2598,
+     "plain_arena_games": 7279,
+     "players": 315
+    }
+   },
+   "two_berserkers": 1633,
+   "within_player_cohort": {
+    "m>=10": {
+     "berserk_games": 1090,
+     "plain_arena_games": 1689,
+     "players": 58
+    },
+    "m>=20": {
+     "berserk_games": 375,
+     "plain_arena_games": 660,
+     "players": 13
+    },
+    "m>=5": {
+     "berserk_games": 2762,
+     "plain_arena_games": 3646,
+     "players": 226
+    }
+   }
+  },
+  "480+0": {
+   "arena_games": 58218,
+   "games": 116772,
+   "mean_rating_edge_of_berserker": 235.04726356100636,
+   "one_berserker": 20629,
+   "placebo_opponent_cohort": {
+    "m>=10": {
+     "games_facing_berserker": 12903,
+     "plain_arena_games": 25182,
+     "players": 428
+    },
+    "m>=20": {
+     "games_facing_berserker": 9963,
+     "plain_arena_games": 18794,
+     "players": 221
+    },
+    "m>=5": {
+     "games_facing_berserker": 15342,
+     "plain_arena_games": 31003,
+     "players": 776
+    }
+   },
+   "two_berserkers": 5310,
+   "within_player_cohort": {
+    "m>=10": {
+     "berserk_games": 15568,
+     "plain_arena_games": 14129,
+     "players": 311
+    },
+    "m>=20": {
+     "berserk_games": 10699,
+     "plain_arena_games": 9225,
+     "players": 134
+    },
+    "m>=5": {
+     "berserk_games": 19133,
+     "plain_arena_games": 18483,
+     "players": 544
+    }
+   }
+  },
+  "480+2": {
+   "arena_games": 30831,
+   "games": 38558,
+   "mean_rating_edge_of_berserker": 220.84708824580207,
+   "one_berserker": 5598,
+   "placebo_opponent_cohort": {
+    "m>=10": {
+     "games_facing_berserker": 744,
+     "plain_arena_games": 3191,
+     "players": 49
+    },
+    "m>=20": {
+     "games_facing_berserker": 192,
+     "plain_arena_games": 796,
+     "players": 6
+    },
+    "m>=5": {
+     "games_facing_berserker": 1819,
+     "plain_arena_games": 7923,
+     "players": 221
+    }
+   },
+   "two_berserkers": 753,
+   "within_player_cohort": {
+    "m>=10": {
+     "berserk_games": 1586,
+     "plain_arena_games": 1692,
+     "players": 68
+    },
+    "m>=20": {
+     "berserk_games": 648,
+     "plain_arena_games": 675,
+     "players": 18
+    },
+    "m>=5": {
+     "berserk_games": 2642,
+     "plain_arena_games": 3457,
+     "players": 190
+    }
+   }
+  },
+  "60+0": {
+   "arena_games": 1615221,
+   "games": 23532205,
+   "mean_rating_edge_of_berserker": 312.11969911270546,
+   "one_berserker": 204329,
+   "placebo_opponent_cohort": {
+    "m>=10": {
+     "games_facing_berserker": 136075,
+     "plain_arena_games": 1637558,
+     "players": 4830
+    },
+    "m>=20": {
+     "games_facing_berserker": 101854,
+     "plain_arena_games": 1209199,
+     "players": 2302
+    },
+    "m>=5": {
+     "games_facing_berserker": 162509,
+     "plain_arena_games": 1960004,
+     "players": 8861
+    }
+   },
+   "two_berserkers": 12400,
+   "within_player_cohort": {
+    "m>=10": {
+     "berserk_games": 157597,
+     "plain_arena_games": 576254,
+     "players": 2966
+    },
+    "m>=20": {
+     "berserk_games": 136734,
+     "plain_arena_games": 421946,
+     "players": 1627
+    },
+    "m>=5": {
+     "berserk_games": 173225,
+     "plain_arena_games": 744440,
+     "players": 4999
+    }
+   }
+  },
+  "60+1": {
+   "arena_games": 93100,
+   "games": 605070,
+   "mean_rating_edge_of_berserker": 327.09670781893004,
+   "one_berserker": 486,
+   "placebo_opponent_cohort": {
+    "m>=10": {
+     "games_facing_berserker": 58,
+     "plain_arena_games": 322,
+     "players": 4
+    },
+    "m>=20": {
+     "games_facing_berserker": 22,
+     "plain_arena_games": 72,
+     "players": 1
+    },
+    "m>=5": {
+     "games_facing_berserker": 135,
+     "plain_arena_games": 805,
+     "players": 17
+    }
+   },
+   "two_berserkers": 110,
+   "within_player_cohort": {
+    "m>=10": {
+     "berserk_games": 217,
+     "plain_arena_games": 371,
+     "players": 7
+    },
+    "m>=20": {
+     "berserk_games": 81,
+     "plain_arena_games": 276,
+     "players": 3
+    },
+    "m>=5": {
+     "berserk_games": 295,
+     "plain_arena_games": 805,
+     "players": 18
+    }
+   }
+  },
+  "600+0": {
+   "arena_games": 613228,
+   "games": 11115954,
+   "mean_rating_edge_of_berserker": 211.38247158370012,
+   "one_berserker": 114283,
+   "placebo_opponent_cohort": {
+    "m>=10": {
+     "games_facing_berserker": 51069,
+     "plain_arena_games": 236474,
+     "players": 2317
+    },
+    "m>=20": {
+     "games_facing_berserker": 31517,
+     "plain_arena_games": 136992,
+     "players": 868
+    },
+    "m>=5": {
+     "games_facing_berserker": 69543,
+     "plain_arena_games": 335605,
+     "players": 5154
+    }
+   },
+   "two_berserkers": 25881,
+   "within_player_cohort": {
+    "m>=10": {
+     "berserk_games": 69998,
+     "plain_arena_games": 98261,
+     "players": 1860
+    },
+    "m>=20": {
+     "berserk_games": 45694,
+     "plain_arena_games": 59262,
+     "players": 800
+    },
+    "m>=5": {
+     "berserk_games": 96290,
+     "plain_arena_games": 143406,
+     "players": 3892
+    }
+   }
+  },
+  "600+2": {
+   "arena_games": 50539,
+   "games": 83790,
+   "mean_rating_edge_of_berserker": 221.34937946596466,
+   "one_berserker": 5318,
+   "placebo_opponent_cohort": {
+    "m>=10": {
+     "games_facing_berserker": 1692,
+     "plain_arena_games": 2774,
+     "players": 72
+    },
+    "m>=20": {
+     "games_facing_berserker": 1035,
+     "plain_arena_games": 1569,
+     "players": 27
+    },
+    "m>=5": {
+     "games_facing_berserker": 2445,
+     "plain_arena_games": 4081,
+     "players": 166
+    }
+   },
+   "two_berserkers": 1774,
+   "within_player_cohort": {
+    "m>=10": {
+     "berserk_games": 2284,
+     "plain_arena_games": 2175,
+     "players": 58
+    },
+    "m>=20": {
+     "berserk_games": 1649,
+     "plain_arena_games": 1501,
+     "players": 25
+    },
+    "m>=5": {
+     "berserk_games": 3292,
+     "plain_arena_games": 2958,
+     "players": 120
+    }
+   }
+  },
+  "600+5": {
+   "arena_games": 49016,
+   "games": 2238015,
+   "mean_rating_edge_of_berserker": 262.88261000602773,
+   "one_berserker": 6636,
+   "placebo_opponent_cohort": {
+    "m>=10": {
+     "games_facing_berserker": 345,
+     "plain_arena_games": 901,
+     "players": 25
+    },
+    "m>=20": {
+     "games_facing_berserker": 68,
+     "plain_arena_games": 154,
+     "players": 3
+    },
+    "m>=5": {
+     "games_facing_berserker": 1095,
+     "plain_arena_games": 3020,
+     "players": 144
+    }
+   },
+   "two_berserkers": 1371,
+   "within_player_cohort": {
+    "m>=10": {
+     "berserk_games": 1398,
+     "plain_arena_games": 1293,
+     "players": 60
+    },
+    "m>=20": {
+     "berserk_games": 518,
+     "plain_arena_games": 413,
+     "players": 14
+    },
+    "m>=5": {
+     "berserk_games": 2699,
+     "plain_arena_games": 2584,
+     "players": 165
+    }
+   }
+  }
+ },
+ "games_scanned": 88905085
+}

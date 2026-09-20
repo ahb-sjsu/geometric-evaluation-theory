@@ -76,7 +76,14 @@ at six positions a game, and every cell above clears that several times over. Th
 rating edge is large, 200 to 340 points, which makes matching on it a requirement and not a
 refinement: an unmatched comparison would read the berserker's opponents as weaker play. At 60+0
 a berserker has thirty seconds, where premoves dominate, so 60+0 is a candidate for exclusion on
-the same ground as ultrabullet. The July count is running.
+the same ground as ultrabullet. 
+**Event presence, July, 2026-09-20** (`g7b_probe_2026-07.json`, 88,905,085 games). The same picture.
+Within-player cohort, then placebo cohort, at ten games each: 180+0, 7,409 players with 411,759
+berserk games and 11,031 players facing 323,001; 300+0, 2,868 with 119,443 and 4,405 facing 96,783;
+600+0, 1,860 with 69,998 and 2,317 facing 51,069; 60+0, 2,966 with 157,597 and 4,830 facing
+136,075. The berserker's mean rating edge is 209 to 312 points. Both months clear the condition for
+drafting, 3,000 reader positions in both cohorts at two controls or more, at all four controls.
+Drafting still waits on G7a's July grade, because the table above decides what G7b claims.
 
 **Instrument.** G7a's, unchanged: same sampler logic, same labeller with the hash cleared per
 position, same two-pass labelling, same reader, same grader with its ratio taken against one instead
