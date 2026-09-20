@@ -34,7 +34,13 @@ while true; do
       fi
       if [ "${low[$n]:-0}" -ge 3 ]; then
         echo "$now $n GPU under 40 percent three samples running, deleting" >> $LOG
-        $K logs $j > /home/claude/g3c/nrp/record_lowutil_$n.txt 2>&1
+        # the members write to files on the volume and the pod's own stdout stays empty until they
+        # finish, so take the diagnosis out of the pod BEFORE deleting the job
+        {
+          echo "== pod $pod on $node at $now"
+          $K exec $pod -- bash -c 'tail -25 /data/runs/run/logs/'"$BLOCK"'_*.log; echo; ps -eo pid,etimes,pcpu,args | head -20; nvidia-smi'
+          $K logs $j
+        } > /home/claude/g3c/nrp/record_lowutil_$n.txt 2>&1
         $K delete $j >> $LOG 2>&1
       fi
     fi
