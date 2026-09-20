@@ -203,6 +203,18 @@ def main():
           "ones football actually presents. It also means the declared bias cannot be what "
           "produced this verdict, since the bias only ever raises the observed rate."
           % (dev, primary["p_obs"]))
+    w("- **The plane was forced, not chosen, and it inflates every rate here.** Measured after the "
+      "run and written up in `articles/2026-09-19-the-hull-law-on-a-plane.md`. A violation needs a "
+      "point inside the hull of others, which four actions in a five-dimensional consequence space "
+      "can never produce, 0 testable menus in 4,000 trials. So the law can only be read on a plane. "
+      "Projection preserves hull membership and can create it, so it adds violations and never "
+      "removes them, and in this gate's exact configuration rankings from genuine convex evaluators "
+      "violate at 0.1506 when read on two coordinates against a true rate of zero. The primary "
+      "plane's %.4f sits an order of magnitude below that, so its pass is stronger than it looks. "
+      "The refuting plane's %.4f is about twice it, so projection contributes to that result and "
+      "does not account for it."
+      % (primary["p_obs"],
+         next((r["p_obs"] for r in barred if r["verdict"] == "FAIL"), float("nan"))))
     w("- The confounds declared before sealing stand unchanged. The map is a conditional "
       "expectation over calls somebody chose to make and carries no causal reading, a cell pools "
       "states the bins do not separate, choice share reveals a ranking only to the extent the "
