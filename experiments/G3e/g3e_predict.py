@@ -45,12 +45,14 @@ def main() -> int:
             "sha256": sha,
             "anti_vacuity_met": av["met"],
             "anti_vacuity": av,
-            "codebook_sizes": {k: len(v["codebook"]) for k, v in pred["scales"].items()},
+            "codebook_sizes": {k: len(v["codebook"]["distinct_scores"]) for k, v in pred["scales"].items()},
             "predicted_thresholds": {k: {n: r["threshold"] for n, r in v["readouts"].items()}
                                      for k, v in pred["scales"].items()},
         }
         print(m["key"], sha[:16], "vacuity met", av["met"],
-              "codebook", summary[m["key"]]["codebook_sizes"], flush=True)
+              "codebook", summary[m["key"]]["codebook_sizes"],
+              "| predicted thresholds 0-100",
+              {n: round(t, 3) for n, t in summary[m["key"]]["predicted_thresholds"]["0-100"].items()}, flush=True)
     Path(a.out).joinpath("predictions_summary.json").write_text(
         json.dumps(summary, indent=1, default=float), encoding="utf-8")
     print("wrote", Path(a.out) / "predictions_summary.json")

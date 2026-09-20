@@ -1,4 +1,4 @@
-run_record/
+run_record/*/*/api_cache.jsonl*
 probe/*/api_cache.jsonl*
 selftest/e2e/
 selftest/cache_probe.jsonl*
