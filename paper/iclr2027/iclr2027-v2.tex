@@ -719,7 +719,8 @@ The record does not hold per-pair generations for the run or the count of report
 \begin{table}[h]
 \centering
 \small
-\caption{Token identifiers for representative reports under the recorded tokenizer revision. One character per token.}
+\caption{Token identifiers for representative reports under the recorded tokenizer revision.
+Every digit and the decimal point is one token, so a report of $k$ tokens is the answer truncated to $k$ characters and the token budget is a grid on the reported distance, which is what makes report length a resolution budget rather than a proxy for one.}
 \label{tab:tokens}
 \begin{tabular}{lll}
 \toprule
@@ -784,7 +785,9 @@ Table~\ref{tab:cells} gives the accuracy at every ladder gap in every cell of th
 \begin{table}[h]
 \centering
 \scriptsize
-\caption{Accuracy by gap for all eighteen cells. Columns are the gap ladder. Cells are weight precision, decimals, report tokens.}
+\caption{Accuracy by gap for all eighteen cells, the record from which every threshold and fitted step in this appendix is computed.
+Columns are the gap ladder; rows are weight precision, decimals and report tokens.
+Reading down a block, accuracy at a fixed gap falls as the budget coarsens; reading across, each row climbs at the gap that equals its grid step, to one except where a lapse holds it below.}
 \label{tab:cells}
 \setlength{\tabcolsep}{3pt}
 \begin{tabular}{lrrrrrrrrrrrrrrr}
