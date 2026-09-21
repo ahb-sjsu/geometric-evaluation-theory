@@ -380,38 +380,92 @@
    "threshold": {},
    "bits": 1.955,
    "effective_levels": 4
+  },
+  {
+   "gate": "G3e",
+   "judge": "qwen3_27b",
+   "vacuous": false,
+   "scale": "0-100",
+   "nominal_levels": 101,
+   "codebook_size": 17,
+   "sse": {
+    "1_nominal": 0.44375,
+    "2_cardinality": 0.26975,
+    "2b_bits": 0.16121,
+    "3_codebook": 0.26975,
+    "4_channel": 0.00315
+   },
+   "threshold": {},
+   "bits": 2.253,
+   "effective_levels": 5
+  },
+  {
+   "gate": "G3e",
+   "judge": "qwen3_27b",
+   "vacuous": false,
+   "scale": "0-9",
+   "nominal_levels": 10,
+   "codebook_size": 10,
+   "sse": {
+    "1_nominal": 0.13313,
+    "2_cardinality": 0.13313,
+    "2b_bits": 0.34032,
+    "3_codebook": 0.13313,
+    "4_channel": 0.00199
+   },
+   "threshold": {},
+   "bits": 2.153,
+   "effective_levels": 4
+  },
+  {
+   "gate": "G3e",
+   "judge": "qwen3_27b",
+   "vacuous": false,
+   "scale": "1-5",
+   "nominal_levels": 5,
+   "codebook_size": 5,
+   "sse": {
+    "1_nominal": 0.05908,
+    "2_cardinality": 0.05908,
+    "2b_bits": 0.15995,
+    "3_codebook": 0.05908,
+    "4_channel": 0.00167
+   },
+   "threshold": {},
+   "bits": 1.65,
+   "effective_levels": 3
   }
  ],
- "median_sse_1_nominal": 0.44875,
- "median_sse_2_cardinality": 0.30995,
- "median_sse_2b_bits": 0.2521,
- "median_sse_3_codebook": 0.2822,
- "median_sse_4_channel": 0.00289,
- "share_of_the_gap_closed_by_2_cardinality": 0.247,
- "share_of_the_gap_closed_by_2b_bits": 0.396,
- "share_of_the_gap_closed_by_3_codebook": 0.294,
+ "median_sse_1_nominal": 0.41851,
+ "median_sse_2_cardinality": 0.27839,
+ "median_sse_2b_bits": 0.23955,
+ "median_sse_3_codebook": 0.21971,
+ "median_sse_4_channel": 0.00258,
+ "share_of_the_gap_closed_by_2_cardinality": 0.217,
+ "share_of_the_gap_closed_by_2b_bits": 0.389,
+ "share_of_the_gap_closed_by_3_codebook": 0.217,
  "live_cells": [
-  14,
-  15
+  17,
+  18
  ],
  "cells_2_cardinality_beats_nominal": [
-  8,
-  15
+  9,
+  18
  ],
  "cells_2b_bits_beats_nominal": [
-  11,
-  15
+  12,
+  18
  ],
  "cells_3_codebook_beats_nominal": [
-  8,
-  15
+  9,
+  18
  ],
  "cells_where_the_channel_is_best": [
-  15,
-  15
+  18,
+  18
  ],
  "cells_where_cardinality_alone_matches_the_channel": [
   0,
-  15
+  18
  ]
 }

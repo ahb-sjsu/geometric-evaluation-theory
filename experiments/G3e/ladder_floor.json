@@ -87,14 +87,29 @@
     "1-5/expected"
    ],
    "share_within_factor": 1.0
+  },
+  {
+   "gate": "G3e",
+   "judge": "qwen3_27b",
+   "vacuous": false,
+   "J3": "PASS",
+   "kendall_tau": 0.9084967320261438,
+   "readouts": 18,
+   "at_floor": 1,
+   "at_floor_names": [
+    "0-100/expected"
+   ],
+   "share_within_factor": 1.0
   }
  ],
- "graded_judges": 5,
+ "graded_judges": 6,
  "graded_with_a_readout_at_the_floor": [
-  "gemma31b"
+  "gemma31b",
+  "qwen3_27b"
  ],
  "their_J3": [
-  "FAIL"
+  "FAIL",
+  "PASS"
  ],
  "J3_of_graded_judges_without_one": [
   "PASS"
