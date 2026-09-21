@@ -124,15 +124,43 @@ script and printed as literal text. It is repaired. Both checks from the paper s
 against the built source, the binary one for control bytes and the grep for commands missing a
 backslash, including the partial forms a lost backslash leaves.
 
+## Supplementary package
+
+    python build/make_supplementary.py
+
+Writes `supplementary/` and `iclr2027-supplementary.zip` (about 17 MB, 599 files). Both are
+gitignored: the builder is the artifact that is kept, so the package can always be rebuilt from
+the current records rather than drifting as a committed copy.
+
+What goes in: every gate the paper reports, with its registration, configuration, seeds,
+self-test and probe records, graded record and scripts; the Lean development with the axiom
+audit; the protocol and the ledger; a commit list showing prediction committed before
+measurement; and the scripts that build every figure and table.
+
+Two hashes appear per registration and they are not meant to agree. The sealed blob is the git
+blob hash recorded in the ledger before the run seed was drawn. The other is the sha256 of the
+redacted file as shipped, which differs wherever a name or path was replaced.
+
+The builder redacts author names, institutions, machine names, the cluster namespace, the
+repository name and absolute paths, then re-scans everything it wrote, including inside gzipped
+record files, and reports a leak count that must be zero. It excludes itself from the package,
+since it names every string it redacts. LaTeX run logs are dropped rather than redacted.
+
+The ANES 1972 corpus is not redistributed. Its files are listed with sizes and checksums so a
+reader can confirm they obtained the same bytes.
+
+Check before uploading: the last lines of the run must read `leaks after redaction: 0`.
+
 ## Two builds, one source (added 2026-09-21, revised)
 
 The submission is the **cornerstone** build, which is what `iclr2027-v2.tex` produces by default:
-21 pages, main text to page 9, carrying the identification gate on synthetic evaluators and the
-two further sealed gates. A reviewer who read both scored this one an accept and the narrower
+23 pages, with the numbered sections ending on page 9 and the AI-use and reproducibility
+statements running onto page 10, which ICLR excludes from the limit. It carries the
+identification gate on synthetic evaluators and the two further sealed gates. A reviewer who read both scored this one an accept and the narrower
 build a weak accept, so the wider paper is the one that goes in.
 
 `iclr2027-v2-beachhead.tex` is a four-line wrapper that defines `\BEACHHEAD` and inputs the same
-file, switching those sections off. 20 pages. Kept because it is free to keep and because the
+file, switching those sections off. 22 pages. Kept because it is free to keep and because the
 narrower cut is the right shape for a shorter venue.
 
 One source, so the two cannot drift. Every cross-reference into a cornerstone-only section is

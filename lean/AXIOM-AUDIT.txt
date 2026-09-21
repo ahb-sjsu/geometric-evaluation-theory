@@ -1,0 +1,43 @@
+Axiom audit of the Lean development.
+Output of `lake env lean Axioms.lean`, which prints the axiom dependence of every
+theorem in the ten files of GET.lean.
+Toolchain: leanprover/lean4:v4.32.2
+Mathlib revision: 905b95818eb32af7874a58b427f50c1711a5e96c
+Every theorem below must report exactly [propext, Classical.choice, Quot.sound].
+No file in the development contains `sorry`.
+
+'GET.Semiorder.pref_axiom1' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GET.Semiorder.pref_axiom2' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GET.Semiorder.trichotomy' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GET.Tolerance.not_trans_of_chain' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GET.Tolerance.indiff_trans_of_chain' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GET.HullLaw.hull_law' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GET.HullLaw.hull_law_pref' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GET.Uniqueness.ideal_unique' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GET.Uniqueness.scale_free' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GET.Reversal.rank_two_prefers_a' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GET.Reversal.no_common_utility' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GET.UniquenessGeneral.ideal_in_kernel' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GET.UniquenessGeneral.qf_proportional' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GET.UniquenessGeneral.uniqueness' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GET.Incompatibility.total_regret_ge' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GET.Incompatibility.total_regret_attained' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GET.Incompatibility.deficiency_pos_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GET.readOperator_posSemidef' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GET.kernel_not_distinguishable' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GET.distinguishable_zero_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GET.distinguishable_scaled_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GET.distinguishable_antitone' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GET.dObs_antitone' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GET.dObs_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GET.dObs_eq_zero_of_large_budget' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GET.window_bound_scalar' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GET.window_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GET.window_exponent_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GET.horizon_subset_of_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GET.horizon_subset_of_budget' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GET.GridChannel.tolerance_mem_Ioc' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GET.GridChannel.grid_threshold' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GET.GridChannel.truncation' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GET.GridChannel.rounding' depends on axioms: [propext, Classical.choice, Quot.sound]
+

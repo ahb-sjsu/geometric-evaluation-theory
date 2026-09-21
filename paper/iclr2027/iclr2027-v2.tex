@@ -390,7 +390,7 @@ Among the uses the policy lists as recommended for disclosure, the tools drafted
 Verification was as follows.
 Every experiment was registered and sealed with its hash before its run seed was drawn, its self-test and probe were run first, its calibration predictions were committed with their hash before the test block was scored, and its verdict was produced by a grading script against the sealed bars and not by any model.
 The exact score distributions that replace sampling were checked against real samples and against brute force (Appendix~\ref{app:verify}).
-Parts of the theory are machine-checked in Lean against Mathlib, in eight files with no unproven step and no axiom beyond \texttt{propext}, \texttt{Classical.choice} and \texttt{Quot.sound}: the tolerance condition of Theorem~\ref{thm:dist}(c), the semiorder of Theorem~\ref{thm:pref}(b), the hull law of Theorem~\ref{thm:repr}(b), the whole-space case of the uniqueness in Theorem~\ref{thm:repr}(c), the reversal example, part (a) of Proposition~\ref{prop:channel} together with its two quantizers and the bound on the tolerance, and the two statements on shared-representation regret\ifcornerstone{} in Appendix~\ref{app:gates}\else{} reported in the supplementary material\fi, with Ky Fan's principle taken as a named hypothesis.
+Parts of the theory are machine-checked in Lean against Mathlib, in ten files with no unproven step and no axiom beyond \texttt{propext}, \texttt{Classical.choice} and \texttt{Quot.sound}: the tolerance condition of Theorem~\ref{thm:dist}(c), the semiorder of Theorem~\ref{thm:pref}(b), the hull law of Theorem~\ref{thm:repr}(b), the whole-space case of the uniqueness in Theorem~\ref{thm:repr}(c), the reversal example, part (a) of Proposition~\ref{prop:channel} together with its two quantizers and the bound on the tolerance, and the statements on shared-representation regret\ifcornerstone{} in Appendix~\ref{app:gates}\else{} reported in the supplementary material\fi, with Ky Fan's principle taken as a named hypothesis. Two further files carry results of the wider development that the main text does not use, on distinguishability under a read operator and on the horizon of a budgeted reader.
 The remaining statements were checked by hand: the open-set form of Theorem~\ref{thm:repr}(c), which was corrected after an external reader found a defect in it, and parts (b) and (c) of Proposition~\ref{prop:channel}, which are measure-theoretic.
 Every citation was checked against the publisher's record.
 All AI-assisted text, code, and proofs were reviewed by the authors, who take responsibility for the final content of this work, including text, claims, and artifacts produced with the aid of generative AI.
@@ -853,7 +853,7 @@ orders one-item pairs correctly 3 to 7 percent of the time, which is not error b
 spends its codebook across the range of quality it expects, not across the slice it is shown, so
 resolution in quality units is not bought simply by showing it finer differences.
 
-The honest statement is therefore narrower than the repair promised. A finer ladder would remove
+The statement that survives is therefore narrower than the repair promised. A finer ladder would remove
 most of the ties and turn most of the failure into a measurement, and a registered gate on
 100-item worksheets is the natural next step; it would not remove all of them, and on this stimulus
 family the finest read-out of the finest judge stays out of reach.

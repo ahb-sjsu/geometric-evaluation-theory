@@ -18,3 +18,7 @@ experiments/*/data/
 !experiments/*/pp.log
 !experiments/*/probe_*.log
 experiments/G3c/nrp/batch_probe.tgz.b64
+
+# ICLR supplementary package: rebuilt by paper/iclr2027/build/make_supplementary.py
+paper/iclr2027/supplementary/
+paper/iclr2027/iclr2027-supplementary.zip
