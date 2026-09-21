@@ -1,0 +1,8 @@
+worksheets of 100 items, 180 sheets, mean 1481 characters each
+gemma31b   1-5    acc@gap1 {'argmax': 0.067, 'expected': 0.8, 'mean_8': 0.167} | {'argmax': 'measurable', 'expected': 'censored', 'mean_8': 'measurable'} | 3 scores in band | 1.00 asks/sheet, 0.26 s/sheet
+gemma31b   0-9    acc@gap1 {'argmax': 0.033, 'expected': 0.7, 'mean_8': 0.367} | {'argmax': 'measurable', 'expected': 'measurable', 'mean_8': 'measurable'} | 3 scores in band | 1.00 asks/sheet, 0.14 s/sheet
+gemma31b   0-100  acc@gap1 {'argmax': 0.7, 'expected': 0.9, 'mean_8': 0.833} | {'argmax': 'measurable', 'expected': 'censored', 'mean_8': 'censored'} | 23 scores in band | 14.85 asks/sheet, 0.72 s/sheet
+gemma12b   1-5    acc@gap1 {'argmax': 0.133, 'expected': 0.5, 'mean_8': 0.267} | {'argmax': 'measurable', 'expected': 'measurable', 'mean_8': 'measurable'} | 4 scores in band | 1.00 asks/sheet, 0.15 s/sheet
+gemma12b   0-9    acc@gap1 {'argmax': 0.167, 'expected': 0.533, 'mean_8': 0.4} | {'argmax': 'measurable', 'expected': 'measurable', 'mean_8': 'measurable'} | 4 scores in band | 1.00 asks/sheet, 0.04 s/sheet
+gemma12b   0-100  acc@gap1 {'argmax': 0.4, 'expected': 0.667, 'mean_8': 0.633} | {'argmax': 'measurable', 'expected': 'measurable', 'mean_8': 'measurable'} | 14 scores in band | 22.52 asks/sheet, 0.69 s/sheet
+wrote longsheet/longsheet_probe.json

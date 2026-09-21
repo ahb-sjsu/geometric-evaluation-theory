@@ -1,0 +1,192 @@
+{
+ "exploratory": true,
+ "n_items": 100,
+ "gaps": [
+  1,
+  2,
+  4
+ ],
+ "pairs_per_gap": 30,
+ "sheets": 180,
+ "mean_sheet_chars": 1481,
+ "error_counts_band": [
+  0,
+  20
+ ],
+ "models": {
+  "gemma31b": {
+   "scales": {
+    "1-5": {
+     "requests": 180,
+     "asks": 180,
+     "seconds": 46.7,
+     "asks_per_sheet": 1.0,
+     "seconds_per_sheet": 0.259,
+     "distinct_greedy_scores_in_band": 3,
+     "unparsed": 0,
+     "max_unseen": 0.000554,
+     "accuracy_by_gap": {
+      "argmax": {
+       "1": 0.067,
+       "2": 0.133,
+       "4": 0.167
+      },
+      "expected": {
+       "1": 0.8,
+       "2": 0.833,
+       "4": 0.967
+      },
+      "mean_8": {
+       "1": 0.167,
+       "2": 0.3,
+       "4": 0.4
+      }
+     }
+    },
+    "0-9": {
+     "requests": 180,
+     "asks": 180,
+     "seconds": 25.0,
+     "asks_per_sheet": 1.0,
+     "seconds_per_sheet": 0.139,
+     "distinct_greedy_scores_in_band": 3,
+     "unparsed": 0,
+     "max_unseen": 0.002875,
+     "accuracy_by_gap": {
+      "argmax": {
+       "1": 0.033,
+       "2": 0.3,
+       "4": 0.233
+      },
+      "expected": {
+       "1": 0.7,
+       "2": 0.833,
+       "4": 0.833
+      },
+      "mean_8": {
+       "1": 0.367,
+       "2": 0.5,
+       "4": 0.533
+      }
+     }
+    },
+    "0-100": {
+     "requests": 2673,
+     "asks": 2673,
+     "seconds": 129.1,
+     "asks_per_sheet": 14.85,
+     "seconds_per_sheet": 0.717,
+     "distinct_greedy_scores_in_band": 23,
+     "unparsed": 0,
+     "max_unseen": 0.000257,
+     "accuracy_by_gap": {
+      "argmax": {
+       "1": 0.7,
+       "2": 0.867,
+       "4": 1.0
+      },
+      "expected": {
+       "1": 0.9,
+       "2": 0.933,
+       "4": 1.0
+      },
+      "mean_8": {
+       "1": 0.833,
+       "2": 0.933,
+       "4": 1.0
+      }
+     }
+    }
+   },
+   "served_as": "google/gemma-4-31B-it-qat-w4a16-ct",
+   "total_requests": 3034
+  },
+  "gemma12b": {
+   "scales": {
+    "1-5": {
+     "requests": 180,
+     "asks": 180,
+     "seconds": 27.2,
+     "asks_per_sheet": 1.0,
+     "seconds_per_sheet": 0.151,
+     "distinct_greedy_scores_in_band": 4,
+     "unparsed": 0,
+     "max_unseen": 0.000167,
+     "accuracy_by_gap": {
+      "argmax": {
+       "1": 0.133,
+       "2": 0.2,
+       "4": 0.167
+      },
+      "expected": {
+       "1": 0.5,
+       "2": 0.467,
+       "4": 0.667
+      },
+      "mean_8": {
+       "1": 0.267,
+       "2": 0.267,
+       "4": 0.433
+      }
+     }
+    },
+    "0-9": {
+     "requests": 180,
+     "asks": 180,
+     "seconds": 7.0,
+     "asks_per_sheet": 1.0,
+     "seconds_per_sheet": 0.039,
+     "distinct_greedy_scores_in_band": 4,
+     "unparsed": 0,
+     "max_unseen": 0.000213,
+     "accuracy_by_gap": {
+      "argmax": {
+       "1": 0.167,
+       "2": 0.267,
+       "4": 0.533
+      },
+      "expected": {
+       "1": 0.533,
+       "2": 0.6,
+       "4": 0.8
+      },
+      "mean_8": {
+       "1": 0.4,
+       "2": 0.5,
+       "4": 0.767
+      }
+     }
+    },
+    "0-100": {
+     "requests": 4054,
+     "asks": 4054,
+     "seconds": 124.4,
+     "asks_per_sheet": 22.52,
+     "seconds_per_sheet": 0.691,
+     "distinct_greedy_scores_in_band": 14,
+     "unparsed": 0,
+     "max_unseen": 0.0001,
+     "accuracy_by_gap": {
+      "argmax": {
+       "1": 0.4,
+       "2": 0.433,
+       "4": 0.833
+      },
+      "expected": {
+       "1": 0.667,
+       "2": 0.7,
+       "4": 0.867
+      },
+      "mean_8": {
+       "1": 0.633,
+       "2": 0.667,
+       "4": 0.867
+      }
+     }
+    }
+   },
+   "served_as": "google/gemma-4-12B-it-qat-w4a16-ct",
+   "total_requests": 4415
+  }
+ }
+}
