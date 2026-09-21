@@ -24,11 +24,11 @@
 \newcommand{\dG}{d_{G}}
 
 
-% The submitted paper is the beachhead build. Compiling iclr2027-v2-cornerstone.tex instead
-% defines \CORNERSTONE and turns on the sections that state the wider programme. One source,
-% so the two cannot drift.
+% This file builds the SUBMISSION: the cornerstone version, which carries the sections that
+% state the wider programme. Compiling iclr2027-v2-beachhead.tex instead defines \BEACHHEAD and
+% switches those sections off, for a narrower build. One source, so the two cannot drift.
 \newif\ifcornerstone
-\ifdefined\CORNERSTONE \cornerstonetrue \else \cornerstonefalse \fi
+\ifdefined\BEACHHEAD \cornerstonefalse \else \cornerstonetrue \fi
 \newcommand{\pending}[1]{\textbf{[#1]}}
 
 \title{A Language-Model Judge's Resolution\\Is Predicted Before It Is Measured}
@@ -52,7 +52,6 @@ Only then is the test block's seed drawn.
 The prediction held on every graded judge, the largest deviation 0.078 in accuracy against a registered bar of 0.14.
 The scale a judge is offered is the wrong budget: asked for a score from 0 to 100, the 7B judge writes nine distinct scores and resolves 5.3 wrong answers in twenty where the scale promises one, and on every scale of every judge the codebook it uses fits its accuracy better than the nominal scale does.
 Reading more of the report, its expected score or the mean of several samples, lowers the threshold by the predicted amount.
-Both results replicate on a second vendor's models and on a newer generation of the first, served by a third party at weights that party quantized.
 
 \textbf{Reversal.}
 Give the worse of two worksheets a confident header and a check mark on every line.
@@ -60,6 +59,7 @@ With no reasoning budget the judge prefers the decorated worse worksheet, only 0
 Measuring what the evidence is worth and what the decoration is worth in separate blocks, in which the two never conflict, predicts that reversal: their sum on the log-odds scale fit the sealed test cells within 3.11 noise units against a registered bar of 3.341.
 
 What predicts a judge's resolution is its measured channel, of which a scalar budget is one summary: a rate in bits closes about two fifths of the distance from the nominal scale to the calibrated channel, and the rest is the channel's noise.
+The whole pattern replicates on a second vendor's models and on a newer generation of the first, served quantized by a third party and read through an API that returns twenty tokens.
 \end{abstract}
 
 \section{Introduction}
@@ -79,8 +79,13 @@ A judge asked for a score from 0 to 100 that only ever writes nine distinct scor
 This makes the threshold predictable.
 A calibration block shows the judge worksheets at every level of quality and records what it reports.
 Those reports fix, for every pair of levels, how often a given reading of the report orders the pair correctly, and so they fix the accuracy curve the judge will show on pairs it has never seen.
+The task is deliberately minimal, and that is what makes the claim testable.
+Worksheets of twenty single-digit multiplications have a quality that is known exactly, $1-e/N$ for $e$ wrong answers, on a scale with twenty-one levels and no annotator disagreement.
+A threshold is only identifiable against a quality scale that is known rather than estimated, so a richer task would have bought realism at the cost of the thing being measured.
+What the judge does with that scale is not minimal at all: it is free to use any of the scores it is offered, in any way, and the prediction is about what it in fact does.
+
 We ran that prediction as a registration.
-Five judges from two model families graded worksheets of twenty multiplications with a known number of wrong answers.
+Six graded judges, across two vendors and three model generations, graded worksheets of twenty multiplications with a known number of wrong answers.
 Each judge's calibration was run, its predictions were written and committed with their hash, and only after that commit was the seed of the test block drawn.
 The order of the two commits is the evidence that the threshold was predicted before it was measured.
 
@@ -89,6 +94,13 @@ The calibration predicted the test block for every graded judge, at every gap of
 The codebook a judge actually writes fits its accuracy far better than the scale it was offered: on the 0 to 100 scale the scale predicts a threshold of one wrong answer and the judges resolve 5.3 and 2.8.
 Reading more of the same report lowers the threshold in the predicted order and by close to the predicted amount, by a factor of 3.5 on the 7B without changing judge, prompt or scale.
 Quantizing the 7B to 4-bit weights left every threshold within the registered factor of its bfloat16 value, so it moved reliability and not resolution.
+
+A fifth thing came out of an analysis after the gates were graded, and it sharpens what is being claimed.
+Scoring four predictors of the same held-out curve, each knowing strictly more than the last, puts a rate in bits about two fifths of the way from the nominal scale to the fully calibrated channel (Appendix~\ref{app:ladder}).
+That is the right shape of answer rather than a disappointing one.
+A scalar budget should not account for all of a noisy channel, because a channel is more than its rate: it has a codebook with positions, and it has noise.
+The theory says resolution is budgeted, and the measurement says how much of a real judge's resolution a budget buys; the two are different statements and this paper keeps them apart.
+What a practitioner can use is the method, a channel measured on one block predicting discrimination on another.
 
 The same theory says what a second budget does.
 A judge that may reason before answering spends tokens on the comparison, and with too few tokens it falls back on whatever is cheapest to read.
@@ -169,7 +181,7 @@ The registered threshold estimator turned out to report $0.87h$ where the quanti
 The budget at which the preference reverses cannot be located to better than a factor of two on the ladder that was registered, and we say so rather than quoting the interpolated point alone.
 And the framing this paper began with, that a scalar budget predicts resolution, survives only in a weakened form: the predictor ladder of Appendix~\ref{app:ladder} puts a rate in bits about two fifths of the way from the nominal scale to the calibrated channel, so what predicts is the channel.
 None of these was discovered by inspection after the fact. Each is a bar, fixed before a seed was drawn, doing the thing bars are for.
-The wider programme this belongs to keeps a ledger in which a claim's class is raised only by a sealed pass and lowered by a sealed miss; it currently carries refutations and one retraction alongside its confirmations, and a gate in it has already refuted a scaling law the framework had posited.
+The wider programme this belongs to keeps a ledger in which a claim's class is raised only by a sealed pass and lowered by a sealed miss; it currently carries refutations and one retraction alongside its confirmations, and a gate in it has already refuted a scaling law this theory had posited.
 
 \paragraph{Bars.}
 A pilot on separate seeds fixed the bars by simulation.
@@ -870,41 +882,31 @@ report & token identifiers & decoded tokens \\
 \label{app:gates}
 
 \paragraph{Hull law on a public survey, pass as a tendency.}
-Theorem~\ref{thm:repr}(b) needs only a known consequence map and observed choices.
-In the 1972 American National Election Study respondents placed candidates and parties on seven-point issue scales and rated them on feeling thermometers, so the consequence of an object is its position on a registered pair of scales and the choice is the rating.
-On the registered pair, 489 of 557 respondents had a menu in which the law could bind, and 246 of them, 50.3 percent, violated it at least once, against 66.4 percent when each respondent's ratings are shuffled among that respondent's own objects, with none of 200 shuffles reaching the observed rate.
-Five other pairs of scales gave the same ordering, observed rates of 54 to 63 percent against shuffled rates of 67 to 74 percent.
-The rates sit well below the geometric base rate of violation and well above zero.
-The registration recorded both halves, that the law holds as a population tendency and that about half of the respondents violate it.
-The second half needs a qualification found after that gate was graded.
-A pair of scales is a rank-two reading of whatever space a respondent evaluates in.
-A convex combination survives any linear map, so a point inside a hull stays inside under projection while a point outside can fall inside.
+Theorem~\ref{thm:repr}(b) needs only a known consequence map and observed choices, so it can be read off data nobody collected for it.
+In the 1972 American National Election Study respondents placed candidates and parties on seven-point issue scales and rated them on feeling thermometers, which makes the consequence of an object a point the respondent supplied and the evaluation a number the respondent gave.
+On the registered pair of scales 489 of 557 respondents had a menu in which the law could bind, and 246 of them, 50.3 percent, violated it at least once, against 66.4 percent when each respondent's ratings were shuffled; five other pairs gave the same ordering, 54 to 63 percent observed against 67 to 74 percent shuffled.
+The registration recorded both halves: the law holds as a population tendency, and about half of the respondents violate it.
+One qualification was found after that gate was graded and is kept here rather than repaired.
+A pair of scales is a rank-two reading of whatever space a respondent evaluates in, and a convex combination survives any linear map, so a point inside a hull stays inside under projection while a point outside can fall inside.
 Reading fewer coordinates can therefore add violations and cannot remove them, and the observed rate bounds the rate in the respondent's own space from above rather than estimating it.
-That omitted attributes can make rational choice fail a revealed-preference test is established for characteristics models \citep{blow2008revealed}, and the next gate measures the size of the effect.
+That omitted attributes can make rational choice fail a revealed-preference test is established for characteristics models \citep{blow2008revealed}, and the next gate measures the size of that effect.
 
 \paragraph{The same law on natural decisions, read at increasing rank, pass.}
-The cap of Theorem~\ref{thm:dist}(b) is a cap on the rank at which consequences are read, and two sealed gates apply it from the analyst's side to choices nobody elicited.
-In ten regular seasons of professional football play calls, 303{,}414 decisions, the consequence of a call is a five-coordinate vector estimated from outcomes and pooled over every team, and a team's ranking of calls in a game state is its choice share.
-With four calls a menu can bind only on a plane, because four points in general position never place one inside the hull of the others above two dimensions.
-On the registered pair of coordinates 8 of 402 testable units violated the law, 2.0 percent against 22.9 percent shuffled, with none of 200 shuffles reaching the observed rate, and on one replication pair the law was violated above chance, 30.0 against 22.1 percent.
-That gate graded indeterminate under its own sensitivity clause.
-A follow-on gate with thirteen calls registered, before any rate in that menu had been computed, that the violation rate would not rise as more of the five coordinates are read.
-Over every graded subset the mean rate was 0.914 at two coordinates, 0.444 at three, and 0.139 at four, and all 26 subsets sat below their shuffled rate, including the pair that had been violated above chance.
-Perturbing each consequence by its own standard error moved that pair's rate by 0.089 against a margin of 0.079 over its null, and moved the registered pair's by 0.006 against a margin of 0.209.
-Reading more of the consequence space lowers the rate, which is the ordering Section~\ref{sec:budgets} predicts for a judge's read-outs, in a world with no language model in it.
-A second arm, which tried to recover a metric from pooled choices, recovered none.
-One metric and one ideal served about eight game states and a stratum held 189, so that arm is a miss of the measurement and is reported as one.
+The cap of Theorem~\ref{thm:dist}(b) is a cap on the rank at which consequences are read, and this gate applies it to choices nobody elicited.
+In ten regular seasons of professional football play calls, 303{,}414 decisions, the consequence of a call is a five-coordinate vector estimated from outcomes and pooled over every team, and a menu can bind only on a plane when four calls are available.
+On the registered pair of coordinates 8 of 402 testable units violated the law, 2.0 percent against 22.9 percent shuffled, with none of 200 shuffles reaching the observed rate; one replication pair was violated above chance, and that gate graded indeterminate under its own sensitivity clause.
+A follow-on gate with thirteen calls then registered, before any rate in that menu had been computed, that the violation rate would not rise as more of the five coordinates are read.
+Over every graded subset the mean rate was 0.914 at two coordinates, 0.444 at three and 0.139 at four, and all 26 subsets sat below their shuffled rate, including the pair that had been violated above chance.
+Perturbing each consequence by its own standard error moved that pair's rate by 0.089 against a margin of 0.079 over its null, and the registered pair's by 0.006 against a margin of 0.209.
+Reading more of the consequence space lowers the violation rate, which is the ordering Section~\ref{sec:budgets} predicts for a judge's read-outs, in a world with no language model in it.
+A second arm of the same registration tried to recover a metric from pooled choices and recovered none: one metric and one ideal served about eight game states while a stratum held 189, so that arm is a miss of the measurement and is reported as one.
 
-\paragraph{Shared-representation regret, indeterminate.}
-Let $N$ evaluators share a representation space $\R^{d}$ with constant pullbacks $P_{1},\dots,P_{N}$ and a common isotropic source of second moment $\sigma^{2}I$, and let a shared representation at budget $k$ be an orthogonal projector $\Pi$ of rank $k$.
-Evaluator $i$'s regret from $\Pi$ is $r_{i}(\Pi)=\sigma^{2}(\sum_{j\le k}\lambda_{j}(P_{i})-\tr(\Pi P_{i}))\ge0$.
-A shared representation with zero regret for every evaluator exists if and only if there is a $k$-dimensional subspace that is a top-$k$ eigenspace of every $P_{i}$, and for weights $w_{i}>0$ the least weighted total regret is attained by a top-$k$ eigenspace of $\bar P=\sum_{i}w_{i}P_{i}$, strictly positive exactly when no common eigenspace exists.
-Both statements are Ky Fan's maximum principle \citep{fan1949}, and the regret formula is the second-order expansion of the loss under a rank-$k$ code.
-The gate took the three query heads of a grouped-query attention group in a language model as evaluators of one key cache, with shared codes of rank 2, 4, and 8 in 128 dimensions.
-At those ranks the measured attention loss was 20 to 330 times the second-order prediction, so the regret formula and its bound could not be tested and the verdict is indeterminate.
-The ordering claim survived on the measured losses alone: the leading eigenspace of the summed geometries beat every random code and the key-covariance code in 32 of 32 cases, while a head's own leading eigenspace was the best code for that head in fewer than half the cases.
-A second sealed run perturbed one key at a time by a small isotropic error in the discarded subspace, where the measured loss matched the second-order prediction at the median, a ratio of 1.02 to 1.05, while 64 draws per cell left a 20 percent scatter that missed the registered per-triple bar, so that verdict is indeterminate as well.
-The registration of the first run also compared a one-key prediction to an all-keys measurement, a defect recorded rather than repaired after the fact.
+\paragraph{A third gate, indeterminate, summarized.}
+A third registration read the query heads of one grouped-query attention group as evaluators sharing a rank-$k$ code of a key cache, under Ky Fan's maximum principle \citep{fan1949}, which gives both a zero-regret condition and a weighted bound.
+At ranks 2, 4 and 8 in 128 dimensions the measured attention loss was 20 to 330 times the second-order prediction, so the regret formula could not be tested and the verdict is indeterminate.
+The ordering claim survived on the measured losses alone, the leading eigenspace of the summed geometries beating every random code and the key-covariance code in 32 of 32 cases.
+The registration of that run also compared a one-key prediction to an all-keys measurement, a defect recorded rather than repaired.
+The loss measurements, the perturbation run that matched the second-order prediction at the median, and the full record are in the supplementary material.
 
 \fi
 

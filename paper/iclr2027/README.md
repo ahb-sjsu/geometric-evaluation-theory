@@ -93,28 +93,35 @@ three regimes, Figure 3 the crossover. Tables 1 and 2 are the sealed thresholds 
 cells. Open before it can replace `iclr2027.tex`: the owner's read, one citation for reasoning
 and judge bias, and the supplementary zip.
 
-A `ef` in the AI use statement had lost its backslash when this file was first assembled by
+A `
+ef` in the AI use statement had lost its backslash when this file was first assembled by
 script and printed as literal text. It is repaired. Both checks from the paper skill now run
 against the built source, the binary one for control bytes and the grep for commands missing a
 backslash, including the partial forms a lost backslash leaves.
 
-## Two builds, one source (added 2026-09-21)
+## Two builds, one source (added 2026-09-21, revised)
 
-The submission is the **beachhead** build: `iclr2027-v2.tex`, 20 pages, main text to page 8.
-Its job is to land the vocabulary in a venue, so it carries only what the two gates need.
+The submission is the **cornerstone** build, which is what `iclr2027-v2.tex` produces by default:
+21 pages, main text to page 9, carrying the identification gate on synthetic evaluators and the
+two further sealed gates. A reviewer who read both scored this one an accept and the narrower
+build a weak accept, so the wider paper is the one that goes in.
 
-`iclr2027-v2-cornerstone.tex` is a four-line wrapper that defines `\CORNERSTONE` and inputs the
-same file, switching on the sections that state the wider programme: the identification gate on
-synthetic evaluators, and the two further sealed gates (the hull law on a public survey, and the
-shared-representation bound on attention heads). 21 pages.
+`iclr2027-v2-beachhead.tex` is a four-line wrapper that defines `\BEACHHEAD` and inputs the same
+file, switching those sections off. 20 pages. Kept because it is free to keep and because the
+narrower cut is the right shape for a shorter venue.
 
 One source, so the two cannot drift. Every cross-reference into a cornerstone-only section is
-wrapped in `\ifcornerstone`, and in the beachhead build reads "reported in the supplementary
-material" instead, so nothing looks hidden. Both builds must show zero undefined references.
+wrapped in `\ifcornerstone` and reads "reported in the supplementary material" in the beachhead
+build, so nothing looks hidden. Both builds must show zero undefined references.
 
     pdflatex iclr2027-v2 ; bibtex iclr2027-v2 ; pdflatex iclr2027-v2 ; pdflatex iclr2027-v2
-    pdflatex iclr2027-v2-cornerstone ; bibtex iclr2027-v2-cornerstone ; pdflatex ... (twice)
+    pdflatex iclr2027-v2-beachhead ; bibtex iclr2027-v2-beachhead ; pdflatex ... (twice)
 
-Note for editors: `\newif` must stay outside the `\ifdefined\CORNERSTONE` test. TeX counts `\if`
-tokens while skipping a false branch, so a `\newif\ifcornerstone` inside one breaks the nesting and
-silently swallows the rest of the document.
+Appendix G was condensed on the same review: the survey gate and the play-calling gate keep a
+paragraph each with their numbers, and the attention-head gate is summarized to four sentences
+with its loss measurements and perturbation run pushed to the supplement.
+
+Note for editors: `\newif` must stay outside the `\ifdefined\BEACHHEAD` test. TeX counts `\if`
+tokens while skipping a false branch, so a `\newif\ifcornerstone` inside one breaks the nesting
+and silently swallows the rest of the document. A misplaced closing `\fi` does the same thing
+quietly; check the page count and the undefined-reference count after any edit to those blocks.
