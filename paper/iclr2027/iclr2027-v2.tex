@@ -457,7 +457,12 @@ This appendix states the evaluation object and the results the main text uses. P
 
 \begin{definition}[Evaluation object]
 \label{def:object}
-An evaluation object is a six-tuple $\Ev=(X,A,C,G,B,\K)$ in which $X$ is a set of states carrying a probability law $\mu$, the evaluator's belief; $A$ is a set of actions; $C:A\times X\to\Y$ is the evaluator, a map into a consequence space $\Y$ that is a $C^{1}$ manifold; $G$ is the metric of evaluation, a continuous Riemannian metric on $\Y$ together with an ideal point $t\in\Y$; $B$ is the resolution budget, one of a rank cap $k$, a length $\varepsilon\ge0$, or a rate $R$ in bits, with $B=\infty$ for the unbudgeted case; and $\K\subseteq A$ is the set of admissible actions.
+An evaluation object is a six-tuple $\Ev=(X,A,C,G,B,\K)$ in which $X$ is a set of states carrying a probability law $\mu$, the evaluator's belief; $A$ is a set of actions; $C:A\times X\to\Y$ is the evaluator, a map into a consequence space $\Y$ that is a $C^{1}$ manifold; $G$ is the metric of evaluation, a continuous field of positive semidefinite quadratic forms on the tangent spaces of $\Y$, together with an ideal point $t\in\Y$; $B$ is the resolution budget, one of a rank cap, a length $\varepsilon\ge0$, or a rate $R$ in bits, with $B=\infty$ for the unbudgeted case; and $\K\subseteq A$ is the set of admissible actions.
+Two restrictions belong in the definition rather than in the results that use them.
+$G$ is allowed to be degenerate, so it is a pseudo-metric and not a Riemannian metric in the usual sense; Theorem~\ref{thm:repr} chooses a positive semidefinite $G$, and its uniqueness clause is stated for $G_{1}\neq0$ rather than for $G_{1}$ definite, so calling it Riemannian here would contradict the results that use it.
+A rank cap is only defined when $\Y$ carries the linear structure its operations need, so a rank budget is a pair $(k,\nu)$ in which $\Y=\R^{m}$ with its Euclidean structure and $\nu$ is a workload, a probability measure on $A$ under which the second moment of consequences is taken.
+Without $\nu$ the phrase \emph{second moment of the evaluator's consequences} has no referent, since $\mu$ is a law on states and not on actions.
+The length and rate budgets need neither restriction and are defined on any $\Y$ as above.
 \end{definition}
 
 The world supplies $(X,A,C)$ and the evaluator supplies $(G,B,\K)$.
@@ -466,8 +471,9 @@ The split is the source of the theory's content.
 If the evaluator could also choose $C$, every weak order on a finite $A$ would be an evaluation object, since a one-dimensional consequence $C(a)=t-d(a)$ represents any real function $d$.
 With $C$ fixed by the world, which preferences an evaluator can hold becomes a representation theorem and what its choices reveal becomes a uniqueness theorem.
 
-The evaluation distance of an action is the expected geodesic distance of its consequence from the ideal, $d(a)=(\Ex_{\mu}[\dG(C(a,X),t)^{2}])^{1/2}$, and its cost is $c(a)=d(a)^{2}$.
-Under a rank cap $k$ the evaluator retains the top-$k$ eigenspace of the second moment of its habitual consequences and evaluates the projection.
+The evaluation distance of an action is the root of the expected squared geodesic distance of its consequence from the ideal, $d(a)=(\Ex_{\mu}[\dG(C(a,X),t)^{2}])^{1/2}$, and its cost is $c(a)=d(a)^{2}$.
+It is a root mean square and not an expected distance; the two differ by Jensen's inequality, and it is the squared form that makes the cost additive over independent coordinates and gives Theorem~\ref{thm:repr} its quadratic $Q_{W}$.
+Under a rank cap $(k,\nu)$ the evaluator retains the top-$k$ eigenspace of $\Ex_{a\sim\nu}\Ex_{\mu}[C(a,X)C(a,X)^{\top}]$, the second moment of the consequences its workload actually presents, and evaluates the projection.
 Under a length $\varepsilon$ the distance is $d$ itself and the budget acts on comparison.
 Under a rate $R$ the evaluator holds an $R$-bit description of the consequence and evaluates the reconstruction, and a rate budget is treated as the length budget given by the least attainable distortion.
 The length budget is the one this paper measures.
@@ -511,7 +517,7 @@ Choice from a menu is the set of admissible actions no admissible action strictl
 \label{thm:repr}
 Let $X$ be a point, $\Y=\R^{m}$, and the consequences $y_{a}=C(a)$ fixed by the world, with the evaluator choosing a positive semidefinite $G$ and an ideal $t$, so that $c(a)=q(y_{a})$ with $q(y)=(y-t)^{\top}G(y-t)$.
 \begin{enumerate}
-\item[(a)] A weak order on finite $A$ is representable by some $(G,t)$ if and only if there is a positive semidefinite $(m+1)\times(m+1)$ matrix $W$ such that $Q_{W}(y)=(y,1)W(y,1)^{\top}$ satisfies $Q_{W}(y_{a})<Q_{W}(y_{b})$ whenever $a\succ b$ and $Q_{W}(y_{a})=Q_{W}(y_{b})$ whenever $a\sim b$. These are linear constraints on $W$ over the semidefinite cone, so representability is a semidefinite feasibility problem.
+\item[(a)] A weak order on finite $A$ is representable by some $(G,t)$ if and only if there is a positive semidefinite $(m+1)\times(m+1)$ matrix $W$ such that $Q_{W}(y)=(y,1)W(y,1)^{\top}$ satisfies $Q_{W}(y_{a})<Q_{W}(y_{b})$ whenever $a\succ b$ and $Q_{W}(y_{a})=Q_{W}(y_{b})$ whenever $a\sim b$. These are linear constraints on $W$ over the semidefinite cone. The strict inequalities make the feasible set open, so the program solved in practice fixes a margin $\delta>0$ and asks for $Q_{W}(y_{b})-Q_{W}(y_{a})\ge\delta$ whenever $a\succ b$, which is a closed and standard semidefinite feasibility problem; a solution at any $\delta>0$ scales to a solution of the strict system and conversely, since $W$ may be scaled freely.
 \item[(b)] If a preference is representable, then for every action $a$ and finite set $S$ with $y_{a}$ in the convex hull of $\{y_{s}:s\in S\}$ there is $s\in S$ with $a\succsim s$. No action is strictly worse than every action whose consequences surround it, and this holds for every convex evaluation cost.
 \item[(c)] Let $(G_{1},t_{1})$ and $(G_{2},t_{2})$ with $G_{1}\neq0$, $G_{2}\ne0$ induce the same weak order on a nonempty open connected set $U$ of consequences. Then $G_{2}=\lambda G_{1}$ for some $\lambda>0$. If in addition $\operatorname{rank}G_{1}\ge2$, or $U$ contains a point at which $q_{1}$ attains its minimum, then also $G_{1}(t_{2}-t_{1})=0$.
 \end{enumerate}
@@ -608,7 +614,7 @@ Weight precision: bfloat16, 8-bit, 4-bit.
 The cells are rendering by weight precision at full report length, twelve cells, and the report ladder at three decimals and full weights, six more.
 
 \paragraph{Registered estimator and bars.}
-For each cell and gap, accuracy is the share of pairs whose preference for the closer option exceeds one half, with ties and unparsable reports counting as one half so that indifference counts against.
+For each cell and gap, accuracy is the share of pairs on which the preference for the closer option strictly exceeds one half. A tie and an unparsable report are scored as failures, so indifference counts against the evaluator rather than being discarded.
 The registered threshold of a cell is the gap at which accuracy first reaches 0.9, interpolated linearly in log gap between ladder points, infinite if never reached and the smallest gap if reached there.
 The scorer's threshold in a cell is predicted to be the larger of the budget it was set and a floor, the scorer's own resolution at full weights, full rendering, and full report length.
 P1: along the rendering ladder at fixed weight precision the threshold is non-increasing in decimals within a tolerance factor, and at every decimal count whose step exceeds the floor by a factor of at least 3 it is within that factor of the step.
@@ -621,7 +627,7 @@ The registration records that at full weights the rendering and report ladders t
 
 \paragraph{Channel fit.}
 Proposition~\ref{prop:channel} was not part of the registration, and the fit that follows is an analysis of the sealed record rather than a registered test.
-For each cell the step $\hat h$ is the least-squares slope of accuracy on gap through the origin over the ladder points below 0.9, and the lapse $\hat\lambda$ is one minus the mean accuracy at gaps of at least twice the set step.
+The two parameters are fitted in that order. The lapse $\hat\lambda$ is one minus the mean accuracy at gaps of at least twice the set step, where the law is saturated and any shortfall is lapse. Accuracy is then divided by $1-\hat\lambda$ to remove it, and the step is fitted to the corrected accuracies $y_{i}=a_{i}/(1-\hat\lambda)$ at the ladder gaps $x_{i}$ below 0.9 by least squares through the origin. Under the law of Proposition~\ref{prop:channel} the corrected accuracy is $x/h$, so the fitted slope estimates $1/h$ and the step is its reciprocal, $\hat h=\sum x_{i}^{2}/\sum x_{i}y_{i}$. Reading $\hat h$ as the slope itself would invert the quantity, and the values in Table~\ref{tab:fit} are the reciprocal.
 Intervals are a parametric bootstrap that redraws each gap's 200 outcomes as binomial and refits, 4000 draws.
 A paired bootstrap across cells would be preferable and the record does not support it, since it holds per-gap aggregates and not per-pair outcomes.
 
@@ -659,8 +665,8 @@ The fitted steps in Table~\ref{tab:fit} are the quantity to read; this figure sh
 \small
 \caption{The step fitted from each accuracy curve against the step that was set, with 95 percent bootstrap intervals, and the lapse above resolution.
 Rendering cells at 12-token reports; report cells at 3 decimals and bfloat16.
-The registered threshold at the 0.9 level is shown for the record.
-Every graded interval contains the set step. The one-token cell is reported and not graded.}
+Every graded interval contains the set step. The one-token cell is reported and not graded.
+An interval is given for the lapse only where it is not pinned at zero; in every other cell the point estimate is zero and the bootstrap does not move it. The registered threshold is not a column here: it is given in the text and plotted in Figure~\ref{fig:thresholds}.}
 \label{tab:fit}
 \begin{tabular}{llrrrrr}
 \toprule
@@ -702,7 +708,7 @@ This is the length budget of Definition~\ref{def:object} on both sides of the ev
 
 \paragraph{Weight precision changes reliability and not resolution.}
 At 8-bit weights every accuracy curve equals its bfloat16 curve to the digits shown.
-At 4-bit weights the curves at 0, 1, and 2 decimals equal the bfloat16 curves, and at three decimals the fitted step is 0.00099 against 0.00102 at bfloat16, an interval of $[0.00087,0.00115]$ containing the set step, while the accuracy above resolution falls from 0.99 to 1.00 to a plateau of 0.95 to 0.98.
+At 4-bit weights the curves at 0, 1, and 2 decimals equal the bfloat16 curves, and at three decimals the fitted step is 0.00099 against 0.00102 at bfloat16, an interval of $[0.00087,0.00115]$ containing the set step, while the accuracy above resolution falls from the 0.99 to 1.00 range to a plateau of 0.95 to 0.98.
 The two-parameter law reads this as a step unchanged and a lapse of 0.031, interval $[0.024,0.038]$, where the bfloat16 and 8-bit judges have a lapse of 0.001.
 The registration named the weight ladder as the place where the threshold prediction could fail, and it did not.
 What the weights did move is a second property, the judge's reliability once a difference is resolved.
@@ -721,6 +727,7 @@ A registration with gaps beyond 20, and with P3 defined on the largest graded th
 Theorem~\ref{thm:repr}(c) says what choices can recover, and the gate that tests it uses the whole-space case that is machine-checked.
 Forty evaluators per cell, in two to four dimensions with random metrics including singular ones, were given batteries of consequences of increasing size, and the feasibility program of Theorem~\ref{thm:repr}(a) with a margin was solved from their weak orders alone.
 Errors were scored against the chance level of guesses from the evaluator prior.
+Theorem~\ref{thm:repr}(c) fixes the metric only up to a positive scale and the ideal only up to the metric's kernel, so recovery is scored by quantities invariant to both: the metric by the chordal distance between the recovered and true forms after normalising each to unit Frobenius norm, and the ideal by the distance between its recovered and true components in the range of the metric, divided by the diameter of the consequence battery. Chance is the same statistic under a metric and ideal drawn at random from the same generator.
 In all twelve cells on a fresh seed, under a sealed registration, the metric and the ideal's range component were recovered at 64 consequences above the dimension, to a few percent of chance, with the error falling at every step as the battery grew, while at or below the design bound, off the span of a battery confined to a subspace, and in the kernel of a singular metric, nothing was recovered.
 A semiorder that withholds the fifth of pairs closest in distance identified more slowly, to between 5 and 25 percent of chance at the same battery.
 Further sealed gates, a hull law on a public survey that held as a population tendency, the same law on natural decisions where the violation rate fell with the rank at which consequences were read, as registered, and a shared-representation bound on attention heads that returned indeterminate, are reported in Appendix~\ref{app:gates} at the size of their verdicts.
