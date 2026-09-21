@@ -420,26 +420,35 @@ The next proposition says what a grid does to an exact evaluator, and it is the 
 
 \begin{proposition}[Grid channel]
 \label{prop:channel}
-Let an evaluator order two options by comparing $\rho(d_{1})$ and $\rho(d_{2})$, where $d_{1}<d_{2}$ are their true distances and $\rho$ rounds, or truncates, to a grid of step $h$, and let a tie count as an error.
-If the position of $d_{1}$ relative to the grid is uniform on a grid cell, then the probability that the evaluator orders the pair correctly is
-\[
-P(\text{correct}\mid\Delta)=\min(1,\Delta/h),\qquad \Delta=d_{2}-d_{1},
-\]
-and the gap at which the evaluator reaches accuracy $\alpha$ is $\alpha h$.
-If the evaluator further errs with probability $\lambda$ independently of the pair, the probability is $(1-\lambda)\min(1,\Delta/h)$.
+Let an evaluator order two options by comparing $\rho(d_{1})$ and $\rho(d_{2})$, where $d_{1}<d_{2}$ are their true distances, $\rho$ is nondecreasing and constant between consecutive boundaries spaced $h$ apart, and a tie counts as an error.
+Rounding and truncation to a grid of step $h$ are both such a $\rho$.
+Write $\Delta=d_{2}-d_{1}$ and let $\varepsilon$ be the distance from $d_{1}$ up to the next boundary.
+\begin{enumerate}
+\item[(a)] $\varepsilon\in(0,h]$, and the pair is ordered correctly if and only if $\Delta\ge\varepsilon$. Given the position of $d_{1}$ relative to the boundaries, the evaluator is therefore the relation of Definition~\ref{def:pref} with tolerance $\varepsilon$, the two differing only in the boundary case $\Delta=\varepsilon$.
+\item[(b)] If that position is uniform on a cell, $\varepsilon$ is uniform on $(0,h]$.
+\item[(c)] Hence $P(\text{correct}\mid\Delta)=P(\varepsilon\le\Delta)=\min(1,\Delta/h)$, and the gap at which the evaluator reaches accuracy $\alpha$ is the $\alpha$ quantile of its tolerance, $\alpha h$. If the evaluator further errs with probability $\lambda$ independently of the pair, the probability is $(1-\lambda)\min(1,\Delta/h)$.
+\end{enumerate}
 \end{proposition}
 
 \begin{proof}
-$\rho$ is monotone, so $\rho(d_{1})\le\rho(d_{2})$ always, and the pair is ordered correctly exactly when $\rho(d_{1})<\rho(d_{2})$, that is, when a grid boundary falls in $(d_{1},d_{2}]$.
-For $\Delta\le h$ that interval contains a boundary with probability $\Delta/h$ under a uniform position, and for $\Delta>h$ it always does.
-The lapse multiplies by $1-\lambda$.
+(a) $\rho$ is nondecreasing, so $\rho(d_{1})\le\rho(d_{2})$ always and the pair is ordered correctly exactly when $\rho(d_{1})<\rho(d_{2})$, which happens exactly when a boundary lies in $(d_{1},d_{2}]$.
+The least boundary above $d_{1}$ is $d_{1}+\varepsilon$, so that is $\Delta\ge\varepsilon$, and $\varepsilon\le h$ because consecutive boundaries are $h$ apart.
+(b) The boundaries are a lattice of spacing $h$, and the distance from a point to the next lattice point above it carries the uniform law on a cell to the uniform law on $(0,h]$.
+(c) The first equality is (a) and the second is (b); the $\alpha$ quantile of the uniform law on $(0,h]$ is $\alpha h$; the lapse multiplies by $1-\lambda$.
 \end{proof}
 
-The proposition turns the grid into a length budget in the sense of the theory, with the tolerance read at any accuracy level: the semiorder threshold at level $\alpha$ is $\alpha h$, and the accuracy curve itself is a straight line through the origin with slope $1/h$.
-It also fixes what the registered threshold statistic measures.
+Part (a) is what makes a grid a length budget in the sense of the theory rather than something merely like one.
+Given the alignment, the evaluator is the relation of Definition~\ref{def:pref} exactly, with the distance to the next boundary as its tolerance; what a grid takes away is knowledge of that alignment, and part (b) says the tolerance is then uniform on $(0,h]$.
+The accuracy curve of part (c) is therefore the distribution function of the tolerance, so an experiment that orders pairs identifies the whole law of the threshold rather than one number, and $h$ is its largest value.
+Three things follow.
+The gap reported at accuracy $\alpha$ is the $\alpha$ quantile of the tolerance, so the level is part of the definition of that statistic and not a property of the evaluator, which is why the step is reported beside it here.
+A deterministic semiorder with a constant threshold is the degenerate case in which the alignment is known.
+And the curve is a ramp because the alignment is unknown rather than because the evaluator is noisy: it has one parameter, the step, and no shape left to fit, which is what makes the fit of Appendix~\ref{app:numeric} a test of the proposition and not a description of the data.
+The proposition also fixes what the registered threshold statistic measures.
 The registration read the threshold as the gap at accuracy 0.9, interpolated linearly in log gap between ladder points.
 On a ladder with points at $h/2$ and $h$, where the proposition puts accuracy at $0.5$ and $1$, that interpolation returns $h\cdot2^{-0.2}=0.87h$.
 The number $0.87$ that appears throughout the record is therefore a property of the ladder and the interpolation, not of the judge, and the quantity to report is the fitted step $h$ with its interval.
+The proposition also says what that number is a biased estimate of: the gap at accuracy $0.9$ is $0.9h$, so interpolating on this ladder returns $0.967$ of it.
 The self-test on a synthetic rounding scorer had already returned $0.87h$ at every $h$, which is the same fact seen from the other side.
 
 \section{A numeric task as a calibration of the instrument}
