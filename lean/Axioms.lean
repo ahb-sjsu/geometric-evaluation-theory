@@ -29,3 +29,7 @@ import GET
 #print axioms GET.window_exponent_bound
 #print axioms GET.horizon_subset_of_le
 #print axioms GET.horizon_subset_of_budget
+#print axioms GET.GridChannel.tolerance_mem_Ioc
+#print axioms GET.GridChannel.grid_threshold
+#print axioms GET.GridChannel.truncation
+#print axioms GET.GridChannel.rounding

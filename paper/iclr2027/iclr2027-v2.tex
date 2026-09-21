@@ -320,8 +320,8 @@ Among the uses the policy lists as recommended for disclosure, the tools drafted
 Verification was as follows.
 Every experiment was registered and sealed with its hash before its run seed was drawn, its self-test and probe were run first, its calibration predictions were committed with their hash before the test block was scored, and its verdict was produced by a grading script against the sealed bars and not by any model.
 The exact score distributions that replace sampling were checked against real samples and against brute force (Appendix~\ref{app:verify}).
-Parts of the theory are machine-checked in Lean against Mathlib, in seven files with no unproven step and no axiom beyond the standard ones: the tolerance condition of Theorem~\ref{thm:dist}(c), the semiorder of Theorem~\ref{thm:pref}(b), the hull law of Theorem~\ref{thm:repr}(b), the whole-space case of the uniqueness in Theorem~\ref{thm:repr}(c), the reversal example, and the two statements on shared-representation regret in Appendix~\ref{app:gates}, with Ky Fan's principle taken as a named hypothesis.
-The remaining statements, among them the open-set form of Theorem~\ref{thm:repr}(c) and Proposition~\ref{prop:channel}, were checked by hand, and the open-set form was corrected after an external reader found a defect in it.
+Parts of the theory are machine-checked in Lean against Mathlib, in eight files with no unproven step and no axiom beyond \texttt{propext}, \texttt{Classical.choice} and \texttt{Quot.sound}: the tolerance condition of Theorem~\ref{thm:dist}(c), the semiorder of Theorem~\ref{thm:pref}(b), the hull law of Theorem~\ref{thm:repr}(b), the whole-space case of the uniqueness in Theorem~\ref{thm:repr}(c), the reversal example, part (a) of Proposition~\ref{prop:channel} together with its two quantizers and the bound on the tolerance, and the two statements on shared-representation regret in Appendix~\ref{app:gates}, with Ky Fan's principle taken as a named hypothesis.
+The remaining statements were checked by hand: the open-set form of Theorem~\ref{thm:repr}(c), which was corrected after an external reader found a defect in it, and parts (b) and (c) of Proposition~\ref{prop:channel}, which are measure-theoretic.
 Every citation was checked against the publisher's record.
 All AI-assisted text, code, and proofs were reviewed by the authors, who take responsibility for the final content of this work, including text, claims, and artifacts produced with the aid of generative AI.
 
@@ -437,6 +437,7 @@ The least boundary above $d_{1}$ is $d_{1}+\varepsilon$, so that is $\Delta\ge\v
 (c) The first equality is (a) and the second is (b); the $\alpha$ quantile of the uniform law on $(0,h]$ is $\alpha h$; the lapse multiplies by $1-\lambda$.
 \end{proof}
 
+Part (a), and the bound $\varepsilon\in(0,h]$, are machine-checked in Lean for both quantizers; parts (b) and (c) are not, and the proof above is the one to read for them.
 Part (a) is what makes a grid a length budget in the sense of the theory rather than something merely like one.
 Given the alignment, the evaluator is the relation of Definition~\ref{def:pref} exactly, with the distance to the next boundary as its tolerance; what a grid takes away is knowledge of that alignment, and part (b) says the tolerance is then uniform on $(0,h]$.
 The accuracy curve of part (c) is therefore the distribution function of the tolerance, so an experiment that orders pairs identifies the whole law of the threshold rather than one number, and $h$ is its largest value.

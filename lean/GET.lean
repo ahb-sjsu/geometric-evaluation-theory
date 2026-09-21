@@ -7,3 +7,4 @@ import GET.Reversal
 import GET.Incompatibility
 import GET.Identifiability
 import GET.Horizon
+import GET.GridChannel
