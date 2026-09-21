@@ -1,0 +1,417 @@
+{
+ "exploratory": true,
+ "why": "run after the gates were graded; it asks which part of the calibration does the predicting",
+ "statistic": "squared error of a predicted greedy-accuracy curve against the observed one, summed over the gap ladder",
+ "rows": [
+  {
+   "gate": "G3c",
+   "judge": "gemma4b__full",
+   "vacuous": true,
+   "scale": "1-5",
+   "nominal_levels": 5,
+   "codebook_size": 4,
+   "sse": {
+    "1_nominal": 1.44852,
+    "2_cardinality": 1.12042,
+    "2b_bits": 0.27197,
+    "3_codebook": 0.99664,
+    "4_channel": 0.01379
+   },
+   "threshold": {},
+   "bits": 0.526,
+   "effective_levels": 2
+  },
+  {
+   "gate": "G3c",
+   "judge": "gemma4b__full",
+   "vacuous": true,
+   "scale": "0-9",
+   "nominal_levels": 10,
+   "codebook_size": 6,
+   "sse": {
+    "1_nominal": 2.47565,
+    "2_cardinality": 1.59641,
+    "2b_bits": 0.33285,
+    "3_codebook": 1.43498,
+    "4_channel": 0.00998
+   },
+   "threshold": {},
+   "bits": 0.299,
+   "effective_levels": 2
+  },
+  {
+   "gate": "G3c",
+   "judge": "gemma4b__full",
+   "vacuous": true,
+   "scale": "0-100",
+   "nominal_levels": 101,
+   "codebook_size": 21,
+   "sse": {
+    "1_nominal": 1.19547,
+    "2_cardinality": 1.19547,
+    "2b_bits": 0.62702,
+    "3_codebook": 0.63195,
+    "4_channel": 0.00504
+   },
+   "threshold": {},
+   "bits": 0.984,
+   "effective_levels": 2
+  },
+  {
+   "gate": "G3c",
+   "judge": "qwen14b__full",
+   "vacuous": false,
+   "scale": "1-5",
+   "nominal_levels": 5,
+   "codebook_size": 5,
+   "sse": {
+    "1_nominal": 0.28631,
+    "2_cardinality": 0.28631,
+    "2b_bits": 0.09735,
+    "3_codebook": 0.28631,
+    "4_channel": 0.01453
+   },
+   "threshold": {},
+   "bits": 1.366,
+   "effective_levels": 3
+  },
+  {
+   "gate": "G3c",
+   "judge": "qwen14b__full",
+   "vacuous": false,
+   "scale": "0-9",
+   "nominal_levels": 10,
+   "codebook_size": 9,
+   "sse": {
+    "1_nominal": 0.2582,
+    "2_cardinality": 0.18768,
+    "2b_bits": 0.54004,
+    "3_codebook": 0.16354,
+    "4_channel": 0.00289
+   },
+   "threshold": {},
+   "bits": 1.756,
+   "effective_levels": 3
+  },
+  {
+   "gate": "G3c",
+   "judge": "qwen14b__full",
+   "vacuous": false,
+   "scale": "0-100",
+   "nominal_levels": 101,
+   "codebook_size": 13,
+   "sse": {
+    "1_nominal": 0.4906,
+    "2_cardinality": 0.2386,
+    "2b_bits": 0.30187,
+    "3_codebook": 0.16968,
+    "4_channel": 0.00562
+   },
+   "threshold": {},
+   "bits": 1.86,
+   "effective_levels": 4
+  },
+  {
+   "gate": "G3c",
+   "judge": "qwen1p5b__full",
+   "vacuous": true,
+   "scale": "1-5",
+   "nominal_levels": 5,
+   "codebook_size": 3,
+   "sse": {
+    "1_nominal": 0.72399,
+    "2_cardinality": 0.3388,
+    "2b_bits": 0.30235,
+    "3_codebook": 0.25761,
+    "4_channel": 0.00925
+   },
+   "threshold": {},
+   "bits": 0.426,
+   "effective_levels": 2
+  },
+  {
+   "gate": "G3c",
+   "judge": "qwen1p5b__full",
+   "vacuous": true,
+   "scale": "0-9",
+   "nominal_levels": 10,
+   "codebook_size": 2,
+   "sse": {
+    "1_nominal": 2.43389,
+    "2_cardinality": 0.22845,
+    "2b_bits": 0.22845,
+    "3_codebook": 0.22845,
+    "4_channel": 0.00303
+   },
+   "threshold": {},
+   "bits": 0.268,
+   "effective_levels": 2
+  },
+  {
+   "gate": "G3c",
+   "judge": "qwen1p5b__full",
+   "vacuous": true,
+   "scale": "0-100",
+   "nominal_levels": 101,
+   "codebook_size": 5,
+   "sse": {
+    "1_nominal": 2.10883,
+    "2_cardinality": 0.69011,
+    "2b_bits": 0.28911,
+    "3_codebook": 0.20492,
+    "4_channel": 0.00609
+   },
+   "threshold": {},
+   "bits": 0.454,
+   "effective_levels": 2
+  },
+  {
+   "gate": "G3c",
+   "judge": "qwen7b__full",
+   "vacuous": false,
+   "scale": "1-5",
+   "nominal_levels": 5,
+   "codebook_size": 5,
+   "sse": {
+    "1_nominal": 0.44875,
+    "2_cardinality": 0.44875,
+    "2b_bits": 0.22699,
+    "3_codebook": 0.44875,
+    "4_channel": 0.00542
+   },
+   "threshold": {},
+   "bits": 1.067,
+   "effective_levels": 2
+  },
+  {
+   "gate": "G3c",
+   "judge": "qwen7b__full",
+   "vacuous": false,
+   "scale": "0-9",
+   "nominal_levels": 10,
+   "codebook_size": 8,
+   "sse": {
+    "1_nominal": 0.52084,
+    "2_cardinality": 0.36569,
+    "2b_bits": 0.2521,
+    "3_codebook": 0.32266,
+    "4_channel": 0.00227
+   },
+   "threshold": {},
+   "bits": 1.401,
+   "effective_levels": 3
+  },
+  {
+   "gate": "G3c",
+   "judge": "qwen7b__full",
+   "vacuous": false,
+   "scale": "0-100",
+   "nominal_levels": 101,
+   "codebook_size": 9,
+   "sse": {
+    "1_nominal": 1.16928,
+    "2_cardinality": 0.54652,
+    "2b_bits": 0.17402,
+    "3_codebook": 0.2822,
+    "4_channel": 0.00137
+   },
+   "threshold": {},
+   "bits": 1.366,
+   "effective_levels": 3
+  },
+  {
+   "gate": "G3c",
+   "judge": "qwen7b__int4",
+   "vacuous": false,
+   "scale": "1-5",
+   "nominal_levels": 5,
+   "codebook_size": 5,
+   "sse": {
+    "1_nominal": 0.31822,
+    "2_cardinality": 0.31822,
+    "2b_bits": 0.33018,
+    "3_codebook": 0.31822,
+    "4_channel": 0.00222
+   },
+   "threshold": {},
+   "bits": 1.072,
+   "effective_levels": 2
+  },
+  {
+   "gate": "G3c",
+   "judge": "qwen7b__int4",
+   "vacuous": false,
+   "scale": "0-9",
+   "nominal_levels": 10,
+   "codebook_size": 8,
+   "sse": {
+    "1_nominal": 0.47167,
+    "2_cardinality": 0.33347,
+    "2b_bits": 0.28314,
+    "3_codebook": 0.16284,
+    "4_channel": 0.00465
+   },
+   "threshold": {},
+   "bits": 1.375,
+   "effective_levels": 3
+  },
+  {
+   "gate": "G3c",
+   "judge": "qwen7b__int4",
+   "vacuous": false,
+   "scale": "0-100",
+   "nominal_levels": 101,
+   "codebook_size": 9,
+   "sse": {
+    "1_nominal": 1.44965,
+    "2_cardinality": 0.77637,
+    "2b_bits": 0.52696,
+    "3_codebook": 0.45495,
+    "4_channel": 0.00136
+   },
+   "threshold": {},
+   "bits": 1.189,
+   "effective_levels": 2
+  },
+  {
+   "gate": "G3e",
+   "judge": "gemma12b",
+   "vacuous": false,
+   "scale": "0-100",
+   "nominal_levels": 101,
+   "codebook_size": 15,
+   "sse": {
+    "1_nominal": 0.46847,
+    "2_cardinality": 0.27047,
+    "2b_bits": 0.31762,
+    "3_codebook": 0.07663,
+    "4_channel": 0.0064
+   },
+   "threshold": {},
+   "bits": 1.855,
+   "effective_levels": 4
+  },
+  {
+   "gate": "G3e",
+   "judge": "gemma12b",
+   "vacuous": false,
+   "scale": "0-9",
+   "nominal_levels": 10,
+   "codebook_size": 9,
+   "sse": {
+    "1_nominal": 0.39326,
+    "2_cardinality": 0.30995,
+    "2b_bits": 0.41904,
+    "3_codebook": 0.30995,
+    "4_channel": 0.0102
+   },
+   "threshold": {},
+   "bits": 1.629,
+   "effective_levels": 3
+  },
+  {
+   "gate": "G3e",
+   "judge": "gemma12b",
+   "vacuous": false,
+   "scale": "1-5",
+   "nominal_levels": 5,
+   "codebook_size": 5,
+   "sse": {
+    "1_nominal": 0.48928,
+    "2_cardinality": 0.48928,
+    "2b_bits": 0.21013,
+    "3_codebook": 0.48928,
+    "4_channel": 0.00706
+   },
+   "threshold": {},
+   "bits": 1.112,
+   "effective_levels": 2
+  },
+  {
+   "gate": "G3e",
+   "judge": "gemma31b",
+   "vacuous": false,
+   "scale": "0-100",
+   "nominal_levels": 101,
+   "codebook_size": 21,
+   "sse": {
+    "1_nominal": 0.06092,
+    "2_cardinality": 0.06092,
+    "2b_bits": 0.09354,
+    "3_codebook": 0.06092,
+    "4_channel": 7e-05
+   },
+   "threshold": {},
+   "bits": 3.383,
+   "effective_levels": 10
+  },
+  {
+   "gate": "G3e",
+   "judge": "gemma31b",
+   "vacuous": false,
+   "scale": "0-9",
+   "nominal_levels": 10,
+   "codebook_size": 10,
+   "sse": {
+    "1_nominal": 0.0512,
+    "2_cardinality": 0.0512,
+    "2b_bits": 0.0348,
+    "3_codebook": 0.0512,
+    "4_channel": 0.00061
+   },
+   "threshold": {},
+   "bits": 2.706,
+   "effective_levels": 7
+  },
+  {
+   "gate": "G3e",
+   "judge": "gemma31b",
+   "vacuous": false,
+   "scale": "1-5",
+   "nominal_levels": 5,
+   "codebook_size": 5,
+   "sse": {
+    "1_nominal": 0.02097,
+    "2_cardinality": 0.02097,
+    "2b_bits": 0.01406,
+    "3_codebook": 0.02097,
+    "4_channel": 0.00056
+   },
+   "threshold": {},
+   "bits": 1.955,
+   "effective_levels": 4
+  }
+ ],
+ "median_sse_1_nominal": 0.44875,
+ "median_sse_2_cardinality": 0.30995,
+ "median_sse_2b_bits": 0.2521,
+ "median_sse_3_codebook": 0.2822,
+ "median_sse_4_channel": 0.00289,
+ "share_of_the_gap_closed_by_2_cardinality": 0.247,
+ "share_of_the_gap_closed_by_2b_bits": 0.396,
+ "share_of_the_gap_closed_by_3_codebook": 0.294,
+ "live_cells": [
+  14,
+  15
+ ],
+ "cells_2_cardinality_beats_nominal": [
+  8,
+  15
+ ],
+ "cells_2b_bits_beats_nominal": [
+  11,
+  15
+ ],
+ "cells_3_codebook_beats_nominal": [
+  8,
+  15
+ ],
+ "cells_where_the_channel_is_best": [
+  15,
+  15
+ ],
+ "cells_where_cardinality_alone_matches_the_channel": [
+  0,
+  15
+ ]
+}
