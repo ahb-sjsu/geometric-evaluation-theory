@@ -1,0 +1,102 @@
+{
+ "exploratory": true,
+ "why": "both gates were graded before this was run; it asks where the ladder stops measuring",
+ "ladder_floor": 1.0,
+ "rows": [
+  {
+   "gate": "G3c",
+   "judge": "gemma4b__full",
+   "vacuous": true,
+   "J3": "PASS",
+   "kendall_tau": 0.9523809523809523,
+   "readouts": 7,
+   "at_floor": 0,
+   "at_floor_names": [],
+   "share_within_factor": 1.0
+  },
+  {
+   "gate": "G3c",
+   "judge": "qwen14b__full",
+   "vacuous": false,
+   "J3": "PASS",
+   "kendall_tau": 0.9477124183006536,
+   "readouts": 18,
+   "at_floor": 0,
+   "at_floor_names": [],
+   "share_within_factor": 1.0
+  },
+  {
+   "gate": "G3c",
+   "judge": "qwen1p5b__full",
+   "vacuous": true,
+   "J3": "FAIL",
+   "kendall_tau": 0.6363636363636364,
+   "readouts": 12,
+   "at_floor": 0,
+   "at_floor_names": [],
+   "share_within_factor": 1.0
+  },
+  {
+   "gate": "G3c",
+   "judge": "qwen7b__full",
+   "vacuous": false,
+   "J3": "PASS",
+   "kendall_tau": 0.8758169934640523,
+   "readouts": 18,
+   "at_floor": 0,
+   "at_floor_names": [],
+   "share_within_factor": 1.0
+  },
+  {
+   "gate": "G3c",
+   "judge": "qwen7b__int4",
+   "vacuous": false,
+   "J3": "PASS",
+   "kendall_tau": 0.9084967320261438,
+   "readouts": 18,
+   "at_floor": 0,
+   "at_floor_names": [],
+   "share_within_factor": 1.0
+  },
+  {
+   "gate": "G3e",
+   "judge": "gemma12b",
+   "vacuous": false,
+   "J3": "PASS",
+   "kendall_tau": 0.9084967320261438,
+   "readouts": 18,
+   "at_floor": 0,
+   "at_floor_names": [],
+   "share_within_factor": 1.0
+  },
+  {
+   "gate": "G3e",
+   "judge": "gemma31b",
+   "vacuous": false,
+   "J3": "FAIL",
+   "kendall_tau": 0.803921568627451,
+   "readouts": 18,
+   "at_floor": 7,
+   "at_floor_names": [
+    "0-100/argmax",
+    "0-100/expected",
+    "0-100/mean_2",
+    "0-100/mean_4",
+    "0-100/mean_8",
+    "0-9/expected",
+    "1-5/expected"
+   ],
+   "share_within_factor": 1.0
+  }
+ ],
+ "graded_judges": 5,
+ "graded_with_a_readout_at_the_floor": [
+  "gemma31b"
+ ],
+ "their_J3": [
+  "FAIL"
+ ],
+ "J3_of_graded_judges_without_one": [
+  "PASS"
+ ]
+}
