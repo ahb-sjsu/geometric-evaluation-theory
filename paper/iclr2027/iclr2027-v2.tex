@@ -24,6 +24,11 @@
 \newcommand{\dG}{d_{G}}
 
 
+% The submitted paper is the beachhead build. Compiling iclr2027-v2-cornerstone.tex instead
+% defines \CORNERSTONE and turns on the sections that state the wider programme. One source,
+% so the two cannot drift.
+\newif\ifcornerstone
+\ifdefined\CORNERSTONE \cornerstonetrue \else \cornerstonefalse \fi
 \newcommand{\pending}[1]{\textbf{[#1]}}
 
 \title{A Language-Model Judge's Resolution\\Is Predicted Before It Is Measured}
@@ -154,6 +159,17 @@ The test block holds 200 fresh pairs at each gap of 1, 2, 3, 4, 6, 8, and 12 wro
 The registration, with its claims, estimator, bars, and grading code, was committed and its hash recorded before any sealed run.
 Each judge's calibration block was then run, and its predictions were written and committed with their hash.
 Only after that commit was pushed was the test seed drawn, with a system random source, and the test block run and graded by the registered script.
+
+\paragraph{What this discipline has cost.}
+A registration is only worth what it refuses, so here is what ours refused, all of it visible in this paper.
+A theorem was false as first stated: the uniqueness result of Theorem~\ref{thm:repr}(c) omitted a hypothesis and fails in rank one, which an external reader found and which is corrected here, with the machine-checked version being the whole-space case.
+Two of the five judges of the first registration could not order worksheets twelve errors apart and were declared vacuous from their calibration blocks, before their test blocks were drawn, and are reported and not graded.
+The read-out ordering claim then failed outright on one judge of the replication, and because the registration holds that claim only if every graded judge passes it, the claim fails and its gate fails with it.
+The registered threshold estimator turned out to report $0.87h$ where the quantity it names is $0.9h$, an artifact of interpolating on a coarse ladder rather than a property of any judge, so the fitted step is reported beside it.
+The budget at which the preference reverses cannot be located to better than a factor of two on the ladder that was registered, and we say so rather than quoting the interpolated point alone.
+And the framing this paper began with, that a scalar budget predicts resolution, survives only in a weakened form: the predictor ladder of Appendix~\ref{app:ladder} puts a rate in bits about two fifths of the way from the nominal scale to the calibrated channel, so what predicts is the channel.
+None of these was discovered by inspection after the fact. Each is a bar, fixed before a seed was drawn, doing the thing bars are for.
+The wider programme this belongs to keeps a ledger in which a claim's class is raised only by a sealed pass and lowered by a sealed miss; it currently carries refutations and one retraction alongside its confirmations, and a gate in it has already refuted a scaling law the framework had posited.
 
 \paragraph{Bars.}
 A pilot on separate seeds fixed the bars by simulation.
@@ -360,7 +376,7 @@ Among the uses the policy lists as recommended for disclosure, the tools drafted
 Verification was as follows.
 Every experiment was registered and sealed with its hash before its run seed was drawn, its self-test and probe were run first, its calibration predictions were committed with their hash before the test block was scored, and its verdict was produced by a grading script against the sealed bars and not by any model.
 The exact score distributions that replace sampling were checked against real samples and against brute force (Appendix~\ref{app:verify}).
-Parts of the theory are machine-checked in Lean against Mathlib, in eight files with no unproven step and no axiom beyond \texttt{propext}, \texttt{Classical.choice} and \texttt{Quot.sound}: the tolerance condition of Theorem~\ref{thm:dist}(c), the semiorder of Theorem~\ref{thm:pref}(b), the hull law of Theorem~\ref{thm:repr}(b), the whole-space case of the uniqueness in Theorem~\ref{thm:repr}(c), the reversal example, part (a) of Proposition~\ref{prop:channel} together with its two quantizers and the bound on the tolerance, and the two statements on shared-representation regret in Appendix~\ref{app:gates}, with Ky Fan's principle taken as a named hypothesis.
+Parts of the theory are machine-checked in Lean against Mathlib, in eight files with no unproven step and no axiom beyond \texttt{propext}, \texttt{Classical.choice} and \texttt{Quot.sound}: the tolerance condition of Theorem~\ref{thm:dist}(c), the semiorder of Theorem~\ref{thm:pref}(b), the hull law of Theorem~\ref{thm:repr}(b), the whole-space case of the uniqueness in Theorem~\ref{thm:repr}(c), the reversal example, part (a) of Proposition~\ref{prop:channel} together with its two quantizers and the bound on the tolerance, and the two statements on shared-representation regret\ifcornerstone{} in Appendix~\ref{app:gates}\else{} reported in the supplementary material\fi, with Ky Fan's principle taken as a named hypothesis.
 The remaining statements were checked by hand: the open-set form of Theorem~\ref{thm:repr}(c), which was corrected after an external reader found a defect in it, and parts (b) and (c) of Proposition~\ref{prop:channel}, which are measure-theoretic.
 Every citation was checked against the publisher's record.
 All AI-assisted text, code, and proofs were reviewed by the authors, who take responsibility for the final content of this work, including text, claims, and artifacts produced with the aid of generative AI.
@@ -447,7 +463,7 @@ Part (b) is the first law of the theory that a scalar utility does not state, an
 Part (c) says what choices identify.
 The metric is identified up to scale from any open set of consequences.
 The ideal is identified up to the metric's kernel when the metric has rank at least two or the data reach the ideal, and not otherwise: with $\Y=\R$, $U=(1,2)$, $q_{1}(x)=x^{2}$ and $q_{2}(x)=(x+10)^{2}$ the two orders agree on $U$ and $G_{1}(t_{2}-t_{1})=-10$.
-An earlier statement of this theorem omitted the rank or coverage hypothesis and was false in rank one, which an external reader found; the machine-checked version of the result is the whole-space case, which is the case the identification gate of Section~\ref{sec:gates} uses.
+An earlier statement of this theorem omitted the rank or coverage hypothesis and was false in rank one, which an external reader found; the machine-checked version of the result is the whole-space case, which is the case the identification gate\ifcornerstone{} of Section~\ref{sec:gates}\else{}, reported in the supplementary material,\fi{} uses.
 A rank budget also produces a reversal that no single utility records: there is an object and two actions with $b\succ a$ at rank cap 1 and $a\succ b$ at rank cap 2, with the same metric and the same ideal at both budgets (Appendix~\ref{app:proofs}).
 
 \subsection{A grid on the symbols is a length budget the evaluator cannot see past}
@@ -640,6 +656,7 @@ At gap 20 the worst accuracy over all eighteen cells is 0.985.
 A budget change enlarged the threshold by four orders of magnitude and reordered nothing at that gap.
 A registration with gaps beyond 20, and with P3 defined on the largest graded threshold, is the natural next gate and is listed in Section~\ref{sec:scope}.
 
+\ifcornerstone
 \subsection{Identification on synthetic evaluators}
 \label{sec:gates}
 
@@ -649,6 +666,8 @@ Errors were scored against the chance level of guesses from the evaluator prior.
 In all twelve cells on a fresh seed, under a sealed registration, the metric and the ideal's range component were recovered at 64 consequences above the dimension, to a few percent of chance, with the error falling at every step as the battery grew, while at or below the design bound, off the span of a battery confined to a subspace, and in the kernel of a singular metric, nothing was recovered.
 A semiorder that withholds the fifth of pairs closest in distance identified more slowly, to between 5 and 25 percent of chance at the same battery.
 Further sealed gates, a hull law on a public survey that held as a population tendency, the same law on natural decisions where the violation rate fell with the rank at which consequences were read, as registered, and a shared-representation bound on attention heads that returned indeterminate, are reported in Appendix~\ref{app:gates} at the size of their verdicts.
+
+\fi
 
 \section{Where the predictive power enters}
 \label{app:ladder}
@@ -846,6 +865,7 @@ report & token identifiers & decoded tokens \\
 \end{tabular}
 \end{table}
 
+\ifcornerstone
 \section{Two further sealed gates}
 \label{app:gates}
 
@@ -885,6 +905,8 @@ At those ranks the measured attention loss was 20 to 330 times the second-order 
 The ordering claim survived on the measured losses alone: the leading eigenspace of the summed geometries beat every random code and the key-covariance code in 32 of 32 cases, while a head's own leading eigenspace was the best code for that head in fewer than half the cases.
 A second sealed run perturbed one key at a time by a small isotropic error in the discarded subspace, where the measured loss matched the second-order prediction at the median, a ratio of 1.02 to 1.05, while 64 draws per cell left a 20 percent scatter that missed the registered per-triple bar, so that verdict is indeterminate as well.
 The registration of the first run also compared a one-key prediction to an all-keys measurement, a defect recorded rather than repaired after the fact.
+
+\fi
 
 \section{Per-cell accuracy}
 \label{app:cells}
