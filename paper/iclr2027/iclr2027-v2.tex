@@ -26,7 +26,7 @@
 
 \newcommand{\pending}[1]{\textbf{[#1]}}
 
-\title{A Language-Model Judge's Resolution\\Is Predicted by the Budget It Spends}
+\title{A Language-Model Judge's Resolution\\Is Predicted Before It Is Measured}
 
 \author{Anonymous authors\\Paper under double-blind review}
 
@@ -38,17 +38,23 @@
 \begin{abstract}
 A language-model judge cannot tell every pair of answers apart.
 Below some difference in quality it is indifferent, and that threshold decides whether it can grade the work in front of it.
-We show that the threshold can be predicted before it is measured, from the symbols the judge actually spends on its report.
+We register two gates: that the threshold can be predicted before it is measured, and that a second budget can reverse the judge's preference outright.
 Judges grade worksheets whose quality is known exactly.
-A calibration block records the scores each judge uses, and from it alone we predict, and commit, how often the judge will order fresh pairs correctly at every difference in quality, on three rating scales and six ways of reading its report.
-Only then is the seed of the test block drawn.
-On the three judges that met the registered anti-vacuity rule, two sizes of one model family with the smaller at two weight precisions, the prediction held at every gap of every scale and read-out, with the largest deviation 0.078 in accuracy and 2.2 in noise units against registered bars of 0.14 and 4.55.
-The scale a judge is offered is the wrong budget.
-Asked for a score from 0 to 100, the 7B judge writes nine distinct scores and resolves 5.3 wrong answers in twenty where the scale promises one, and the codebook it uses fits its accuracy better than the scale does on every scale of every judge.
-Reading more of the judge's report, its expected score or the mean of several samples, lowers the threshold, and the calibration predicts by how much.
-A second budget, the tokens a judge may spend reasoning, reverses its preference between a better plain worksheet and a worse one decorated with confident check marks.
-Measuring the evidence and the decoration apart, in blocks where they never conflict, predicts where that reversal ends, at 174 tokens of reasoning against 128 observed, within 0.37 of the noise on that comparison.
-The ladder is coarse there and the noise is a factor of two in budget, so we report this as an operational demonstration of a budget-mediated reversal rather than a sharp measurement of where it happens.
+A calibration block records the scores a judge actually uses, and from that block alone we predict, and commit with its hash, how often the judge will order fresh pairs correctly at every difference in quality, on three rating scales and six ways of reading its report.
+Only then is the test block's seed drawn.
+
+\textbf{Resolution.}
+The prediction held on every graded judge, the largest deviation 0.078 in accuracy against a registered bar of 0.14.
+The scale a judge is offered is the wrong budget: asked for a score from 0 to 100, the 7B judge writes nine distinct scores and resolves 5.3 wrong answers in twenty where the scale promises one, and on every scale of every judge the codebook it uses fits its accuracy better than the nominal scale does.
+Reading more of the report, its expected score or the mean of several samples, lowers the threshold by the predicted amount.
+Both results replicate on a second vendor's models and on a newer generation of the first, served by a third party at weights that party quantized.
+
+\textbf{Reversal.}
+Give the worse of two worksheets a confident header and a check mark on every line.
+With no reasoning budget the judge prefers the decorated worse worksheet, only 0.125 of test pairs favouring the better one; at 1024 tokens of reasoning it favours the better one in 0.95.
+Measuring what the evidence is worth and what the decoration is worth in separate blocks, in which the two never conflict, predicts that reversal: their sum on the log-odds scale fit the sealed test cells within 3.11 noise units against a registered bar of 3.341.
+
+What predicts a judge's resolution is its measured channel, of which a scalar budget is one summary: a rate in bits closes about two fifths of the distance from the nominal scale to the calibrated channel, and the rest is the channel's noise.
 \end{abstract}
 
 \section{Introduction}
@@ -223,6 +229,21 @@ Gemma 4B and Qwen 1.5B order worksheets twelve wrong answers apart with their gr
 The registration calls such a judge vacuous from its calibration block, and its curves are reported rather than graded.
 Their predictions were nonetheless accurate, with largest deviations 0.097 and 0.083, which says the method describes a judge that cannot do the task as well as one that can.
 
+\paragraph{The same two results on a second vendor and a newer generation, read through an API.}
+The judges above share a tokenizer, a vendor and a loader, and the two that did not were vacuous.
+A third registration puts the same worksheets, blocks, read-outs, estimator and bars in front of three judges that share none of those: Gemma 4 at 31B and at 12B, both at weights the operator quantized to 4 bits, and Qwen3 at 27B, all served by a public research API that returns only the twenty most probable tokens per position.
+Nothing of the method changed but the judge; the bars are the ones fixed from the 7B judge's pilot, and using another gate's bars is the point, since a bar moved for a new judge is not a bar.
+All three met anti-vacuity and were graded.
+The prediction held on all three, the largest deviation 0.077 against the same bar of 0.14, and the effective codebook beat the nominal scale on every scale of every judge.
+On the 0 to 100 scale the three write 21, 15 and 17 distinct scores of the 101 offered, and both Gemma judges use only multiples of five, a heaping the Qwen2.5 judges do not share.
+The read-out ordering failed, on one judge of the three.
+Gemma 4 at 31B returned Kendall's tau 0.804 against the bar of 0.86, and the registration holds the claim only if every graded judge passes it, so the claim fails and that gate fails with it.
+The thresholds were not the problem: all eighteen of its read-outs landed within the registered factor of their predictions.
+What failed is the rank statistic, and seven of its eighteen read-outs have a predicted threshold of exactly one wrong answer in twenty, the smallest gap the ladder contains.
+A judge finer than the instrument cannot be placed on it, and read-outs tied at the floor cannot be ranked.
+Across the six graded judges of the two registrations the count of read-outs at that floor is 7, 1 and 0 for these three and 0 for every earlier judge, and the only judge with seven is the only one to fail.
+That is an association over six judges and not a demonstration; what would settle it is a ladder whose steps go below one wrong answer, which needs worksheets longer than twenty items, and a probe reported in the supplement shows that buys the greedy read-out but not the expected score, whose threshold on that judge lies below one part in a hundred of quality.
+
 \section{Reversal, indifference and distinction on one budget}
 \label{sec:flip}
 
@@ -319,7 +340,9 @@ Matching predicted to observed accuracy is by itself a test that the judge score
 The content is in the two comparisons that can fail separately, the effective codebook against the nominal scale and the predicted ordering of the read-outs.
 The bars were fixed from one judge's pilot, the 7B judge at bfloat16, as quantiles of a simulation that redraws calibration and test blocks from disjoint halves of the pilot's worksheets.
 Two constants were fixed after pilot values they bear on had been seen, the factor that labels the pairwise threshold and the information bar for anti-vacuity, and the registration says so for each.
-Two of the five judges, Gemma 4B and Qwen 1.5B, failed the anti-vacuity rule on their calibration blocks and are reported and not graded, so the verdicts rest on three judges of one family, the 7B at two precisions and the 14B.
+Two of the five judges of the first registration, Gemma 4B and Qwen 1.5B, failed the anti-vacuity rule on their calibration blocks and are reported and not graded, so its verdicts rest on three judges of one family, the 7B at two precisions and the 14B.
+The replication adds three more, two sizes of Gemma 4 and one Qwen3, so the prediction and codebook claims rest on six graded judges across two vendors and three model generations, and the read-out ordering rests on five, having failed on the sixth for the reason given there.
+No judge here was trained or tuned by us, and three of the six were served by a third party at weights we did not choose and cannot inspect.
 The reversal is measured on one judge, at one gap of three errors in ten, with one decoration.
 Additivity of evidence and cue at that gap need not hold at others.
 The budget there is a ceiling on reasoning tokens and not the reasoning spent, and the record keeps the tokens each pair used.
