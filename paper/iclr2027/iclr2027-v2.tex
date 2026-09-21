@@ -98,20 +98,28 @@ Quality here is known exactly.
 A worksheet has $N=20$ items, $e$ of them wrong, and its quality is $1-e/N$.
 The judge's resolution is read from its accuracy curve, the share of pairs it orders correctly as a function of the gap in wrong answers between them, and its threshold is the gap at which that accuracy reaches $0.75$.
 
-A judge that reports a score spends a budget of symbols on each report, and three quantities set how large it is.
-The first is the codebook, the set of scores the judge actually writes across the calibration block, with the mutual information in bits between the score and the error count.
-The second is the read-out.
-The greedy score is one symbol from the codebook.
-The expected score under the judge's probability over the codebook reads the whole distribution.
-The mean of $n$ scores drawn at temperature one reads $n$ symbols.
-The third, for a judge that may reason, is the number of tokens it spends before it answers.
+Five quantities have to be kept apart, because which of them is claimed to predict which is the whole question.
+The \emph{capacity} is what the scale offers: 101 levels on a 0 to 100 scale, whatever the judge does with them, and it is set by the experimenter.
+The \emph{channel} is what the judge does with them, the conditional distribution of its score given the true quality, measured on the calibration block; its support is the codebook, and the mutual information between score and error count is a rate in bits.
+The \emph{read-out} is how much of the report is read: one symbol for the greedy score, the whole distribution for the expected score, $n$ symbols for the mean of $n$ scores drawn at temperature one, and for a judge that may reason, the tokens it spends before answering.
+The \emph{resolution} is the threshold, and it is what everything here predicts.
+The \emph{reliability} is the lapse, error that does not fall as the gap grows.
+Capacity is given, the channel and the read-out are the judge's and the reader's, and resolution and reliability are what come out.
 
-The prediction follows from the first two.
+The prediction follows from the channel and the read-out.
 For a read-out $r$ and two levels $e<e'$, the calibration block gives the share of cross pairs, one worksheet at each level, that $r$ orders correctly.
 Averaging those shares over the levels a test pair can occupy predicts the accuracy at every gap, and the predicted threshold is where that curve reaches $0.75$.
 The theory's content is in what the prediction depends on.
-The codebook the judge uses sets the curve, not the number of levels on the scale.
-A rival judge that uses every level of the nominal scale, exactly, predicts a threshold of one wrong answer on the 0 to 100 scale, and the claim is that this rival fits worse than the codebook on every scale.
+The channel sets the curve, not the capacity.
+A rival judge that uses every level of the nominal scale, exactly, predicts a threshold of one wrong answer on the 0 to 100 scale, and the claim is that this rival fits worse than the judge's own channel on every scale.
+
+This paper claims two separable things, and it is worth saying which is which.
+The first is a theory: resolution is set by a budget, since Proposition~\ref{prop:channel} turns a grid of step $h$ into a tolerance and Theorem~\ref{thm:pref}(b) makes a tolerance a semiorder.
+The second is a method: a channel measured on one block predicts discrimination on another the judge has not seen.
+What the theory does not say is how much of a real judge's resolution a scalar budget accounts for, because a judge's channel is not a grid, its codebook is not evenly spaced and its scores are noisy.
+That is a measurement rather than a deduction, and Appendix~\ref{app:ladder} makes it by scoring predictors that know only the capacity, only the size of the codebook, only its rate in bits, or the whole channel, against the same held-out curves.
+A rate in bits, which is one of the three budget forms the theory names, closes about two fifths of the distance from the nominal scale to the calibrated channel, and the rest is the channel's noise.
+So resolution is budgeted and a budget predicts a substantial minority of it, while the quantity that predicts it well is the measured channel.
 Reading more of the report must lower the threshold, in the order and by the amounts the calibration predicts.
 Direct pairwise comparison has no report grid at all, and if the judge's internal resolution is what limits it, its threshold sits at the floor of the pointwise read-outs.
 
@@ -609,6 +617,74 @@ Errors were scored against the chance level of guesses from the evaluator prior.
 In all twelve cells on a fresh seed, under a sealed registration, the metric and the ideal's range component were recovered at 64 consequences above the dimension, to a few percent of chance, with the error falling at every step as the battery grew, while at or below the design bound, off the span of a battery confined to a subspace, and in the kernel of a singular metric, nothing was recovered.
 A semiorder that withholds the fifth of pairs closest in distance identified more slowly, to between 5 and 25 percent of chance at the same battery.
 Further sealed gates, a hull law on a public survey that held as a population tendency, the same law on natural decisions where the violation rate fell with the rank at which consequences were read, as registered, and a shared-representation bound on attention heads that returned indeterminate, are reported in Appendix~\ref{app:gates} at the size of their verdicts.
+
+\section{Where the predictive power enters}
+\label{app:ladder}
+
+The comparison the registration graded sets one predictor built from a judge's calibration block
+against one rival that assumes the judge uses every level of the nominal scale. That rival knows
+nothing and the calibrated predictor knows the judge's whole conditional distribution, so the win
+says little about which part of that knowledge did the work. This appendix puts four predictors of
+the same quantity on one ladder, each knowing strictly more than the last, and scores them all
+against the same observed test curve. It was run after both gates were graded, it is an analysis of
+sealed records and not a registered test, and it changes no verdict.
+
+Each predicts the accuracy curve of the greedy read-out, so the comparison is like for like. Rung 1
+is the capacity: every level of the nominal scale, evenly spaced. Rung 2 knows only how many
+distinct scores the judge wrote, assumed evenly spaced, which is a budget as a count of symbols.
+Rung 2b knows the rate instead: the mutual information in bits between the judge's score and the
+error count, read as $2^{I}$ evenly spaced levels, which is the theory's rate budget. Rung 3 knows
+how many scores and where they sit, mapping quality to the nearest of the judge's own scores, still
+without noise. Rung 4 is the calibrated channel of the registration. The statistic is the squared
+error against the observed curve, summed over the gap ladder, which is the statistic the
+registration already uses for its own rival.
+
+\begin{table}[h]
+\centering
+\small
+\caption{Squared error of each predictor against the same observed greedy-accuracy curve, over the
+graded judges of both gates. Lower is better. Reading left to right within a row is the price of
+knowing less than the channel: the capacity alone is worst, a count of symbols recovers part of it,
+a rate in bits more, and the whole channel is better than all of them in every cell.}
+\label{tab:ladder}
+\begin{tabular}{llrrrrrrrr}
+\toprule
+ & & \multicolumn{3}{c}{levels} & \multicolumn{5}{c}{squared error} \\
+\cmidrule(lr){3-5}\cmidrule(lr){6-10}
+judge & scale & scale & used & $2^{I}$ & capacity & count & bits & positions & channel \\
+\midrule
+qwen14b\_\_full & 0-100 & 101 & 13 & 4 & 0.491 & 0.239 & 0.302 & 0.170 & 0.0056 \\
+qwen14b\_\_full & 0-9 & 10 & 9 & 3 & 0.258 & 0.188 & 0.540 & 0.164 & 0.0029 \\
+qwen14b\_\_full & 1-5 & 5 & 5 & 3 & 0.286 & 0.286 & 0.097 & 0.286 & 0.0145 \\
+qwen7b\_\_full & 0-100 & 101 & 9 & 3 & 1.169 & 0.547 & 0.174 & 0.282 & 0.0014 \\
+qwen7b\_\_full & 0-9 & 10 & 8 & 3 & 0.521 & 0.366 & 0.252 & 0.323 & 0.0023 \\
+qwen7b\_\_full & 1-5 & 5 & 5 & 2 & 0.449 & 0.449 & 0.227 & 0.449 & 0.0054 \\
+qwen7b\_\_int4 & 0-100 & 101 & 9 & 2 & 1.450 & 0.776 & 0.527 & 0.455 & 0.0014 \\
+qwen7b\_\_int4 & 0-9 & 10 & 8 & 3 & 0.472 & 0.333 & 0.283 & 0.163 & 0.0046 \\
+qwen7b\_\_int4 & 1-5 & 5 & 5 & 2 & 0.318 & 0.318 & 0.330 & 0.318 & 0.0022 \\
+gemma12b & 0-100 & 101 & 15 & 4 & 0.468 & 0.270 & 0.318 & 0.077 & 0.0064 \\
+gemma12b & 0-9 & 10 & 9 & 3 & 0.393 & 0.310 & 0.419 & 0.310 & 0.0102 \\
+gemma12b & 1-5 & 5 & 5 & 2 & 0.489 & 0.489 & 0.210 & 0.489 & 0.0071 \\
+gemma31b & 0-100 & 101 & 21 & 10 & 0.061 & 0.061 & 0.094 & 0.061 & 0.0001 \\
+gemma31b & 0-9 & 10 & 10 & 7 & 0.051 & 0.051 & 0.035 & 0.051 & 0.0006 \\
+gemma31b & 1-5 & 5 & 5 & 4 & 0.021 & 0.021 & 0.014 & 0.021 & 0.0006 \\
+\midrule
+median & & & & & 0.449 & 0.310 & 0.252 & 0.282 & 0.0029 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Of the distance from the nominal rival to the calibrated channel, the median cell closes
+25 percent knowing only how many scores the judge used, 40 percent
+knowing the rate in bits, and 29 percent knowing how many and where they sit, over
+the 14 cells of 15 that leave room to explain; the rest needs the
+conditional distribution. The rate beats the capacity in 11 of 15 cells
+and is the best of the three budget-only predictors, which is what one would want of the theory's
+own budget form, and it is still not most of the distance.
+
+The conclusion is the one stated in Section~\ref{sec:budgets}. Resolution is budgeted, and a scalar
+budget accounts for a substantial minority of it. The quantity that predicts a judge's held-out
+discrimination is its measured channel, of which a budget is one summary.
 
 \section{Verification of the exact distributions}
 \label{app:verify}
