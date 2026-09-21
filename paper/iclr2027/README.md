@@ -58,6 +58,31 @@ An external reader's notes were triaged against the sealed code and the Lean fil
 | Move two supporting gates to the appendix | Adopted. | G5 stays in the main text; hull law and GQA regret in Appendix C. |
 | Title too strong | Adopted. | "Tracks" for "Is". |
 
+## OpenReview form fields (paste as-is)
+
+These are form fields, not PDF content: the ICLR style file has no `\keywords` and ICLR does not
+put a TL;DR in the paper, so changing them needs no rebuild.
+
+**TL;DR** (233 characters, under the 250 limit)
+
+> How finely a language-model judge can tell answers apart is predicted, and committed, before the
+> test data exists, from the codebook it writes rather than the scale it is offered, and a second
+> budget reverses its preference outright.
+
+**Keywords**
+
+> LLM-as-a-judge, evaluation methodology, preregistration, discrimination threshold, semiorder,
+> effective codebook, reasoning budget, held-out prediction
+
+Chosen for reviewer matching: the first four pull evaluation and benchmarking reviewers,
+`semiorder` pulls someone who will check the theory, `reasoning budget` covers the second gate.
+"quantization" was left out deliberately; the 4-bit result is real but that keyword attracts
+efficiency reviewers, who are the wrong readers for this paper.
+
+**Primary area** is the owner's call. Two fit: *foundation or frontier models, including LLMs*
+matches the subject, *datasets and benchmarks* matches the contribution, which is an evaluation
+protocol rather than a model. The second is the better match on contribution.
+
 ## Presentation pass (run before every upload)
 
 - [x] Abstract narrative, no math (0 `$` in the abstract block)
