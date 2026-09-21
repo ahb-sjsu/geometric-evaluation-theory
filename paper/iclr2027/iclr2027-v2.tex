@@ -82,6 +82,7 @@ Those reports fix, for every pair of levels, how often a given reading of the re
 The task is deliberately minimal, and that is what makes the claim testable.
 Worksheets of twenty single-digit multiplications have a quality that is known exactly, $1-e/N$ for $e$ wrong answers, on a scale with twenty-one levels and no annotator disagreement.
 A threshold is only identifiable against a quality scale that is known rather than estimated, so a richer task would have bought realism at the cost of the thing being measured.
+The price is worth stating at the outset: quality here is a count of arithmetic errors, not the contested and many-dimensional thing meant by the quality of an essay, and nothing in this paper establishes that a judge's resolution on the second can be predicted from its codebook on the first.
 What the judge does with that scale is not minimal at all: it is free to use any of the scores it is offered, in any way, and the prediction is about what it in fact does.
 
 We ran that prediction as a registration.
@@ -109,6 +110,7 @@ With no reasoning the judge preferred the decorated worse sheet, and with enough
 That is the theory's three regimes on one axis, reversal, indifference, and distinction.
 Where it turns over was predicted from blocks in which the decoration never sat on the worse sheet, at 174 tokens of reasoning against 128 observed on a ladder too coarse to place it more finely than a factor of two, and the additive account of the two influences fit the sealed test cells seven times better than ignoring the decoration and twenty times better than ignoring the evidence.
 
+What follows from all of this for anyone building a judge is four rules, each with the measurement behind it, in Appendix~\ref{app:practice}.
 An earlier gate measured the same judge on a numeric task and found its threshold equal to the grid on the numbers it reads and writes (Appendix~\ref{app:numeric}).
 That result is a calibration of the instrument rather than a test of the theory, since the judge does the arithmetic exactly and the grid is then the whole story.
 Worksheet grading is a judgment the model does not do exactly, which is where a prediction can fail.
@@ -400,6 +402,50 @@ The supplementary material contains, for every gate, the sealed registration wit
 \bibliographystyle{iclr2027_conference}
 
 \appendix
+
+\section{Practitioner's summary}
+\label{app:practice}
+
+Four rules for building or trusting a language-model judge, each one a consequence of a measurement
+in this paper rather than of the theory alone.
+
+\paragraph{1. Measure the codebook the judge writes; do not trust the scale you offered.}
+Asked for a score from 0 to 100, the judges here wrote between 9 and 21 distinct scores.
+A rival that assumes all 101 levels are used predicts a threshold of one wrong answer in twenty;
+the judges resolve between 1.5 and 8.5, and on every scale of every judge the codebook fits the
+observed accuracy better than the scale does.
+The measurement is cheap: one forward pass per item on a calibration set whose quality you know,
+then count the distinct scores and their conditional distribution.
+Reporting a judge's agreement without reporting its codebook leaves out the quantity that decides
+what the agreement could have been.
+
+\paragraph{2. Read the expected score from the probability vector, not the token the judge wrote.}
+The greedy score is one symbol; the expected score under the judge's own distribution over the
+codebook uses the whole vector, and it is available from the same forward pass at no extra
+generation cost \citep{liu2023geval}.
+On the 7B judge and the 0 to 100 scale this moved the threshold from 5.29 wrong answers to 1.50, a
+factor of 3.5, without changing the model, the prompt or the scale.
+Averaging several sampled scores helps too and costs a forward pass each, so the expected score
+dominates it: same information, one pass.
+The ordering across read-outs was predicted before it was measured, so the gain is not a lucky
+artifact of one judge.
+
+\paragraph{3. Do not put a hard token cap on a judge that reasons.}
+The budget axis is not monotone. Reasoning cut off mid-generation is worse than no reasoning at
+all: with no budget the judge in Section~\ref{sec:flip} preferred the decorated worse worksheet in
+7 pairs of 8, and at the two smallest non-zero budgets it sat near indifference, which is a
+different and harder failure to detect than a confident wrong answer.
+If you must bound cost, bound it with a budget the judge can plan against, or accept the answer it
+gives when it stops on its own; truncating a chain of thought converts a wrong answer into a coin
+flip.
+
+\paragraph{4. Check the judge can do the task at all, and check it before you look at the results.}
+Two of the five judges in the first registration could not order worksheets twelve errors apart in
+twenty with accuracy 0.9 on any scale, and carried under one bit about quality.
+Their predictions were still accurate, which is the trap: a method that describes a judge faithfully
+will describe a judge that cannot do the job, faithfully.
+Fix the bar, apply it to a calibration block, and decide whether to grade the judge before its test
+data is drawn.
 
 \section{The theory}
 \label{app:theory}
@@ -748,6 +794,62 @@ own budget form, and it is still not most of the distance.
 The conclusion is the one stated in Section~\ref{sec:budgets}. Resolution is budgeted, and a scalar
 budget accounts for a substantial minority of it. The quantity that predicts a judge's held-out
 discrimination is its measured channel, of which a budget is one summary.
+
+\section{Does a finer ladder remove the ties?}
+\label{app:longsheet}
+
+The read-out ordering failed on one judge because seven of its eighteen read-outs had a predicted
+threshold at one wrong answer in twenty, the smallest gap the registered ladder contains, and
+read-outs tied at the floor cannot be ranked. The obvious repair is a finer ladder, which on this
+stimulus means a longer worksheet: one wrong answer in a hundred is a quality gap of 0.01 rather
+than 0.05. This appendix reports a probe of that repair, run after the gates were graded, on 180
+worksheets of 100 items drawn from a probe seed, with error counts in $[0,20]$ so that the
+calibration levels stay contiguous. It is exploratory and grades nothing.
+
+The table gives the share of pairs one item apart that each read-out orders correctly. Below 0.75
+the threshold would be measured rather than censored.
+
+\begin{table}[h]
+\centering
+\small
+\caption{Accuracy at the finest gap a 100-item worksheet allows, one wrong answer in a hundred.
+A longer worksheet uncensors most read-outs but not all: the expected score of the finer judge is
+still past the crossing at the smallest gap this stimulus can express.}
+\label{tab:longsheet}
+\begin{tabular}{llrrrr}
+\toprule
+judge & scale & greedy & expected & mean of 8 & scores used \\
+\midrule
+Gemma 4 31B & 0--100 & 0.700 & \textbf{0.900} & \textbf{0.833} & 23 \\
+Gemma 4 31B & 0--9    & 0.033 & 0.700 & 0.367 & 3 \\
+Gemma 4 31B & 1--5    & 0.067 & \textbf{0.800} & 0.167 & 3 \\
+Gemma 4 12B & 0--100 & 0.400 & 0.667 & 0.633 & 14 \\
+Gemma 4 12B & 0--9    & 0.167 & 0.533 & 0.400 & 4 \\
+Gemma 4 12B & 1--5    & 0.133 & 0.500 & 0.267 & 4 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Two things follow, and only one of them is the hoped-for answer.
+The repair mostly works: every read-out of the 12B judge becomes measurable, and the greedy
+read-out of the 31B judge does too, at 0.700. On the evidence here a ladder built on 100-item
+worksheets would cut that judge's censored read-outs from seven of eighteen to about three.
+It does not work completely. The expected score of the 31B judge is at 0.900 on the 0 to 100 scale
+and 0.800 on the 1 to 5 scale, so its threshold lies below one part in a hundred of quality, and
+measuring it would need worksheets of several hundred items, at which point the stimulus no longer
+resembles anything a judge would be asked to grade and the result would be about that oddity.
+
+A second effect appears that the repair did not anticipate, and it is the theory's own claim turned
+back on the experiment. Narrowing the quality band to the top fifth collapses the codebook on the
+coarse scales: the 31B judge uses 3 distinct scores of the 5 and 10 offered, so its greedy read-out
+orders one-item pairs correctly 3 to 7 percent of the time, which is not error but ties. A judge
+spends its codebook across the range of quality it expects, not across the slice it is shown, so
+resolution in quality units is not bought simply by showing it finer differences.
+
+The honest statement is therefore narrower than the repair promised. A finer ladder would remove
+most of the ties and turn most of the failure into a measurement, and a registered gate on
+100-item worksheets is the natural next step; it would not remove all of them, and on this stimulus
+family the finest read-out of the finest judge stays out of reach.
 
 \section{Verification of the exact distributions}
 \label{app:verify}
