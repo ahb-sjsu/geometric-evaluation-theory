@@ -42,12 +42,13 @@ We show that the threshold can be predicted before it is measured, from the symb
 Judges grade worksheets whose quality is known exactly.
 A calibration block records the scores each judge uses, and from it alone we predict, and commit, how often the judge will order fresh pairs correctly at every difference in quality, on three rating scales and six ways of reading its report.
 Only then is the seed of the test block drawn.
-On three judges the prediction held at every gap of every scale and read-out, with the largest deviation 0.078 in accuracy and 2.2 in noise units against registered bars of 0.14 and 4.55.
+On the three judges that met the registered anti-vacuity rule, two sizes of one model family with the smaller at two weight precisions, the prediction held at every gap of every scale and read-out, with the largest deviation 0.078 in accuracy and 2.2 in noise units against registered bars of 0.14 and 4.55.
 The scale a judge is offered is the wrong budget.
 Asked for a score from 0 to 100, the 7B judge writes nine distinct scores and resolves 5.3 wrong answers in twenty where the scale promises one, and the codebook it uses fits its accuracy better than the scale does on every scale of every judge.
 Reading more of the judge's report, its expected score or the mean of several samples, lowers the threshold, and the calibration predicts by how much.
 A second budget, the tokens a judge may spend reasoning, reverses its preference between a better plain worksheet and a worse one decorated with confident check marks.
-Measuring the evidence and the decoration apart, in blocks where they never conflict, predicts where that reversal ends: at 174 tokens of reasoning, against 128 observed, 0.37 of the noise that separates them.
+Measuring the evidence and the decoration apart, in blocks where they never conflict, predicts where that reversal ends, at 174 tokens of reasoning against 128 observed, within 0.37 of the noise on that comparison.
+The ladder is coarse there and the noise is a factor of two in budget, so we report this as an operational demonstration of a budget-mediated reversal rather than a sharp measurement of where it happens.
 \end{abstract}
 
 \section{Introduction}
@@ -83,7 +84,7 @@ A judge that may reason before answering spends tokens on the comparison, and wi
 We decorated the worse of two worksheets with a confident header and a check mark on every line.
 With no reasoning the judge preferred the decorated worse sheet, and with enough reasoning it preferred the better one.
 That is the theory's three regimes on one axis, reversal, indifference, and distinction.
-Where it turns over was predicted from blocks in which the decoration never sat on the worse sheet, at 174 tokens of reasoning against 128 observed, and the additive account of the two influences fit the sealed test cells seven times better than ignoring the decoration and twenty times better than ignoring the evidence.
+Where it turns over was predicted from blocks in which the decoration never sat on the worse sheet, at 174 tokens of reasoning against 128 observed on a ladder too coarse to place it more finely than a factor of two, and the additive account of the two influences fit the sealed test cells seven times better than ignoring the decoration and twenty times better than ignoring the evidence.
 
 An earlier gate measured the same judge on a numeric task and found its threshold equal to the grid on the numbers it reads and writes (Appendix~\ref{app:numeric}).
 That result is a calibration of the instrument rather than a test of the theory, since the judge does the arithmetic exactly and the grid is then the whole story.
@@ -240,6 +241,10 @@ Their predictions were nonetheless accurate, with largest deviations 0.097 and 0
 \end{figure}
 
 A judge that may reason before it answers spends a second budget, and the theory says the same thing about it: below the resolution that budget buys, the judge is indifferent to the quality difference and decides on whatever else is in front of it.
+That much is the theory's.
+Two further things are not, and this gate tests them as empirical hypotheses rather than deriving them.
+The theory does not say that the thing decided upon is a decoration, nor which cue a judge will take when it is indifferent; that is a fact about judges, and the one used here was chosen because it carries no information about quality.
+Nor does the theory give the additive form: that what the evidence is worth and what the decoration is worth combine by adding on the log-odds scale is a modelling assumption, tested here against two rivals that drop one term each, and it could fail while the indifference the theory predicts held.
 We gave the worse of two worksheets a confident header and a check mark on every line, a decoration that carries no information about quality, and measured the two influences apart.
 One calibration cell shows plain worksheets three wrong answers apart, which measures what the evidence is worth at each budget.
 The other shows worksheets of equal quality with one of them decorated, which measures what the decoration is worth.
@@ -248,6 +253,10 @@ Neither cell contains a pair in which the two conflict.
 Their sum on the log-odds scale predicts both test cells at every budget and the budget at which the judge stops preferring the decorated worse sheet, and the registration fixed the bars for that prediction before any pilot.
 On the sealed test block the prediction held, with deviations of at most 2.51 and 3.11 noise units against a bar of 3.341.
 The crossing was predicted at 174 tokens of reasoning and observed at 128, a deviation of 0.37 against a bar of 2.576 (Figure~\ref{fig:crossover}).
+That agreement should not be read as locating the crossing to within tens of tokens.
+The ladder's two budgets on either side of it, 64 and 256, gave 39 and 41 of 80 pairs to the better worksheet, less than half a standard error apart and each within half a standard error of one half, so the crossing is interpolated across a fourfold gap between two nearly tied points.
+The bootstrap standard deviation of the comparison is 1.16 in $\log_{2}$ budget, a factor of 2.2 either way, which spans most of that gap.
+What the gate establishes is that the reversal happens and ends inside the registered ladder where the calibration said it would; a ladder of 64, 96, 128, 160, 192 and 256 tokens would be needed to say where, and that is the natural next registration.
 The additive account fit the two test cells with a squared error of 10.1, against 70.7 for an account that ignores the decoration and 228.7 for one that ignores the evidence.
 
 \begin{table}[t]
