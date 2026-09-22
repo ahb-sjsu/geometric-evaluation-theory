@@ -178,3 +178,39 @@ Note for editors: `\newif` must stay outside the `\ifdefined\BEACHHEAD` test. Te
 tokens while skipping a false branch, so a `\newif\ifcornerstone` inside one breaks the nesting
 and silently swallows the rest of the document. A misplaced closing `\fi` does the same thing
 quietly; check the page count and the undefined-reference count after any edit to those blocks.
+
+
+## Revision record, 2026-09-22, second external review
+
+An external reader's notes on the built `iclr2027-v2.pdf` were triaged against the sealed records
+and the grading code. A second set of notes, machine-generated, turned out to be about
+`iclr2027.pdf`, the G3 version, and every substantive point in it was already repaired in v2
+(pseudo-metric in Definition 1, the workload measure for the rank cap, the root-mean-square
+wording, the margin in Theorem 3(a), no `least-squares slope`, no self-citation). Nothing was
+changed for it.
+
+| Point | Finding | Action |
+|---|---|---|
+| Appendix D is stale, 15 cells and no Qwen3 | Correct. `experiments/G3c/budget_ladder.json` already held all 18 graded cells. | Table 4 regenerated with the three Qwen3 rows and the medians, prose corrected to 22 / 39 / 22 percent over 17 live cells of 18, and the rate beating the capacity in 12 of 18. |
+| J2 compares the calibrated channel, not the codebook | Correct, and checkable in `judge_grade.py`, where `sse_effective` reads `readouts.argmax.acc`, the full conditional prediction. The 0.001 reported in Section 4 is the channel column of Table 4; the codebook-only predictor on that cell is 0.282. | Renamed through the abstract, introduction, Section 4, Scope and the practitioner's summary. Section 4 now says what each side of the registered comparison is and points to the ladder for which part predicts. The registration and its claim names are untouched. |
+| The abstract says the whole pattern replicates | Correct, the read-out ordering failed on Gemma 4 31B. | Abstract now states that the prediction and the nominal-scale comparison replicate and the ordering does not, and the read-out sentence is qualified to five of the six graded judges. |
+| Six independent judges | Correct, six configurations of five models, the 7B appearing twice. | Reworded in the introduction, Section 4 and Scope. |
+| Quantization moves reliability and not resolution | Overstated for this task. The worksheet gate bounds the change at a factor of 1.75 with ratios up to 1.60, and the lapse result belongs to the numeric gate. | Heading and paragraph rewritten to claim the bound and to attribute the lapse to the numeric gate. |
+| Practitioner rule 2, one forward pass | Correct. Only the single-token scales are free; the 0 to 100 scale needs the digit tree. | Rule 2 now separates the two cases. |
+| Practitioner rule 3, unconditional | Correct. One judge, one cue, one forced-answer protocol. | Rule 3 restated as what a cap can do, with the scope of the evidence named. |
+| The commit DAG proves precommitment | Fair. It proves artifact ancestry. | Section 4 now says the order is checkable in the artifact and that it is the repository's own history, not a third-party timestamp. |
+| A quantizer is not globally a fixed-threshold semiorder | Right in principle. Proposition 1(a) was already anchored to the position of the lower point and 1(b) already made the tolerance uniform, so the appendix was already correct. The exposed bridge was one sentence in Section 2. | Section 2 now says the tolerance is the distance to the next boundary, that a grid gives a semiorder at a known alignment rather than one shared threshold, and that a threshold read at accuracy 0.75 is a quantile of that tolerance. |
+| Related work too thin | Correct. | Four works added, each verified against the arXiv record on 2026-09-22 and each distinguished. Non-transitivity of strict preference across models against intransitive indifference within one judge; calibration used to debias a reported score against calibration used to predict a held-out curve; item response theory fitting discrimination and thresholds to the responses they explain; the simplex view of judge confusion channels and its finding that fewer levels can rank better. |
+| Stale supplementary navigation | Correct. | `MANIFEST.md` section and table numbers corrected in `build/make_supplementary.py`, `RESULTS-G3E-DRAFT.md` filled in from the graded record (verdict, Qwen3 row, the two unshown-mass numbers, the floor table), and the package rebuilt with `leaks after redaction: 0`. |
+
+Two things found while doing this and not raised by either reader. The main text carried 27
+colons and semicolons against the standing prose rule, including one in the abstract, and the
+presentation checklist above had them marked clean; all 27 are removed. And the count of read-outs
+at the ladder floor was written in an order that did not match the order the three judges are
+introduced in; it now names each judge.
+
+Both builds are clean after the pass. The cornerstone build is 24 pages with the numbered sections
+ending on page 9 and the AI-use statement starting on page 10, and the beachhead build is 23. Zero
+undefined references in both.
+
+Still open: the owner's read of the changed passages, and the upload.

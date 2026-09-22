@@ -19,16 +19,16 @@ OUT = os.path.join(SRC, "paper/iclr2027/supplementary")
 ZIP = os.path.join(SRC, "paper/iclr2027/iclr2027-supplementary.zip")
 
 GATES = [
-    ("G3c", "Main gate 1: a judge's symbol budget predicts its resolution (Section 3, Table 1, Figure 1)"),
-    ("G3d", "Main gate 2: where a deliberation budget reverses a judge's preference (Section 4, Figures 2 and 3, Table 3)"),
-    ("G3e", "The same resolution law on judges of another family, through a served API (Section 5)"),
-    ("G5", "Identification of the metric and the ideal from choices (Section 6)"),
-    ("G3", "The numeric gate: the threshold tracks the resolution budget (Appendix on the numeric task)"),
+    ("G3c", "Main gate 1: a judge's calibrated channel predicts its resolution (Section 4, Table 1, Figure 1)"),
+    ("G3d", "Main gate 2: where a deliberation budget reverses a judge's preference (Section 5, Figures 2 and 3, Table 2)"),
+    ("G3e", "The same prediction on a second vendor and a newer generation, through a served API (Section 4, last result)"),
+    ("G5", "Identification of the metric and the ideal from choices (Appendix C.3)"),
+    ("G3", "The numeric gate: the threshold tracks the resolution budget (Appendix C, Figures 4 and 5, Tables 3 and 7)"),
     ("G3b", "A drafted extension of the grid-channel law across families and tokenizers. Never sealed, never run. No number in the paper rests on it"),
-    ("G2", "Hull law on a public survey (Appendix on further gates)"),
-    ("G9", "Hull law and the budget prediction on professional football play calls (Appendix on further gates)"),
+    ("G2", "Hull law on a public survey (Appendix I)"),
+    ("G9", "Hull law and the budget prediction on professional football play calls (Appendix I)"),
     ("G9b", "The refutation projection and the violation rate against reading precision"),
-    ("G4b", "Shared-representation bound on attention heads, indeterminate (Appendix on further gates)"),
+    ("G4b", "Shared-representation bound on attention heads, indeterminate (Appendix I)"),
     ("G7a", "The threshold against a time budget in chess, indeterminate, and the registration that refuted the inverse-square-root bridge"),
 ]
 
@@ -213,9 +213,11 @@ def main():
     copy_tree(os.path.join(SRC, "paper/iclr2027/build"), OUT, counters, withheld)
     lines.append("## Figures and tables\n")
     lines.append("`paper/iclr2027/build/` holds the scripts that read the graded records and emit every\n"
-                 "figure and table. `channel_fit.py` produces Table 1 and is the estimator the paper\n"
-                 "describes: the lapse first, accuracy corrected by one minus it, then the step as the\n"
-                 "reciprocal of the least-squares slope through the origin.\n")
+                 "figure and table. `channel_fit.py` produces Table 3, the numeric gate's step fit, and is the\n"
+                 "estimator the paper describes: the lapse first, accuracy corrected by one minus it, then\n"
+                 "the step as the reciprocal of the least-squares slope of accuracy on gap through the\n"
+                 "origin. `make_v2_figures.py` produces Figures 1, 2 and 3 and Tables 1 and 2, and\n"
+                 "`experiments/G3c/budget_ladder.py` produces Table 4.\n")
 
     if withheld:
         lines.append("\n## Data not redistributed\n")
