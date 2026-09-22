@@ -64,6 +64,12 @@
   }
  ],
  "n_samples": 8,
+ "dither_ladder": [
+  1,
+  2,
+  4,
+  8
+ ],
  "temperature": 1.0,
  "sample_seed": 20260922,
  "pairwise": true,

@@ -271,6 +271,33 @@ seed is not coverage, and the old self-test would have missed this again.
 The registration's blob after this correction is recorded in the sealing commit alongside the
 original. Both are in the history, and the calibration block was built only after the correction.
 
+## Config defect, corrected 2026-09-22T23:15Z, before any prediction was written
+
+`g3f_config.json` was missing `dither_ladder`. Section 2 of this file states the read-outs as the
+greedy score, the expected score, and the mean of 1, 2, 4 and 8 samples, and `dither_ladder` is
+the key that realises the last four. The config was assembled from G3e's and the key was dropped.
+
+The registration's specification was right and the config was incomplete, so Section 2 is
+unchanged and the config now carries `[1, 2, 4, 8]`, which is G3c's value and G3e's.
+
+The calibration blocks already computed are unaffected and are not re-run. `dither_ladder` is read
+only in `judge_grade.readouts`, where it slices the `samples` array that the block already stores
+in full at `n_samples = 8`. The runner never reads it. That was verified by inspection of both
+modules rather than assumed, because the alternative would have meant discarding a completed block.
+
+How it was found, and the part worth keeping. It was not found by a guard. It was found by
+rehearsing the prediction step, read-only, against the first calibration block as soon as that
+block existed, which is a habit rather than a check. G3e had already built
+`g3e_preflight.py` for exactly this class of defect after its own `tree_prune` disagreement, and
+that guard tests for `dither_ladder` by name. It is bound to G3e's registration and there was no
+G3f equivalent, so it could not run here.
+
+`g3f_preflight.py` now exists and is the artifact this defect leaves behind. It reads every
+constant out of this file by name, refuses a block whose config disagrees, refuses a test block
+while no test seed exists, and refuses any block whose registration blob is not the sealed one or
+a correction recorded here. One check is inverted from G3e's: this gate's prompts MUST differ from
+G3c's, since changing the stimulus family is the whole point, while everything else must not.
+
 ## 7. Compute, and whose
 
 No GPU of the authors'. Requests to NRP's managed LLM service at its published concurrency of
