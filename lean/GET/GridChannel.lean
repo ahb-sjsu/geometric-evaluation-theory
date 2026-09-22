@@ -1,9 +1,15 @@
 /-
 GridChannel.lean. Proposition 1(a) of the GET paper (the grid channel).
 
-An evaluator that compares two distances only through a quantizer is not an evaluator of a
-different kind from the semiorder of Definition 2. It *is* that semiorder, with a tolerance it
-does not know: the distance from the first distance up to the next quantizer boundary.
+An evaluator that compares two distances only through a quantizer obeys, for each single
+comparison, the rule of Definition 2 with a tolerance it does not know: the distance from the
+lower distance up to the next quantizer boundary. That tolerance depends on the lower distance,
+so the relation a quantizer induces on a whole set of options is NOT the fixed-threshold
+semiorder of Definition 2. On a set it is a weak order over the reports, the case eps = 0 of
+Theorem 2(a) applied to the quantized distance. With unit bins the distances 0.1, 0.9, 1.1 show
+why: the first two share a report and the last two do not, so one tolerance would have to be at
+least 0.8 and below 0.2 at once. What is proved here is the per-comparison statement, which is
+the bridge between a grid and a length budget and is all the paper claims.
 
 Boundaries at `b + k * h` for integers `k` give the quantizer `x ↦ ⌊(x - b)/h⌋`. Any
 nondecreasing `ρ` constant between consecutive boundaries induces the same ordering, so the
@@ -37,10 +43,12 @@ theorem tolerance_mem_Ioc (hh : 0 < h) : tolerance h b d₁ ∈ Set.Ioc 0 h := b
       unfold tolerance; ring
     rw [this]; linarith
 
-/-- **A quantizer is a semiorder with an unknown tolerance.**
+/-- **One comparison under a quantizer obeys Definition 2 with an unknown tolerance.**
 The quantizer separates `d₁` from `d₂` exactly when the gap `d₂ - d₁` reaches the tolerance
-at `d₁`. This is the relation of Definition 2 with threshold `tolerance h b d₁`, the two
-differing only in the boundary case where the gap equals the tolerance. -/
+at `d₁`. This is the rule of Definition 2 applied to that comparison with threshold
+`tolerance h b d₁`, the two differing only in the boundary case where the gap equals the
+tolerance. The threshold is a function of `d₁`, so this does not say that the quantizer induces
+a single-threshold semiorder on a set of options, and it does not. -/
 theorem grid_threshold (hh : 0 < h) :
     ⌊(d₁ - b) / h⌋ < ⌊(d₂ - b) / h⌋ ↔ tolerance h b d₁ ≤ d₂ - d₁ := by
   have hne : h ≠ 0 := ne_of_gt hh

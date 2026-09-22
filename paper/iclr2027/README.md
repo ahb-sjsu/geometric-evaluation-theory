@@ -214,3 +214,59 @@ ending on page 9 and the AI-use statement starting on page 10, and the beachhead
 undefined references in both.
 
 Still open: the owner's read of the changed passages, and the upload.
+
+
+## Revision record, 2026-09-22, second pass on the same reader's notes
+
+The reader's remaining blocker was that a grid is still not the claimed semiorder, and it was
+right. The earlier repair said a grid gives "a semiorder at a known alignment", which is a
+category error, since a semiorder is a relation on a set and an alignment fixes one comparison.
+
+The correct statement, now in Section 2, in Proposition 1(a), in the discussion after it, and in
+the Lean file's own docstrings: a grid coarsens the distance, so on a set of options it induces
+the weak order of Theorem 2(a) on the quantized distance, whose indifference is transitive, and
+against the true distance no single threshold represents it. Proposition 1(a) is a rule for one
+comparison, that two options are distinguished when their difference reaches the distance from
+the lower of them to the next boundary. A remark now carries the counterexample, unit bins with
+0.1, 0.9 and 1.1, where one tolerance would have to be at least 0.8 and below 0.2 at once. The
+ramp, the fitted step and every number are unaffected, since the quantity measured was always the
+distribution of the tolerance.
+
+Three other corrections.
+
+The information rate is now called a proxy rather than the theory's rate budget. A rate has no
+meaning without a source and a cost, so Definition 1 now makes a rate budget the triple
+`(R, workload, distortion)`, matching what the rank cap already carried, and Appendix D says its
+rung 2b has neither and is a summary of the measured channel rather than a code chosen to
+minimise a distortion.
+
+Appendix D had two orderings of the budget-only rungs reading as one. By median squared error the
+positions win at 0.220 against the rate at 0.240. By median share of the distance closed the rate
+wins at 39 percent against 22. Both are now stated, the disagreement is explained as a median of
+ratios against a ratio of medians, and the script's rule that a cell counts only when capacity and
+channel differ by more than 0.05 is disclosed. The claim that the unexplained remainder splits
+into noise and placement is withdrawn, since those predictors are not nested.
+
+The comparison with Lee et al. said they fit parameters to the responses those parameters explain.
+They do not, they apply a calibration out of sample. The distinction is the target, an aggregate
+score with an error bound against a discrimination curve committed before the test seed, and the
+related-work paragraph now says that and no longer says everything twice.
+
+Polish: `hidelinks` on hyperref, the API described as exposing the twenty most probable tokens at
+each position, and the long-sheet probe now reports its 30 pairs per gap and the resulting
+standard error of about 0.08.
+
+Main text was 25 pages of PDF with the numbered sections running two lines onto page 10 after
+these additions. Recovered by cutting real duplication rather than content: the non-monotone
+budget axis stated three times, the bars simulation restated in Scope, the numeric gate's caveat
+restated from Appendix C, an argumentative pair of sentences in the introduction, and the
+related-work paragraph introducing Lee and Choi and then describing them again. Scope now ends on
+page 9 and the AI-use statement starts on page 10.
+
+One defect the style scan caught that the build did not. A `\ref` written through a shell heredoc
+lost its backslash and its `r`, leaving `Section~` and a line beginning `ef{sec:flip}`, which
+typesets as literal text and raises no undefined-reference warning because there is no reference
+left to be undefined. This is the same failure the 2026-09-19 note records. Repaired, and the
+scan for partial command forms is clean.
+
+Both builds clean, zero undefined references, package rebuilt at `leaks after redaction: 0`.

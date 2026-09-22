@@ -5,7 +5,7 @@
 \usepackage{amsmath,amssymb,amsthm}
 \usepackage{booktabs}
 \usepackage{graphicx}
-\usepackage{hyperref}
+\usepackage[hidelinks]{hyperref}
 \usepackage{url}
 
 \newtheorem{theorem}{Theorem}
@@ -58,8 +58,8 @@ Give the worse of two worksheets a confident header and a check mark on every li
 With no reasoning budget the judge prefers the decorated worse worksheet, only 0.125 of test pairs favouring the better one. At 1024 tokens of reasoning it favours the better one in 0.95.
 Measuring what the evidence is worth and what the decoration is worth in separate blocks, in which the two never conflict, predicts that reversal. Their sum on the log-odds scale fit the sealed test cells within 3.11 noise units against a registered bar of 3.341.
 
-What predicts a judge's resolution is its measured channel, of which a scalar budget is one summary. A rate in bits closes about two fifths of the distance from the nominal scale to the calibrated channel, and the rest is the channel's noise and the placement of the scores it writes.
-The prediction and the comparison against the nominal scale replicate on a second vendor's models and on a newer generation of the first, served quantized by a third party and read through an API that returns twenty tokens. The read-out ordering does not, failing on one of those judges whose finest read-outs sit at the smallest difference the worksheets can express.
+What predicts a judge's resolution is its measured channel, of which a scalar budget is one summary. The information its score carries about quality, read as a count of levels, closes about two fifths of the distance from the nominal scale to the calibrated channel in the median cell, and the rest needs the conditional distribution itself.
+The prediction and the comparison against the nominal scale replicate on a second vendor's models and on a newer generation of the first, served quantized by a third party and read through an API that exposes the twenty most probable tokens at each position. The read-out ordering does not, failing on one of those judges whose finest read-outs sit at the smallest difference the worksheets can express.
 \end{abstract}
 
 \section{Introduction}
@@ -97,9 +97,7 @@ Reading more of the same report lowers the threshold in the predicted order and 
 Quantizing the 7B to 4-bit weights left every threshold within the registered factor of its bfloat16 value, so it produced no resolution change larger than that tolerance on this task.
 
 A fifth thing came out of an analysis after the gates were graded, and it sharpens what is being claimed.
-Scoring five predictors of the same held-out curve puts a rate in bits about two fifths of the way from the nominal scale to the fully calibrated channel (Appendix~\ref{app:ladder}).
-That is the right shape of answer rather than a disappointing one.
-A scalar budget should not account for all of a noisy channel, because a channel is more than its rate. It has a codebook with positions, and it has noise.
+Scoring five predictors of the same held-out curve puts an information-rate summary of the judge's scores about two fifths of the way from the nominal scale to the fully calibrated channel in the median cell (Appendix~\ref{app:ladder}).
 The theory says resolution is budgeted, and the measurement says how much of a real judge's resolution a budget buys. The two are different statements and this paper keeps them apart.
 What a practitioner can use is the method, a channel measured on one block predicting discrimination on another.
 
@@ -110,9 +108,8 @@ With no reasoning the judge preferred the decorated worse sheet, and with enough
 That is the theory's three regimes on one axis, reversal, indifference, and distinction.
 Where it turns over was predicted from blocks in which the decoration never sat on the worse sheet, at 174 tokens of reasoning against 128 observed on a ladder too coarse to place it more finely than a factor of two, and the additive account of the two influences fit the sealed test cells seven times better than ignoring the decoration and twenty times better than ignoring the evidence.
 
-What follows from all of this for anyone building a judge is four rules, each with the measurement behind it, in Appendix~\ref{app:practice}.
-An earlier gate measured the same judge on a numeric task and found its threshold equal to the grid on the numbers it reads and writes (Appendix~\ref{app:numeric}).
-That result is a calibration of the instrument rather than a test of the theory, since the judge does the arithmetic exactly and the grid is then the whole story.
+Four rules for anyone building a judge follow from the measurements, in Appendix~\ref{app:practice}.
+An earlier gate measured the same judge on a numeric task and found its threshold equal to the grid on the numbers it reads and writes, which calibrates the instrument rather than testing the theory, since the judge does that arithmetic exactly and the grid is then the whole story (Appendix~\ref{app:numeric}).
 Worksheet grading is a judgment the model does not do exactly, which is where a prediction can fail.
 
 \section{Resolution and the budgets of a judge}
@@ -139,13 +136,12 @@ The theory's content is in what the prediction depends on.
 The channel sets the curve, not the capacity.
 A rival judge that uses every level of the nominal scale, exactly, predicts a threshold of one wrong answer on the 0 to 100 scale, and the claim is that this rival fits worse than the judge's own channel on every scale.
 
-This paper claims two separable things, and it is worth saying which is which.
-The first is a theory. Resolution is set by a budget, since Proposition~\ref{prop:channel} turns a grid of step $h$ into a tolerance and Theorem~\ref{thm:pref}(b) makes a tolerance a semiorder. The tolerance a grid gives is the distance from the lower of the two options up to the next boundary, so what it produces is a semiorder at a known alignment rather than one threshold shared by every pair. Where the alignment is unknown the accuracy curve is the distribution function of that tolerance, and a threshold read off at accuracy $0.75$ is a quantile of it.
+This paper claims two separable things.
+The first is a theory. A length budget makes the induced preference a semiorder whose threshold is the budget, which is Theorem~\ref{thm:pref}(b). A grid of step $h$ is not that budget, since it coarsens the distance and so induces on a set of options the weak order of Theorem~\ref{thm:pref}(a) on the quantized distance, which no single threshold represents against the true distance. What Proposition~\ref{prop:channel} gives is a rule for one comparison, that two options are distinguished when their difference reaches the distance from the lower of them up to the next boundary. Where that alignment is unknown the tolerance is uniform on $(0,h]$, so the accuracy curve is its distribution function and a threshold read at accuracy $0.75$ is a quantile rather than a number the judge carries.
 The second is a method. A channel measured on one block predicts discrimination on another the judge has not seen.
 What the theory does not say is how much of a real judge's resolution a scalar budget accounts for, because a judge's channel is not a grid, its codebook is not evenly spaced and its scores are noisy.
-That is a measurement rather than a deduction, and Appendix~\ref{app:ladder} makes it by scoring predictors that know only the capacity, only the size of the codebook, only its rate in bits, or the whole channel, against the same held-out curves.
-A rate in bits, which is one of the three budget forms the theory names, closes about two fifths of the distance from the nominal scale to the calibrated channel, and the rest is the channel's noise.
-So resolution is budgeted and a budget predicts a substantial minority of it, while the quantity that predicts it well is the measured channel.
+That is a measurement rather than a deduction, and Appendix~\ref{app:ladder} makes it by scoring predictors that know less than the whole channel against the same held-out curves.
+The mutual information the judge's score carries about quality, read as a count of levels, closes about two fifths of that distance in the median cell. It is a proxy for the theory's rate budget rather than the budget, which carries a workload and a distortion that this summary does not.
 Reading more of the report must lower the threshold, in the order and by the amounts the calibration predicts.
 Direct pairwise comparison has no report grid at all, and if the judge's internal resolution is what limits it, its threshold sits at the floor of the pointwise read-outs.
 
@@ -356,11 +352,10 @@ That finding is about the scale a judge is asked to use, and ours explains it as
 Reading a judge's expected score from its probabilities over the scale is the read-out of G-Eval \citep{liu2023geval}, which introduced it to make scores finer and better aligned with human ratings.
 We use it as one read-out among six and predict its threshold before measuring it.
 
-Estimating a judge's conditional behaviour from gold-labelled data is a standard move, and it is put to other uses.
-\citet{lee2025report} estimate that conditional behaviour to correct the bias in a reported evaluation score and to give it a confidence interval that carries the uncertainty of the calibration set.
-\citet{choi2026irt} fit an item response model to a judge's ratings and read discrimination and threshold parameters off the fit, treating the judge as a measurement instrument as this paper does.
-Both fit parameters to the responses those parameters explain.
-Here the channel measured on one block is used to write an accuracy curve for pairs the judge has not seen, the curve is committed with its hash, and only then is the test seed drawn, so the same ingredient predicts rather than describes.
+Estimating a judge's conditional behaviour from gold-labelled data is a standard move put to other ends.
+\citet{lee2025report} use it to correct the bias in a reported evaluation score and to give that score a confidence interval, applying the estimate to a test set the calibration did not contain, so what separates that work is the target rather than the direction.
+They bound the error of an aggregate, where the quantity here is a curve, how often a judge orders a pair correctly against the difference in quality, committed with its hash before the test seed is drawn.
+\citet{choi2026irt} fit an item response model and read discrimination and threshold parameters off it, treating the judge as a measurement instrument as this paper does, and those parameters are fitted to the responses they explain rather than written down for responses nobody has drawn.
 \citet{vossler2026simplex} place a judge's confusion channel in a probability simplex and ask when rankings from judges alone are sound with no human labels, and they find a binary score can rank better than a multi-level one, which agrees with the finding here that the levels a scale offers are not the levels a judge uses.
 Judges are known to favor answers that carry marks of authority, such as citations that are fake \citep{ye2025justice}, and our decoration is a cue of that kind.
 What is new here is not that a cue sways a judge, or that reasoning can weaken it, but that where it stops swaying the judge is predicted from measurements in which evidence and cue never conflict.
@@ -378,16 +373,15 @@ The stimuli are one family.
 Arithmetic worksheets give an exact quality scale, and a judge's resolution on them need not transfer to prose answers.
 The prediction assumes that a worksheet's score depends on how many items are wrong and not on which, and the record reports the score variance within an error count so that a reader can see how much noise that assumption absorbs.
 Matching predicted to observed accuracy is by itself a test that the judge scores the two blocks alike.
-The content is in the two comparisons that can fail separately, the measured channel against the nominal scale and the predicted ordering of the read-outs.
-The bars were fixed from one judge's pilot, the 7B judge at bfloat16, as quantiles of a simulation that redraws calibration and test blocks from disjoint halves of the pilot's worksheets.
+Two comparisons can fail separately, the measured channel against the nominal scale and the predicted ordering of the read-outs.
+The bars were fixed from one judge's pilot, the 7B judge at bfloat16, by the simulation of Section~\ref{sec:protocol}.
 Two constants were fixed after pilot values they bear on had been seen, the factor that labels the pairwise threshold and the information bar for anti-vacuity, and the registration says so for each.
 Two of the five judges of the first registration, Gemma 4B and Qwen 1.5B, failed the anti-vacuity rule on their calibration blocks and are reported and not graded, so its verdicts rest on three judges of one family, the 7B at two precisions and the 14B.
 The replication adds three more, two sizes of Gemma 4 and one Qwen3, so the prediction and the comparison against the nominal scale rest on six graded configurations of five models across two vendors and three model generations, and the read-out ordering rests on five, having failed on the sixth for the reason given there.
-No judge here was trained or tuned by us, and three of the six configurations were served by a third party at weights we did not choose and cannot inspect.
+No judge here was trained or tuned by us, and three of the six were served by a third party at weights we cannot inspect.
 The reversal is measured on one judge, at one gap of three errors in ten, with one decoration.
 Additivity of evidence and cue at that gap need not hold at others.
-The budget there is a ceiling on reasoning tokens and not the reasoning spent, and the record keeps the tokens each pair used.
-Reasoning cut off by the ceiling is worse than none, so the budget axis is not monotone and the middle of the ladder reflects the ceiling as well as the balance of evidence against cue.
+The budget there is a ceiling on reasoning tokens and not the reasoning spent, the record keeps the tokens each pair used, and that axis is not monotone for the reason given in Section~\ref{sec:flip}.
 Reasoning is decoded greedily, so the noise in those estimates is over worksheets and not over samples of the judge.
 The appendix gates on survey and play-calling data test other parts of the theory and carry their own limits there.
 Nothing here is a claim about human evaluators.
@@ -466,8 +460,9 @@ An evaluation object is a six-tuple $\Ev=(X,A,C,G,B,\K)$ in which $X$ is a set o
 Two restrictions belong in the definition rather than in the results that use them.
 $G$ is allowed to be degenerate, so it is a pseudo-metric and not a Riemannian metric in the usual sense; Theorem~\ref{thm:repr} chooses a positive semidefinite $G$, and its uniqueness clause is stated for $G_{1}\neq0$ rather than for $G_{1}$ definite, so calling it Riemannian here would contradict the results that use it.
 A rank cap is only defined when $\Y$ carries the linear structure its operations need, so a rank budget is a pair $(k,\nu)$ in which $\Y=\R^{m}$ with its Euclidean structure and $\nu$ is a workload, a probability measure on $A$ under which the second moment of consequences is taken.
+A rate budget needs a source and a cost for the same reason, so it is a triple $(R,\nu,\delta)$ with $\nu$ again a workload on $A$ and $\delta$ a distortion on $\Y$, since a number of bits says nothing without something to encode and a price for encoding it badly.
 Without $\nu$ the phrase \emph{second moment of the evaluator's consequences} has no referent, since $\mu$ is a law on states and not on actions.
-The length and rate budgets need neither restriction and are defined on any $\Y$ as above.
+The length budget needs neither restriction and is defined on any $\Y$ as above.
 \end{definition}
 
 The world supplies $(X,A,C)$ and the evaluator supplies $(G,B,\K)$.
@@ -480,7 +475,7 @@ The evaluation distance of an action is the root of the expected squared geodesi
 It is a root mean square and not an expected distance; the two differ by Jensen's inequality, and it is the squared form that makes the cost additive over independent coordinates and gives Theorem~\ref{thm:repr} its quadratic $Q_{W}$.
 Under a rank cap $(k,\nu)$ the evaluator retains the top-$k$ eigenspace of $\Ex_{a\sim\nu}\Ex_{\mu}[C(a,X)C(a,X)^{\top}]$, the second moment of the consequences its workload actually presents, and evaluates the projection.
 Under a length $\varepsilon$ the distance is $d$ itself and the budget acts on comparison.
-Under a rate $R$ the evaluator holds an $R$-bit description of the consequence and evaluates the reconstruction, and a rate budget is treated as the length budget given by the least attainable distortion.
+Under a rate $(R,\nu,\delta)$ the evaluator holds an $R$-bit description of the consequence and evaluates the reconstruction, and the budget is treated as the length budget given by the least distortion attainable at that rate under $\nu$ and $\delta$.
 The length budget is the one this paper measures.
 
 \subsection{What the object induces}
@@ -549,7 +544,7 @@ Let an evaluator order two options by comparing $\rho(d_{1})$ and $\rho(d_{2})$,
 Rounding and truncation to a grid of step $h$ are both such a $\rho$.
 Write $\Delta=d_{2}-d_{1}$ and let $\varepsilon$ be the distance from $d_{1}$ up to the next boundary.
 \begin{enumerate}
-\item[(a)] $\varepsilon\in(0,h]$, and the pair is ordered correctly if and only if $\Delta\ge\varepsilon$. Given the position of $d_{1}$ relative to the boundaries, the evaluator is therefore the relation of Definition~\ref{def:pref} with tolerance $\varepsilon$, the two differing only in the boundary case $\Delta=\varepsilon$.
+\item[(a)] $\varepsilon\in(0,h]$, and the pair is ordered correctly if and only if $\Delta\ge\varepsilon$. This is the rule of Definition~\ref{def:pref} applied to that one comparison with tolerance $\varepsilon$, the two differing only in the boundary case $\Delta=\varepsilon$. The tolerance depends on $d_{1}$, so the relation a grid induces on a set of options is not in general the fixed-threshold semiorder of Definition~\ref{def:pref}.
 \item[(b)] If that position is uniform on a cell, $\varepsilon$ is uniform on $(0,h]$.
 \item[(c)] Hence $P(\text{correct}\mid\Delta)=P(\varepsilon\le\Delta)=\min(1,\Delta/h)$, and the gap at which the evaluator reaches accuracy $\alpha$ is the $\alpha$ quantile of its tolerance, $\alpha h$. If the evaluator further errs with probability $\lambda$ independently of the pair, the probability is $(1-\lambda)\min(1,\Delta/h)$.
 \end{enumerate}
@@ -562,13 +557,16 @@ The least boundary above $d_{1}$ is $d_{1}+\varepsilon$, so that is $\Delta\ge\v
 (c) The first equality is (a) and the second is (b); the $\alpha$ quantile of the uniform law on $(0,h]$ is $\alpha h$; the lapse multiplies by $1-\lambda$.
 \end{proof}
 
-Part (a), and the bound $\varepsilon\in(0,h]$, are machine-checked in Lean for both quantizers; parts (b) and (c) are not, and the proof above is the one to read for them.
-Part (a) is what makes a grid a length budget in the sense of the theory rather than something merely like one.
-Given the alignment, the evaluator is the relation of Definition~\ref{def:pref} exactly, with the distance to the next boundary as its tolerance; what a grid takes away is knowledge of that alignment, and part (b) says the tolerance is then uniform on $(0,h]$.
+Part (a), and the bound $\varepsilon\in(0,h]$, are machine-checked in Lean for both quantizers. Parts (b) and (c) are not, and the proof above is the one to read for them.
+\begin{remark}
+The dependence on $d_{1}$ in part (a) is not slack in the statement and cannot be removed. Take the unit grid $\rho(d)=\lfloor d\rfloor$ and the three distances $0.1$, $0.9$ and $1.1$. The first two share a report and the last two do not, so a single tolerance would have to be at least $0.8$ and less than $0.2$ at once. What a grid induces on a whole set of options is the weak order of Theorem~\ref{thm:pref}(a) on the quantized distance, whose indifference is transitive, and not the semiorder of Theorem~\ref{thm:pref}(b) on the true distance. The semiorder with one threshold for every pair is what a length budget gives. Part (a) is the bridge between the two and it holds one comparison at a time.
+\end{remark}
+Part (a) is what connects a grid to a length budget at all.
+One comparison at a time the grid is the rule of Definition~\ref{def:pref} exactly, with the distance to the next boundary as its tolerance. What a grid takes away is knowledge of that alignment, and part (b) says the tolerance is then uniform on $(0,h]$.
 The accuracy curve of part (c) is therefore the distribution function of the tolerance, so an experiment that orders pairs identifies the whole law of the threshold rather than one number, and $h$ is its largest value.
 Three things follow.
 The gap reported at accuracy $\alpha$ is the $\alpha$ quantile of the tolerance, so the level is part of the definition of that statistic and not a property of the evaluator, which is why the step is reported beside it here.
-A deterministic semiorder with a constant threshold is the degenerate case in which the alignment is known.
+The constant threshold of Definition~\ref{def:pref} is recovered only when every comparison sits the same distance below a boundary, which a grid does not arrange.
 And the curve is a ramp because the alignment is unknown rather than because the evaluator is noisy: it has one parameter, the step, and no shape left to fit, which is what makes the fit of Appendix~\ref{app:numeric} a test of the proposition and not a description of the data.
 The proposition also fixes what the registered threshold statistic measures.
 The registration read the threshold as the gap at accuracy 0.9, interpolated linearly in log gap between ladder points.
@@ -755,8 +753,11 @@ bits, is the theory's own budget form and is not a superset of the count, so it 
 rather than above it. Each predicts the accuracy curve of the greedy read-out, so the comparison is
 like for like. Rung 1 is the capacity, every level of the nominal scale, evenly spaced. Rung 2 knows
 only how many distinct scores the judge wrote, assumed evenly spaced, which is a budget as a count of
-symbols. Rung 2b knows the rate instead, the mutual information in bits between the judge's score and
-the error count, read as $2^{I}$ evenly spaced levels, which is the theory's rate budget. Rung 3
+symbols. Rung 2b knows the mutual information in bits between the judge's score and
+the error count instead, read as $2^{I}$ evenly spaced levels. This is a proxy for the theory's rate
+budget and not that budget, which carries a workload and a distortion that this rung has neither of,
+and $2^{I}$ evenly spaced levels summarises the measured channel rather than naming a code chosen to
+minimise a distortion. Rung 3
 knows how many scores and where they sit, mapping quality to the nearest of the judge's own scores,
 still without noise. Rung 4 is the calibrated channel of the registration. The statistic is the
 squared error against the observed curve, summed over the gap ladder, which is the statistic the
@@ -767,9 +768,11 @@ registration already uses for its own rival.
 \small
 \caption{Squared error of each predictor against the same observed greedy-accuracy curve, over the
 graded configurations of both gates. Lower is better. Reading left to right within a row is the price
-of knowing less than the channel. By median squared error the capacity alone is worst, a count of
-symbols recovers part of it, a rate in bits more and their positions more again, and the whole
-channel is better than all of them in every one of the eighteen cells.}
+of knowing less than the channel. The column order is not a ranking. By median squared error the
+positions are the best of the three budget-only predictors and the rate is second, and by the share
+of the distance to the channel that each closes in the median cell the order of those two is
+reversed, which the text gives in full. The channel is better than all four in every one of the
+eighteen cells.}
 \label{tab:ladder}
 \begin{tabular}{llrrrrrrrr}
 \toprule
@@ -801,14 +804,18 @@ median & & & & & 0.419 & 0.278 & 0.240 & 0.220 & 0.0026 \\
 \end{tabular}
 \end{table}
 
-Of the distance from the nominal rival to the calibrated channel, the median cell closes
-22 percent knowing only how many scores the judge used, 39 percent
-knowing the rate in bits, and 22 percent knowing how many and where they sit, over
-the 17 cells of 18 that leave room to explain. The rest needs the
-conditional distribution. The rate beats the capacity in 12 of 18 cells
-and is the best of the three budget-only predictors, which is what one would want of the theory's
-own budget form, and it is still not most of the distance. The calibrated channel is the best of the
-five in all eighteen cells.
+Two orderings of the three budget-only rungs come out of this table and they do not agree, so both
+are given. By median squared error the positions are best at 0.220, the information rate next at
+0.240 and the count last at 0.278, against 0.419 for the capacity and 0.0026 for the channel. By the
+share of the distance from the capacity to the channel that a rung closes in the median cell, the
+information rate is best at 39 percent and the count and the positions are level at 22 percent. The
+two disagree because a median of ratios is not a ratio of medians, and the share is computed only on
+the 17 cells of 18 in which the capacity and the channel differ by more than 0.05 in squared error,
+a rule the script fixes and which drops a judge the capacity already predicts well. The information
+rate beats the capacity in 12 of 18 cells and the channel is the best of the five in all 18. What
+none of the three budget-only rungs does is close most of the distance, and they are not nested, so
+what is left over cannot be divided between the noise of the channel and the placement of its
+scores. It needs the conditional distribution itself.
 
 The conclusion is the one stated in Section~\ref{sec:budgets}. Resolution is budgeted, and a scalar
 budget accounts for a substantial minority of it. The quantity that predicts a judge's held-out
@@ -823,7 +830,9 @@ read-outs tied at the floor cannot be ranked. The obvious repair is a finer ladd
 stimulus means a longer worksheet: one wrong answer in a hundred is a quality gap of 0.01 rather
 than 0.05. This appendix reports a probe of that repair, run after the gates were graded, on 180
 worksheets of 100 items drawn from a probe seed, with error counts in $[0,20]$ so that the
-calibration levels stay contiguous. It is exploratory and grades nothing.
+calibration levels stay contiguous, and 30 pairs at each gap. Thirty pairs put a binomial standard
+error of about 0.08 on every accuracy below, which is why the reading here is coarse and the numbers
+are not a measurement of any threshold. It is exploratory and grades nothing.
 
 The table gives the share of pairs one item apart that each read-out orders correctly. Below 0.75
 the threshold would be measured rather than censored.
@@ -867,7 +876,7 @@ resolution in quality units is not bought simply by showing it finer differences
 
 The statement that survives is therefore narrower than the repair promised. A finer ladder would remove
 most of the ties and turn most of the failure into a measurement, and a registered gate on
-100-item worksheets is the natural next step; it would not remove all of them, and on this stimulus
+100-item worksheets is the natural next step. It would not remove all of them, and on this stimulus
 family the finest read-out of the finest judge stays out of reach.
 
 \section{Verification of the exact distributions}
