@@ -1,6 +1,6 @@
 # PREREG G3f: the same resolution law on a second stimulus family
 
-Status: DRAFT. Not sealed. The calibration seed is in the config, the test seed is not and is
+Status: SEALED 2026-09-22. The blob hash of this file is recorded in the commit that seals it and in the ledger. The calibration seed is in the config, the test seed is not and is
 drawn only after `predictions.json` is committed with its hash.
 
 ## Why this gate exists
@@ -69,17 +69,24 @@ The substring condition is not decoration. The self-test found on its first run 
 substring of `printing`, so a summary whose medal was struck in the wrong metal had that metal
 sitting in the passage inside another word. Checking values would not have caught it.
 
-**Judges.** The three G3e judges, unchanged, pinned by what the service reports serving. The
-harness refuses the block if the served string does not match.
+**Judges.** The three G3e judges unchanged, and a fourth added here, each pinned by what the
+service reports serving. The harness refuses the block if the served string does not match.
 
-| key | asked for | must be served as |
-|---|---|---|
-| `gemma31b` | `gemma` | `google/gemma-4-31B-it-qat-w4a16-ct` |
-| `gemma12b` | `gemma4-12b` | `google/gemma-4-12B-it-qat-w4a16-ct` |
-| `qwen3_27b` | `qwen3-small` | `Qwen/Qwen3.8-27B` |
+| key | asked for | must be served as | in G3e |
+|---|---|---|---|
+| `gemma31b` | `gemma` | `google/gemma-4-31B-it-qat-w4a16-ct` | yes |
+| `gemma12b` | `gemma4-12b` | `google/gemma-4-12B-it-qat-w4a16-ct` | yes |
+| `qwen3_flash` | `qwen3` | `Qwen/Qwen3.8-Flash-Next-FP8` | no |
 
 Three aliases on this gateway resolve to the same 12B weights, so the alias is not the identity
-and `served_as` is what is registered.
+and `served_as` is what is registered. The aliases also changed between G3e and this gate while
+the weights behind them did not, which is the same lesson from the other side.
+
+`qwen3_flash` is a third judge and not a third vendor. It shares a vendor with `qwen3_27b` and
+differs in weights, architecture and serving precision. It was added because a fourth readable
+judge was available, and the gate says what it is rather than counting it as breadth it does not
+buy. Its presence changes nothing else: it runs the same blocks, prompts, read-outs and bars, and
+it is graded by the same rule as the other three.
 
 **Elicitations.** G3c's six read-outs on three scales, unchanged: the greedy score, the expected
 score under the judge's own distribution, and the mean of 1, 2, 4 and 8 samples drawn from it, on
@@ -140,14 +147,118 @@ which is the one change a summary forces and which leaves it exactly as faithful
 **Probe.** Run before this registration was written, on the probe seed, six stimuli at each of the
 levels 0, 2, 5, 8, 12, 16 and 20.
 
-<!-- PROBE TABLE: filled from probe/ before sealing -->
+| judge | scale | scores used | accuracy at a gap of 12 | bits about quality | largest unseen mass | requests per stimulus |
+|---|---|---|---|---|---|---|
+| `gemma31b` | 1-5 | 5 | 0.847 | 1.000 | 0.0001 | 1.0 |
+| `gemma31b` | 0-9 | 8 | 1.000 | 1.000 | 0.00054 | 1.0 |
+| `gemma31b` | 0-100 | 13 | 1.000 | 1.000 | 0.00048 | 11.8 |
+| `gemma12b` | 1-5 | 5 | 1.000 | 1.000 | 7.1e-05 | 1.0 |
+| `gemma12b` | 0-9 | 7 | 1.000 | 1.000 | 5.6e-05 | 1.0 |
+| `gemma12b` | 0-100 | 12 | 1.000 | 1.000 | 4.4e-05 | 23.2 |
+| `qwen3_flash` | 1-5 | 5 | 1.000 | 1.000 | 0.0046 | 1.0 |
+| `qwen3_flash` | 0-9 | 8 | 1.000 | 1.000 | 0.0075 | 1.0 |
+| `qwen3_flash` | 0-100 | 11 | 1.000 | 1.000 | 0.014 | 80.6 |
+
+Pairwise, both orders, on the same probe stimuli:
+
+| judge | order-averaged accuracy at a gap of 12 | first-position preference | unreadable |
+|---|---|---|---|
+| `gemma31b` | 1.000 | 1.00 | 0 |
+| `gemma12b` | 1.000 | 1.00 | 0 |
+| `qwen3_flash` | 1.000 | 1.00 | 0 |
+
+* `gemma12b` would clear the anti-vacuity rule on the probe, on the 1-5 scale, with accuracy 1.000 at a gap of twelve and 1.000 bits.
+* `gemma31b` would clear the anti-vacuity rule on the probe, on the 0-9 scale, with accuracy 1.000 at a gap of twelve and 1.000 bits.
+* `qwen3_flash` would clear the anti-vacuity rule on the probe, on the 1-5 scale, with accuracy 1.000 at a gap of twelve and 1.000 bits.
+
+The probe is not the calibration block and does not decide anti-vacuity. That is decided from each
+judge's own calibration block, by the registered rule, before its test seed is drawn. What the
+probe establishes is that the gate is worth running and what it will cost.
+
+Two things the probe shows that the worksheet gates did not. The task is harder: `gemma31b` reaches
+only 0.847 at a gap of twelve on the 1 to 5 scale and `qwen3_27b` 0.833, where on worksheets every
+judge of G3e saturated at 1.00 on every scale. That headroom is what leaves a threshold to measure.
+And both Gemma judges show a first-position preference of 1.00 in the pairwise elicitation, an
+extreme position bias that the two-order average cancels by construction and that is recorded here
+because it is a property of the judge on this family and not of the method.
+
+## 6a. gpt-oss and two others were tested as further judges and cannot be read
+
+NRP.ai recommends `gpt-oss` for reproducible research, and a judge from a third vendor would have
+strengthened the gate. It was tested before sealing and it cannot serve under this
+protocol, so it is not in it.
+
+At `max_tokens = 1` with thinking disabled, `openai/gpt-oss-120b` returns the content
+`<|channel|>`, a control token of its output format, and its top twenty tokens contain no digit at
+all. Forcing the assistant turn, with an empty prefill and with a `Rating: ` prefix, returns the
+same token and no digits, and `max_tokens = 8` returns no content. Every read-out in this gate is
+a function of the first token's distribution over the scale, so a judge whose first token is
+structural has nothing for the method to read. This is not the judge failing to discriminate,
+which anti-vacuity would catch from a calibration block. It is the judge being unreadable, which
+anti-vacuity would not catch, so it is recorded here instead.
+
+Two other candidates were tested at the same time and fail the same way, on the same real G3f
+stimulus and prompt. `Inferact/GLM-5.3-NVFP4` returns the token `Let`, beginning prose, with no
+digit in its top twenty. `MiniMaxAI/MiniMax-M2.7` returns empty content, likewise with no digit.
+Of the four candidates tried, only `Qwen/Qwen3.8-Flash-Next-FP8` answers with a digit, and it is
+the one that was added.
+
+That three of four current reasoning-tuned models cannot be scored this way is worth stating on
+its own account. It is not a limitation of this gate so much as a property of the models: a judge
+whose first emitted token is structural rather than an answer has no first-token distribution to
+read, whatever its quality as a judge.
+
+The exclusion is a fact about the served chat template rather than about the weights. A
+self-hosted instance answering on a raw completion endpoint would carry no template and would very
+likely be readable. That is a later gate, not this one.
+
+
+## 6b. A judge dropped before sealing, on cost and not on results
+
+`qwen3_27b`, one of G3e's three, is **not** in this gate. Its probe was stopped and it is excluded.
+
+On the 0 to 100 scale its digit tree expands far past the other judges'. At the registered
+`tree_prune` of 1e-4 it had issued 2,015 requests for 42 probe stimuli, about 48 per stimulus and
+still running, against 11.8 for `gemma31b` and 23.2 for `gemma12b`. It is also the slowest of the
+three per request. Carried to the registered block sizes that is of the order of five hours for
+its calibration block on that scale alone and fifteen for its test block, which does not fit the
+time this gate has.
+
+The line this draws is one of degree and the registration should say so rather than imply a
+difference in kind. `qwen3_flash`, which is kept, has the same digit tree behaviour at roughly
+half the magnitude: 80.6 requests and 9.87 seconds per stimulus on the 0 to 100 scale, against
+0.50 for `gemma31b` and 0.80 for `gemma12b`. It is kept because at that rate its calibration block
+costs about 2.4 hours and fits inside the time this gate has, where `qwen3_27b` did not. Read the
+drop as a budget decision with a threshold measured in hours, not as a finding about either judge.
+
+The two ways to keep `qwen3_27b` were both worse than dropping it. Raising `tree_prune` for that judge
+alone makes the reading protocol judge-dependent, which is the one thing this gate is built not to
+do. Shrinking the test block makes G3c's bars stop applying, and those bars transferring unchanged
+is the whole argument.
+
+What matters for reading this later: the decision is made **before the registration is sealed, on
+measured cost, with no graded result of any kind in existence for this judge on this family**. Its
+partial probe record is kept in the supplement so the cost claim can be checked. It is not an
+exclusion on results and nothing about it is known that could motivate one.
 
 ## 7. Compute, and whose
 
 No GPU of the authors'. Requests to NRP's managed LLM service at its published concurrency of
-eight, one to four output tokens each, driven from Atlas at the lowest priority. No pods are
-submitted and no GPU is requested, so the cluster's pod sizing and utilization rules are not
-engaged.
+eight, one to four output tokens each, driven from Atlas at the lowest priority, judges run one
+after another so the service never sees more than that one concurrency. No pods are submitted and
+no GPU is requested, so the cluster's pod sizing and utilization rules are not engaged.
+
+The load this gate places on that service, from the probe's measured cost per stimulus:
+
+| judge | calibration, 840 stimuli | test, 2800 stimuli |
+|---|---|---|
+| `gemma31b` | about 7 minutes | about 25 minutes |
+| `gemma12b` | about 12 minutes | about 40 minutes |
+| `qwen3_flash` | about 2.4 hours | about 8 hours |
+
+Nearly all of it is the 0 to 100 scale, where a score spans up to three tokens and the digit tree
+expands every prefix above the prune. The two single-token scales together cost under two minutes
+per block per judge.
 
 ## 8. Known weaknesses
 
@@ -155,7 +266,13 @@ engaged.
   that the method is family-independent.
 * The facts are templated and synthetic. The judgement is harder than arithmetic but it is still
   a fact-matching task, not the contested quality of prose.
-* The same three judges as G3e, so the judges are not an independent draw from anything.
+* Two of the three judges are G3e's, so they are not an independent draw from anything, and the
+  third shares a vendor with a judge G3e graded. The stimulus family is what this gate varies.
+* G3e graded three judges and this gate grades three, but they are not the same three. `qwen3_27b`
+  is dropped for the reason in Section 6 and `qwen3_flash` is added, so the continuity with G3e is
+  two judges, not three.
+* Three candidates for a third vendor were tested and none could be read, so the gate has no
+  vendor outside the two it already had. The measurements are in Section 6.
 * Quality is a count of unsupported statements and treats all of them as equal, which the score a
   judge writes need not.
 

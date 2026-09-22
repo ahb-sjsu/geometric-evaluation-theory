@@ -1,6 +1,6 @@
 {
  "gate": "G3f",
- "status": "DRAFT, not sealed. The test seed is absent by construction and is drawn only after predictions.json is committed. See PREREG-G3F.md.",
+ "status": "SEALED 2026-09-22 (PREREG-G3F.md, blob dd5dc2268cfb759404f0cb940107895b48968e1c). Judges gemma31b, gemma12b, qwen3_flash; qwen3_27b dropped before sealing on measured cost, Section 6b. The test seed is absent and is drawn only after predictions.json is committed with its hash.",
  "api": {
   "base_url": "https://ellm.nrp-nautilus.io/v1",
   "token_file": "/home/claude/.llmtoken",
@@ -29,9 +29,9 @@
    ]
   },
   {
-   "key": "qwen3_27b",
-   "model_id": "api:qwen3-small",
-   "served_as": "Qwen/Qwen3.8-27B",
+   "key": "qwen3_flash",
+   "model_id": "api:qwen3",
+   "served_as": "Qwen/Qwen3.8-Flash-Next-FP8",
    "precisions": [
     "served"
    ]
