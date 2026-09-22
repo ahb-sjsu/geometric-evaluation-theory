@@ -34,7 +34,10 @@ def main() -> int:
     if seed_rec.exists():
         pinned = {k: v["sha256"] for k, v in json.load(open(seed_rec))["predictions_pinned"].items()}
 
-    summary = {"gate": "G3e", "test_seed": cfg["seeds"].get("test"), "judges": {}}
+    # The label only. Every verdict below is computed by judge_grade from the config and the
+    # records, so reading the gate name from the config lets a later gate reuse this
+    # orchestrator unchanged. G3e's own config says "G3e", so this is identical for G3e.
+    summary = {"gate": cfg.get("gate", "G3e"), "test_seed": cfg["seeds"].get("test"), "judges": {}}
     for m in cfg["models"]:
         key = m["key"]
         cal = out / "calibration" / f"{key}__served"
