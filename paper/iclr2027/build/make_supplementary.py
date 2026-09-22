@@ -212,12 +212,16 @@ def main():
     # Figure and table scripts.
     copy_tree(os.path.join(SRC, "paper/iclr2027/build"), OUT, counters, withheld)
     lines.append("## Figures and tables\n")
-    lines.append("`paper/iclr2027/build/` holds the scripts that read the graded records and emit every\n"
-                 "figure and table. `channel_fit.py` produces Table 3, the numeric gate's step fit, and is the\n"
+    lines.append("`paper/iclr2027/build/` holds the scripts that read the graded records and produce the\n"
+                 "figures and the fitted tables. `channel_fit.py` produces Table 3, the numeric gate's step fit, and is the\n"
                  "estimator the paper describes: the lapse first, accuracy corrected by one minus it, then\n"
                  "the step as the reciprocal of the least-squares slope of accuracy on gap through the\n"
-                 "origin. `make_v2_figures.py` produces Figures 1, 2 and 3 and Tables 1 and 2, and\n"
-                 "`experiments/G3c/budget_ladder.py` produces Table 4.\n")
+                 "origin. `make_v2_figures.py` produces Figures 1, 2 and 3, and\n"
+                 "`experiments/G3c/budget_ladder.py` produces Table 4. Tables 1 and 2 are not emitted\n"
+                 "by a script. Their entries are transcribed from the graded records, Table 1 from the\n"
+                 "per-judge grade files in `experiments/G3c` and from\n"
+                 "`experiments/G3e/run_record/verdicts.json`, and Table 2 from\n"
+                 "`experiments/G3d/grade.json`, so a reader checking them reads those files.\n")
 
     if withheld:
         lines.append("\n## Data not redistributed\n")
