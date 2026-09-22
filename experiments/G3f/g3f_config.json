@@ -1,6 +1,6 @@
 {
  "gate": "G3f",
- "status": "SEALED 2026-09-22 (PREREG-G3F.md, blob dd5dc2268cfb759404f0cb940107895b48968e1c). Judges gemma31b, gemma12b, qwen3_flash; qwen3_27b dropped before sealing on measured cost, Section 6b. The test seed is absent and is drawn only after predictions.json is committed with its hash.",
+ "status": "SEALED 2026-09-22 (PREREG-G3F.md, blob at seal dd5dc2268cfb759404f0cb940107895b48968e1c; blob after the stimulus defect correction of 2026-09-22T23:02Z 85c626cd7b06e40a4442e43af2ece129528ec11f, made before any judge was contacted, no score file and no API cache existed). Judges gemma31b, gemma12b, qwen3_flash; qwen3_27b dropped before sealing on measured cost, Section 6b. The test seed is absent and is drawn only after predictions.json is committed with its hash.",
  "api": {
   "base_url": "https://ellm.nrp-nautilus.io/v1",
   "token_file": "/home/claude/.llmtoken",

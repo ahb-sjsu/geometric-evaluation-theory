@@ -241,6 +241,36 @@ measured cost, with no graded result of any kind in existence for this judge on 
 partial probe record is kept in the supplement so the cost claim can be checked. It is not an
 exclusion on results and nothing about it is known that could motivate one.
 
+## Stimulus defect, corrected 2026-09-22T23:02Z, before any judge was contacted
+
+The registration was sealed at blob `dd5dc2268cfb759404f0cb940107895b48968e1c`. Building the first
+calibration block then failed, and the failure was a defect in `g3f_stimuli.py` rather than in
+anything this file specifies.
+
+Section 2 requires that a replacement value appear nowhere in the passage. `verify_record` enforced
+that against the passage as rendered, with its `1.` to `20.` line numbers. `perturb`, which chooses
+the replacement, searched the passage WITHOUT those numbers. A replacement equal to a line number,
+`13` for a count, therefore passed the chooser and was rejected by the checker, and the generator
+refused to emit the stimulus. The message was `fact 13 shows '13' which the passage contains`.
+
+The property the registration states is the one `verify_record` enforces, so the specification was
+right and the chooser was wrong. The fix makes both search the same rendered text through one
+`render_passage` function. No pool, template, seed, block size, scale, read-out, estimator or bar
+is touched, and the registration's Section 2 is unchanged because it already described the intended
+behaviour.
+
+Two things make this recordable rather than damaging. It was caught by the stimulus generator's own
+per-stimulus check while constructing the block, which is what that check exists for. And it was
+caught before any judge was contacted: `run_record` held no score file and no API cache entry when
+the run died, verified and stated here so the claim can be checked.
+
+The self-test is widened in the same change. It swept one seed and passed 840 stimuli; the
+calibration seed hit the defect on its first block. It now sweeps seven seeds and 5,880 stimuli. One
+seed is not coverage, and the old self-test would have missed this again.
+
+The registration's blob after this correction is recorded in the sealing commit alongside the
+original. Both are in the history, and the calibration block was built only after the correction.
+
 ## 7. Compute, and whose
 
 No GPU of the authors'. Requests to NRP's managed LLM service at its published concurrency of

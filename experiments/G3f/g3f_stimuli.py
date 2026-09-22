@@ -133,7 +133,12 @@ def perturb(facts: list, e: int, rng: np.random.Generator) -> list:
     summary saying the medal was struck in tin had its wrong value sitting in the passage in
     another word, and a reader could argue the passage half-supported it. A value set cannot see
     that and the rendered text can."""
-    passage = "\n".join(f["passage"].format(v=f["true"]) for f in facts)
+    # The text searched must be EXACTLY what the reader sees, numbering included. It was not:
+    # this built the passage without the "%d. " prefixes while verify_record checked the
+    # rendered one, so a replacement equal to a line number, 13 say, passed here and failed
+    # there. Caught by verify_record while building the calibration block, before any judge
+    # was contacted.
+    passage = render_passage(facts)
     if e:
         for i in rng.choice(len(facts), size=e, replace=False):
             f = facts[int(i)]
@@ -150,9 +155,13 @@ def perturb(facts: list, e: int, rng: np.random.Generator) -> list:
     return facts
 
 
+def render_passage(facts: list) -> str:
+    return "\n".join("%d. %s" % (i + 1, f["passage"].format(v=f["true"]))
+                     for i, f in enumerate(facts))
+
+
 def render(facts: list) -> tuple:
-    passage = "\n".join("%d. %s" % (i + 1, f["passage"].format(v=f["true"]))
-                        for i, f in enumerate(facts))
+    passage = render_passage(facts)
     summary = "\n".join("%d. %s" % (i + 1, f["summary"].format(v=f["shown"]))
                         for i, f in enumerate(facts))
     return passage, summary
@@ -187,10 +196,15 @@ def verify_record(facts: list, passage: str) -> tuple:
     return True, "ok"
 
 
-def selftest(n_items: int = 20, reps: int = 40) -> int:
-    rng = np.random.default_rng(20260922)
+def selftest(n_items: int = 20, reps: int = 40,
+             seeds=(20260922, 20260923, 20260924, 20260925, 1, 7, 99)) -> int:
+    """Swept over several seeds, because one seed is not coverage. A single seed passed 840
+    stimuli while the calibration seed hit a replacement equal to a line number on its first
+    block."""
     seen_texts = set()
-    for e in range(n_items + 1):
+    for seed in seeds:
+      rng = np.random.default_rng(seed)
+      for e in range(n_items + 1):
         for _ in range(reps):
             s = make_stimulus(rng, n_items, e)
             if len(s["unsupported"]) != e:
