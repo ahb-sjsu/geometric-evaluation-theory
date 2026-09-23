@@ -16,7 +16,7 @@ if [ $? -ne 0 ]; then
   exit 2
 fi
 
-for M in gemma31b gemma12b qwen3_flash; do
+for M in gemma31b gemma12b; do   # qwen3_flash withdrawn after sealing, PREREG Section 6c
   echo "--- $M $(date -u +%FT%TZ) ---" >> "$LOG"
   $PY g3f_judge.py run --config g3f_config.json --block test --model "$M" --out run_record >> "$LOG" 2>&1
   rc=$?
