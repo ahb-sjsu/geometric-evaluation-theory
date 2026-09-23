@@ -24,12 +24,12 @@ GATES = [
     ("G3e", "The same prediction on a second vendor and a newer generation, through a served API (Section 4, last result)"),
     ("G3f", "A second stimulus family, summaries checked against a passage, where the judge is not exact (Appendix F, Table 6)"),
     ("G5", "Identification of the metric and the ideal from choices (Appendix C.3)"),
-    ("G3", "The numeric gate: the threshold tracks the resolution budget (Appendix C, Figures 4 and 5, Tables 3 and 7)"),
+    ("G3", "The numeric gate: the threshold tracks the resolution budget (Appendix C, Figures 4 and 5, Tables 3 and 8)"),
     ("G3b", "A drafted extension of the grid-channel law across families and tokenizers. Never sealed, never run. No number in the paper rests on it"),
-    ("G2", "Hull law on a public survey (Appendix I)"),
-    ("G9", "Hull law and the budget prediction on professional football play calls (Appendix I)"),
+    ("G2", "Hull law on a public survey (Appendix J)"),
+    ("G9", "Hull law and the budget prediction on professional football play calls (Appendix J)"),
     ("G9b", "The refutation projection and the violation rate against reading precision"),
-    ("G4b", "Shared-representation bound on attention heads, indeterminate (Appendix I)"),
+    ("G4b", "Shared-representation bound on attention heads, indeterminate (Appendix J)"),
     ("G7a", "The threshold against a time budget in chess, indeterminate, and the registration that refuted the inverse-square-root bridge"),
 ]
 
@@ -220,9 +220,10 @@ def main():
                  "origin. `make_v2_figures.py` produces Figures 1, 2 and 3, and\n"
                  "`experiments/G3c/budget_ladder.py` produces Table 4. `reproduce.ipynb` beside\n"
                  "them runs inside this package with no network and no model. It regenerates every\n"
-                 "figure, recomputes the numbers the paper reports from the graded records and checks\n"
-                 "each against what the paper prints, and verifies that the predictions graded are the\n"
-                 "ones each test seed was drawn against. Tables 1 and 2 are not emitted\n"
+                 "figure, checks the principal numerical claims in the paper against the graded records,\n"
+                 "re-runs the grader over the score records of the sealed gates and compares the\n"
+                 "verdicts it derives with the ones shipped, and verifies that the predictions graded\n"
+                 "are the ones each test seed was drawn against. Tables 1 and 2 are not emitted\n"
                  "by a script. Their entries are transcribed from the graded records, Table 1 from the\n"
                  "per-judge grade files in `experiments/G3c` and from\n"
                  "`experiments/G3e/run_record/verdicts.json`, and Table 2 from\n"

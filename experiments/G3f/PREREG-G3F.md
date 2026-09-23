@@ -355,7 +355,7 @@ per block per judge.
   a fact-matching task, not the contested quality of prose.
 * Two of the three judges are G3e's, so they are not an independent draw from anything, and the
   third shares a vendor with a judge G3e graded. The stimulus family is what this gate varies.
-* G3e graded three judges and this gate grades three, but they are not the same three. `qwen3_27b`
+* G3e graded three judges and this gate registered three, of which two were graded. Section 6c supersedes this line and records the withdrawal. The three registered are not the same three G3e graded. `qwen3_27b`
   is dropped for the reason in Section 6 and `qwen3_flash` is added, so the continuity with G3e is
   two judges, not three.
 * Three candidates for a third vendor were tested and none could be read, so the gate has no

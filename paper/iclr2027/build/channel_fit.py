@@ -17,6 +17,7 @@ from pathlib import Path
 
 import numpy as np
 import matplotlib
+matplotlib.rcParams.update({"pdf.fonttype": 42, "ps.fonttype": 42})
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
 

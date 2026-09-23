@@ -406,7 +406,7 @@ All AI-assisted text, code, and proofs were reviewed by the authors, who take re
 
 \subsection*{Reproducibility statement}
 The supplementary material contains, for every gate, the sealed registration with its hash, the configuration with model revisions and library versions, the seeds, the commits that order prediction before measurement, the graded records, and the scripts that produce every figure and table from them.
-A notebook in the package runs inside it with no network, no model and no GPU. It regenerates every figure from the graded records, recomputes the numbers reported here and reports any that disagree with what is printed, and checks by hash that the predictions graded for each sealed gate are the ones its test seed was drawn against.
+A notebook in the package runs inside it with no network, no model and no GPU. It regenerates every figure from the graded records, checks the principal numerical claims made here against those records and reports any that disagree, re-runs the grader over the score records of the sealed gates and compares the verdicts it derives with the ones shipped, and checks by hash that the predictions graded are the ones each test seed was drawn against.
 
 \bibliography{refs}
 \bibliographystyle{iclr2027_conference}
@@ -896,7 +896,7 @@ A passage of twenty numbered facts and a summary restating them, of which $e$ ar
 The blocks, the three scales, the six read-outs, the estimator, the grading script and the bars are those of the worksheet gates, taken by reference. The bars matter most. They were fixed by a null simulation on a judge of a third family against worksheets, and they were not refitted here. A bar moved for a new task is not a bar.
 
 \paragraph{Order.}
-The registration was sealed and published with its hash while no test seed existed. Each judge's calibration block was then run, its predictions written from that block alone and published with their sha256. Only then was the test seed drawn from a system random source, and the graded record pins each judge's predictions by hash at the moment of drawing. Each of those steps is timestamped by a third party rather than by the authors' own history.
+The registration was sealed and published with its hash while no test seed existed. Each judge's calibration block was then run, its predictions written from that block alone and published with their sha256. Only then was the test seed drawn from a system random source, and the graded record pins each judge's predictions by hash at the moment of drawing. The supplied commit graph records that order, since the prediction commits are ancestors of the commit that draws the seed, and the sequence is checkable against the public repository once the authors are known.
 
 \begin{table}[h]
 \centering
