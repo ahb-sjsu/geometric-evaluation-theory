@@ -60,6 +60,7 @@ Measuring what the evidence is worth and what the decoration is worth in separat
 
 What predicts a judge's resolution is its measured channel, of which a scalar budget is one summary. The information its score carries about quality, read as a count of levels, closes about two fifths of the distance from the nominal scale to the calibrated channel in the median cell, and the rest needs the conditional distribution itself.
 The prediction and the comparison against the nominal scale replicate on a second vendor's models and on a newer generation of the first, served quantized by a third party and read through an API that exposes the twenty most probable tokens at each position. The read-out ordering does not, failing on one of those judges whose finest read-outs sit at the smallest difference the worksheets can express.
+A further registration changes the task rather than the judge. Two of those judges grade summaries checked against a passage, which no judge does exactly, and the calibration predicts the test block there too, inside bars never refitted for it. The read-out ordering that failed on worksheets passes there, on the same judge, because the harder task lifts its finest read-outs off the floor of the ladder.
 \end{abstract}
 
 \section{Introduction}
@@ -135,6 +136,8 @@ Averaging those shares over the levels a test pair can occupy predicts the accur
 The theory's content is in what the prediction depends on.
 The channel sets the curve, not the capacity.
 A rival judge that uses every level of the nominal scale, exactly, predicts a threshold of one wrong answer on the 0 to 100 scale, and the claim is that this rival fits worse than the judge's own channel on every scale.
+Reading more of the report must lower the threshold, in the order and by the amounts the calibration predicts.
+Direct pairwise comparison has no report grid at all, and if the judge's internal resolution is what limits it, its threshold sits at the floor of the pointwise read-outs.
 
 This paper claims two separable things.
 The first is a theory. A length budget makes the induced preference a semiorder whose threshold is the budget, which is Theorem~\ref{thm:pref}(b). A grid of step $h$ is not that budget, since it coarsens the distance and so induces on a set of options the weak order of Theorem~\ref{thm:pref}(a) on the quantized distance, which no single threshold represents against the true distance. What Proposition~\ref{prop:channel} gives is a rule for one comparison, that two options are distinguished when their difference reaches the distance from the lower of them up to the next boundary. Where that alignment is unknown the tolerance is uniform on $(0,h]$, so the accuracy curve is its distribution function and a threshold read at accuracy $0.75$ is a quantile rather than a number the judge carries.
@@ -142,8 +145,6 @@ The second is a method. A channel measured on one block predicts discrimination 
 What the theory does not say is how much of a real judge's resolution a scalar budget accounts for, because a judge's channel is not a grid, its codebook is not evenly spaced and its scores are noisy.
 That is a measurement rather than a deduction, and Appendix~\ref{app:ladder} makes it by scoring predictors that know less than the whole channel against the same held-out curves.
 The mutual information the judge's score carries about quality, read as a count of levels, closes about two fifths of that distance in the median cell. It is a proxy for the theory's rate budget rather than the budget, which carries a workload and a distortion that this summary does not.
-Reading more of the report must lower the threshold, in the order and by the amounts the calibration predicts.
-Direct pairwise comparison has no report grid at all, and if the judge's internal resolution is what limits it, its threshold sits at the floor of the pointwise read-outs.
 
 \section{Protocol}
 \label{sec:protocol}
@@ -193,7 +194,7 @@ A judge that cannot order worksheets twelve errors apart with accuracy 0.9 on so
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=\columnwidth]{figures/v2_prediction.pdf}
+\includegraphics[width=0.88\columnwidth]{figures/v2_prediction.pdf}
 \caption{Left, the 7B judge on the 0 to 100 scale. Lines are what the calibration block predicts, bands two standard deviations of its bootstrap, points the sealed test block on worksheets the judge had not seen. The dotted line is the 0.75 level that defines the threshold. Right, every read-out of every graded judge, 54 points, predicted threshold against observed. Points on the diagonal were predicted before the test seed existed. The crosses are the rival that reads the scale at face value, and it predicts a finer threshold than the judge has, by up to a factor of five.}
 \label{fig:prediction}
 \end{figure}
@@ -276,14 +277,14 @@ That is an association over six judges and not a demonstration. What would settl
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=\columnwidth]{figures/v2_regimes.pdf}
+\includegraphics[width=0.88\columnwidth]{figures/v2_regimes.pdf}
 \caption{The sealed test block of the second gate, the cell where the worse worksheet carries the decoration. Each panel is the distribution over pairs of the judge's log-odds for the better worksheet at one reasoning budget, with the calibration's prediction and the observed mean. With no reasoning the judge prefers the decorated worse sheet. With reasoning it cannot finish, it is near indifferent. With reasoning it can finish, it prefers the better sheet. The prediction at each budget comes from blocks in which the decoration never sat on the worse sheet.}
 \label{fig:regimes}
 \end{figure}
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.62\columnwidth]{figures/v2_crossover.pdf}
+\includegraphics[width=0.52\columnwidth]{figures/v2_crossover.pdf}
 \caption{Where the preference turns over. The share of test pairs on which the judge prefers the better worksheet, against the reasoning budget it was allowed. The line is predicted from the calibration blocks, the points are the sealed test block. The crossing was predicted at 174 tokens and observed at 128, a deviation of 0.37 in noise units against a registered bar of 2.576.}
 \label{fig:crossover}
 \end{figure}
@@ -369,15 +370,17 @@ The budget here limits the resolution of consequences rather than the acquisitio
 \section{Scope}
 \label{sec:scope}
 
-The stimuli are one family.
-Arithmetic worksheets give an exact quality scale, and a judge's resolution on them need not transfer to prose answers.
+The stimuli are two families and neither is prose.
+Worksheets give an exact quality scale and so do summaries scored by how many statements a passage does not support, the second being the one no judge does exactly.
+Neither is the contested and many-dimensional thing meant by the quality of an essay.
 The prediction assumes that a worksheet's score depends on how many items are wrong and not on which, and the record reports the score variance within an error count so that a reader can see how much noise that assumption absorbs.
 Matching predicted to observed accuracy is by itself a test that the judge scores the two blocks alike.
 Two comparisons can fail separately, the measured channel against the nominal scale and the predicted ordering of the read-outs.
 The bars were fixed from one judge's pilot, the 7B judge at bfloat16, by the simulation of Section~\ref{sec:protocol}.
 Two constants were fixed after pilot values they bear on had been seen, the factor that labels the pairwise threshold and the information bar for anti-vacuity, and the registration says so for each.
 Two of the five judges of the first registration, Gemma 4B and Qwen 1.5B, failed the anti-vacuity rule on their calibration blocks and are reported and not graded, so its verdicts rest on three judges of one family, the 7B at two precisions and the 14B.
-The replication adds three more, two sizes of Gemma 4 and one Qwen3, so the prediction and the comparison against the nominal scale rest on six graded configurations of five models across two vendors and three model generations, and the read-out ordering rests on five, having failed on the sixth for the reason given there.
+The replication adds three more, two sizes of Gemma 4 and one Qwen3, so on worksheets the prediction and the comparison against the nominal scale rest on six graded configurations of five models across two vendors and three model generations, and the read-out ordering rests on five, having failed on the sixth for the reason given there.
+The second family regrades two of those configurations and adds no judge, so it buys a task and not breadth (Appendix~\ref{app:family}).
 No judge here was trained or tuned by us, and three of the six were served by a third party at weights we cannot inspect.
 The reversal is measured on one judge, at one gap of three errors in ten, with one decoration.
 Additivity of evidence and cue at that gap need not hold at others.
@@ -878,6 +881,42 @@ The statement that survives is therefore narrower than the repair promised. A fi
 most of the ties and turn most of the failure into a measurement, and a registered gate on
 100-item worksheets is the natural next step. It would not remove all of them, and on this stimulus
 family the finest read-out of the finest judge stays out of reach.
+
+\section{A second stimulus family, where the judge is not exact}
+\label{app:family}
+
+Every gate above grades one family of stimuli. Worksheets were chosen because their quality scale is exact, and that choice has a cost no number of further judges pays off, since the judge does the arithmetic exactly and the grid on what it reads and writes is the whole story. This appendix reports a registration that changes the stimuli and nothing else.
+
+\paragraph{The stimuli.}
+A passage of twenty numbered facts and a summary restating them, of which $e$ are unsupported. Quality is $1-e/20$, the scale the worksheets used, so the gap ladder and every estimator carry over unchanged. Neither text is written. Both are rendered from one record of twenty facts, each a template with one slot value, and an unsupported statement is one whose slot was replaced by a different value of the same kind. A statement is therefore unsupported exactly when it was perturbed, and the count is known without an annotator. Two conditions make that unambiguous and both are checked for every stimulus rather than assumed. The replacement differs from the truth, and it appears nowhere in the passage. The second is checked against the rendered text, which the self-test showed is not the same as checking the values, since a wrong metal can sit inside another word of the passage.
+
+\paragraph{What did not change.}
+The blocks, the three scales, the six read-outs, the estimator, the grading script and the bars are those of the worksheet gates, taken by reference. The bars matter most. They were fixed by a null simulation on a judge of a third family against worksheets, and they were not refitted here. A bar moved for a new task is not a bar.
+
+\paragraph{Order.}
+The registration was sealed and published with its hash while no test seed existed. Each judge's calibration block was then run, its predictions written from that block alone and published with their sha256. Only then was the test seed drawn from a system random source, and the graded record pins each judge's predictions by hash at the moment of drawing. Each of those steps is timestamped by a third party rather than by the authors' own history.
+
+\begin{table}[h]
+\centering
+\small
+\caption{The second family, sealed. Bars are the worksheet gates', unchanged. Every threshold of both judges landed within the registered factor. The rightmost column is how much better the judge's measured channel fits its observed curve than a rival reading the nominal scale at face value, across the three scales.}
+\label{tab:family}
+\begin{tabular}{lrrrrr}
+\toprule
+judge & deviation & noise units & Kendall's $\tau$ & at the floor & channel over nominal \\
+ & (bar 0.14) & (bar 4.55) & (bar 0.86) & & \\
+\midrule
+Gemma 4 31B & 0.066 & 2.97 & 0.869 & 2 of 18 & 69 to 1220 times \\
+Gemma 4 12B & 0.124 & 3.55 & 0.908 & 0 of 18 & 7 to 100 times \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{The read-out ordering that failed on worksheets passes here.}
+Appendix~\ref{app:longsheet} asked whether a finer ladder would remove the ties that made the 31B judge fail that claim, and answered that it mostly would. A harder task does the same work by another route. Seven of that judge's eighteen read-outs sat at the smallest gap the worksheets could express; on summaries two do, and Kendall's $\tau$ rises from 0.804 to 0.869. The judge resolves summaries less finely than arithmetic, so its finest read-outs sit above the floor instead of piling onto it. That mechanism was read off the calibration blocks and recorded before the test seed was drawn, so the repair was predicted and not observed after the fact.
+
+\paragraph{What this does not establish.}
+Two judges, one vendor. This gate adds a task and not breadth, and the two judges are two of the six already graded on worksheets. Two of its margins are thin: the 31B judge clears the rank bar by 0.009, so one read-out ordering differently would fail the claim, and the 12B judge's largest deviation is 0.124 against a bar of 0.14 where the worksheet judges sat at 0.047 and 0.066. The prediction held on the harder family and held less comfortably, which is what a harder family should do. Two judges of the registration were not graded, one dropped before sealing and one withdrawn after it, both because the serving latency of a shared research API made their blocks unaffordable rather than for anything measured about them; the registration records both with the measurements. And the family is still not prose.
 
 \section{Verification of the exact distributions}
 \label{app:verify}

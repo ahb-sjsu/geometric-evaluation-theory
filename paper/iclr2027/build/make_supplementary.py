@@ -22,6 +22,7 @@ GATES = [
     ("G3c", "Main gate 1: a judge's calibrated channel predicts its resolution (Section 4, Table 1, Figure 1)"),
     ("G3d", "Main gate 2: where a deliberation budget reverses a judge's preference (Section 5, Figures 2 and 3, Table 2)"),
     ("G3e", "The same prediction on a second vendor and a newer generation, through a served API (Section 4, last result)"),
+    ("G3f", "A second stimulus family, summaries checked against a passage, where the judge is not exact (Appendix F, Table 6)"),
     ("G5", "Identification of the metric and the ideal from choices (Appendix C.3)"),
     ("G3", "The numeric gate: the threshold tracks the resolution budget (Appendix C, Figures 4 and 5, Tables 3 and 7)"),
     ("G3b", "A drafted extension of the grid-channel law across families and tokenizers. Never sealed, never run. No number in the paper rests on it"),
