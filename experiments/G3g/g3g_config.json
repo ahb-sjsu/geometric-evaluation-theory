@@ -1,6 +1,6 @@
 {
  "gate": "G3g",
- "status": "DRAFT, not sealed. Bars are NOT yet set: this design changes the level count and the gap ladder, so G3c's bars do not apply and must be re-derived by the same null-simulation procedure before sealing. The test seed is absent by construction.",
+ "status": "DRAFT, not sealed. Bars are G3c's, taken by reference and not refitted; see PREREG-G3G.md Section 4 for why four of them transfer as null quantiles (two conservative, two stricter under this ladder) and why vacuity_bits_min was never a transferred null quantile in any gate. A design-matched null simulation is run on the pilot and reported beside them WITHOUT being used to grade. The test seed is absent by construction.",
  "api": {
   "base_url": "https://ellm.nrp-nautilus.io/v1",
   "token_file": "/home/claude/.llmtoken",
@@ -76,5 +76,14 @@
   "pilot_calibration": 20260924,
   "pilot_test": 20260925,
   "calibration": 20260926
+ },
+ "bars": {
+  "dev_max": 0.14,
+  "z_max": 4.55,
+  "threshold_factor": 1.75,
+  "rank_agreement_min": 0.86,
+  "vacuity_acc_min": 0.9,
+  "vacuity_bits_min": null,
+  "source": "G3c, taken by reference and not refitted. vacuity_bits_min is set from the G3g pilot and disclosed, which is how G3c set its own (PREREG-G3C: \"set after the sizing calibrations were read\"). It is null here until the pilot fixes it."
  }
 }
