@@ -42,12 +42,25 @@ MAX_CHARS = 3000     # short enough to keep the prompt affordable
 _POOL: dict = {}
 
 
+POOL_STATS: dict = {}
+
+
 def load_pool(path: str = DEFAULT_POOL) -> dict:
-    """rating -> list of review texts, filtered by length, order fixed by the file."""
+    """rating -> list of UNIQUE review texts, filtered by length, order fixed by the file.
+
+    Two passes, because the raw sample repeats reviews and the repeats are not harmless.
+
+    A text that appears twice under DIFFERENT ratings has no well-defined label and is dropped
+    outright rather than assigned to either level. A text that appears twice under the same rating
+    is kept once. Without the first rule the target would be ambiguous; without the second, the
+    parity partition below would put the same review in both the calibration and the test half,
+    since it splits positions rather than texts. The selftest found exactly that, 176 shared
+    reviews, which is why this is two passes and not one.
+    """
     global _POOL
     if _POOL:
         return _POOL
-    by = {e: [] for e in range(N_ITEMS + 1)}
+    ratings: dict = {}
     with open(path, encoding="utf-8") as fh:
         for line in fh:
             try:
@@ -61,30 +74,60 @@ def load_pool(path: str = DEFAULT_POOL) -> dict:
                 continue
             if "\x00" in t:
                 continue
-            by[5 - r].append(t)
+            ratings.setdefault(t, set()).add(r)
+    by = {e: [] for e in range(N_ITEMS + 1)}
+    ambiguous = 0
+    for t, rs in ratings.items():
+        if len(rs) != 1:
+            ambiguous += 1
+            continue
+        by[5 - rs.pop()].append(t)
     if min(len(v) for v in by.values()) == 0:
         raise RuntimeError("a rating level is empty; check the pool path")
+    POOL_STATS.update({"unique_texts": len(ratings), "dropped_ambiguous": ambiguous,
+                       "kept_per_level": {e: len(v) for e, v in by.items()}})
     _POOL = by
     return _POOL
+
+
+# Which half of each level's pool the current block draws from. Calibration and test MUST be
+# disjoint, and they run in separate processes, so shared state cannot enforce it. The pool is
+# partitioned by index parity instead, which makes disjointness a property of the data rather
+# than of the order in which things happen to run.
+_BLOCK = "calibration"
+_HALF = {"calibration": 0, "test": 1, "probe": 0, "pilot_calibration": 0, "pilot_test": 1}
+
+
+def set_block(block: str) -> None:
+    global _BLOCK
+    if block not in _HALF:
+        raise ValueError("unknown block %r" % block)
+    _BLOCK = block
+
+
+def half_for(e: int, block: str | None = None) -> list:
+    """The reviews this block may draw at level e. Parity partition, fixed by the file order."""
+    return load_pool()[e][_HALF[block or _BLOCK]::2]
 
 
 def make_review(rng: np.random.Generator, n_items: int, e: int) -> dict:
     """Drop-in for judge.make_worksheet. Same signature, same returned keys.
 
-    Draws WITHOUT replacement within a run, so no review is ever scored twice and a calibration
-    review can never reappear in a test block.
+    Draws without replacement within a block, and only from that block's half of the pool, so no
+    review is scored twice and a calibration review can never reach a test block.
     """
-    pool = load_pool()
     if n_items != N_ITEMS:
         raise ValueError("this family fixes n_items at %d" % N_ITEMS)
-    used = _USED.setdefault(e, set())
-    avail = pool[e]
-    for _ in range(10000):
+    avail = half_for(e)
+    used = _USED.setdefault((_BLOCK, e), set())
+    if len(used) >= len(avail):
+        raise RuntimeError("level %d exhausted in block %s" % (e, _BLOCK))
+    for _ in range(100000):
         i = int(rng.integers(len(avail)))
         if i not in used:
             used.add(i)
             return {"e": int(e), "text": avail[i]}
-    raise RuntimeError("level %d exhausted after 10000 draws" % e)
+    raise RuntimeError("level %d could not find an unused review in block %s" % (e, _BLOCK))
 
 
 _USED: dict = {}
@@ -97,7 +140,9 @@ def reset_draws() -> None:
 
 def selftest(pool_path: str = DEFAULT_POOL) -> int:
     pool = load_pool(pool_path)
-    print("pool loaded, usable reviews per error count e (e = 5 - rating):")
+    print("pool loaded: %d unique texts, %d dropped for carrying more than one rating"
+          % (POOL_STATS["unique_texts"], POOL_STATS["dropped_ambiguous"]))
+    print("usable reviews per error count e (e = 5 - rating):")
     for e in sorted(pool):
         print("  e=%d  rating=%d  %6d reviews" % (e, 5 - e, len(pool[e])))
     smallest = min(len(v) for v in pool.values())
@@ -122,6 +167,29 @@ def selftest(pool_path: str = DEFAULT_POOL) -> int:
     print("\nselftest ok: %d stimuli over 5 levels, none repeated, all within the length band"
           % len(seen))
     print("smallest level supports %d draws, the blocks need far fewer" % smallest)
+
+    # The property the design rests on: a calibration review can never reach a test block.
+    overlap = 0
+    for e in range(N_ITEMS + 1):
+        c = set(half_for(e, "calibration"))
+        t = set(half_for(e, "test"))
+        overlap += len(c & t)
+        if not c or not t:
+            print("FAIL: an empty half at e=%d" % e)
+            return 1
+    print("calibration and test halves are disjoint at every level, shared reviews: %d" % overlap)
+    if overlap:
+        return 1
+
+    # And the halves are drawn from, not merely defined.
+    reset_draws(); set_block("calibration")
+    a = {make_review(np.random.default_rng(1), N_ITEMS, 2)["text"] for _ in range(200)}
+    reset_draws(); set_block("test")
+    b = {make_review(np.random.default_rng(1), N_ITEMS, 2)["text"] for _ in range(200)}
+    print("drawn calibration and test sets at e=2 share %d reviews" % len(a & b))
+    if a & b:
+        return 1
+    reset_draws(); set_block("calibration")
     lo = next(t for t in texts if t["e"] == 0)
     hi = next(t for t in texts if t["e"] == 4)
     print("\nexample e=0 (reviewer gave 5 stars), quality 1.00:\n  %s" % lo["text"][:240].replace("\n", " "))

@@ -67,7 +67,12 @@ _orig_make_block = J.make_block
 
 
 def _make_block(cfg, block, seed):
-    """Clear the without-replacement draw state before each block is built."""
+    """Point the stimulus pool at this block's half, and clear the draw state.
+
+    The halves are disjoint by index parity, so calibration and test cannot share a review even
+    though they are built in separate processes with no shared state."""
+    role = cfg.get('_role', 'run')
+    S.set_block(('pilot_' + block) if role == 'pilot' else block)
     S.reset_draws()
     return _orig_make_block(cfg, block, seed)
 
