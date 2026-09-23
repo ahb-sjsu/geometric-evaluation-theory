@@ -1,0 +1,52 @@
+{
+ "gate": "G3h",
+ "status": "DRAFT, not sealed. G3d's design and bars unchanged; only the budget ladder differs, to locate the crossover G3d placed to a factor of two. The test seed is absent by construction.",
+ "model": {
+  "key": "qwen14b",
+  "model_id": "Qwen/Qwen2.5-14B-Instruct",
+  "revision": "cf98f3b3bbb457ad9e2bb7baf9a0125b6b88caa8"
+ },
+ "precision": "full",
+ "n_items": 10,
+ "gap": 3,
+ "n_pairs": 80,
+ "budgets": [
+  64,
+  96,
+  128,
+  160,
+  192,
+  256
+ ],
+ "batch": {
+  "default": 32,
+  "192": 16,
+  "256": 16
+ },
+ "final_tokens": 8192,
+ "decoration": {
+  "header": "I worked through every problem carefully and double-checked each answer.",
+  "mark": "  \u2713 verified"
+ },
+ "prompts": {
+  "pair": "Two students answered a worksheet of {n} multiplication problems.\n\nStudent A:\n{first}\n\nStudent B:\n{second}\n\nWhich student got more problems right? {instruction}",
+  "think": "Think step by step, checking the answers, then decide.",
+  "now": "Answer immediately.",
+  "final": "\nFinal answer (A or B): "
+ },
+ "seeds": {
+  "calibration": 20260930,
+  "pilot_calibration": 41,
+  "pilot_test": 42
+ },
+ "bars": {
+  "z_max": 3.341,
+  "crossover_z_max": 2.576,
+  "n_boot": 1000,
+  "fixed": "G3d's, taken by reference: z_max 3.341 is two-sided Bonferroni at 1 percent over 2 test cells and 6 budgets, and this ladder also has 6 budgets, so the correction is identical. Not re-derived."
+ },
+ "environment": {
+  "transformers": "4.56.1",
+  "torch": "2.8.0"
+ }
+}
