@@ -20,15 +20,25 @@ from pathlib import Path
 
 
 def committed(path: Path) -> str | None:
-    """The blob hash git holds for this path, or None if what is on disk is not committed."""
-    r = subprocess.run(["git", "ls-files", "-s", "--", str(path)], capture_output=True, text=True,
-                       cwd=str(path.parent))
+    """The blob hash HEAD holds for this path, or None if what is on disk is not in a commit.
+
+    Reads the committed tree, not the index. G3e's version read the index, and on 2026-09-23 a
+    seed was drawn against predictions that were staged but whose commit had failed on a signing
+    timeout, so "committed" meant nothing more than "git add" had run. That seed was never used
+    and was discarded, and this check now asks HEAD."""
+    top = subprocess.run(["git", "rev-parse", "--show-toplevel"], capture_output=True, text=True,
+                         cwd=str(path.parent)).stdout.strip()
+    rel = subprocess.run(["git", "ls-files", "--full-name", "--", str(path)], capture_output=True,
+                         text=True, cwd=str(path.parent)).stdout.strip()
+    if not top or not rel:
+        return None
+    r = subprocess.run(["git", "ls-tree", "HEAD", "--", rel], capture_output=True, text=True, cwd=top)
     if r.returncode or not r.stdout.strip():
         return None
-    indexed = r.stdout.split()[1]
+    in_head = r.stdout.split()[2]
     actual = subprocess.run(["git", "hash-object", str(path)], capture_output=True, text=True,
                             cwd=str(path.parent)).stdout.strip()
-    return indexed if indexed == actual else None
+    return in_head if in_head == actual else None
 
 
 def cell_name(budget) -> str:

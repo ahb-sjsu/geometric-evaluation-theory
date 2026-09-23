@@ -1,8 +1,9 @@
 # PREREG G3g: the same resolution law where the label is a human judgement, at three input budgets
 
-Status: DRAFT. Not sealed. The calibration seed is in the config, the test seed is not and is
-drawn once, for every cell at once, only after every cell's `predictions.json` is committed with
-its hash.
+Status: SEALED 2026-09-23 at blob 3f90e5010498416c081237fc33f368ca5610c7b0 (commit a2c33b2). One
+correction after the seal, recorded at the end of Section 9. The calibration seed is in the
+config, the test seed is drawn once, for every cell at once, only after every cell's
+`predictions.json` is in a pushed commit with its hash.
 
 ## Why this gate exists
 
@@ -311,3 +312,16 @@ more, and a judge withdrawn for cost is recorded as G3f recorded it.
    committed.
 5. The six test blocks are run and graded by `g3g_grade.py`, which grades with G3c's code and
    refuses predictions the seed was not drawn against.
+
+**Deviation recorded 2026-09-23, after sealing and before any test block.** A test seed was
+drawn once before step 3 had completed. The six `predictions.json` had been written and staged,
+the signing of their commit timed out on an expired passphrase cache, and the shell ran the draw
+step regardless. `g3g_draw_test_seed.py` inherited G3e's check, which read the git index rather
+than a commit, so "committed" was satisfied by `git add` alone and the script drew a seed. That
+seed, 1008647962, was never used: no test block was built from it, it was removed from the config
+with its `test_seed.json`, and the predictions it was pinned to are byte-identical to the ones
+committed afterwards, whose sha256 values are in `predictions_summary.json`. The check now reads
+HEAD, so a seed cannot be drawn against a prediction that is not in a commit, and the seed used
+by this gate is the one drawn after the predictions commit was pushed. The order the gate claims,
+prediction then seed, held in time on both draws; what failed was the public record between them,
+and it is repaired by discarding the draw that lacked it.
