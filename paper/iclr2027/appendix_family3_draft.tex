@@ -1,0 +1,55 @@
+% DRAFT, NOT INPUT BY THE PAPER. The design half of the third-family appendix, written from the
+% sealed registration (experiments/G3g/PREREG-G3G.md, blob 3f90e501) before any test block was
+% run. Every XX is a number that exists only in run_record/verdicts.json after grading, and no XX
+% may be filled from a pilot. If the gate is not graded before the deadline this file is not used.
+
+\section{A third family, where the label is a human judgement, at three input budgets}
+\label{app:reviews}
+
+The two families above were both written by us, so a reader can say the method has only been shown where quality is a thing the experimenter built. This registration scores book reviews written by readers, and the quality of a review is the star rating its own writer gave the book. That label is a human judgement, rendered in the writer's own prose, and it is still exactly known, because it is what the person did rather than an estimate of what a panel would say. There is no annotator disagreement because there is no second annotator. Asking a model what a reader thought is also a deployed use of a judge rather than a proxy for one.
+
+\paragraph{The stimuli.}
+One review of between 400 and 3000 characters, drawn from a balanced sample of 200,000 Goodreads reviews with 40,000 at each star rating. Quality is $1-e/4$ for $e=5-\text{rating}$, so the scale has five levels and the gap ladder runs from one to four. A text appearing under two ratings has no label and is dropped, a text repeated under one rating is kept once, and each level is split in two by position so that no review can sit in both a calibration and a test block. The median review is 786 characters long and two in a thousand are 400 or shorter.
+
+\paragraph{A budget on the input.}
+No earlier gate limited what the judge could read. Here each review is shown to the judge in three cells, its first 200 characters, its first 400, and the whole of it, cut back to a word boundary and never cutting the label. One calibration seed and one test seed serve all three cells, so the cells score the same reviews and the same test pairs at different lengths and differ in nothing else. The theory's length budget says resolution coarsens as that budget shrinks, and the registration states it as a claim to be graded on held-out data. On every scale the observed greedy threshold at 200 characters must exceed the one at full length, and the thresholds predicted from calibration must fall along the ladder. A fourth cell at 100 characters was piloted and dropped before sealing, because the judge there orders reviews four levels apart only 0.79 of the time, below the a priori bar of 0.9, and the registered rule would have declared it vacuous from its calibration block.
+
+\paragraph{What did not change, and the one bar that did.}
+The three scales, the six read-outs, the pairwise elicitation, the estimator, the grading script and five of the six bars are the worksheet gates', taken by reference and not refitted. The sixth is the information bar for anti-vacuity, which the first registration set at one bit after reading its own pilot and disclosed. A five-level scale can carry at most $\log_2 5$ bits about quality where the worksheet scale could carry $\log_2 21$, so the bar here is the same fraction of capacity, 0.53 bits, rounded down to 0.5. It was set before sealing and after the pilot, as the original was, and on every pilot cell it agrees with the a priori accuracy bar, which one bit would not have done, refusing two cells in which the judge orders the extremes at 0.90 to 0.95.
+
+\paragraph{What the design-matched null decided before the seal.}
+A null simulation for this design, by the procedure and code that fixed the worksheet bars, was run on each pilot cell and reported beside the transferred bars without grading anything. It found two things. A faithful judge fails the transferred rank bar of 0.86 in 31 to 96 percent of replicates depending on the cell, because eighteen read-outs on a five-level scale sit within a level of each other and cannot be ranked, so the read-out ordering claim is reported in every cell and graded in none. And the transferred bar of 4.55 noise units is stricter here than in the gate that set it, with a faithful judge exceeding it in 3.8 to 5.8 percent of replicates per cell against 1.4 there, so across two judges and three cells a pair of faithful judges fails the prediction claim somewhere in about one run in four. The bars were not moved. The record reports each cell against both the transferred bar and the design-matched quantile, so a miss inside the latter is reported as a miss against the worksheet bar and nothing more.
+
+\paragraph{Order.}
+The registration was sealed and published with its hash while no test seed existed. The six calibration blocks were run, one per judge and cell, each cell's predictions written from its own calibration block alone and published with their sha256, and only then was one test seed drawn from a system random source for every cell at once.
+
+% ---- results, from run_record/verdicts.json only ----
+
+\begin{table}[h]
+\centering
+\small
+\caption{The third family, sealed. Each cell is graded on its own against the worksheet bars. The rank column is reported and not graded, for the reason given above. XX}
+\label{tab:reviews}
+\begin{tabular}{llrrrrr}
+\toprule
+judge & budget & deviation & noise units & at the floor & Kendall's $\tau$ & greedy threshold, pred.\ / obs. \\
+ & (characters) & (bar 0.14) & (bar 4.55) & & (reported) & 1 to 5, 0 to 9, 0 to 100 \\
+\midrule
+Gemma 4 31B & 200  & XX & XX & XX of 18 & XX & XX \\
+            & 400  & XX & XX & XX of 18 & XX & XX \\
+            & full & XX & XX & XX of 18 & XX & XX \\
+Gemma 4 12B & 200  & XX & XX & XX of 18 & XX & XX \\
+            & 400  & XX & XX & XX of 18 & XX & XX \\
+            & full & XX & XX & XX of 18 & XX & XX \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{The prediction held in XX of six cells.}
+XX
+
+\paragraph{Resolution is ordered by the input budget.}
+XX
+
+\paragraph{What this does not establish.}
+Two judges, one vendor, and one register of English prose about books. The label is one reader's rating, which is exact and idiosyncratic, and nothing here says a panel would agree with it. A judge that recognises a famous book could recall its reception rather than read the review, which cannot supply this reader's rating but could pull a judge toward the crowd. Three rungs can show that resolution is ordered by the input budget and cannot show the shape of the dependence. XX
