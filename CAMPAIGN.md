@@ -1,6 +1,6 @@
 # GET campaign: from stated to measured
 
-Every gate below has a deliverable, a bar, a statement of what falsifies it, and a verdict. A gate runs only after its registration is sealed (hash committed before any data is touched, see `PROTOCOL.md`). A miss is recorded at the same prominence as a pass. No verdict below has been written yet.
+Every gate below has a deliverable, a bar, a statement of what falsifies it, and a verdict. A gate runs only after its registration is sealed (hash committed before any data is touched, see `PROTOCOL.md`). A miss is recorded at the same prominence as a pass.
 
 Standing rule inherited from the observation-theory campaigns: every gate registration cites a committed probe verifying that the events it will count are present in every cell and member before the gate runs. Three gates in that program passed vacuously on empty cells before the rule was adopted.
 
@@ -14,6 +14,7 @@ Standing rule inherited from the observation-theory campaigns: every gate regist
 | G3c | A judge's symbol budget predicts its resolution before it is measured: answer scoring on three scales with argmax, expected-score and n-sample read-outs, and pairwise grading, on worksheets of known quality | G3 | SEALED 2026-09-19 (`experiments/G3c/PREREG-G3C.md`, blob e6bd3ef791ce9b96f68422d2df5cdd76e424adb4, commit 19fa4b9; five judges, calibration on NRP next, predictions committed with their sha256 before the test seed is drawn) |
 | G3e | G3c's resolution law on judges of another family, read through a served API: Gemma 4 at 31B and 12B (4-bit QAT) and Qwen3 at 27B, on NRP's managed LLM service | G3c | SEALED 2026-09-20T21:46:28Z (`experiments/G3e/PREREG-G3E.md`, blob 4c0b1cb1a4f3705e7700a237cd09c1715838e36a, seal commit 994d9d2). The judge changes and nothing else; G3c's bars unchanged. Reader self-test 14 of 14 PASS; probe on 42 worksheets from a probe seed shows all three judges clear anti-vacuity and use 10 to 13 of the 101 scores the 0-100 scale offers. Registered deviation: the digit tree prunes at 1e-4, measured to leave less mass than the API's twenty-token wall. Sealed without the owner's review, who may void it |
 | G3d | A deliberation budget reverses a judge's preference, and where it reverses is predicted from calibration cells in which evidence and a decoration cue never conflict | G3c | SEALED 2026-09-20 (`experiments/G3d/PREREG-G3D.md`, blob 7f56dcbb5c404ff6619e4c271e3130c2c0dca466, commit ddb0c85; self-test PASS 6 of 6, pilot PASS on pilot seeds; sealed calibration running on Atlas GPU 1) |
+| G3f | The same resolution law on a second stimulus family: summaries checked against a passage of stated facts, where quality is still exact but the judgement is not arithmetic and no judge does it exactly | G3c, G3e | DONE, PASS 2026-09-23 (sealed 2026-09-22, `experiments/G3f/PREREG-G3F.md`, blob dd5dc2268cfb759404f0cb940107895b48968e1c at seal, seal commit 4c67f9d; the shipped file hashes to f92610225a704af34e5afa4d21cc63d0b988b1de after three corrections recorded inside it, two defects caught before any judge was contacted or any prediction written and one judge withdrawn after sealing on measured service latency. Test seed 1586780589 drawn only after both judges' predictions were committed and pushed. `gemma31b` and `gemma12b` both PASS J1, J2 and J3 against G3c's bars, unchanged and not refitted: deviations 0.066 and 0.124 against a bar of 0.14, Kendall tau 0.869 and 0.908 against 0.86, every threshold inside the registered factor. `qwen3_27b` dropped before sealing and `qwen3_flash` withdrawn after it, both on measured cost of a shared service and neither on anything measured about the judge, so the gate has two judges and one vendor and claims no breadth) |
 | G4 | Incompatibility regret on a shared code | G0 | DONE, INDETERMINATE 2026-09-08 (sealed `experiments/G4/PREREG-G4.md`, blob 91c834f7b2bf211ade587458ce859bf48f8560d2; at ranks 2, 4, 8 the measured attention loss is 20 to 330 times the quadratic prediction, so P1 fails at every rank and the bound cannot be tested; the model-free ordering bar P5 held in 32 of 32 non-vacuous cell-ranks; the own-code bar P2 failed; P1 as registered also compared a one-key prediction to an all-keys measurement, a registration defect) |
 | G4b | Incompatibility regret, second-order world | G4 | DONE, INDETERMINATE 2026-09-08 (sealed `experiments/G4b/PREREG-G4B.md`, blob d6d1c44fcd8454f749bd204e914b02059b8e658f; the second-order regime is reached and the measured loss matches the quadratic prediction at the median, ratio 1.02 to 1.05 flat in eps up to 0.1, but 64 draws per cell leave a 20 percent per-cell scatter, so the per-triple bar P1 is missed, 64 to 70 percent within tolerance against 80; an exploratory seed check shows the scatter is draw noise, not operator bias; inside the quadratic regime the regret bars are theorems plus noise) |
 | G5 | Identification: recover metric and ideal from choices | G1 | DONE, PASS 2026-09-08, synthetic stage (sealed `experiments/G5/PREREG-G5.md`, blob 66dbc6860af030f957ee4fc90bad0659ece37cca; 12 of 12 cells pass on the fresh seed: metric and ideal recovered at 64 points above the dimension, error falling monotonically with the battery, nothing recovered at or below the design bound, nothing recovered off the span of a subspace battery or in a singular metric's kernel) |
@@ -85,6 +86,48 @@ Third deviation, 2026-09-20, batch sizing per GPU, at the owner's direction. The
 ## G3d. A deliberation budget reverses a judge's preference, and where it reverses is predicted
 
 Registration, 2026-09-19 to 2026-09-20. `experiments/G3d/`. A judge is shown two worksheets of ten multiplications, three wrong answers apart, and asked which student got more right, after at most k tokens of greedy reasoning. The decoration, a confident header and a check mark on every line, carries no information about quality. The calibration block measures the two terms apart, evidence on plain pairs and the cue on pairs of equal quality, and their sum on the order-averaged letter log-odds predicts both test cells at every budget and the budget at which the judge stops preferring a decorated worse sheet. Bars were fixed from the design before any pilot: additivity at z 3.341 (two-sided 1 percent Bonferroni over two cells and six budgets), crossover at z 2.576, and the additive prediction must beat evidence alone and the cue alone. Self-test PASS 6 of 6, including an interaction judge that fails additivity at z 10.3 and a cue-blind judge that reads VACUOUS. Two pilot attempts ran out of GPU memory in the forced-answer pass and are kept in the record; the repair reads only the last position's logits and chunks the rows, and changes no value on the 7B. Pilot PASS on pilot seeds: additivity within 1.74 and 2.92 noise units, crossover predicted at 113 tokens against 30 observed (1.96), additive squared error 14.6 against 60.9 and 233.2 for the rivals. The run doubles the pairs to 80 per cell, which the registration permits and which sharpens every check. Sealed by renaming `PREREG-G3D-DRAFT.md` to `PREREG-G3D.md`, blob 7f56dcbb5c404ff6619e4c271e3130c2c0dca466.
+
+## G3f. The same resolution law on a second stimulus family
+
+Every gate before this one graded worksheets of twenty single-digit multiplications. That task was
+chosen because its quality scale is exact, and the choice has a cost no number of further judges
+pays off: the judge does the arithmetic exactly, so the grid on what it reads and writes is the
+whole story. An external reader of the ICLR draft said so.
+
+G3f changes the stimuli and nothing else. A stimulus is a passage of twenty numbered facts and a
+summary restating them, of which `e` are unsupported, so quality is `1 - e/20` as before and every
+estimator carries over. Neither text is written. Both are rendered from one structured record, and
+an unsupported statement is one whose slot was replaced by a different value of the same kind, so
+the count is exact without an annotator. Two conditions make it unambiguous and both are checked
+for every stimulus rather than assumed.
+
+**Verdict: PASS**, 2026-09-23, on both graded judges, against G3c's bars taken by reference and not
+refitted.
+
+| judge | deviation, bar 0.14 | noise units, bar 4.55 | Kendall tau, bar 0.86 | at the ladder floor |
+|---|---|---|---|---|
+| `gemma31b` | 0.066 | 2.97 | 0.869 | 2 of 18 |
+| `gemma12b` | 0.124 | 3.55 | 0.908 | 0 of 18 |
+
+The result worth the gate. C3e, the read-out ordering, FAILED in G3e on `gemma31b` with tau 0.804,
+because seven of its eighteen read-outs were pinned at the smallest gap the worksheets could
+express and tied read-outs cannot be ranked. On summaries that count is two and tau is 0.869. The
+mechanism was read off the calibration blocks and recorded before the test seed was drawn: a harder
+task does what a finer ladder would have done, because the judge resolves summaries less finely and
+its thresholds sit above the floor rather than piling onto it.
+
+Recorded against it. Two judges and one vendor, so the gate buys a task and not breadth. Two thin
+margins: `gemma31b` clears the rank bar by 0.009, and `gemma12b`'s deviation is 0.124 where the
+worksheet judges sat at 0.047 and 0.066. Three deviations from the sealed registration, all inside
+the file: a stimulus defect and a config defect, both caught before any judge was contacted or any
+prediction written, and `qwen3_flash` withdrawn after sealing when the serving latency of a shared
+API regressed by two orders of magnitude between its probe and its block.
+
+Ledger defect recorded 2026-09-23. This gate was graded and written into the paper before it had a
+row in this table. The supplementary builder reads the sealed blob out of this ledger and, finding
+no row, printed that the registration "was never sealed", so the shipped package contradicted the
+manuscript. Found by an external reader of the package rather than by any check of ours. The row
+exists now, and the lesson is that a gate is not finished when its verdict is written.
 
 ## G4. Incompatibility regret on a shared code
 

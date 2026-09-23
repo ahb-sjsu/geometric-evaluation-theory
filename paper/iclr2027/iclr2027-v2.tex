@@ -406,6 +406,7 @@ All AI-assisted text, code, and proofs were reviewed by the authors, who take re
 
 \subsection*{Reproducibility statement}
 The supplementary material contains, for every gate, the sealed registration with its hash, the configuration with model revisions and library versions, the seeds, the commits that order prediction before measurement, the graded records, and the scripts that produce every figure and table from them.
+A notebook in the package runs inside it with no network, no model and no GPU. It regenerates every figure from the graded records, recomputes the numbers reported here and reports any that disagree with what is printed, and checks by hash that the predictions graded for each sealed gate are the ones its test seed was drawn against.
 
 \bibliography{refs}
 \bibliographystyle{iclr2027_conference}

@@ -63,7 +63,7 @@ REDACTIONS = [
 SKIP_FILES = {"pass1.log", "pass2.log", "pass3.log", "pass4.log", "pass5.log", "bibtex.log",
               "make_supplementary.py"}
 
-TEXT_EXT = {".md", ".py", ".json", ".sh", ".txt", ".log", ".yaml", ".yml", ".csv", ".lean", ".toml", ".sha256", ".jsonl", ".tex", ".cfg", ".ini"}
+TEXT_EXT = {".md", ".py", ".json", ".sh", ".txt", ".log", ".yaml", ".yml", ".csv", ".lean", ".toml", ".sha256", ".jsonl", ".tex", ".cfg", ".ini", ".ipynb"}
 SKIP_DIRS = {"__pycache__", ".git", ".lake", ".mypy_cache"}
 # Third-party corpora: checksummed, not shipped.
 NO_REDISTRIBUTE = {
@@ -218,7 +218,11 @@ def main():
                  "estimator the paper describes: the lapse first, accuracy corrected by one minus it, then\n"
                  "the step as the reciprocal of the least-squares slope of accuracy on gap through the\n"
                  "origin. `make_v2_figures.py` produces Figures 1, 2 and 3, and\n"
-                 "`experiments/G3c/budget_ladder.py` produces Table 4. Tables 1 and 2 are not emitted\n"
+                 "`experiments/G3c/budget_ladder.py` produces Table 4. `reproduce.ipynb` beside\n"
+                 "them runs inside this package with no network and no model. It regenerates every\n"
+                 "figure, recomputes the numbers the paper reports from the graded records and checks\n"
+                 "each against what the paper prints, and verifies that the predictions graded are the\n"
+                 "ones each test seed was drawn against. Tables 1 and 2 are not emitted\n"
                  "by a script. Their entries are transcribed from the graded records, Table 1 from the\n"
                  "per-judge grade files in `experiments/G3c` and from\n"
                  "`experiments/G3e/run_record/verdicts.json`, and Table 2 from\n"
