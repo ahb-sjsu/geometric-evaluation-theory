@@ -75,7 +75,7 @@ Two answers that differ by less than it can resolve are indifferent to it, and t
 Geometric Evaluation Theory derives that structure from what the evaluator spends on the comparison and proves that the threshold of the semiorder is set by that budget (Appendix~\ref{app:theory}).
 For a judge that reports a score, the budget is the set of reports it actually uses and how much of each report is read.
 It is not the scale the judge is offered.
-A judge asked for a score from 0 to 100 that only ever writes nine distinct scores has a budget of nine levels, and its threshold is that of nine levels.
+A judge asked for a score from 0 to 100 that only ever writes nine distinct scores has a report alphabet of nine symbols, and how finely it resolves depends on where those nine sit and how noisy they are as well as on how many there are. The calibration measures all three, and Appendix~\ref{app:ladder} scores what each of them is worth on its own.
 
 This makes the threshold predictable.
 A calibration block shows the judge worksheets at every level of quality and records what it reports.
@@ -101,6 +101,8 @@ A fifth thing came out of an analysis after the gates were graded, and it sharpe
 Scoring five predictors of the same held-out curve puts an information-rate summary of the judge's scores about two fifths of the way from the nominal scale to the fully calibrated channel in the median cell (Appendix~\ref{app:ladder}).
 The theory says resolution is budgeted, and the measurement says how much of a real judge's resolution a budget buys. The two are different statements and this paper keeps them apart.
 What a practitioner can use is the method, a channel measured on one block predicting discrimination on another.
+What this paper is, then, is a preregistered demonstration of one prediction of that theory, that an evaluator's effective channel decides which differences in quality it can resolve, and that its resolution can be measured before the comparisons it governs are observed.
+Turning a measured channel into a predicted curve is elementary once the channel is known, and a reader may fairly say so. What is not elementary is that the prediction carried its bars before the data existed, held across six read-outs and two stimulus families with those bars never refitted, failed where the instrument ran out of resolution rather than at random, and extended to where a second budget reverses the judge outright.
 
 The same theory says what a second budget does.
 A judge that may reason before answering spends tokens on the comparison, and with too few tokens it falls back on whatever is cheapest to read.
@@ -136,7 +138,7 @@ Averaging those shares over the levels a test pair can occupy predicts the accur
 The theory's content is in what the prediction depends on.
 The channel sets the curve, not the capacity.
 A rival judge that uses every level of the nominal scale, exactly, predicts a threshold of one wrong answer on the 0 to 100 scale, and the claim is that this rival fits worse than the judge's own channel on every scale.
-Reading more of the report must lower the threshold, in the order and by the amounts the calibration predicts.
+The registered hypothesis is that reading more of the report lowers the threshold, in the order and by the amounts the calibration predicts.
 Direct pairwise comparison has no report grid at all, and if the judge's internal resolution is what limits it, its threshold sits at the floor of the pointwise read-outs.
 
 This paper claims two separable things.
@@ -194,7 +196,7 @@ A judge that cannot order worksheets twelve errors apart with accuracy 0.9 on so
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.88\columnwidth]{figures/v2_prediction.pdf}
+\includegraphics[width=0.79\columnwidth]{figures/v2_prediction.pdf}
 \caption{Left, the 7B judge on the 0 to 100 scale. Lines are what the calibration block predicts, bands two standard deviations of its bootstrap, points the sealed test block on worksheets the judge had not seen. The dotted line is the 0.75 level that defines the threshold. Right, every read-out of every graded judge, 54 points, predicted threshold against observed. Points on the diagonal were predicted before the test seed existed. The crosses are the rival that reads the scale at face value, and it predicts a finer threshold than the judge has, by up to a factor of five.}
 \label{fig:prediction}
 \end{figure}
@@ -277,14 +279,14 @@ That is an association over six judges and not a demonstration. What would settl
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.88\columnwidth]{figures/v2_regimes.pdf}
+\includegraphics[width=0.79\columnwidth]{figures/v2_regimes.pdf}
 \caption{The sealed test block of the second gate, the cell where the worse worksheet carries the decoration. Each panel is the distribution over pairs of the judge's log-odds for the better worksheet at one reasoning budget, with the calibration's prediction and the observed mean. With no reasoning the judge prefers the decorated worse sheet. With reasoning it cannot finish, it is near indifferent. With reasoning it can finish, it prefers the better sheet. The prediction at each budget comes from blocks in which the decoration never sat on the worse sheet.}
 \label{fig:regimes}
 \end{figure}
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.52\columnwidth]{figures/v2_crossover.pdf}
+\includegraphics[width=0.44\columnwidth]{figures/v2_crossover.pdf}
 \caption{Where the preference turns over. The share of test pairs on which the judge prefers the better worksheet, against the reasoning budget it was allowed. The line is predicted from the calibration blocks, the points are the sealed test block. The crossing was predicted at 174 tokens and observed at 128, a deviation of 0.37 in noise units against a registered bar of 2.576.}
 \label{fig:crossover}
 \end{figure}
@@ -386,7 +388,6 @@ The reversal is measured on one judge, at one gap of three errors in ten, with o
 Additivity of evidence and cue at that gap need not hold at others.
 The budget there is a ceiling on reasoning tokens and not the reasoning spent, the record keeps the tokens each pair used, and that axis is not monotone for the reason given in Section~\ref{sec:flip}.
 Reasoning is decoded greedily, so the noise in those estimates is over worksheets and not over samples of the judge.
-The appendix gates on survey and play-calling data test other parts of the theory and carry their own limits there.
 Nothing here is a claim about human evaluators.
 
 \subsection*{AI use statement}
@@ -459,7 +460,7 @@ This appendix states the evaluation object and the results the main text uses. P
 
 \begin{definition}[Evaluation object]
 \label{def:object}
-An evaluation object is a six-tuple $\Ev=(X,A,C,G,B,\K)$ in which $X$ is a set of states carrying a probability law $\mu$, the evaluator's belief; $A$ is a set of actions; $C:A\times X\to\Y$ is the evaluator, a map into a consequence space $\Y$ that is a $C^{1}$ manifold; $G$ is the metric of evaluation, a continuous field of positive semidefinite quadratic forms on the tangent spaces of $\Y$, together with an ideal point $t\in\Y$; $B$ is the resolution budget, one of a rank cap, a length $\varepsilon\ge0$, or a rate $R$ in bits, with $B=\infty$ for the unbudgeted case; and $\K\subseteq A$ is the set of admissible actions.
+An evaluation object is a six-tuple $\Ev=(X,A,C,G,B,\K)$ in which $X$ is a set of states carrying a probability law $\mu$, the evaluator's belief; $A$ is a set of actions; $C:A\times X\to\Y$ is the evaluator, a map into a consequence space $\Y$ that is a $C^{1}$ manifold; $G$ is the metric of evaluation, a continuous field of positive semidefinite quadratic forms on the tangent spaces of $\Y$, together with an ideal point $t\in\Y$; $B$ is the resolution budget, one of a rank cap, a length $\varepsilon\ge0$, or a rate triple $(R,\nu,\delta)$ with $R$ in bits, with $B=\infty$ for the unbudgeted case; and $\K\subseteq A$ is the set of admissible actions.
 Two restrictions belong in the definition rather than in the results that use them.
 $G$ is allowed to be degenerate, so it is a pseudo-metric and not a Riemannian metric in the usual sense; Theorem~\ref{thm:repr} chooses a positive semidefinite $G$, and its uniqueness clause is stated for $G_{1}\neq0$ rather than for $G_{1}$ definite, so calling it Riemannian here would contradict the results that use it.
 A rank cap is only defined when $\Y$ carries the linear structure its operations need, so a rank budget is a pair $(k,\nu)$ in which $\Y=\R^{m}$ with its Euclidean structure and $\nu$ is a workload, a probability measure on $A$ under which the second moment of consequences is taken.
@@ -478,7 +479,7 @@ The evaluation distance of an action is the root of the expected squared geodesi
 It is a root mean square and not an expected distance; the two differ by Jensen's inequality, and it is the squared form that makes the cost additive over independent coordinates and gives Theorem~\ref{thm:repr} its quadratic $Q_{W}$.
 Under a rank cap $(k,\nu)$ the evaluator retains the top-$k$ eigenspace of $\Ex_{a\sim\nu}\Ex_{\mu}[C(a,X)C(a,X)^{\top}]$, the second moment of the consequences its workload actually presents, and evaluates the projection.
 Under a length $\varepsilon$ the distance is $d$ itself and the budget acts on comparison.
-Under a rate $(R,\nu,\delta)$ the evaluator holds an $R$-bit description of the consequence and evaluates the reconstruction, and the budget is treated as the length budget given by the least distortion attainable at that rate under $\nu$ and $\delta$.
+Under a rate $(R,\nu,\delta)$ the evaluator holds an $R$-bit description of the consequence and evaluates the reconstruction, and the budget is treated as the length budget given by the least distortion attainable at that rate under $\nu$ and $\delta$. That last step is a modelling convention of this paper and is not proved here.
 The length budget is the one this paper measures.
 
 \subsection{What the object induces}
@@ -569,7 +570,7 @@ One comparison at a time the grid is the rule of Definition~\ref{def:pref} exact
 The accuracy curve of part (c) is therefore the distribution function of the tolerance, so an experiment that orders pairs identifies the whole law of the threshold rather than one number, and $h$ is its largest value.
 Three things follow.
 The gap reported at accuracy $\alpha$ is the $\alpha$ quantile of the tolerance, so the level is part of the definition of that statistic and not a property of the evaluator, which is why the step is reported beside it here.
-The constant threshold of Definition~\ref{def:pref} is recovered only when every comparison sits the same distance below a boundary, which a grid does not arrange.
+A constant threshold of Definition~\ref{def:pref} represents the relation on a finite set of options exactly when some $\varepsilon$ is at least the largest separation between two options sharing a bin and below the smallest separation between two options in different bins. A grid does not arrange that in general.
 And the curve is a ramp because the alignment is unknown rather than because the evaluator is noisy: it has one parameter, the step, and no shape left to fit, which is what makes the fit of Appendix~\ref{app:numeric} a test of the proposition and not a description of the data.
 The proposition also fixes what the registered threshold statistic measures.
 The registration read the threshold as the gap at accuracy 0.9, interpolated linearly in log gap between ladder points.
@@ -899,15 +900,15 @@ The registration was sealed and published with its hash while no test seed exist
 \begin{table}[h]
 \centering
 \small
-\caption{The second family, sealed. Bars are the worksheet gates', unchanged. Every threshold of both judges landed within the registered factor. The rightmost column is how much better the judge's measured channel fits its observed curve than a rival reading the nominal scale at face value, across the three scales.}
+\caption{The second family, sealed. Bars are the worksheet gates', unchanged. Every threshold of both judges landed within the registered factor. The rightmost column is the squared error of the judge's measured channel against its observed curve, and of a rival reading the nominal scale at face value, ranged over the three scales. The channel won all six judge and scale cells.}
 \label{tab:family}
 \begin{tabular}{lrrrrr}
 \toprule
-judge & deviation & noise units & Kendall's $\tau$ & at the floor & channel over nominal \\
+judge & deviation & noise units & Kendall's $\tau$ & at the floor & squared error, channel against nominal \\
  & (bar 0.14) & (bar 4.55) & (bar 0.86) & & \\
 \midrule
-Gemma 4 31B & 0.066 & 2.97 & 0.869 & 2 of 18 & 69 to 1220 times \\
-Gemma 4 12B & 0.124 & 3.55 & 0.908 & 0 of 18 & 7 to 100 times \\
+Gemma 4 31B & 0.066 & 2.97 & 0.869 & 2 of 18 & 0.0007 to 0.0038 against 0.15 to 0.85 \\
+Gemma 4 12B & 0.124 & 3.55 & 0.908 & 0 of 18 & 0.0031 to 0.0212 against 0.14 to 0.32 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -916,7 +917,7 @@ Gemma 4 12B & 0.124 & 3.55 & 0.908 & 0 of 18 & 7 to 100 times \\
 Appendix~\ref{app:longsheet} asked whether a finer ladder would remove the ties that made the 31B judge fail that claim, and answered that it mostly would. A harder task does the same work by another route. Seven of that judge's eighteen read-outs sat at the smallest gap the worksheets could express; on summaries two do, and Kendall's $\tau$ rises from 0.804 to 0.869. The judge resolves summaries less finely than arithmetic, so its finest read-outs sit above the floor instead of piling onto it. That mechanism was read off the calibration blocks and recorded before the test seed was drawn, so the repair was predicted and not observed after the fact.
 
 \paragraph{What this does not establish.}
-Two judges, one vendor. This gate adds a task and not breadth, and the two judges are two of the six already graded on worksheets. Two of its margins are thin: the 31B judge clears the rank bar by 0.009, so one read-out ordering differently would fail the claim, and the 12B judge's largest deviation is 0.124 against a bar of 0.14 where the worksheet judges sat at 0.047 and 0.066. The prediction held on the harder family and held less comfortably, which is what a harder family should do. Two judges of the registration were not graded, one dropped before sealing and one withdrawn after it, both because the serving latency of a shared research API made their blocks unaffordable rather than for anything measured about them; the registration records both with the measurements. And the family is still not prose.
+Two judges, one vendor. This gate adds a task and not breadth, and the two judges are two of the six already graded on worksheets. Two of its margins are thin: the 31B judge clears the rank bar by 0.009, so one read-out ordering differently would fail the claim, and the 12B judge's largest deviation is 0.124 against a bar of 0.14 where the worksheet judges sat at 0.047 and 0.066. The prediction held on the harder family and held less comfortably. Two judges of the registration were not graded, one dropped before sealing and one withdrawn after it, both because the serving latency of a shared research API made their blocks unaffordable rather than for anything measured about them; the registration records both with the measurements. And the family is still not prose.
 
 \section{Verification of the exact distributions}
 \label{app:verify}
