@@ -1,6 +1,6 @@
 {
  "gate": "G3g",
- "status": "DRAFT, not sealed. Bars are G3c's, taken by reference and not refitted; see PREREG-G3G.md Section 4 for why four of them transfer as null quantiles (two conservative, two stricter under this ladder) and why vacuity_bits_min was never a transferred null quantile in any gate. A design-matched null simulation is run on the pilot and reported beside them WITHOUT being used to grade. The test seed is absent by construction.",
+ "status": "DRAFT, not sealed. G3c's design on real book reviews, run at three input budgets (the first 200 characters of each review, the first 400, and the whole review) with one calibration seed and one test seed, so the cells score the same reviews cut to different lengths. Bars are G3c's five null-quantile and a-priori bars, taken by reference and not refitted. vacuity_bits_min is G3c's one bit scaled by the capacity of the quality scale, log2(5)/log2(21), rounded down to 0.5, set before sealing and disclosed in PREREG-G3G.md Section 4. The test seed is absent by construction.",
  "api": {
   "base_url": "https://ellm.nrp-nautilus.io/v1",
   "token_file": "/home/claude/.llmtoken",
@@ -38,6 +38,12 @@
   4
  ],
  "n_pairs_per_gap": 200,
+ "truncation_ladder": [
+  "full",
+  400,
+  200
+ ],
+ "c3g_graded_cells": [],
  "scales": [
   {
    "lo": 1,
@@ -83,7 +89,7 @@
   "threshold_factor": 1.75,
   "rank_agreement_min": 0.86,
   "vacuity_acc_min": 0.9,
-  "vacuity_bits_min": null,
-  "source": "G3c, taken by reference and not refitted. vacuity_bits_min is set from the G3g pilot and disclosed, which is how G3c set its own (PREREG-G3C: \"set after the sizing calibrations were read\"). It is null here until the pilot fixes it."
+  "vacuity_bits_min": 0.5,
+  "source": "dev_max, z_max, threshold_factor, rank_agreement_min and vacuity_acc_min are G3c's, taken by reference and not refitted. vacuity_bits_min is G3c's 1.0 bit scaled by log2(5)/log2(21) = 0.53 and rounded down to 0.5, because a five-level quality scale can carry at most log2(5) bits where the worksheet scale carried log2(21); set before sealing, after the pilot was read, and disclosed, which is how G3c set its own. On every pilot cell it agrees with the a-priori accuracy bar."
  }
 }

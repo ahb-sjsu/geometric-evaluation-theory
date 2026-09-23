@@ -9,9 +9,12 @@ Three differences from G3f, all forced by the family rather than chosen.
 
   quality      is the star rating the reviewer actually gave, mapped to `e = 5 - rating` with
                `n_items = 4`, so the block builder's level loop and the gap ladder need no change.
-  levels       are five rather than twenty-one, so the gap ladder runs 1 to 4. G3c's bars were
-               derived at a different ladder and DO NOT transfer. They must be re-derived by the
-               same null-simulation procedure before this gate is sealed.
+  levels       are five rather than twenty-one, so the gap ladder runs 1 to 4. G3c's bars are
+               taken by reference and not refitted; PREREG-G3G.md Section 4 says why each one
+               transfers and reports a design-matched null beside them, ungraded.
+  budget       is a length budget on the INPUT, the first L characters of the review or all
+               of it, chosen per run with --truncate and recorded as its own cell. The label
+               is never truncated.
   draws        are without replacement across a whole block, so no review is scored twice and a
                calibration review can never reappear in a test block. `run_block` builds one block
                per call, so the draw state is cleared here at the start of each.

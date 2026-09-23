@@ -1,0 +1,302 @@
+{
+ "note": "PILOT ONLY, grades nothing",
+ "bars_used": {
+  "dev_max": 0.14,
+  "z_max": 4.55,
+  "threshold_factor": 1.75,
+  "rank_agreement_min": 0.86,
+  "vacuity_acc_min": 0.9,
+  "vacuity_bits_min": 1.0,
+  "source": "G3c, taken by reference and not refitted. vacuity_bits_min is set from the G3g pilot and disclosed, which is how G3c set its own (PREREG-G3C: \"set after the sizing calibrations were read\"). It is null here until the pilot fixes it."
+ },
+ "cells": {
+  "full/gemma31b__served": {
+   "judge": "gemma31b__served",
+   "max_abs_dev": 0.0307,
+   "max_z": 1.209,
+   "max_threshold_ratio": 1.071,
+   "kendall_tau": 0.752,
+   "n_readouts_at_floor": 8,
+   "n_readouts_ranked": 18,
+   "bits": {
+    "1-5": 0.992,
+    "0-9": 1.013,
+    "0-100": 1.09
+   },
+   "distinct": {
+    "1-5": 5,
+    "0-9": 10,
+    "0-100": 25
+   },
+   "vacuity_met": true,
+   "J2_effective_wins": true,
+   "unparsed": {
+    "1-5/cal": 0,
+    "1-5/test": 0,
+    "0-9/cal": 0,
+    "0-9/test": 0,
+    "0-100/cal": 0,
+    "0-100/test": 0
+   },
+   "thresholds": {
+    "1-5/argmax": [
+     1.43,
+     1.452
+    ],
+    "1-5/expected": [
+     1.0,
+     1.0
+    ],
+    "1-5/mean_8": [
+     1.314,
+     1.308
+    ],
+    "0-9/argmax": [
+     1.224,
+     1.143
+    ],
+    "0-9/expected": [
+     1.0,
+     1.0
+    ],
+    "0-9/mean_8": [
+     1.053,
+     1.0
+    ],
+    "0-100/argmax": [
+     1.0,
+     1.0
+    ],
+    "0-100/expected": [
+     1.0,
+     1.0
+    ],
+    "0-100/mean_8": [
+     1.0,
+     1.0
+    ]
+   },
+   "pairwise": {
+    "predicted_threshold": 1.0,
+    "observed_threshold": 1.0,
+    "label": "AT FLOOR"
+   }
+  },
+  "trunc100/gemma31b__served": {
+   "judge": "gemma31b__served",
+   "max_abs_dev": 0.0728,
+   "max_z": 1.995,
+   "max_threshold_ratio": 1.149,
+   "kendall_tau": 0.817,
+   "n_readouts_at_floor": 0,
+   "n_readouts_ranked": 18,
+   "bits": {
+    "1-5": 0.376,
+    "0-9": 0.399,
+    "0-100": 0.466
+   },
+   "distinct": {
+    "1-5": 5,
+    "0-9": 10,
+    "0-100": 20
+   },
+   "vacuity_met": false,
+   "J2_effective_wins": true,
+   "unparsed": {
+    "1-5/cal": 1,
+    "1-5/test": 1,
+    "0-9/cal": 0,
+    "0-9/test": 0,
+    "0-100/cal": 0,
+    "0-100/test": 0
+   },
+   "thresholds": {
+    "1-5/argmax": [
+     3.092,
+     2.731
+    ],
+    "1-5/expected": [
+     1.665,
+     1.593
+    ],
+    "1-5/mean_8": [
+     2.407,
+     2.348
+    ],
+    "0-9/argmax": [
+     3.036,
+     2.786
+    ],
+    "0-9/expected": [
+     1.813,
+     2.083
+    ],
+    "0-9/mean_8": [
+     2.356,
+     2.357
+    ],
+    "0-100/argmax": [
+     2.722,
+     2.727
+    ],
+    "0-100/expected": [
+     1.704,
+     1.952
+    ],
+    "0-100/mean_8": [
+     2.109,
+     2.346
+    ]
+   },
+   "pairwise": {
+    "predicted_threshold": 1.6653724303851742,
+    "observed_threshold": 2.230769230769231,
+    "label": "AT FLOOR"
+   }
+  },
+  "trunc200/gemma31b__served": {
+   "judge": "gemma31b__served",
+   "max_abs_dev": 0.0611,
+   "max_z": 1.85,
+   "max_threshold_ratio": 1.154,
+   "kendall_tau": 0.882,
+   "n_readouts_at_floor": 0,
+   "n_readouts_ranked": 18,
+   "bits": {
+    "1-5": 0.544,
+    "0-9": 0.576,
+    "0-100": 0.623
+   },
+   "distinct": {
+    "1-5": 5,
+    "0-9": 10,
+    "0-100": 22
+   },
+   "vacuity_met": false,
+   "J2_effective_wins": true,
+   "unparsed": {
+    "1-5/cal": 0,
+    "1-5/test": 1,
+    "0-9/cal": 0,
+    "0-9/test": 1,
+    "0-100/cal": 0,
+    "0-100/test": 1
+   },
+   "thresholds": {
+    "1-5/argmax": [
+     1.947,
+     1.767
+    ],
+    "1-5/expected": [
+     1.217,
+     1.404
+    ],
+    "1-5/mean_8": [
+     1.761,
+     1.642
+    ],
+    "0-9/argmax": [
+     1.793,
+     1.694
+    ],
+    "0-9/expected": [
+     1.2,
+     1.333
+    ],
+    "0-9/mean_8": [
+     1.508,
+     1.596
+    ],
+    "0-100/argmax": [
+     1.696,
+     1.627
+    ],
+    "0-100/expected": [
+     1.217,
+     1.366
+    ],
+    "0-100/mean_8": [
+     1.478,
+     1.442
+    ]
+   },
+   "pairwise": {
+    "predicted_threshold": 1.199849784064593,
+    "observed_threshold": 1.3714285714285712,
+    "label": "AT FLOOR"
+   }
+  },
+  "trunc400/gemma31b__served": {
+   "judge": "gemma31b__served",
+   "max_abs_dev": 0.0635,
+   "max_z": 1.906,
+   "max_threshold_ratio": 1.205,
+   "kendall_tau": 0.928,
+   "n_readouts_at_floor": 3,
+   "n_readouts_ranked": 18,
+   "bits": {
+    "1-5": 0.711,
+    "0-9": 0.74,
+    "0-100": 0.801
+   },
+   "distinct": {
+    "1-5": 5,
+    "0-9": 10,
+    "0-100": 22
+   },
+   "vacuity_met": false,
+   "J2_effective_wins": true,
+   "unparsed": {
+    "1-5/cal": 0,
+    "1-5/test": 1,
+    "0-9/cal": 0,
+    "0-9/test": 1,
+    "0-100/cal": 0,
+    "0-100/test": 1
+   },
+   "thresholds": {
+    "1-5/argmax": [
+     1.666,
+     1.657
+    ],
+    "1-5/expected": [
+     1.0,
+     1.205
+    ],
+    "1-5/mean_8": [
+     1.516,
+     1.547
+    ],
+    "0-9/argmax": [
+     1.445,
+     1.509
+    ],
+    "0-9/expected": [
+     1.0,
+     1.083
+    ],
+    "0-9/mean_8": [
+     1.234,
+     1.348
+    ],
+    "0-100/argmax": [
+     1.3,
+     1.435
+    ],
+    "0-100/expected": [
+     1.0,
+     1.086
+    ],
+    "0-100/mean_8": [
+     1.1,
+     1.231
+    ]
+   },
+   "pairwise": {
+    "predicted_threshold": 1.0,
+    "observed_threshold": 1.2820512820512822,
+    "label": "AT FLOOR"
+   }
+  }
+ }
+}
