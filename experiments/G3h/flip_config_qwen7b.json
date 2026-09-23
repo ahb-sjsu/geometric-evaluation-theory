@@ -1,6 +1,6 @@
 {
  "gate": "G3h",
- "status": "DRAFT, not sealed. G3d's design and bars unchanged; only the budget ladder differs, to locate the crossover G3d placed to a factor of two. The test seed is absent by construction.",
+ "status": "DRAFT, not sealed. G3d's design and bars unchanged; only the budget ladder differs. First drafted at 64 to 256 tokens from G3d's two nearly tied rungs; the pilot on that ladder found the reversal cell's share already at one half at 64 tokens, so the ladder is moved down to bracket the crossing, with G3d's 0 and 16 as anchors. The test seed is absent by construction.",
  "model": {
   "key": "qwen7b",
   "model_id": "Qwen/Qwen2.5-7B-Instruct",
@@ -11,17 +11,15 @@
  "gap": 3,
  "n_pairs": 80,
  "budgets": [
+  0,
+  16,
+  32,
+  48,
   64,
-  96,
-  128,
-  160,
-  192,
-  256
+  96
  ],
  "batch": {
-  "default": 32,
-  "192": 16,
-  "256": 16
+  "default": 32
  },
  "final_tokens": 8192,
  "decoration": {

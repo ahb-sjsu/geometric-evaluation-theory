@@ -4,49 +4,49 @@
   {
    "check": "additive: F1 PASS",
    "pass": true,
-   "detail": 1.338260780303955
+   "detail": 1.3382607803039583
   },
   {
    "check": "additive: F2 PASS (crossover predicted)",
    "pass": true,
    "detail": {
-    "predicted_budget": 149.9255961130788,
-    "observed_budget": 152.26396665401046,
-    "z": 0.14322123937970638
+    "predicted_budget": 40.58247747701795,
+    "observed_budget": 41.95054707763371,
+    "z": 0.35021087047344046
    }
   },
   {
    "check": "additive: F3 PASS (beats both rivals)",
    "pass": true,
    "detail": {
-    "additive": 0.04982116882223662,
-    "evidence_only": 26.95115652032557,
-    "cue_only": 23.461053946013166
+    "additive": 0.049821168822236694,
+    "evidence_only": 49.270199892039884,
+    "cue_only": 31.358799744318915
    }
   },
   {
    "check": "additive: anti-vacuity met",
    "pass": true,
    "detail": {
-    "share_smallest_budget": 0.28171875,
-    "share_largest_budget": 0.5721875,
+    "share_smallest_budget": 0.0,
+    "share_largest_budget": 0.71453125,
     "met": true
    }
   },
   {
    "check": "interaction: F1 FAIL (I0)",
    "pass": true,
-   "detail": 13.20315601477232
+   "detail": 16.178788948484936
   },
   {
    "check": "cueblind: VACUOUS",
    "pass": true,
    "detail": {
-    "share_smallest_budget": 0.94453125,
-    "share_largest_budget": 0.9853125,
+    "share_smallest_budget": 0.580625,
+    "share_largest_budget": 0.9990625,
     "met": false
    }
   }
  ],
- "seconds": 3.1
+ "seconds": 2.0
 }
