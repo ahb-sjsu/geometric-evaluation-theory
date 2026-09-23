@@ -1,0 +1,31 @@
+{
+ "drawn": 1008647962,
+ "method": "secrets.randbits(32)",
+ "one_seed_for_every_cell": true,
+ "predictions_pinned": {
+  "full/gemma31b": {
+   "blob": "acd1360fded4fc58ff42837484e0c3033e1336c8",
+   "sha256": "2c092a71043e1c5cd2e2c25cb3b1c473cbd556644c2d082139bd4279d1ce689d"
+  },
+  "full/gemma12b": {
+   "blob": "923e8db86a50b144b6f21871090c3eb9b66cdc5c",
+   "sha256": "03dc705012841adf48e79682e2359400c335456911d7e9dd31ad2ac82a977eee"
+  },
+  "trunc400/gemma31b": {
+   "blob": "6e22c7f855bedf2b96d299ad2dfc47cb65c94de3",
+   "sha256": "fa3b0b2083e597b84a102c059fd5b50c4b2376c38ca6a003a2629f17deea2875"
+  },
+  "trunc400/gemma12b": {
+   "blob": "38b9844d3cdb77fabe1c56fb9ea9aedf8dcda0ee",
+   "sha256": "1fa25758d8392c342d23f0eb63e47d79a395bb2da02f6742cb9747c2e3e7d288"
+  },
+  "trunc200/gemma31b": {
+   "blob": "cbc135a233bb64a0a8a2f885a016182d9c96e782",
+   "sha256": "8c58f795f869f42581f7d5ddb61667a4c995b0aa23c26c44e6162453a3296611"
+  },
+  "trunc200/gemma12b": {
+   "blob": "d071f8aa83a94ead1a70065d7e1eb2a65319e7a6",
+   "sha256": "c42552a310ac112a0bcf24214c14b36fa5feded3d7bfd2da8ebf0eac82f1dd61"
+  }
+ }
+}
