@@ -112,20 +112,41 @@ Those are G3d's stated limits and remain so.
 ## 6. Self-test, smoke test and pilot
 
 **Self-test.** G3d's `flip_selftest.py`, no GPU, on synthetic deliberators of known structure,
-run unchanged against each G3h config before sealing.
+run unchanged against each G3h config through `flip_selftest_g3h.py`, which swaps in the config
+and nothing else. PASS on both, 2026-09-23, and identically, since the synthetic judges depend
+on the ladder, gap and pair count and not on which weights the config names. The additive judge
+passes F1 at 1.338 against 3.341, F2 with its crossing predicted at 149.9 tokens and observed at
+152.3, a deviation of 0.14 noise units, and F3 with squared error 0.05 against 26.95 and 23.46
+for the two rivals, and it meets anti-vacuity. The interaction judge fails F1 at 13.2, which is
+the check rejecting a known defect on this ladder, and the cue-blind judge is vacuous, which is
+the check refusing a judge the cue cannot move. Records in `selftest_qwen7b/` and
+`selftest_qwen14b/`.
 
-**Smoke test.** Four pairs at budgets 0 and 256 on `qwen7b`, to confirm the harness executes on
-this hardware with this ladder's top budget. Record: `[pending]`.
+What the self-test adds beyond G3d's own is one fact about the design: a crossing near 150
+tokens, where G3d placed the real judge's, is resolved by these rungs to a tenth of a noise unit.
+The ladder can do the job it was built for.
+
+**Smoke test.** Four pairs at budgets 0 and 256 on `qwen7b`, run 2026-09-23 on the second GPU
+before this file was written, to confirm the harness executes on this hardware with this ladder's
+top budget. It does. At budget 0 the calibration cells gave evidence $+3.105$ and cue $+7.135$
+in 8.8 seconds; at 256 they gave $-0.355$ and $+0.463$ in 89.9 seconds for eight prompts, about
+11 seconds each. That is G3d's shape: with no reasoning the cue dominates, and at 256 tokens both
+terms sit near zero, which is the indifference regime the ladder is built to resolve. Four pairs
+say nothing about where the crossing is and are not used for that. The record is
+`/home/claude/g3h_smoke/calibration/`, grading nothing.
 
 **Pilot.** Both blocks on each judge at the pilot seeds, to measure noise and cost. It may change
 the number of pairs and nothing else, exactly as G3d's registration allows.
 
 ## 7. Compute, and whose
 
-The authors' workstation, one 32 GB GPU, the second one being in use. G3d measured about 19
-seconds per prompt at 1024 tokens on this card; the top of this ladder is 256, so the run is
-cheaper per prompt by roughly the ratio of budgets. Threads pinned and niced, as G3d ran, to
-stay inside the workstation's thermal envelope.
+The authors' workstation, one 32 GB GPU, the second one being in use. The smoke test measured
+about 11 seconds per prompt at 256 tokens on this card, against G3d's 19 at 1024, so the cost is
+not proportional to the budget: there is a fixed prefill cost, and the lower rungs will not be
+much cheaper than the top one. A block is two cells of 80 pairs in both orders at six budgets,
+1,920 prompts, and a judge runs two blocks, so the worst case is about twelve hours per judge and
+the likely case somewhat under that. Two judges run one after another on the one free GPU.
+Threads pinned and niced, as G3d ran, to stay inside the workstation's thermal envelope.
 
 ## 8. Sealing procedure
 
