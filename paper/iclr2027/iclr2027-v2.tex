@@ -196,7 +196,7 @@ A judge that cannot order worksheets twelve errors apart with accuracy 0.9 on so
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.79\columnwidth]{figures/v2_prediction.pdf}
+\includegraphics[width=0.75\columnwidth]{figures/v2_prediction.pdf}
 \caption{Left, the 7B judge on the 0 to 100 scale. Lines are what the calibration block predicts, bands two standard deviations of its bootstrap, points the sealed test block on worksheets the judge had not seen. The dotted line is the 0.75 level that defines the threshold. Right, every read-out of every graded judge, 54 points, predicted threshold against observed. Points on the diagonal were predicted before the test seed existed. The crosses are the rival that reads the scale at face value, and it predicts a finer threshold than the judge has, by up to a factor of five.}
 \label{fig:prediction}
 \end{figure}
@@ -279,14 +279,14 @@ That is an association over six judges and not a demonstration. What would settl
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.79\columnwidth]{figures/v2_regimes.pdf}
+\includegraphics[width=0.75\columnwidth]{figures/v2_regimes.pdf}
 \caption{The sealed test block of the second gate, the cell where the worse worksheet carries the decoration. Each panel is the distribution over pairs of the judge's log-odds for the better worksheet at one reasoning budget, with the calibration's prediction and the observed mean. With no reasoning the judge prefers the decorated worse sheet. With reasoning it cannot finish, it is near indifferent. With reasoning it can finish, it prefers the better sheet. The prediction at each budget comes from blocks in which the decoration never sat on the worse sheet.}
 \label{fig:regimes}
 \end{figure}
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.44\columnwidth]{figures/v2_crossover.pdf}
+\includegraphics[width=0.50\columnwidth]{figures/v2_crossover.pdf}
 \caption{Where the preference turns over. The share of test pairs on which the judge prefers the better worksheet, against the reasoning budget it was allowed. The line is predicted from the calibration blocks, the points are the sealed test block. The crossing was predicted at 174 tokens and observed at 128, a deviation of 0.37 in noise units against a registered bar of 2.576.}
 \label{fig:crossover}
 \end{figure}
