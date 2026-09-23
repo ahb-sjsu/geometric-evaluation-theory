@@ -63,10 +63,10 @@ An external reader's notes were triaged against the sealed code and the Lean fil
 These are form fields, not PDF content: the ICLR style file has no `\keywords` and ICLR does not
 put a TL;DR in the paper, so changing them needs no rebuild.
 
-**TL;DR** (249 characters, under the 250 limit)
+**TL;DR** (242 characters, under the 250 limit)
 
 > How finely a language-model judge can tell answers apart is predicted, and committed, before the
-> test data exists, from the channel it writes rather than the scale it is offered, on two stimulus families, and a second
+> test data exists, from the channel it writes rather than the scale it is offered, on three families, and a second
 > budget reverses its preference.
 
 **Keywords**

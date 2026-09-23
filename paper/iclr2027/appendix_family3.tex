@@ -1,7 +1,3 @@
-% DRAFT, NOT INPUT BY THE PAPER. The design half of the third-family appendix, written from the
-% sealed registration (experiments/G3g/PREREG-G3G.md, blob 3f90e501) before any test block was
-% run. Every XX is a number that exists only in run_record/verdicts.json after grading, and no XX
-% may be filled from a pilot. If the gate is not graded before the deadline this file is not used.
 
 \section{A third family, where the label is a human judgement, at three input budgets}
 \label{app:reviews}
@@ -27,29 +23,30 @@ The registration was sealed and published with its hash while no test seed exist
 
 \begin{table}[h]
 \centering
-\small
-\caption{The third family, sealed. Each cell is graded on its own against the worksheet bars. The rank column is reported and not graded, for the reason given above. XX}
+\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\caption{The third family, sealed, test seed 2660660289 for every cell. Each cell is graded on its own against the worksheet bars, 0.14 and 4.55, and holds on every graded cell. The rank column is reported and not graded, for the reason given in the text. The last column is the greedy threshold in levels of the five-level scale, predicted from that cell's calibration block and observed on its test block, on the three rating scales. $\dagger$ marks the one cell declared vacuous from its calibration block by the registered rule, reported and not graded.}
 \label{tab:reviews}
-\begin{tabular}{llrrrrr}
+\begin{tabular}{llrrrrrrr}
 \toprule
-judge & budget & deviation & noise units & at the floor & Kendall's $\tau$ & greedy threshold, pred.\ / obs. \\
- & (characters) & (bar 0.14) & (bar 4.55) & & (reported) & 1 to 5, 0 to 9, 0 to 100 \\
+judge & chars & deviation & noise & at the & $\tau$ & \multicolumn{3}{c}{greedy threshold, predicted / observed} \\
+ & read & (bar 0.14) & (bar 4.55) & floor & (reported) & 1 to 5 & 0 to 9 & 0 to 100 \\
 \midrule
-Gemma 4 31B & 200  & XX & XX & XX of 18 & XX & XX \\
-            & 400  & XX & XX & XX of 18 & XX & XX \\
-            & full & XX & XX & XX of 18 & XX & XX \\
-Gemma 4 12B & 200  & XX & XX & XX of 18 & XX & XX \\
-            & 400  & XX & XX & XX of 18 & XX & XX \\
-            & full & XX & XX & XX of 18 & XX & XX \\
+Gemma 4 31B & 200 & 0.083 & 2.81 & 0 of 18 & 0.752 & 1.84 / 1.82 & 1.68 / 1.82 & 1.60 / 1.65 \\
+ & 400 & 0.059 & 2.72 & 4 of 18 & 0.895 & 1.58 / 1.60 & 1.36 / 1.48 & 1.21 / 1.25 \\
+ & all & 0.036 & 2.45 & 10 of 18 & 0.641 & 1.35 / 1.43 & 1.13 / 1.27 & 1.00 / 1.00 \\
+Gemma 4 12B & 200$^{\dagger}$ & 0.084 & 2.78 & 0 of 14 & 0.791 & 2.92 / 3.71 & -- & -- \\
+ & 400 & 0.079 & 2.83 & 1 of 18 & 0.758 & 1.94 / 2.22 & 1.94 / 2.35 & 1.59 / 2.09 \\
+ & all & 0.035 & 3.08 & 8 of 18 & 0.706 & 1.48 / 1.55 & 1.25 / 1.22 & 1.00 / 1.00 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\paragraph{The prediction held in XX of six cells.}
-XX
+\paragraph{The prediction held in every graded cell.}
+Five cells were graded and the calibration block predicted the test block in each, with deviations from 0.035 to 0.084 against the bar of 0.14 and noise units from 2.45 to 3.08 against 4.55. The design-matched null had put the transferred noise-unit bar at a false-alarm rate of 3.8 to 5.8 percent per cell, so the margins here are real and not the null's. The measured channel beat the nominal scale in every cell, squared errors of 0.0006 to 0.0092 against 0.05 to 0.33, and the pairwise elicitation read at the floor of the pointwise read-outs in every cell. The read-out ordering statistic is reported and was not graded, as the registration decided from the null before sealing, and its values show why. Kendall's $\tau$ runs from 0.64 to 0.90 with up to ten of eighteen read-outs at the floor of a four-step ladder, which cannot rank them. Gemma 4 12B at 200 characters is the one vacuous cell. Its greedy read-out orders reviews four levels apart 0.76 to 0.80 of the time against the a priori 0.9, decided from its calibration block before the seed was drawn, and its curves are reported rather than graded, so the budget claim below rests on one judge.
 
 \paragraph{Resolution is ordered by the input budget.}
-XX
+On Gemma 4 31B, the one judge graded at all three budgets, the greedy threshold observed at 200 characters exceeds the one at full length on every scale, 1.82 against 1.43 on the 1 to 5 scale, 1.82 against 1.27 on 0 to 9, and 1.65 against 1.00 on 0 to 100, and the thresholds predicted from each budget's own calibration fall along the whole ladder on every scale, 1.84, 1.58, 1.35 and 1.68, 1.36, 1.13 and 1.60, 1.21, 1.00 at 200, 400 and all characters. Both halves are the registered claim and both held. The same shape appears on Gemma 4 12B on the two cells where it is graded, 2.22, 2.35 and 2.09 at 400 characters against 1.55, 1.22 and 1.00 at full length, and is not graded because the 200-character cell is vacuous. The theory's length budget, applied to prose that a person wrote, coarsens the judge's resolution in the order it predicts, and the amount by which it coarsens was predicted from the calibration block at each budget before the test pairs existed. The expected-score read-out sits at the ladder floor at every budget on the 31B judge except 200 characters, where it predicts 1.15 and observes 1.00, so the budget's effect is visible on the greedy read-out and censored on the finer ones, which is the same instrument limit met on worksheets from the other side.
 
 \paragraph{What this does not establish.}
-Two judges, one vendor, and one register of English prose about books. The label is one reader's rating, which is exact and idiosyncratic, and nothing here says a panel would agree with it. A judge that recognises a famous book could recall its reception rather than read the review, which cannot supply this reader's rating but could pull a judge toward the crowd. Three rungs can show that resolution is ordered by the input budget and cannot show the shape of the dependence. XX
+Two judges, one vendor, and one register of English prose about books. The label is one reader's rating, which is exact and idiosyncratic, and nothing here says a panel would agree with it. A judge that recognises a famous book could recall its reception rather than read the review, which cannot supply this reader's rating but could pull a judge toward the crowd. Three rungs can show that resolution is ordered by the input budget and cannot show the shape of the dependence. The budget claim is graded on one judge, since the other is vacuous at the shortest budget. The read-out ordering claim was not gradable on this family, and a family with more levels would be needed to grade it.
