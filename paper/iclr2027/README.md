@@ -63,16 +63,16 @@ An external reader's notes were triaged against the sealed code and the Lean fil
 These are form fields, not PDF content: the ICLR style file has no `\keywords` and ICLR does not
 put a TL;DR in the paper, so changing them needs no rebuild.
 
-**TL;DR** (233 characters, under the 250 limit)
+**TL;DR** (249 characters, under the 250 limit)
 
 > How finely a language-model judge can tell answers apart is predicted, and committed, before the
-> test data exists, from the codebook it writes rather than the scale it is offered, and a second
-> budget reverses its preference outright.
+> test data exists, from the channel it writes rather than the scale it is offered, on two stimulus families, and a second
+> budget reverses its preference.
 
 **Keywords**
 
 > LLM-as-a-judge, evaluation methodology, preregistration, discrimination threshold, semiorder,
-> effective codebook, reasoning budget, held-out prediction
+> calibrated channel, stimulus family, reasoning budget, held-out prediction
 
 Chosen for reviewer matching: the first four pull evaluation and benchmarking reviewers,
 `semiorder` pulls someone who will check the theory, `reasoning budget` covers the second gate.
@@ -94,7 +94,7 @@ protocol rather than a model. The second is the better match on contribution.
 - [x] AI use statement, ethics statement, reproducibility statement present
 - [x] Anonymous: no author name, no repository name, own work cited in third person
 - [ ] Read-aloud pass for articles and grammar
-- [ ] Supplementary zip: the four registrations with hashes, configs, seeds, logs, graded records, grading scripts, with repository and author names removed
+- [x] Supplementary zip: `python build/make_supplementary.py`; every gate the paper reports with its sealed registration and hashes, configs, seeds, graded records including the score files, the Lean development, and `reproduce.ipynb`; names and paths redacted, `leaks after redaction: 0`
 - [ ] Owner registers the abstract on OpenReview by the 18th and uploads the PDF and supplement by the 25th
 
 ## What the paper does not claim
