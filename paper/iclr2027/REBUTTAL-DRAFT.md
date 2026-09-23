@@ -32,17 +32,24 @@ contested quality of an essay. The second family, summaries checked against a pa
 the judge does not do the task exactly, and the prediction held there inside bars set on
 worksheets.
 
-`[G3g]` A third family answers the half this leaves open. Reviews written by real readers, where
-the label is the star rating that reader gave. It is a human judgement, in the writer's own
-prose, and it is still exactly known, because it is what the person did and not an estimate of
-anything. The calibration predicted the test block on `[n]` judges inside G3c's bars, transferred
-unchanged: deviation `[dev]` against 0.14, `[z]` against 4.55.
+**G3g, graded 2026-09-23, in the submission as Appendix G and Table 7.** A third family answers
+the half this leaves open. Reviews written by real readers, where the label is the star rating
+that reader gave. It is a human judgement, in the writer's own prose, and it is still exactly
+known, because it is what the person did and not an estimate of anything. The calibration
+predicted the test block in all five graded cells inside G3c's bars, transferred unchanged:
+deviations 0.035 to 0.084 against 0.14, noise units 2.45 to 3.08 against 4.55. The channel beat
+the nominal scale in every cell.
 
-`[G3g]` And the family is where the theory's central claim is tested on human text for the first
-time: a length budget on the input. Reading the first 100 characters of a review instead of all
-of it raised every threshold off the ladder floor, greedy `[3.09 / 3.04 / 2.72]` against
-`[1.43 / 1.22 / 1.00]`, and the calibration at each budget predicted the test block at that
-budget. `[table across 100, 200, 400, full]`.
+And the family is where the theory's central claim is tested on human text for the first time: a
+length budget on the input. The same reviews read to 200 characters, to 400, and whole. On
+Gemma 4 31B the observed greedy threshold at 200 characters is 1.82, 1.82, 1.65 levels on the
+three scales against 1.43, 1.27, 1.00 at full length, and the thresholds predicted from each
+budget's own calibration fall along the ladder on every scale (1.84, 1.58, 1.35 on 1 to 5). The
+claim was registered with both halves and both held. Concede in the same breath: it rests on
+one judge, since Gemma 4 12B is vacuous at 200 characters by the registered rule (it orders
+reviews four levels apart 0.76 to 0.80 of the time against 0.9), and the read-out ordering
+statistic could not be graded on a five-level scale (the design-matched null fails a faithful
+judge 31 to 96 percent of the time), so it is reported, at tau 0.64 to 0.90.
 
 ## 3. "The margins are thin"
 
@@ -51,7 +58,12 @@ budget. `[table across 100, 200, 400, full]`.
 harder family held less comfortably; that is what one should expect and it is reported rather
 than smoothed.
 
-`[G3g]` `[G3h]` Margins on the new gates, stated the same way whatever they are.
+**G3g.** Largest deviation 0.084 against 0.14 and largest 3.08 noise units against 4.55, on a
+design where the transferred noise-unit bar is stricter than in the gate that set it (false
+alarm 3.8 to 5.8 percent per cell against 1.4), so these margins are not the null's. One cell of
+six is vacuous, and the paper says so.
+
+`[G3h]` Margins on the reversal gate, stated the same way whatever they are.
 
 ## 4. "One vendor on the new family"
 
@@ -61,7 +73,8 @@ gateway's latency for the third judge collapsed by two orders of magnitude betwe
 block, with zero errors, and the run was withdrawn after sealing rather than left to consume a
 shared service for four days.
 
-`[G3g]` Same two judges, same concession, same reason.
+**G3g.** Same two judges, same concession. Gemma 4 12B is graded at two of three input lengths
+and vacuous at the third, so the budget claim rests on Gemma 4 31B alone.
 
 ## 5. "A registered claim failed"
 
@@ -71,11 +84,15 @@ ranked. The mechanism was diagnosed from calibration blocks and recorded before 
 drawn, and the predicted repair held on the sealed summaries block: two at the floor, tau 0.869.
 That is what preregistration is for.
 
-`[G3g]` The same mechanism, from the other side. On five-level reviews at full length the
-design-matched null shows a faithful judge fails the transferred tau bar 96.2 percent of the
-time, so the read-out ordering claim was declared untestable there before sealing, and tested
-only at truncated budgets where thresholds sit above the floor. The instrument's limit is stated
-as a limit, not discovered as a failure.
+**G3g.** The same mechanism, from the other side. On five-level reviews the design-matched null
+shows a faithful judge fails the transferred tau bar 96 percent of the time at full length and
+31 to 56 percent at the shorter budgets, so the read-out ordering claim was declared not gradable
+on this family before sealing, and is reported in every cell (tau 0.64 to 0.90, up to ten of
+eighteen read-outs at the floor). The instrument's limit is stated as a limit, not discovered as
+a failure. One correction is recorded in the registration after grading: the orchestrator first
+walked the budget ladder in the reverse of the registered direction and reported the budget
+claim as failed; the claim as written held on every scale, and the per-cell grader was never
+touched. Say it before a reviewer finds it.
 
 ## 6. "The practitioner rules are not surprising"
 

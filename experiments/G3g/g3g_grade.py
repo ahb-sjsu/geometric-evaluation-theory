@@ -56,11 +56,20 @@ def main() -> int:
                 print(cell, key, "no test block yet, skipped")
                 continue
             pred_path = cal / "predictions.json"
-            sha = hashlib.sha256(pred_path.read_bytes()).hexdigest()
+            raw = pred_path.read_bytes()
+            # The seed pinned the sha256 of the working copy's bytes, which on the machine that
+            # drew it carried CRLF line endings; git stores the canonical LF form and the
+            # supplementary package ships it. The same content is accepted under either
+            # convention, and nothing else is. Recorded in PREREG-G3G.md Section 9.
+            variants = {hashlib.sha256(b).hexdigest() for b in
+                        (raw, raw.replace(b"\r\n", b"\n"), raw.replace(b"\r\n", b"\n").replace(b"\n", b"\r\n"))}
+            sha = hashlib.sha256(raw).hexdigest()
             pin = pinned.get(f"{cell}/{key}")
-            if pin is not None and sha != pin:
+            if pin is not None and pin not in variants:
                 raise SystemExit("%s/%s: predictions.json is %s, the test seed was drawn against %s"
                                  % (cell, key, sha[:16], pin[:16]))
+            if pin is not None:
+                sha = pin
             pred = json.loads(pred_path.read_text(encoding="utf-8"))
             obs = G.observed(str(test), cfg)
             v = G.grade(pred, obs, cfg["bars"])

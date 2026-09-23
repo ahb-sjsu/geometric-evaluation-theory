@@ -28,6 +28,7 @@ RECORDED_BLOBS: tuple = (
     "3f90e5010498416c081237fc33f368ca5610c7b0",   # at seal, 2026-09-23
     "2d357597fbfb76ff9d9041cac699da1604db4e70",   # + status line and the discarded-seed deviation, Section 9
     "6f85bf29902a242cede58086afe32db4d0936e86",   # + graded, and the C5g ladder-direction defect, Section 9
+    "a6229c7b173c195471e6b889a85f059e44fb24c7",   # + the line-ending record note, Section 9
 )
 
 REUSED = ("scales", "n_samples", "temperature", "dither_ladder", "n_pairs_per_gap")

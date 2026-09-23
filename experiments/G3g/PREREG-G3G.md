@@ -338,3 +338,11 @@ ladder as Section 1 states it; G3c's grader, which computes every per-cell numbe
 touched; and the regrade returns C5g PASS. The first verdict file is superseded and the defect
 is stated here so that the verdict cannot be read as a script that was fixed until it passed:
 what was fixed is the direction of a comparison that the registration fixes in words.
+
+**Record note, 2026-09-23.** The sha256 values pinned in `run_record/test_seed.json` and quoted in
+`verdicts.json` are of the `predictions.json` files as they stood on the machine that drew the
+seed, where they carried CRLF line endings. Git stores the canonical LF form, whose blob hash is
+also pinned, and the supplementary package ships that form, whose sha256 differs. The grader and
+the reproduction notebook accept the same content under either line-ending convention and
+nothing else, and the notebook checks the pinned blob hash as well, which is independent of line
+endings. The content pinned, committed, packaged and graded is one content.
