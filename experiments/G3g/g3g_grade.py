@@ -114,11 +114,15 @@ def main() -> int:
         # C5g: on every scale of every graded judge, the observed greedy threshold at the shortest
         # budget exceeds the one at full length, and the predicted greedy thresholds are
         # non-increasing along the whole ladder. Both ends must be graded for the judge.
-        short, long_ = ladder[-1], ladder[0]
+        # The registration states C5g along the ladder 200, 400, full: shortest budget first.
+        # The config lists cells longest first, and the first grading run walked that order and
+        # tested the reverse direction (recorded in PREREG-G3G.md Section 9). Walk it as stated.
+        rungs = list(reversed(ladder))
+        short, long_ = rungs[0], rungs[-1]
         c5 = {}
         for m in cfg["models"]:
             key = m["key"]
-            cells_ok = all(key in summary["cells"].get(c, {}) and summary["cells"][c][key]["anti_vacuity_met"] for c in ladder)
+            cells_ok = all(key in summary["cells"].get(c, {}) and summary["cells"][c][key]["anti_vacuity_met"] for c in rungs)
             if not cells_ok:
                 c5[key] = "NOT GRADED"
                 continue
@@ -126,12 +130,12 @@ def main() -> int:
             detail = {}
             for sc in [f"{x['lo']}-{x['hi']}" for x in cfg["scales"]]:
                 rd = f"{sc}/argmax"
-                obs_chain = [summary["cells"][c][key]["thresholds"][rd]["observed"] for c in ladder]
-                pred_chain = [summary["cells"][c][key]["thresholds"][rd]["predicted"] for c in ladder]
-                ends = obs_chain[-1] > obs_chain[0]
+                obs_chain = [summary["cells"][c][key]["thresholds"][rd]["observed"] for c in rungs]
+                pred_chain = [summary["cells"][c][key]["thresholds"][rd]["predicted"] for c in rungs]
+                ends = obs_chain[0] > obs_chain[-1]
                 mono = all(pred_chain[i] >= pred_chain[i + 1] - 1e-9 for i in range(len(pred_chain) - 1))
-                detail[sc] = {"observed_by_cell": dict(zip(ladder, obs_chain)),
-                              "predicted_by_cell": dict(zip(ladder, pred_chain)),
+                detail[sc] = {"observed_by_cell": dict(zip(rungs, obs_chain)),
+                              "predicted_by_cell": dict(zip(rungs, pred_chain)),
                               "observed_%s_exceeds_%s" % (short, long_): ends,
                               "predicted_non_increasing": mono}
                 ok &= ends and mono

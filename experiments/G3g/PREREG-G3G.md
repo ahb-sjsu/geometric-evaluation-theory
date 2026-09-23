@@ -1,7 +1,7 @@
 # PREREG G3g: the same resolution law where the label is a human judgement, at three input budgets
 
-Status: SEALED 2026-09-23 at blob 3f90e5010498416c081237fc33f368ca5610c7b0 (commit a2c33b2). One
-correction after the seal, recorded at the end of Section 9. The calibration seed is in the
+Status: SEALED 2026-09-23 at blob 3f90e5010498416c081237fc33f368ca5610c7b0 (commit a2c33b2). GRADED
+2026-09-23, PASS. Two corrections after the seal, recorded at the end of Section 9. The calibration seed is in the
 config, the test seed is drawn once, for every cell at once, only after every cell's
 `predictions.json` is in a pushed commit with its hash.
 
@@ -325,3 +325,16 @@ HEAD, so a seed cannot be drawn against a prediction that is not in a commit, an
 by this gate is the one drawn after the predictions commit was pushed. The order the gate claims,
 prediction then seed, held in time on both draws; what failed was the public record between them,
 and it is repaired by discarding the draw that lacked it.
+
+**Second deviation recorded 2026-09-23, after grading.** The first run of `g3g_grade.py` over the
+sealed test blocks returned C5g FAIL, and the record shows why: the script walked the ladder in
+the config's order, full length first, and so tested the predicted greedy thresholds for
+non-increase from full to 200 characters, the reverse of the claim as written in Section 1
+("non-increasing along the ladder 200, 400, full"). The data satisfy the claim as written on
+every scale of the graded judge, predicted 1.84, 1.58, 1.35 on the 1 to 5 scale, 1.68, 1.36,
+1.13 on 0 to 9, and 1.60, 1.21, 1.00 on 0 to 100 along 200, 400, full, and the observed ends
+1.82 against 1.43, 1.82 against 1.27, and 1.65 against 1.00. The orchestrator now walks the
+ladder as Section 1 states it; G3c's grader, which computes every per-cell number, was not
+touched; and the regrade returns C5g PASS. The first verdict file is superseded and the defect
+is stated here so that the verdict cannot be read as a script that was fixed until it passed:
+what was fixed is the direction of a comparison that the registration fixes in words.
