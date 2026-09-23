@@ -1,0 +1,14 @@
+{
+ "drawn": 1586780589,
+ "method": "secrets.randbits(32)",
+ "predictions_pinned": {
+  "gemma31b": {
+   "blob": "ce7af660d3ecccbd0e44505f673f4d91bf4df750",
+   "sha256": "7c3f071dc800853d477abd499087c14159508c2559f7103769b439b103aff1aa"
+  },
+  "gemma12b": {
+   "blob": "b4c58360036446b36d8bbe048696002b37ce14fd",
+   "sha256": "9095bee2923c635443a36a63f08912df4c038d0007aec77d02d2724f23dca8ff"
+  }
+ }
+}

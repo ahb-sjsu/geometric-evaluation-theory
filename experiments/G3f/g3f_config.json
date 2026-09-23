@@ -78,7 +78,8 @@
   "probe": 20260922,
   "pilot_calibration": 20260923,
   "pilot_test": 20260924,
-  "calibration": 20260925
+  "calibration": 20260925,
+  "test": 1586780589
  },
  "bars": {
   "dev_max": 0.14,
