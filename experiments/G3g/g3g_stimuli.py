@@ -41,6 +41,26 @@ MAX_CHARS = 3000     # short enough to keep the prompt affordable
 
 _POOL: dict = {}
 
+# A length budget on the input, the theory's own construct applied to real prose. None means
+# the judge reads the whole review; an integer L means it reads the first L characters, cut
+# at the last whitespace before L so no word is split. The LABEL is never truncated: the
+# reviewer's rating is what it is however much of their argument the judge is allowed to see.
+# The prediction under test is that resolution coarsens as L shrinks, in a predicted order.
+TRUNCATE = None
+
+
+def set_truncate(chars) -> None:
+    global TRUNCATE
+    TRUNCATE = None if chars in (None, 0, 'full', 'none') else int(chars)
+
+
+def truncate(text: str) -> str:
+    if TRUNCATE is None or len(text) <= TRUNCATE:
+        return text
+    cut = text[:TRUNCATE]
+    sp = cut.rfind(' ')
+    return (cut[:sp] if sp > TRUNCATE // 2 else cut).rstrip()
+
 
 POOL_STATS: dict = {}
 
@@ -126,7 +146,7 @@ def make_review(rng: np.random.Generator, n_items: int, e: int) -> dict:
         i = int(rng.integers(len(avail)))
         if i not in used:
             used.add(i)
-            return {"e": int(e), "text": avail[i]}
+            return {"e": int(e), "text": truncate(avail[i])}
     raise RuntimeError("level %d could not find an unused review in block %s" % (e, _BLOCK))
 
 

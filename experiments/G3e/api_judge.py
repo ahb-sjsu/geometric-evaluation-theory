@@ -306,7 +306,20 @@ class APIJudge:
                 rec["tree_unseen_bound"] = round(float(t["tree_unseen_bound"]), 8)
                 source = "api_digit_tree"
             if p.sum() <= 0:
-                raise RuntimeError("no codebook token among the visible tokens")
+                # The judge did not answer with a digit at all: none of the visible tokens is a
+                # codebook symbol. G3c's local judge records this as an unparsable report, argmax
+                # NaN, and the paper's accuracy counts it against the judge. This client used to
+                # raise instead, which killed a whole block on one such response. It is a
+                # measurement, not a fault, and it is recorded as one. Samples are NaN of the
+                # registered length so the sample matrix downstream stays rectangular.
+                rec["argmax"] = float("nan")
+                rec["p"] = [float("nan")] * (hi - lo + 1)
+                rec["mass_on_codebook"] = 0.0
+                rec["unparsed"] = "no codebook token among the visible tokens"
+                if n_samples > 0:
+                    rec["samples"] = [float("nan")] * n_samples
+                    rec["samples_source"] = source
+                return rec
             p = p / p.sum()
             rec["p"] = [round(float(x), 6) for x in p]
             if n_samples > 0:

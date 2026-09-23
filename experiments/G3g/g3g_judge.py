@@ -95,9 +95,15 @@ def main(argv=None) -> int:
     ap.add_argument("--precision", default="served")
     ap.add_argument("--out", default="run_record")
     ap.add_argument("--role", default="run", choices=["run", "pilot"])
+    ap.add_argument("--truncate", default="full",
+                    help="length budget on the review in characters, or full")
     a = ap.parse_args(argv)
     cfg = json.load(open(a.config, encoding="utf-8"))
     cfg["_role"] = a.role
+    S.set_truncate(a.truncate)
+    # One record tree per budget cell, so cells never overwrite each other and the seed
+    # gives the SAME reviews at every budget, truncated differently.
+    a.out = str(Path(a.out) / ("full" if S.TRUNCATE is None else "trunc%d" % S.TRUNCATE))
     r = J.run_block(cfg, a.block, a.model, a.precision, a.out,
                     judge_factory=A.factory(a.out, a.block))
     print(json.dumps({"served": r["loaded_revision"], "files": r["files"]}))
