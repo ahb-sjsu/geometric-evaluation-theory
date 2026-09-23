@@ -1,0 +1,14 @@
+probe block: 150 reviews, 30 at each of 5 levels
+
+gemma31b   1-5    scores_used=5   acc_at_gap_4=0.998 bits=0.776 unparsed=0
+                  mean greedy score by level e=0..4: 4.87 4.30 3.53 2.10 1.43
+gemma31b   0-9    scores_used=10  acc_at_gap_4=0.998 bits=0.859 unparsed=0
+                  mean greedy score by level e=0..4: 8.73 7.80 6.40 2.87 1.17
+gemma31b   0-100  scores_used=17  acc_at_gap_4=0.999 bits=0.816 unparsed=0
+                  mean greedy score by level e=0..4: 94.83 83.27 65.10 30.67 12.50
+gemma12b   1-5    scores_used=5   acc_at_gap_4=0.999 bits=0.852 unparsed=0
+                  mean greedy score by level e=0..4: 4.90 4.33 3.63 2.07 1.40
+gemma12b   0-9    scores_used=10  acc_at_gap_4=0.970 bits=0.825 unparsed=0
+                  mean greedy score by level e=0..4: 8.43 7.50 5.67 2.80 1.33
+gemma12b   0-100  scores_used=20  acc_at_gap_4=1.000 bits=0.911 unparsed=0
+                  mean greedy score by level e=0..4: 94.33 84.77 66.33 33.17 15.83
