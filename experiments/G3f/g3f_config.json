@@ -27,14 +27,6 @@
    "precisions": [
     "served"
    ]
-  },
-  {
-   "key": "qwen3_flash",
-   "model_id": "api:qwen3",
-   "served_as": "Qwen/Qwen3.8-Flash-Next-FP8",
-   "precisions": [
-    "served"
-   ]
   }
  ],
  "n_items": 20,

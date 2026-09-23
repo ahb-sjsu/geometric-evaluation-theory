@@ -30,6 +30,7 @@ RECORDED_BLOBS = (
     "dd5dc2268cfb759404f0cb940107895b48968e1c",   # at seal
     "85c626cd7b06e40a4442e43af2ece129528ec11f",   # + stimulus defect, 23:02Z
     "0a89b1638c25edb32a7da7c2af32e4766ce5dc6e",   # + config defect, 23:15Z
+    "f92610225a704af34e5afa4d21cc63d0b988b1de",   # + qwen3_flash withdrawn, 00:50Z
 )
 
 # Reused from G3c unchanged. `prompts` is deliberately absent: see the module docstring.

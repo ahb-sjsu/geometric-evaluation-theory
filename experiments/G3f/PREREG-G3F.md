@@ -76,13 +76,12 @@ service reports serving. The harness refuses the block if the served string does
 |---|---|---|---|
 | `gemma31b` | `gemma` | `google/gemma-4-31B-it-qat-w4a16-ct` | yes |
 | `gemma12b` | `gemma4-12b` | `google/gemma-4-12B-it-qat-w4a16-ct` | yes |
-| `qwen3_flash` | `qwen3` | `Qwen/Qwen3.8-Flash-Next-FP8` | no |
 
 Three aliases on this gateway resolve to the same 12B weights, so the alias is not the identity
 and `served_as` is what is registered. The aliases also changed between G3e and this gate while
 the weights behind them did not, which is the same lesson from the other side.
 
-`qwen3_flash` is a third judge and not a third vendor. It shares a vendor with `qwen3_27b` and
+`qwen3_flash` was registered as a third judge and is withdrawn after sealing, for the reason in Section 6c. This gate therefore grades two judges, both of them G3e's, and it has one vendor. It makes no claim of judge breadth. That claim rests on G3c and G3e, which between them graded two vendors across three model generations. What this gate varies is the stimulus family, and with both judges carried over from G3e it varies only that. It shares a vendor with `qwen3_27b` and
 differs in weights, architecture and serving precision. It was added because a fourth readable
 judge was available, and the gate says what it is rather than counting it as breadth it does not
 buy. Its presence changes nothing else: it runs the same blocks, prompts, read-outs and bars, and
@@ -297,6 +296,37 @@ constant out of this file by name, refuses a block whose config disagrees, refus
 while no test seed exists, and refuses any block whose registration blob is not the sealed one or
 a correction recorded here. One check is inverted from G3e's: this gate's prompts MUST differ from
 G3c's, since changing the stimulus family is the whole point, while everything else must not.
+
+## 6c. A judge withdrawn AFTER sealing, on measured service latency
+
+`qwen3_flash` is named in this registration and is not graded. This is a deviation from the sealed
+registration and not a pre-seal decision, so it is recorded separately from Section 6b rather than
+alongside it.
+
+Its calibration block was started and abandoned. The gateway's latency for that model regressed by
+roughly two orders of magnitude between its probe and its block, on a service we do not own and
+did not change:
+
+| when | measured |
+|---|---|
+| probe, 22:5x | about 10 requests per second, 0.111 s per stimulus on the 1 to 5 scale |
+| block, 00:45 | 0.167 requests per second measured over 90 s; 0.20 requests per second over a fresh 24-request sample at the registered concurrency, median latency 42.95 s, **zero errors** |
+
+Zero errors matters: no request failed and nothing was retried, so this is the service answering
+slowly and not the client misbehaving. At that rate the 1 to 5 scale took 73 minutes for 840
+requests, and the 0 to 100 scale would need about 67,700 requests, of the order of 112 hours for
+the calibration block alone, against a deadline about 71 hours away. The run was stopped rather
+than left to consume a shared research service for four days to no end. Its partial record, 914
+cached requests and the completed 1 to 5 scale, is kept so the latency claim can be checked.
+
+What this costs and what it does not. It is not an exclusion on results: no test block for this
+judge exists, no seed had been drawn, and nothing about its accuracy on this family is known. It
+does cost the gate its only non-Gemma judge, so G3f has one vendor and claims no breadth.
+
+The design that remains is narrower and, on one axis, cleaner. Both surviving judges are G3e's,
+graded there on worksheets with this protocol and these bars. G3f runs the same two judges, the
+same blocks, the same read-outs, the same estimator and the same bars, and changes the stimulus
+family. A third judge new to the campaign would have varied two things at once.
 
 ## 7. Compute, and whose
 
