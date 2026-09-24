@@ -38,7 +38,8 @@
  "seeds": {
   "calibration": 20261002,
   "pilot_calibration": 61,
-  "pilot_test": 62
+  "pilot_test": 62,
+  "test": 3030338074
  },
  "bars": {
   "z_max": 3.341,

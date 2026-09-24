@@ -1,0 +1,9 @@
+{
+ "drawn": 3030338074,
+ "method": "secrets.randbits(32)",
+ "predictions_pinned": {
+  "blob": "d284f202307ef2a7555a49d0f535f496ce6aade5",
+  "sha256": "ccc1b6a8d9155c77ee4db14123e98e770aa267f43de71d6fc235a18f90119f63",
+  "sha256_lf": "d860802a030bda684af2ebe51f2872b8a299b9a1a614c65988b54bb9e16e8aab"
+ }
+}
