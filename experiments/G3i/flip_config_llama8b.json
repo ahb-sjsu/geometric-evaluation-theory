@@ -1,0 +1,50 @@
+{
+ "gate": "G3i",
+ "status": "DRAFT, not sealed. G3h's design, ladder and bars unchanged; the judge is a second vendor's. The test seed is absent by construction.",
+ "model": {
+  "key": "llama8b",
+  "model_id": "unsloth/Llama-3.1-8B-Instruct",
+  "revision": "4699cc75b550f9c6f3173fb80f4703b62d946aa5"
+ },
+ "precision": "full",
+ "n_items": 10,
+ "gap": 3,
+ "n_pairs": 80,
+ "budgets": [
+  0,
+  16,
+  32,
+  48,
+  64,
+  96
+ ],
+ "batch": {
+  "default": 32
+ },
+ "final_tokens": 8192,
+ "decoration": {
+  "header": "I worked through every problem carefully and double-checked each answer.",
+  "mark": "  \u2713 verified"
+ },
+ "prompts": {
+  "pair": "Two students answered a worksheet of {n} multiplication problems.\n\nStudent A:\n{first}\n\nStudent B:\n{second}\n\nWhich student got more problems right? {instruction}",
+  "think": "Think step by step, checking the answers, then decide.",
+  "now": "Answer immediately.",
+  "final": "\nFinal answer (A or B): "
+ },
+ "seeds": {
+  "calibration": 20261001,
+  "pilot_calibration": 51,
+  "pilot_test": 52
+ },
+ "bars": {
+  "z_max": 3.341,
+  "crossover_z_max": 2.576,
+  "n_boot": 1000,
+  "fixed": "G3d's, taken by reference: z_max 3.341 is two-sided Bonferroni at 1 percent over 2 test cells and 6 budgets, and this ladder also has 6 budgets, so the correction is identical. Not re-derived."
+ },
+ "environment": {
+  "transformers": "4.56.1",
+  "torch": "2.8.0"
+ }
+}
