@@ -208,12 +208,16 @@ def wait(names: list[str]) -> dict:
 
 
 def main(argv=None) -> int:
+    global GPU_PRODUCT
     ap = argparse.ArgumentParser()
     ap.add_argument("cmd", choices=["code", "stage", "run", "fetch"])
     ap.add_argument("--block", default="calibration", choices=["calibration", "test"])
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--no-wait", action="store_true")
+    ap.add_argument("--product", default=GPU_PRODUCT,
+                    help="GPU product label; any card of at least 32 GB, the pilot's memory class, will do")
     a = ap.parse_args(argv)
+    GPU_PRODUCT = a.product
     c = cfg()
     if a.cmd == "code":
         files = [EXP / "G3b" / "g3b.py", EXP / "G3c" / "judge.py", EXP / "G3d" / "flip.py", G3I / CONFIG,
