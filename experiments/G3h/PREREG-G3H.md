@@ -1,6 +1,7 @@
 # PREREG G3h: where the preference reverses, located
 
-Status: SEALED 2026-09-23 (blob recorded in `CAMPAIGN.md`). The calibration seed is in the config;
+Status: SEALED 2026-09-23 at blob 5b628d5327446a97c1537126c724ee5d93f69848 (commit d844df9). GRADED
+2026-09-24, PASS, test seed 2696997963; the verdict is in `CAMPAIGN.md` and `run_record/grade.json`. The calibration seed is in the config;
 no test seed exists and one is drawn only after `predictions.json` is in a pushed commit with its
 hash. The ladder and the judge list changed between the first draft and this seal, on the pilot
 of Section 6, and both changes are stated where they occur.

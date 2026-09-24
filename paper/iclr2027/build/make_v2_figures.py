@@ -115,23 +115,45 @@ def figure2():
     save(fig, "v2_regimes")
 
 
+G3H = ROOT / "experiments" / "G3h" / "run_record"
+
+
 def figure3():
+    """The crossover on G3d's coarse ladder and, when its graded record exists, on G3h's ladder
+    that brackets the crossing, drawn from that gate's own predictions and grade."""
     pred = json.load(open(G3D / "predictions.json"))
     g = json.load(open(G3D / "grade.json"))
     budgets = np.array(pred["budgets"], float)
     x = np.log2(1 + budgets)
     fig, ax = plt.subplots(figsize=(4.4, 2.6))
-    ax.plot(x, pred["reversal"]["share"], "-", lw=1.3, label="predicted")
-    ax.plot(x, g["F2_crossover"]["observed_shares"], "o", ms=4.5, mfc="none", color="C3", label="observed")
+    ax.plot(x, pred["reversal"]["share"], "-", lw=1.3, color="C0", label="predicted, coarse ladder")
+    ax.plot(x, g["F2_crossover"]["observed_shares"], "o", ms=4.5, mfc="none", color="C3", label="observed, coarse ladder")
     ax.axhline(0.5, ls=":", c="k", lw=0.8)
-    for v, c, lab in ((g["F2_crossover"]["predicted_log2"], "C0", "predicted crossover"),
-                      (g["F2_crossover"]["observed_log2"], "C3", "observed crossover")):
-        ax.axvline(v, color=c, ls="--", lw=1.0)
-        ax.annotate(f"{lab}\n{2 ** v - 1:.0f} tokens", (v, 0.08 if c == "C0" else 0.3), fontsize=6,
-                    ha="right" if c == "C0" else "left", color=c)
-    ax.set_xticks(x); ax.set_xticklabels([int(b) for b in budgets], fontsize=7)
+    ticks = list(budgets)
+    have_h = (G3H / "predictions.json").exists() and (G3H / "grade.json").exists()
+    if have_h:
+        ph = json.load(open(G3H / "predictions.json"))
+        gh = json.load(open(G3H / "grade.json"))
+        bh = np.array(ph["budgets"], float)
+        xh = np.log2(1 + bh)
+        ax.plot(xh, ph["reversal"]["share"], "-", lw=1.3, color="C2", label="predicted, bracketing ladder")
+        ax.plot(xh, gh["F2_crossover"]["observed_shares"], "s", ms=4.0, mfc="none", color="C1", label="observed, bracketing ladder")
+        for v, c, lab, y, ha in ((gh["F2_crossover"]["predicted_log2"], "C2", "predicted", 0.04, "left"),
+                                 (gh["F2_crossover"]["observed_log2"], "C1", "observed", 0.04, "right")):
+            ax.axvline(v, color=c, ls="--", lw=0.9)
+            ax.annotate(f"{lab}\n{2 ** v - 1:.0f} tokens", (v, y), fontsize=6, ha=ha, color=c,
+                        xytext=(3 if ha == "left" else -3, 0), textcoords="offset points")
+        ticks = sorted(set(ticks) | set(bh))
+    else:
+        for v, c, lab in ((g["F2_crossover"]["predicted_log2"], "C0", "predicted crossover"),
+                          (g["F2_crossover"]["observed_log2"], "C3", "observed crossover")):
+            ax.axvline(v, color=c, ls="--", lw=1.0)
+            ax.annotate(f"{lab}\n{2 ** v - 1:.0f} tokens", (v, 0.08 if c == "C0" else 0.3), fontsize=6,
+                        ha="right" if c == "C0" else "left", color=c)
+    ticks = [t for t in ticks if t not in (32.0, 48.0)] if have_h else ticks
+    ax.set_xticks(np.log2(1 + np.array(ticks))); ax.set_xticklabels([int(b) for b in ticks], fontsize=6)
     ax.set_xlabel("reasoning budget (tokens)"); ax.set_ylabel("share preferring the better sheet", fontsize=8)
-    ax.legend(fontsize=6, loc="upper left")
+    ax.legend(fontsize=5.5, loc="upper left")
     save(fig, "v2_crossover")
 
 

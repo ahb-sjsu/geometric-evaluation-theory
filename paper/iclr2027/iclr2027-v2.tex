@@ -56,7 +56,7 @@ Reading more of the report, its expected score or the mean of several samples, l
 \textbf{Reversal.}
 Give the worse of two worksheets a confident header and a check mark on every line.
 With no reasoning budget the judge prefers the decorated worse worksheet, only 0.125 of test pairs favouring the better one. At 1024 tokens of reasoning it favours the better one in 0.95.
-Measuring what the evidence is worth and what the decoration is worth in separate blocks, in which the two never conflict, predicts that reversal. Their sum on the log-odds scale fit the sealed test cells within 3.11 noise units against a registered bar of 3.341.
+Measuring what the evidence is worth and what the decoration is worth in separate blocks, in which the two never conflict, predicts that reversal. Their sum on the log-odds scale fit the sealed test cells within 3.11 noise units against a registered bar of 3.341. A second ladder that brackets the crossing locates it, predicted at 72 tokens and observed at 57, to a factor of 1.4.
 
 What predicts a judge's resolution is its measured channel, of which a scalar budget is one summary. The information its score carries about quality, read as a count of levels, closes about two fifths of the distance from the nominal scale to the calibrated channel in the median cell, and the rest needs the conditional distribution itself.
 The prediction and the comparison against the nominal scale replicate on a second vendor's models and on a newer generation of the first, served quantized by a third party and read through an API that exposes the twenty most probable tokens at each position. The read-out ordering does not, failing on one of those judges whose finest read-outs sit at the smallest difference the worksheets can express.
@@ -109,7 +109,7 @@ A judge that may reason before answering spends tokens on the comparison, and wi
 We decorated the worse of two worksheets with a confident header and a check mark on every line.
 With no reasoning the judge preferred the decorated worse sheet, and with enough reasoning it preferred the better one.
 That is the theory's three regimes on one axis, reversal, indifference, and distinction.
-Where it turns over was predicted from blocks in which the decoration never sat on the worse sheet, at 174 tokens of reasoning against 128 observed on a ladder too coarse to place it more finely than a factor of two, and the additive account of the two influences fit the sealed test cells seven times better than ignoring the decoration and twenty times better than ignoring the evidence.
+Where it turns over was predicted from blocks in which the decoration never sat on the worse sheet, at 174 tokens of reasoning against 128 observed on a ladder too coarse to place it more finely than a factor of two, then to 57 tokens on a ladder built to bracket it, and the additive account of the two influences fit the sealed test cells seven times better than ignoring the decoration and twenty times better than ignoring the evidence.
 
 Four rules for anyone building a judge follow from the measurements, in Appendix~\ref{app:practice}.
 An earlier gate measured the same judge on a numeric task and found its threshold equal to the grid on the numbers it reads and writes, which calibrates the instrument rather than testing the theory, since the judge does that arithmetic exactly and the grid is then the whole story (Appendix~\ref{app:numeric}).
@@ -179,7 +179,7 @@ A theorem was false as first stated. The uniqueness result of Theorem~\ref{thm:r
 Two of the five judges of the first registration could not order worksheets twelve errors apart and were declared vacuous from their calibration blocks, before their test blocks were drawn, and are reported and not graded.
 The read-out ordering claim then failed outright on one judge of the replication, and because the registration holds that claim only if every graded judge passes it, the claim fails and its gate fails with it.
 The registered threshold estimator turned out to report $0.87h$ where the quantity it names is $0.9h$, an artifact of interpolating on a coarse ladder rather than a property of any judge, so the fitted step is reported beside it.
-The budget at which the preference reverses cannot be located to better than a factor of two on the ladder that was registered, and we say so rather than quoting the interpolated point alone.
+The budget at which the preference reverses could not be located to better than a factor of two on the ladder first registered, and a second ladder was registered to locate it.
 And the framing this paper began with, that a scalar budget predicts resolution, survives only in a weakened form. The predictor ladder of Appendix~\ref{app:ladder} puts a rate in bits about two fifths of the way from the nominal scale to the calibrated channel, so what predicts is the channel.
 None of these was discovered by inspection after the fact. Each is a bar, fixed before a seed was drawn, doing the thing bars are for.
 The wider programme this belongs to keeps a ledger in which a claim's class is raised only by a sealed pass and lowered by a sealed miss. It currently carries refutations and one retraction alongside its confirmations, and a gate in it has already refuted a scaling law this theory had posited.
@@ -196,7 +196,7 @@ A judge that cannot order worksheets twelve errors apart with accuracy 0.9 on so
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.62\columnwidth]{figures/v2_prediction.pdf}
+\includegraphics[width=0.50\columnwidth]{figures/v2_prediction.pdf}
 \caption{Left, the 7B judge on the 0 to 100 scale. Lines are what the calibration block predicts, bands two standard deviations of its bootstrap, points the sealed test block on worksheets the judge had not seen. The dotted line is the 0.75 level that defines the threshold. Right, every read-out of every graded judge, 54 points, predicted threshold against observed. Points on the diagonal were predicted before the test seed existed. The crosses are the rival that reads the scale at face value, and it predicts a finer threshold than the judge has, by up to a factor of five.}
 \label{fig:prediction}
 \end{figure}
@@ -279,15 +279,15 @@ That is an association over six judges and not a demonstration. What would settl
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.62\columnwidth]{figures/v2_regimes.pdf}
+\includegraphics[width=0.52\columnwidth]{figures/v2_regimes.pdf}
 \caption{The sealed test block of the second gate, the cell where the worse worksheet carries the decoration. Each panel is the distribution over pairs of the judge's log-odds for the better worksheet at one reasoning budget, with the calibration's prediction and the observed mean. With no reasoning the judge prefers the decorated worse sheet. With reasoning it cannot finish, it is near indifferent. With reasoning it can finish, it prefers the better sheet. The prediction at each budget comes from blocks in which the decoration never sat on the worse sheet.}
 \label{fig:regimes}
 \end{figure}
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.40\columnwidth]{figures/v2_crossover.pdf}
-\caption{Where the preference turns over. The share of test pairs on which the judge prefers the better worksheet, against the reasoning budget it was allowed. The line is predicted from the calibration blocks, the points are the sealed test block. The crossing was predicted at 174 tokens and observed at 128, a deviation of 0.37 in noise units against a registered bar of 2.576.}
+\includegraphics[width=0.33\columnwidth]{figures/v2_crossover.pdf}
+\caption{Where the preference turns over. The share of test pairs on which the judge prefers the better worksheet, against the reasoning budget it was allowed. Lines are predicted from calibration blocks, points are sealed test blocks, on the first ladder and on the second, which brackets the crossing. On the first the crossing was predicted at 174 tokens and observed at 128, 0.37 noise units against a bar of 2.576. On the second it was predicted at 72 and observed at 57, 0.62 noise units, and the spread of the comparison fell from a factor of 2.2 to 1.4.}
 \label{fig:crossover}
 \end{figure}
 
@@ -304,10 +304,8 @@ Neither cell contains a pair in which the two conflict.
 Their sum on the log-odds scale predicts both test cells at every budget and the budget at which the judge stops preferring the decorated worse sheet, and the registration fixed the bars for that prediction before any pilot.
 On the sealed test block the prediction held, with deviations of at most 2.51 and 3.11 noise units against a bar of 3.341.
 The crossing was predicted at 174 tokens of reasoning and observed at 128, a deviation of 0.37 against a bar of 2.576 (Figure~\ref{fig:crossover}).
-That agreement should not be read as locating the crossing to within tens of tokens.
-The ladder's two budgets on either side of it, 64 and 256, gave 39 and 41 of 80 pairs to the better worksheet, less than half a standard error apart and each within half a standard error of one half, so the crossing is interpolated across a fourfold gap between two nearly tied points.
-The bootstrap standard deviation of the comparison is 1.16 in $\log_{2}$ budget, a factor of 2.2 either way, which spans most of that gap.
-What the gate establishes is that the reversal happens and ends inside the registered ladder where the calibration said it would. A ladder of 64, 96, 128, 160, 192 and 256 tokens would be needed to say where, and that is the natural next registration.
+That agreement did not locate the crossing. The rungs on either side, 64 and 256, gave 39 and 41 of 80 pairs to the better sheet, and the bootstrap spread was 1.16 in $\log_{2}$ budget, a factor of 2.2 either way.
+A second registration says where. Its first draft put the rungs at 64 to 256 tokens, and a pilot found the reversal already at one half at 64, so the sealed ladder is 0, 16, 32, 48, 64 and 96 tokens, on the same judge at fresh seeds, and the pilot with its failed rival check is in the registration. The calibration cells predicted the crossing at 72 tokens and the sealed test block observed it at 57, 0.62 noise units against 2.576, with the bootstrap spread at 0.52 in $\log_{2}$ budget, a factor of 1.4 where the first ladder gave 2.2. Additivity held at every rung, at most 3.00 noise units against 3.341, and the additive account fit the test cells with a squared error of 1.7 against 64.4 for evidence alone and 16.4 for the cue alone (Figure~\ref{fig:crossover}).
 The additive account fit the two test cells with a squared error of 10.1, against 70.7 for an account that ignores the decoration and 228.7 for one that ignores the evidence.
 
 \begin{table}[t]
@@ -372,7 +370,7 @@ The budget here limits the resolution of consequences rather than the acquisitio
 \section{Scope}
 \label{sec:scope}
 
-The stimuli are two families and neither is prose.
+The stimuli are three families, and only the third is prose, in one register.
 Worksheets give an exact quality scale and so do summaries scored by how many statements a passage does not support, the second being the one no judge does exactly.
 Neither is the contested and many-dimensional thing meant by the quality of an essay.
 The prediction assumes that a worksheet's score depends on how many items are wrong and not on which, and the record reports the score variance within an error count so that a reader can see how much noise that assumption absorbs.
@@ -382,11 +380,11 @@ The bars were fixed from one judge's pilot, the 7B judge at bfloat16, by the sim
 Two constants were fixed after pilot values they bear on had been seen, the factor that labels the pairwise threshold and the information bar for anti-vacuity, and the registration says so for each.
 Two of the five judges of the first registration, Gemma 3 4B and Qwen 1.5B, failed the anti-vacuity rule on their calibration blocks and are reported and not graded, so its verdicts rest on three judges of one family, the 7B at two precisions and the 14B.
 The replication adds three more, two sizes of Gemma 4 and one Qwen3, so on worksheets the prediction and the comparison against the nominal scale rest on six graded configurations of five models across two vendors and three model generations, and the read-out ordering rests on five, having failed on the sixth for the reason given there.
-The second family regrades two of those configurations and adds no judge, so it buys a task and not breadth (Appendix~\ref{app:family}). The third scores readers' reviews against the rating each writer gave, on the same two judges at three input lengths (Appendix~\ref{app:reviews}). Its budget claim rests on one judge, and its read-out ordering claim was not graded, since a five-level scale cannot rank eighteen read-outs.
+The second family regrades two of those configurations and adds no judge, so it buys a task and not breadth (Appendix~\ref{app:family}). The third scores readers' reviews against each writer's own rating at three input lengths (Appendix~\ref{app:reviews}), and its budget claim rests on one judge, the ordering claim being ungradable on five levels.
 No judge here was trained or tuned by us, and three of the six were served by a third party at weights we cannot inspect.
-The reversal is measured on one judge, at one gap of three errors in ten, with one decoration.
+The reversal is measured on one judge, on two ladders, at one gap of three errors in ten, with one decoration.
 Additivity of evidence and cue at that gap need not hold at others.
-The budget there is a ceiling on reasoning tokens and not the reasoning spent, the record keeps the tokens each pair used, and that axis is not monotone for the reason given in Section~\ref{sec:flip}.
+The budget there is a ceiling on reasoning tokens, not the reasoning spent, which the record keeps, and that axis is not monotone (Section~\ref{sec:flip}).
 Reasoning is decoded greedily, so the noise in those estimates is over worksheets and not over samples of the judge.
 Nothing here is a claim about human evaluators.
 

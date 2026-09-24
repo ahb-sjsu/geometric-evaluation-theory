@@ -21,9 +21,18 @@ resolution rather than at random, and extended to a reversal no plug-in produces
 where they never conflict, and their sum predicts both the sign of the preference and the budget
 at which it flips. Stationarity says nothing about a flip.
 
-`[G3h]` The crossing is now located on `qwen7b` to `[z]` noise units at `[k]` tokens, against
-G3d's factor of two, and on a second judge, `qwen14b`, at `[k']`. Each judge's own calibration
-predicts its own crossing. Records and registration in the supplement.
+**G3h, graded 2026-09-24, in the submission in Section 5 and Figure 3.** The crossing is now
+located. On a second ladder built to bracket it (0, 16, 32, 48, 64, 96 tokens, same judge, fresh
+seeds, G3d's bars unchanged) the calibration cells predicted the crossing at 72 tokens and the
+sealed test block observed it at 57, 0.62 noise units against 2.576, with the bootstrap spread of
+the comparison at 0.52 in log2 budget, a factor of 1.4 where G3d had 2.2. Additivity held at every
+rung (largest 3.00 against 3.341) and the additive account beat both rivals by more than an order
+of magnitude (1.7 against 64.4 and 16.4). Concede what the registration records: the first
+draft's ladder of 64 to 256, the one the paper had named, was piloted and found the reversal
+already at one half at 64 tokens, so the ladder was moved down before sealing, with the pilot
+and its failed rival check kept in the registration; and the second judge named in that draft
+was not run, its bf16 weights not fitting the one free card. One judge. Records and registration
+in the supplement.
 
 ## 2. "Both stimulus families are synthetic"
 
@@ -63,7 +72,8 @@ design where the transferred noise-unit bar is stricter than in the gate that se
 alarm 3.8 to 5.8 percent per cell against 1.4), so these margins are not the null's. One cell of
 six is vacuous, and the paper says so.
 
-`[G3h]` Margins on the reversal gate, stated the same way whatever they are.
+**G3h.** The additivity margin is thin at one rung, 3.00 against 3.341 in the reversal cell at
+16 tokens; the crossing margin is wide, 0.62 against 2.576.
 
 ## 4. "One vendor on the new family"
 

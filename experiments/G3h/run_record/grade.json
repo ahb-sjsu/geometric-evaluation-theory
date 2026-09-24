@@ -1,0 +1,138 @@
+{
+ "F1_additivity": {
+  "reversal": [
+   {
+    "k": 0,
+    "observed_mean": -3.00947265625,
+    "predicted_mean": -3.436669921875,
+    "z": 1.0766394033920805,
+    "observed_share": 0.0875,
+    "predicted_share": 0.120625
+   },
+   {
+    "k": 16,
+    "observed_mean": -0.306512451171875,
+    "predicted_mean": -0.7801578521728516,
+    "z": 2.998224966256876,
+    "observed_share": 0.4,
+    "predicted_share": 0.25921875
+   },
+   {
+    "k": 32,
+    "observed_mean": -0.7874549865722656,
+    "predicted_mean": -0.37965087890625,
+    "z": -1.4800538300420998,
+    "observed_share": 0.2625,
+    "predicted_share": 0.42109375
+   },
+   {
+    "k": 48,
+    "observed_mean": -0.2716225624084473,
+    "predicted_mean": -0.6611968994140626,
+    "z": 1.9375361836502603,
+    "observed_share": 0.35,
+    "predicted_share": 0.3284375
+   },
+   {
+    "k": 64,
+    "observed_mean": 0.11938858032226562,
+    "predicted_mean": -0.050561714172363326,
+    "z": 0.9494689427334042,
+    "observed_share": 0.6,
+    "predicted_share": 0.465625
+   },
+   {
+    "k": 96,
+    "observed_mean": 0.5064952850341797,
+    "predicted_mean": 0.43820953369140625,
+    "z": 0.27927599446559626,
+    "observed_share": 0.6375,
+    "predicted_share": 0.5875
+   }
+  ],
+  "control": [
+   {
+    "k": 0,
+    "observed_mean": 7.7203857421875,
+    "predicted_mean": 8.164990234375,
+    "z": -1.1502729544587362,
+    "observed_share": 0.9875,
+    "predicted_share": 0.99515625
+   },
+   {
+    "k": 16,
+    "observed_mean": 2.3025875091552734,
+    "predicted_mean": 2.1249935150146486,
+    "z": 1.0509971852921784,
+    "observed_share": 0.9875,
+    "predicted_share": 0.965625
+   },
+   {
+    "k": 32,
+    "observed_mean": 0.19500579833984374,
+    "predicted_mean": 0.8743652343749999,
+    "z": -2.8130280381606063,
+    "observed_share": 0.55,
+    "predicted_share": 0.66265625
+   },
+   {
+    "k": 48,
+    "observed_mean": 1.36263427734375,
+    "predicted_mean": 1.319708251953125,
+    "z": 0.2025338898009444,
+    "observed_share": 0.875,
+    "predicted_share": 0.82734375
+   },
+   {
+    "k": 64,
+    "observed_mean": 1.1272789001464845,
+    "predicted_mean": 1.1155435562133789,
+    "z": 0.05452176546963797,
+    "observed_share": 0.8125,
+    "predicted_share": 0.79125
+   },
+   {
+    "k": 96,
+    "observed_mean": 0.942840576171875,
+    "predicted_mean": 1.4389694213867188,
+    "z": -2.107437796118314,
+    "observed_share": 0.75,
+    "predicted_share": 0.78796875
+   }
+  ],
+  "verdict": "PASS"
+ },
+ "F2_crossover": {
+  "observed_log2": 5.859304625463156,
+  "predicted_log2": 6.185265128945003,
+  "observed_budget": 57.05323771512812,
+  "predicted_budget": 71.76965818446583,
+  "sd_difference": 0.5221092383137443,
+  "share_boot_finite": 0.981,
+  "z": -0.6243147593683687,
+  "observed_shares": [
+   0.0875,
+   0.4,
+   0.2625,
+   0.35,
+   0.6,
+   0.6375
+  ],
+  "verdict": "PASS"
+ },
+ "F3_rivals": {
+  "sse": {
+   "additive": 1.6973220879301616,
+   "evidence_only": 64.39449242764547,
+   "cue_only": 16.379131242344386
+  },
+  "verdict": "PASS"
+ },
+ "anti_vacuity": {
+  "share_smallest_budget": 0.120625,
+  "share_largest_budget": 0.5875,
+  "met": true
+ },
+ "gate": "PASS",
+ "predictions_sha256": "b29be79649e088194da421258e3770533aa78ab410101e2ffb5bb785c0850d11"
+}
