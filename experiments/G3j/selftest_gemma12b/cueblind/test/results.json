@@ -1,0 +1,28 @@
+{
+ "gate": "G3j",
+ "block": "test",
+ "seed": 102,
+ "role": "run",
+ "model": "synth_cueblind",
+ "precision": "full",
+ "model_class": "synthetic",
+ "loaded_revision": "synthetic",
+ "budgets": [
+  0,
+  128,
+  192,
+  256,
+  320,
+  384
+ ],
+ "started": "2026-09-24T17:52:46Z",
+ "timing": {
+  "0": 0.0,
+  "128": 0.0,
+  "192": 0.0,
+  "256": 0.0,
+  "320": 0.0,
+  "384": 0.0
+ },
+ "finished": "2026-09-24T17:52:46Z"
+}

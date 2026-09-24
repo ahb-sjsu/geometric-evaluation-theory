@@ -1,7 +1,8 @@
 # PREREG G3i: the reversal on a second vendor's judge
 
-Status: DRAFT. Not sealed. The calibration seed is in the config; no test seed exists and one is
-drawn only after `predictions.json` is in a pushed commit with its hash. The first draft of this
+Status: SEALED 2026-09-24 at blob c59d4f0a7ac46510cb02dffba408ae5c259986df (commit d0b73a4). **VACUOUS**, decided
+2026-09-24 from the calibration block alone, before any test seed: the calibration predicts no crossing inside 0 to 192
+tokens (Section 10). No test seed was drawn and no test block was run. The first draft of this
 file named two judges on G3h's ladder; the pilot of Section 6 changed both the judge list and the
 ladder before this seal, and both changes are stated where they occur.
 
@@ -138,3 +139,26 @@ and niced, as G3d ran.
 4. The calibration block is run and `predictions.json` committed with its sha256 and pushed.
 5. Only then is the test seed drawn from a system random source, against the predictions in
    HEAD, and the test block run and graded by `../G3d/flip_grade.py`, unmodified.
+
+## 10. Verdict, from the calibration block alone
+
+The calibration block ran 2026-09-24 16:46 to 17:40 UTC on a Colab A100 40 GB, the workstation's
+card being held by other work and the cluster's 32 GB and larger pools having no free card that
+hour (Section 7 named the workstation; the change of machine changes no stimulus, seed, weight or
+line of the harness, and the record carries the loaded revision). Record in `run_record/calibration/`,
+predictions in `run_record/predictions.json`, sha256 5f9105359eda4560b9e4e7a0f8e03b7704ddd25e1b62a8ccbf11866702a9ffc9.
+
+Along the ladder 0, 32, 64, 96, 128, 192 the evidence term is 5.01, 0.12, 0.73, 0.67, 0.67, 1.40 log-odds and the cue term is
+6.77, 0.59, 2.02, 1.45, 1.60, 1.04, so the cue still matches the evidence at 192 tokens, and the additive prediction for the
+reversal cell's share of pairs preferring the better sheet is 0.329, 0.314, 0.263, 0.348, 0.312, 0.468. It never reaches one half. By
+Section 4 the judge is VACUOUS on this ladder: its calibration predicts no flip inside it. The
+crossing lies above 192 tokens, close to it. No test seed is drawn, because there is nothing the
+test block could grade.
+
+What this says. On a second vendor's judge the reversal regime exists and is measured, the decorated
+worse sheet preferred at every rung to 192 tokens, and the crossing is again a budget the
+calibration places, only higher than this ladder reaches. The pilot on 0 to 96 (Section 6) had put
+the crossing at or above 96 from a test block that crossed one half at its last rung; the sealed
+calibration says that crossing was noise about one half (predicted 0.44 there) and the true crossing
+is above 192. The next registration, G3j, places the rungs where this calibration says the crossing
+is, exactly as G3h did after G3d.

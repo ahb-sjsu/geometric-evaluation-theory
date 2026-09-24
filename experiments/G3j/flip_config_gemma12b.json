@@ -1,0 +1,53 @@
+{
+ "gate": "G3j",
+ "status": "DRAFT, not sealed. G3i's design, judge and bars unchanged; the ladder is moved up to where G3i's sealed calibration places Gemma 3 12B's crossing, above 192 tokens. The test seed is absent by construction.",
+ "model": {
+  "key": "gemma12b",
+  "model_id": "unsloth/gemma-3-12b-it",
+  "revision": "9478e665381f42974aa06177b019352fb6291876"
+ },
+ "precision": "full",
+ "n_items": 10,
+ "gap": 3,
+ "n_pairs": 80,
+ "budgets": [
+  0,
+  128,
+  192,
+  256,
+  320,
+  384
+ ],
+ "batch": {
+  "default": 8,
+  "256": 6,
+  "320": 4,
+  "384": 4
+ },
+ "final_tokens": 8192,
+ "decoration": {
+  "header": "I worked through every problem carefully and double-checked each answer.",
+  "mark": "  \u2713 verified"
+ },
+ "prompts": {
+  "pair": "Two students answered a worksheet of {n} multiplication problems.\n\nStudent A:\n{first}\n\nStudent B:\n{second}\n\nWhich student got more problems right? {instruction}",
+  "think": "Think step by step, checking the answers, then decide.",
+  "now": "Answer immediately.",
+  "final": "\nFinal answer (A or B): "
+ },
+ "seeds": {
+  "calibration": 20261002,
+  "pilot_calibration": 61,
+  "pilot_test": 62
+ },
+ "bars": {
+  "z_max": 3.341,
+  "crossover_z_max": 2.576,
+  "n_boot": 1000,
+  "fixed": "G3d's, taken by reference: z_max 3.341 is two-sided Bonferroni at 1 percent over 2 test cells and 6 budgets, and this ladder also has 6 budgets, so the correction is identical. Not re-derived."
+ },
+ "environment": {
+  "transformers": "4.56.1",
+  "torch": "2.8.0"
+ }
+}
