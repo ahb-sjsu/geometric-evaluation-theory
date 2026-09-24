@@ -1,0 +1,138 @@
+{
+ "gate": "G3i",
+ "block": "calibration",
+ "seed": 51,
+ "role": "pilot",
+ "model": "llama8b",
+ "precision": "full",
+ "model_class": "AutoModelForCausalLM",
+ "loaded_revision": "4699cc75b550f9c6f3173fb80f4703b62d946aa5",
+ "budgets": [
+  0,
+  16,
+  32,
+  48,
+  64,
+  96
+ ],
+ "started": "2026-09-24T06:11:25Z",
+ "timing": {
+  "0": 202.0,
+  "16": 679.6,
+  "32": 499.4,
+  "48": 519.8,
+  "64": 726.4,
+  "96": 703.9
+ },
+ "meter": {
+  "whole_run": {
+   "seconds": 3458.0,
+   "mean_cores": 0.741,
+   "RssAnon_mean_gib": 0.804,
+   "RssAnon_peak_gib": 0.821,
+   "RssFile_mean_gib": 0.468,
+   "RssFile_peak_gib": 4.987,
+   "VmRSS_mean_gib": 1.29,
+   "VmRSS_peak_gib": 5.475,
+   "gpu_util_mean": 87.3,
+   "gpu_util_share_above_40": 0.876,
+   "gpu_samples": 556
+  },
+  "phases": {
+   "000000.0_load": {
+    "seconds": 125.5,
+    "mean_cores": 0.18,
+    "RssAnon_mean_gib": 0.463,
+    "RssAnon_peak_gib": 0.478,
+    "RssFile_mean_gib": 2.371,
+    "RssFile_peak_gib": 4.987,
+    "VmRSS_mean_gib": 2.843,
+    "VmRSS_peak_gib": 5.475,
+    "gpu_util_mean": 10.5,
+    "gpu_util_share_above_40": 0.133,
+    "gpu_samples": 15
+   },
+   "000126.7_k0": {
+    "seconds": 200.5,
+    "mean_cores": 0.57,
+    "RssAnon_mean_gib": 0.694,
+    "RssAnon_peak_gib": 0.699,
+    "RssFile_mean_gib": 0.409,
+    "RssFile_peak_gib": 0.41,
+    "VmRSS_mean_gib": 1.122,
+    "VmRSS_peak_gib": 1.127,
+    "gpu_util_mean": 70.1,
+    "gpu_util_share_above_40": 0.7,
+    "gpu_samples": 30
+   },
+   "000328.7_k16": {
+    "seconds": 674.8,
+    "mean_cores": 0.438,
+    "RssAnon_mean_gib": 0.815,
+    "RssAnon_peak_gib": 0.817,
+    "RssFile_mean_gib": 0.419,
+    "RssFile_peak_gib": 0.419,
+    "VmRSS_mean_gib": 1.253,
+    "VmRSS_peak_gib": 1.254,
+    "gpu_util_mean": 74.4,
+    "gpu_util_share_above_40": 0.746,
+    "gpu_samples": 71
+   },
+   "001008.3_k32": {
+    "seconds": 491.9,
+    "mean_cores": 0.777,
+    "RssAnon_mean_gib": 0.817,
+    "RssAnon_peak_gib": 0.818,
+    "RssFile_mean_gib": 0.419,
+    "RssFile_peak_gib": 0.419,
+    "VmRSS_mean_gib": 1.255,
+    "VmRSS_peak_gib": 1.256,
+    "gpu_util_mean": 86.5,
+    "gpu_util_share_above_40": 0.867,
+    "gpu_samples": 83
+   },
+   "001507.7_k48": {
+    "seconds": 519.5,
+    "mean_cores": 0.975,
+    "RssAnon_mean_gib": 0.818,
+    "RssAnon_peak_gib": 0.819,
+    "RssFile_mean_gib": 0.419,
+    "RssFile_peak_gib": 0.419,
+    "VmRSS_mean_gib": 1.256,
+    "VmRSS_peak_gib": 1.256,
+    "gpu_util_mean": 98.1,
+    "gpu_util_share_above_40": 0.98,
+    "gpu_samples": 102
+   },
+   "002027.5_k64": {
+    "seconds": 724.7,
+    "mean_cores": 0.761,
+    "RssAnon_mean_gib": 0.819,
+    "RssAnon_peak_gib": 0.82,
+    "RssFile_mean_gib": 0.419,
+    "RssFile_peak_gib": 0.419,
+    "VmRSS_mean_gib": 1.257,
+    "VmRSS_peak_gib": 1.257,
+    "gpu_util_mean": 88.7,
+    "gpu_util_share_above_40": 0.889,
+    "gpu_samples": 117
+   },
+   "002753.9_k96": {
+    "seconds": 704.0,
+    "mean_cores": 0.97,
+    "RssAnon_mean_gib": 0.82,
+    "RssAnon_peak_gib": 0.821,
+    "RssFile_mean_gib": 0.419,
+    "RssFile_peak_gib": 0.419,
+    "VmRSS_mean_gib": 1.258,
+    "VmRSS_peak_gib": 1.258,
+    "gpu_util_mean": 97.5,
+    "gpu_util_share_above_40": 0.978,
+    "gpu_samples": 137
+   }
+  },
+  "n_samples": 2619,
+  "VmHWM_gib": 5.513378143310547
+ },
+ "finished": "2026-09-24T07:06:57Z"
+}

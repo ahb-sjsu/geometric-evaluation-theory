@@ -1,6 +1,6 @@
 {
  "gate": "G3i",
- "status": "DRAFT, not sealed. G3h's design, ladder and bars unchanged; the judge is a second vendor's. The test seed is absent by construction.",
+ "status": "DRAFT, not sealed. G3h's design and bars unchanged; the judge is Google's Gemma 3 12B. The ladder is 0, 32, 64, 96, 128 and 192 tokens: the pilot on 0 to 96 found the reversal share still below one half at 96, so the ladder is moved up to bracket the crossing. The test seed is absent by construction.",
  "model": {
   "key": "gemma12b",
   "model_id": "unsloth/gemma-3-12b-it",
@@ -12,14 +12,16 @@
  "n_pairs": 80,
  "budgets": [
   0,
-  16,
   32,
-  48,
   64,
-  96
+  96,
+  128,
+  192
  ],
  "batch": {
-  "default": 8
+  "default": 8,
+  "128": 6,
+  "192": 4
  },
  "final_tokens": 8192,
  "decoration": {
