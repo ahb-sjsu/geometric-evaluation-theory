@@ -41,26 +41,10 @@
 \maketitle
 
 \begin{abstract}
-A language-model judge cannot tell every pair of answers apart.
-Below some difference in quality it is indifferent, and that threshold decides whether it can grade the work in front of it.
-We register two gates. The first is that the threshold can be predicted before it is measured, and the other is that a second budget can reverse the judge's preference outright.
-Judges grade worksheets whose quality is known exactly.
-A calibration block records the scores a judge actually uses, and from that block alone we predict, and commit with its hash, how often the judge will order fresh pairs correctly at every difference in quality, on three rating scales and six ways of reading its report.
-Only then is the test block's seed drawn.
-
-\textbf{Resolution.}
-The prediction held on every graded judge, the largest deviation 0.078 in accuracy against a registered bar of 0.14.
-The scale a judge is offered is the wrong budget, the 7B judge asked for a score from 0 to 100 writes nine distinct scores and resolves 5.3 wrong answers in twenty where the scale promises one, and on every scale of every judge the channel it writes fits its accuracy better than the nominal scale does.
-Reading more of the report, its expected score or the mean of several samples, lowers the threshold by the predicted amount on five of the six graded judges.
-
-\textbf{Reversal.}
-Give the worse of two worksheets a confident header and a check mark on every line.
-With no reasoning budget the judge prefers the decorated worse worksheet, only 0.125 of test pairs favouring the better one. At 1024 tokens of reasoning it favours the better one in 0.95.
-Measuring what the evidence is worth and what the decoration is worth in separate blocks, in which the two never conflict, predicts that reversal. Their sum on the log-odds scale fit the sealed test cells within 3.11 noise units against a registered bar of 3.341. A second ladder that brackets the crossing locates it, predicted at 72 tokens and observed at 57, to a factor of 1.4.
-
-What predicts a judge's resolution is its measured channel, of which a scalar budget is one summary. The information its score carries about quality, read as a count of levels, closes about two fifths of the distance from the nominal scale to the calibrated channel in the median cell, and the rest needs the conditional distribution itself.
-The prediction and the comparison against the nominal scale replicate on a second vendor's models and on a newer generation of the first, served quantized by a third party and read through an API that exposes the twenty most probable tokens at each position. The read-out ordering does not, failing on one of those judges whose finest read-outs sit at the smallest difference the worksheets can express.
-A further registration changes the task rather than the judge. Two of those judges grade summaries checked against a passage, which no judge does exactly, and the calibration predicts the test block there too, inside bars never refitted for it. The read-out ordering that failed on worksheets passes there, on the same judge, because the harder task lifts its finest read-outs off the floor of the ladder. A third registration puts a budget on the input, reading readers' reviews to 200 characters, to 400, and whole, against the star rating each writer gave, and the judge's resolution coarsens in that order by the amount each budget's calibration predicted.
+A language-model judge cannot tell every pair of answers apart. Below some difference in quality it is indifferent, and that threshold decides whether it can grade the work in front of it. We register two gates. The first is that the threshold can be predicted before it is measured, and the other is that a second budget can reverse the judge's preference outright. Judges grade worksheets whose quality is known exactly. A calibration block records the scores a judge actually uses, and from that block alone we predict, and commit with its hash, how often the judge will order fresh pairs correctly at every difference in quality, on three rating scales and six ways of reading its report. Only then is the test block's seed drawn.
+\textbf{Resolution.} The prediction held on every graded judge, the largest deviation 0.078 in accuracy against a registered bar of 0.14. The scale a judge is offered is the wrong budget. The 7B judge asked for a score from 0 to 100 writes nine distinct scores and resolves 5.3 wrong answers in twenty where the scale promises one, and on every scale of every judge the channel it writes fits its accuracy better than the nominal scale does. Reading more of the report lowers the threshold by the predicted amount on five of the six graded judges.
+\textbf{Reversal.} Give the worse of two worksheets a confident header and a check mark on every line. With no reasoning budget the judge prefers the decorated worse worksheet, only 0.125 of test pairs favouring the better one, and at 1024 tokens of reasoning it favours the better one in 0.95. Measuring what the evidence and the decoration are worth in separate blocks, in which the two never conflict, predicts that reversal, and a second ladder that brackets the crossing locates it, predicted at 72 tokens and observed at 57.
+The prediction and the comparison against the nominal scale replicate on a second vendor's models served through an API, on summaries checked against a passage, which no judge does exactly, and on readers' reviews scored against the star rating each writer gave. Read to 200 characters, to 400, and whole, the judge's resolution on those reviews coarsens in that order by the amount each budget's own calibration predicted. Every bar was fixed before the first of these runs and none was refitted. What predicts a judge's resolution is its measured channel, of which a scalar budget is one summary.
 \end{abstract}
 
 \section{Introduction}
