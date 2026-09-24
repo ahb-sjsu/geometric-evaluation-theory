@@ -270,3 +270,46 @@ left to be undefined. This is the same failure the 2026-09-19 note records. Repa
 scan for partial command forms is clean.
 
 Both builds clean, zero undefined references, package rebuilt at `leaks after redaction: 0`.
+
+## Revision record, 2026-09-23 and 24, the rebuttal-window gates
+
+Two gates were registered, run and graded after the second review, to move the paper from a
+weak accept toward a strong one, and both are in the submission.
+
+**G3g, a third stimulus family with a budget on the input (Appendix G, Table 7).** Goodreads
+reviews scored against the star rating their own writer gave, a human label that is still exact.
+The same reviews read to 200 characters, to 400, and whole, with one calibration seed and one
+test seed for all three cells. PASS: the calibration predicted the test block in every graded
+cell inside the worksheet bars, the channel beat the nominal scale everywhere, and the greedy
+threshold fell along the input ladder on every scale by the amount each budget's own calibration
+predicted. Gemma 4 12B is vacuous at 200 characters by the registered rule, so the budget claim
+rests on Gemma 4 31B; the read-out ordering claim could not be graded on a five-level scale and
+is reported. Two corrections after sealing are in the registration: a seed drawn against staged
+but uncommitted predictions was discarded unused, and the orchestrator first walked the input
+ladder in the reverse of the registered direction and reported the budget claim as failed.
+
+**G3h, the reversal located (Section 5, Figure 3).** G3d's design on a ladder of 0, 16, 32, 48,
+64 and 96 tokens, on G3d's judge at fresh seeds, bars unchanged. PASS: the crossing was predicted
+at 72 tokens and observed at 57, 0.62 noise units against 2.576, with the bootstrap spread of the
+comparison at 0.52 in log2 budget, a factor of 1.4 where G3d had 2.2. The first draft's ladder,
+64 to 256 as Section 5 had guessed, was piloted and found the reversal already at one half at 64
+tokens, so the ladder was moved down before sealing, with the pilot and its failed rival check in
+the registration. One judge: the 14B named in the first draft does not fit the free card.
+
+**Paper.** Abstract, introduction, the cost paragraph, Section 5, the Figure 3 caption and Scope
+carry both results from the graded records only. Figure 3 draws both ladders. The main text is
+held to nine pages by shrinking the three figures (0.50, 0.52 and 0.33 of the column) and
+condensing the sentences the second ladder made redundant. Scope's first sentence now counts
+three families, only the third being prose. `build/style_scan.py` is the prose-standard check;
+it reports zero hits. The appendices were brought under the same standard on 2026-09-23 (21
+semicolons and 24 prose colons removed) after a read-aloud pass on the main text.
+
+**Supplementary.** `make_supplementary.py` lists G3g and G3h; `reproduce.ipynb` (21 cells) checks
+their provenance, every number they contribute, and re-grades G3e, G3f, G3g and G3h from the raw
+records with the registered scripts. Executed inside the rebuilt 25.7 MB package: every checked
+number reproduced. Running it found and fixed a real defect, a sha256 pinned on CRLF bytes that
+the package's LF copy did not match; the grader and notebook now accept the same content under
+either convention and check the pinned git blob hash.
+
+**Left for the owner.** Read the abstract, Section 5 and Appendices F and G once; upload the PDF,
+the supplementary zip and the form fields above by 2026-09-25 23:59 AoE.
