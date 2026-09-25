@@ -128,6 +128,18 @@ leave a reasoning judge worse than no reasoning, which is measured and not assum
 wants a deployment-shaped demonstration, that is the one gap this response cannot close with a
 sealed record, and it should say so rather than promise one.
 
+## 6b. "Usami et al. and Zhao et al. already treat the judge as an instrument"
+
+**Agree, and both are cited (Related work).** Usami et al. (arXiv 2606.15610) measure a judge's
+dark current, cross-sensitivity, position bias and target sensitivity on a quality ladder and
+find a tie instruction moves the criterion, not the resolution. Zhao et al. (arXiv 2609.12439,
+EMNLP 2026) show that anti-cue prompting can suppress bias while destroying resolution on
+validated gaps. Both characterise the instrument on the data they collect. Here the resolution
+is predicted, with its bars, before the test data exists, and the budget at which the cue stops
+moving the judge is predicted from blocks in which cue and evidence never conflict. Zhao's open
+judges include Qwen2.5-14B and Gemma-3-12B, so their frontier and our crossing sit on
+overlapping instruments, which a reviewer may find reassuring rather than threatening.
+
 ## 7. Provenance, if asked
 
 Registration sealed and pushed while no test seed existed; predictions committed and pushed; seed

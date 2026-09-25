@@ -97,9 +97,9 @@ def figure2():
     rows = flip_rows()
     pred = json.load(open(G3D / "predictions.json"))
     budgets = pred["budgets"]
-    panels = [(0, "no reasoning: reversal"), (256, "reasoning cut off: indifference"),
-              (1024, "reasoning completed: distinction")]
-    fig, axes = plt.subplots(1, 3, figsize=(7.0, 2.4), sharey=True)
+    panels = [(0, "reversal"), (256, "indifference"), (1024, "distinction")]
+    fig, axes = plt.subplots(1, 3, figsize=(2.9, 1.5), sharey=True)
+    plt.rcParams.update({"font.size": 6})
     for ax, (k, title) in zip(axes, panels):
         L = np.array([r["L"] for r in rows if r["k"] == k and r["cell"] == "reversal"])
         i = budgets.index(k)
@@ -107,11 +107,14 @@ def figure2():
         ax.axvline(0, c="k", lw=0.8)
         ax.axvline(pred["reversal"]["mean"][i], c="C0", lw=1.4, ls="--", label="predicted mean")
         ax.axvline(L.mean(), c="C3", lw=1.4, label="observed mean")
-        ax.set_title(f"{title}\n{k} tokens", fontsize=8)
+        ax.set_title(f"{k} tokens\n{title}", fontsize=6)
+        ax.tick_params(labelsize=5.5)
+        ax.set_xticks([-10, 0, 10])
         if ax is axes[0]:
-            ax.legend(fontsize=6, loc="upper left")
-    axes[0].set_ylabel("pairs")
-    fig.supxlabel("log-odds for the better worksheet", fontsize=9, y=-0.03)
+            ax.legend(fontsize=5, loc="upper right", handlelength=1.5, borderpad=0.3)
+    axes[0].set_ylabel("pairs", fontsize=6)
+    fig.supxlabel("log-odds for the better worksheet", fontsize=6.5, y=-0.1)
+    fig.subplots_adjust(wspace=0.18)
     save(fig, "v2_regimes")
 
 
@@ -125,9 +128,9 @@ def figure3():
     g = json.load(open(G3D / "grade.json"))
     budgets = np.array(pred["budgets"], float)
     x = np.log2(1 + budgets)
-    fig, ax = plt.subplots(figsize=(4.4, 2.6))
-    ax.plot(x, pred["reversal"]["share"], "-", lw=1.3, color="C0", label="predicted, coarse ladder")
-    ax.plot(x, g["F2_crossover"]["observed_shares"], "o", ms=4.5, mfc="none", color="C3", label="observed, coarse ladder")
+    fig, ax = plt.subplots(figsize=(2.5, 1.85))
+    ax.plot(x, pred["reversal"]["share"], "-", lw=1.3, color="C0", label="predicted, coarse")
+    ax.plot(x, g["F2_crossover"]["observed_shares"], "o", ms=4.5, mfc="none", color="C3", label="observed, coarse")
     ax.axhline(0.5, ls=":", c="k", lw=0.8)
     ticks = list(budgets)
     have_h = (G3H / "predictions.json").exists() and (G3H / "grade.json").exists()
@@ -136,13 +139,11 @@ def figure3():
         gh = json.load(open(G3H / "grade.json"))
         bh = np.array(ph["budgets"], float)
         xh = np.log2(1 + bh)
-        ax.plot(xh, ph["reversal"]["share"], "-", lw=1.3, color="C2", label="predicted, bracketing ladder")
-        ax.plot(xh, gh["F2_crossover"]["observed_shares"], "s", ms=4.0, mfc="none", color="C1", label="observed, bracketing ladder")
+        ax.plot(xh, ph["reversal"]["share"], "-", lw=1.3, color="C2", label="predicted, bracketing")
+        ax.plot(xh, gh["F2_crossover"]["observed_shares"], "s", ms=4.0, mfc="none", color="C1", label="observed, bracketing")
         for v, c, lab, y, ha in ((gh["F2_crossover"]["predicted_log2"], "C2", "predicted", 0.04, "left"),
                                  (gh["F2_crossover"]["observed_log2"], "C1", "observed", 0.04, "right")):
-            ax.axvline(v, color=c, ls="--", lw=0.9)
-            ax.annotate(f"{lab}\n{2 ** v - 1:.0f} tokens", (v, y), fontsize=6, ha=ha, color=c,
-                        xytext=(3 if ha == "left" else -3, 0), textcoords="offset points")
+            ax.axvline(v, color=c, ls="--", lw=1.2)
         ticks = sorted(set(ticks) | set(bh))
     G3J = ROOT / "experiments" / "G3j" / "run_record"
     if (G3J / "predictions.json").exists() and (G3J / "grade.json").exists():
@@ -150,11 +151,12 @@ def figure3():
         gj = json.load(open(G3J / "grade.json"))
         bj = np.array(pj["budgets"], float)
         xj = np.log2(1 + bj)
-        ax.plot(xj, pj["reversal"]["share"], "-", lw=1.3, color="C4", label="predicted, Gemma 3 12B")
-        ax.plot(xj, gj["F2_crossover"]["observed_shares"], "^", ms=4.0, mfc="none", color="C5", label="observed, Gemma 3 12B")
+        ax.plot(xj, pj["reversal"]["share"], "-", lw=1.3, color="C4", label="predicted, Gemma")
+        ax.plot(xj, gj["F2_crossover"]["observed_shares"], "^", ms=4.0, mfc="none", color="C5", label="observed, Gemma")
+        ticks = sorted(set(ticks) | {128.0})
         # The numbers are in the caption; two dotted lines mark the predicted and observed crossing.
         for v, c in ((gj["F2_crossover"]["predicted_log2"], "C4"), (gj["F2_crossover"]["observed_log2"], "C5")):
-            ax.axvline(v, color=c, ls=":", lw=0.9)
+            ax.axvline(v, color=c, ls=":", lw=1.2)
     if have_h:
         pass
     else:
@@ -163,10 +165,11 @@ def figure3():
             ax.axvline(v, color=c, ls="--", lw=1.0)
             ax.annotate(f"{lab}\n{2 ** v - 1:.0f} tokens", (v, 0.08 if c == "C0" else 0.3), fontsize=6,
                         ha="right" if c == "C0" else "left", color=c)
-    ticks = [t for t in ticks if t not in (32.0, 48.0)] if have_h else ticks
-    ax.set_xticks(np.log2(1 + np.array(ticks))); ax.set_xticklabels([int(b) for b in ticks], fontsize=6)
-    ax.set_xlabel("reasoning budget (tokens)"); ax.set_ylabel("share preferring the better sheet", fontsize=8)
-    ax.legend(fontsize=5.5, loc="upper left")
+    ticks = [t for t in ticks if t not in (32.0, 48.0, 96.0)] if have_h else ticks
+    ax.set_xticks(np.log2(1 + np.array(ticks))); ax.set_xticklabels([int(b) for b in ticks], fontsize=5.5)
+    ax.tick_params(axis="y", labelsize=5.5)
+    ax.set_xlabel("reasoning budget (tokens)", fontsize=6.5); ax.set_ylabel("share preferring the better sheet", fontsize=6.5)
+    ax.legend(fontsize=5, loc="upper left", ncol=1, handlelength=1.6, borderpad=0.3, labelspacing=0.25)
     save(fig, "v2_crossover")
 
 

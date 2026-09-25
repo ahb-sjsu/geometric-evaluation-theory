@@ -43,7 +43,7 @@
 \begin{abstract}
 A language-model judge cannot tell every pair of answers apart. Below some difference in quality it is indifferent, and that threshold decides whether it can grade the work in front of it. We register two gates. The first is that the threshold can be predicted before it is measured, and the other is that a second budget can reverse the judge's preference outright. Judges grade worksheets whose quality is known exactly. A calibration block records the scores a judge actually uses, and from that block alone we predict, and commit with its hash, how often the judge will order fresh pairs correctly at every difference in quality, on three rating scales and six ways of reading its report. Only then is the test block's seed drawn.
 
-\textbf{Resolution.} The prediction held on every graded judge, the largest deviation 0.078 in accuracy against a registered bar of 0.14. The scale a judge is offered is the wrong budget. The 7B judge asked for a score from 0 to 100 writes nine distinct scores and resolves 5.3 wrong answers in twenty where the scale promises one, and on every scale of every judge the channel it writes fits its accuracy better than the nominal scale does. Reading more of the report lowers the threshold by the predicted amount on five of the six graded judges.
+\textbf{Resolution.} The prediction held on every graded judge, the largest deviation 0.078 in accuracy against a registered bar of 0.14. The scale a judge is offered is the wrong budget, and no one number drawn from its reports is the right one. The 7B judge asked for a score from 0 to 100 writes nine distinct scores and resolves 5.3 wrong answers in twenty where the scale promises one, and on every scale of every judge the channel it writes fits its accuracy better than the nominal scale does. Reading more of the report lowers the threshold by the predicted amount on five of the six graded judges.
 
 \textbf{Reversal.} Give the worse of two worksheets a confident header and a check mark on every line. With no reasoning budget the judge prefers the decorated worse worksheet, only 0.125 of test pairs favouring the better one, and at 1024 tokens of reasoning it favours the better one in 0.95. Measuring what the evidence and the decoration are worth in separate blocks, in which the two never conflict, predicts that reversal, and a second ladder that brackets the crossing locates it, predicted at 72 tokens and observed at 57. On a second vendor's judge it is predicted at 187 and observed at 166, from that judge's own calibration.
 
@@ -61,7 +61,7 @@ An evaluator with finite resolution does not order every pair.
 Two answers that differ by less than it can resolve are indifferent to it, and the preference it induces is a semiorder, an ordering whose indifference is not transitive \citep{luce1956}.
 Geometric Evaluation Theory derives that structure from what the evaluator spends on the comparison and proves that the threshold of the semiorder is set by that budget (Appendix~\ref{app:theory}).
 For a judge that reports a score, the budget is the set of reports it actually uses and how much of each report is read.
-It is not the scale the judge is offered.
+It is not the scale the judge is offered, and the count of those reports is not it either.
 A judge asked for a score from 0 to 100 that only ever writes nine distinct scores has a report alphabet of nine symbols, and how finely it resolves depends on where those nine sit and how noisy they are as well as on how many there are. The calibration measures all three, and Appendix~\ref{app:ladder} scores what each of them is worth on its own.
 
 This makes the threshold predictable.
@@ -222,7 +222,7 @@ The commit history supplied with this paper records each judge's predictions wit
 \paragraph{What the judge does with the scale, and not the scale, predicts its resolution.}
 On the 0 to 100 scale the 7B judge writes nine distinct scores and the 14B thirteen.
 A rival judge that used all 101 levels exactly would order two worksheets one wrong answer apart, and the sealed thresholds are 5.29 and 2.76.
-The registered comparison puts that noiseless rival against the judge's whole measured channel, the conditional distribution of its score given the true quality. On the 0 to 100 scale the rival's squared error against the observed curve is 1.169 and the channel's is 0.001, and the channel fits better on every scale of every graded judge. Which part of the channel does the predicting is a separate question, answered in Appendix~\ref{app:ladder} by scoring predictors that know only how many scores the judge used, only where those scores sit, or only the rate in bits. On that cell the positions alone give 0.282, and in the median of the eighteen cells the best of the budget-only predictors closes 39 percent of the distance from the rival to the channel.
+The registered comparison puts that noiseless rival against the judge's whole measured channel, the conditional distribution of its score given the true quality. On the 0 to 100 scale the rival's squared error against the observed curve is 1.169 and the channel's is 0.001, and the channel fits better on every scale of every graded judge. Which part of the channel does the predicting is a separate question, answered in Appendix~\ref{app:ladder} by scoring predictors that know only how many scores the judge used, only where those scores sit, or only the rate in bits. In the median of the eighteen graded cells the squared error is 0.419 for the rival, 0.278 knowing only how many scores the judge wrote, 0.240 knowing only the rate in bits, 0.220 knowing only where its scores sit, and 0.0026 for the channel, so the best budget-only predictor closes 39 percent of the distance from the rival to the channel and the channel is better than all of them in every cell.
 The scale is not the resolution. What the judge writes is.
 
 \paragraph{Reading more of the report lowers the threshold, by the predicted amount.}
@@ -265,17 +265,18 @@ That is an association over six judges and not a demonstration. What would settl
 \label{sec:flip}
 
 \begin{figure}[t]
+\begin{minipage}[t]{0.53\columnwidth}
 \centering
-\includegraphics[width=0.52\columnwidth]{figures/v2_regimes.pdf}
-\caption{The sealed test block of the second gate, the cell where the worse worksheet carries the decoration. Each panel is the distribution over pairs of the judge's log-odds for the better worksheet at one reasoning budget, with the calibration's prediction and the observed mean. With no reasoning the judge prefers the decorated worse sheet. With reasoning it cannot finish, it is near indifferent. With reasoning it can finish, it prefers the better sheet. The prediction at each budget comes from blocks in which the decoration never sat on the worse sheet.}
+\includegraphics[width=\linewidth]{figures/v2_regimes.pdf}
+\caption{The sealed test block of the second gate, the cell where the worse worksheet carries the decoration. Each panel is the distribution over pairs of the judge's log-odds for the better worksheet at one budget, with the predicted and observed means. With no reasoning the judge prefers the decorated worse sheet, with reasoning it cannot finish it is near indifferent, and with reasoning it can finish it prefers the better sheet. Every prediction comes from blocks in which the decoration never sat on the worse sheet.}
 \label{fig:regimes}
-\end{figure}
-
-\begin{figure}[t]
+\end{minipage}\hfill
+\begin{minipage}[t]{0.455\columnwidth}
 \centering
-\includegraphics[width=0.33\columnwidth]{figures/v2_crossover.pdf}
-\caption{Where the preference turns over. The share of test pairs on which the judge prefers the better worksheet, against the reasoning budget it was allowed. Lines are predicted from calibration blocks, points are sealed test blocks, on the first ladder and on the second, which brackets the crossing. On the first the crossing was predicted at 174 tokens and observed at 128, 0.37 noise units against a bar of 2.576. On the second it was predicted at 72 and observed at 57, 0.62 noise units, and the spread of the comparison fell from a factor of 2.2 to 1.4. On a second vendor's judge, Gemma 3 12B, the crossing was predicted at 187 and observed at 166, 0.91 noise units, to a factor of 1.13.}
+\includegraphics[width=\linewidth]{figures/v2_crossover.pdf}
+\caption{Where the preference turns over. The share of test pairs preferring the better worksheet against the reasoning budget, predicted from calibration blocks (lines) and observed on sealed test blocks (points). Vertical lines mark the predicted and observed crossings on the ladder that brackets it (dashed) and on Gemma 3 12B (dotted). The numbers are in the text.}
 \label{fig:crossover}
+\end{minipage}
 \end{figure}
 
 A judge that may reason before it answers spends a second budget, and the theory says the same thing about it. Below the resolution that budget buys, the judge is indifferent to the quality difference and decides on whatever else is in front of it.
@@ -341,10 +342,11 @@ Reading a judge's expected score from its probabilities over the scale is the re
 We use it as one read-out among six and predict its threshold before measuring it.
 
 Estimating a judge's conditional behaviour from gold-labelled data is a standard move put to other ends.
-\citet{lee2025report} use it to correct the bias in a reported evaluation score and to give that score a confidence interval, applying the estimate to a test set the calibration did not contain, so what separates that work is the target rather than the direction.
+\citet{lee2025report} use it to correct the bias in a reported evaluation score and to give that score a confidence interval on a test set the calibration did not contain.
 They bound the error of an aggregate, where the quantity here is a curve, how often a judge orders a pair correctly against the difference in quality, committed with its hash before the test seed is drawn.
 \citet{choi2026irt} fit an item response model and read discrimination and threshold parameters off it, treating the judge as a measurement instrument as this paper does, and those parameters are fitted to the responses they explain rather than written down for responses nobody has drawn.
 \citet{vossler2026simplex} place a judge's confusion channel in a probability simplex and ask when rankings from judges alone are sound with no human labels, and they find a binary score can rank better than a multi-level one, which agrees with the finding here that the levels a scale offers are not the levels a judge uses.
+\citet{usami2026darkcurrent} report a judge as a measurement instrument with a datasheet, its response to empty input, to surface variation at equal quality, to position and to a controlled quality ladder, and find that a tie instruction moves the criterion and not the resolution, and \citet{zhao2026debiasing} show that telling a judge to ignore presentation cues can suppress the bias while destroying its resolution on validated quality gaps. Both characterise the instrument on the data they collect, where here its resolution is predicted, with its bars, before the data it will be scored on exists, and the budget at which a cue stops moving the judge is predicted from blocks in which cue and evidence never conflict.
 Judges are known to favour answers that carry marks of authority, such as citations that are fake \citep{ye2025justice}, and our decoration is a cue of that kind.
 What is new here is not that a cue sways a judge, or that reasoning can weaken it, but that where it stops swaying the judge is predicted from measurements in which evidence and cue never conflict.
 Reasoning does not remove such cues. \citet{wang2025judgingbias} find that large reasoning models used as judges remain susceptible to authority, bandwagon, position and distraction biases, are more robust than other models only on fact-related data, and are swayed by text that merely imitates reflection.
@@ -445,7 +447,7 @@ This appendix states the evaluation object and the results the main text uses. P
 
 \begin{definition}[Evaluation object]
 \label{def:object}
-An evaluation object is a six-tuple $\Ev=(X,A,C,G,B,\K)$ in which $X$ is a set of states carrying a probability law $\mu$, the evaluator's belief. $A$ is a set of actions. $C:A\times X\to\Y$ is the evaluator, a map into a consequence space $\Y$ that is a $C^{1}$ manifold. $G$ is the metric of evaluation, a continuous field of positive semidefinite quadratic forms on the tangent spaces of $\Y$, together with an ideal point $t\in\Y$. $B$ is the resolution budget, one of a rank cap, a length $\varepsilon\ge0$, or a rate triple $(R,\nu,\delta)$ with $R$ in bits, with $B=\infty$ for the unbudgeted case. $\K\subseteq A$ is the set of admissible actions.
+An evaluation object is a six-tuple $\Ev=(X,A,C,G,B,\K)$ in which $X$ is a set of states carrying a probability law $\mu$, the evaluator's belief. $A$ is a set of actions. $C:A\times X\to\Y$ is the consequence map, into a consequence space $\Y$ that is a $C^{1}$ manifold. $G$ is the metric of evaluation, a continuous field of positive semidefinite quadratic forms on the tangent spaces of $\Y$, together with an ideal point $t\in\Y$. $B$ is the resolution budget, one of a rank cap, a length $\varepsilon\ge0$, or a rate triple $(R,\nu,\delta)$ with $R$ in bits, with $B=\infty$ for the unbudgeted case. $\K\subseteq A$ is the set of admissible actions.
 Two restrictions belong in the definition rather than in the results that use them.
 $G$ is allowed to be degenerate, so it is a pseudo-metric and not a Riemannian metric in the usual sense. Theorem~\ref{thm:repr} chooses a positive semidefinite $G$, and its uniqueness clause is stated for $G_{1}\neq0$ rather than for $G_{1}$ definite, so calling it Riemannian here would contradict the results that use it.
 A rank cap is only defined when $\Y$ carries the linear structure its operations need, so a rank budget is a pair $(k,\nu)$ in which $\Y=\R^{m}$ with its Euclidean structure and $\nu$ is a workload, a probability measure on $A$ under which the second moment of consequences is taken.

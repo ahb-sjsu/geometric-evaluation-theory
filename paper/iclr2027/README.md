@@ -320,6 +320,22 @@ three families, only the third being prose. `build/style_scan.py` is the prose-s
 it reports zero hits. The appendices were brought under the same standard on 2026-09-23 (21
 semicolons and 24 prose colons removed) after a read-aloud pass on the main text.
 
+**Reader's pass, 2026-09-24 evening.** Six suggestions taken. The predictor ladder's medians
+are now one sentence in Section 3 (0.419 rival, 0.278 count, 0.240 rate, 0.220 positions,
+0.0026 channel), so a reader who skips Appendix D still sees that no budget-only summary does
+the predicting. The abstract and the introduction say that no one number drawn from the
+reports is the right budget either. Definition 1 calls C the consequence map, as the rest of
+the paper does. Appendix G calls the star rating the label that stands in for quality, the
+writer's ordered evaluation of the book and not a merit of the review. The reversal stays a
+mechanism probe, unchanged. Figures 2 and 3 now sit side by side at their display size
+(2.9 in and 2.5 in wide, 6 pt type drawn at 6 pt), so Figure 3 is a third larger and its
+type is true size where before both were drawn at 7 in and 4.4 in and scaled down by more
+than half. Related work adds Usami et al. (arXiv 2606.15610, the judge datasheet) and Zhao
+et al. (arXiv 2609.12439, EMNLP 2026, debiasing as resolution loss), both verified on arXiv,
+with the distinction stated in one sentence, they characterise the instrument on the data they
+collect, here its resolution is predicted before that data exists. Main text still ends on
+page 9, style scan clean.
+
 **Supplementary.** `make_supplementary.py` lists G3g, G3h, G3i and G3j; `reproduce.ipynb` (24
 cells) checks their provenance (G3i's vacuity re-derived from its shipped calibration), every
 number they contribute, and re-grades G3e, G3f, G3g, G3h and G3j from the raw records with the
