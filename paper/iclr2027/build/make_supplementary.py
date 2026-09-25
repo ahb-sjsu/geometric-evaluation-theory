@@ -25,6 +25,8 @@ GATES = [
     ("G3f", "A second stimulus family, summaries checked against a passage, where the judge is not exact (Appendix F, Table 6)"),
     ("G3g", "A third family, readers' reviews scored against the rating each writer gave, at three input budgets (Appendix G, Table 7)"),
     ("G3h", "The reversal located: G3d's design on a ladder that brackets the crossing (Section 5, Figure 3)"),
+    ("G3i", "The reversal on a second vendor's judge, Gemma 3 12B: vacuous on its first ladder, the calibration that placed the next (Section 5)"),
+    ("G3j", "The reversal on Gemma 3 12B on the ladder its calibration placed: the crossing predicted and located (Section 5, Figure 3)"),
     ("G5", "Identification of the metric and the ideal from choices (Appendix C.3)"),
     ("G3", "The numeric gate: the threshold tracks the resolution budget (Appendix C, Figures 4 and 5, Tables 3 and 8)"),
     ("G3b", "A drafted extension of the grid-channel law across families and tokenizers. Never sealed, never run. No number in the paper rests on it"),

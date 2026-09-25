@@ -1,7 +1,8 @@
 # PREREG G3j: the reversal on a second vendor's judge, on the ladder its calibration placed
 
-Status: DRAFT. Not sealed. The calibration seed is in the config; no test seed exists and one is
-drawn only after `predictions.json` is in a pushed commit with its hash.
+Status: SEALED 2026-09-24 at blob 9d9837c2a3c71839f16c4628a08304f704477df5 (commit 07cfe87). GRADED
+2026-09-24, PASS, test seed 3030338074; the verdict is in `CAMPAIGN.md` and `run_record/grade.json`. Both blocks ran on a
+Colab Pro A100 40 GB from the committed notebook, harness, weights and seeds unchanged (Section 7).
 
 ## Why this gate exists
 

@@ -144,6 +144,19 @@ def figure3():
             ax.annotate(f"{lab}\n{2 ** v - 1:.0f} tokens", (v, y), fontsize=6, ha=ha, color=c,
                         xytext=(3 if ha == "left" else -3, 0), textcoords="offset points")
         ticks = sorted(set(ticks) | set(bh))
+    G3J = ROOT / "experiments" / "G3j" / "run_record"
+    if (G3J / "predictions.json").exists() and (G3J / "grade.json").exists():
+        pj = json.load(open(G3J / "predictions.json"))
+        gj = json.load(open(G3J / "grade.json"))
+        bj = np.array(pj["budgets"], float)
+        xj = np.log2(1 + bj)
+        ax.plot(xj, pj["reversal"]["share"], "-", lw=1.3, color="C4", label="predicted, Gemma 3 12B")
+        ax.plot(xj, gj["F2_crossover"]["observed_shares"], "^", ms=4.0, mfc="none", color="C5", label="observed, Gemma 3 12B")
+        # The numbers are in the caption; two dotted lines mark the predicted and observed crossing.
+        for v, c in ((gj["F2_crossover"]["predicted_log2"], "C4"), (gj["F2_crossover"]["observed_log2"], "C5")):
+            ax.axvline(v, color=c, ls=":", lw=0.9)
+    if have_h:
+        pass
     else:
         for v, c, lab in ((g["F2_crossover"]["predicted_log2"], "C0", "predicted crossover"),
                           (g["F2_crossover"]["observed_log2"], "C3", "observed crossover")):

@@ -296,18 +296,35 @@ comparison at 0.52 in log2 budget, a factor of 1.4 where G3d had 2.2. The first 
 tokens, so the ladder was moved down before sealing, with the pilot and its failed rival check in
 the registration. One judge: the 14B named in the first draft does not fit the free card.
 
+**G3i and G3j, the reversal on a second vendor's judge (Section 5, Figure 3).** G3d's design on
+Google's Gemma 3 12B, read from local weights on the same harness, on a Colab A100 with records
+returned through a mounted Drive. G3i registered a ladder of 0 to 192 tokens set by its pilot
+and came out VACUOUS by the registered rule, its calibration predicting the decorated worse
+sheet preferred at every rung (share 0.33 to 0.47), so no test seed was drawn and the
+calibration ships. Llama 3.1 8B was piloted for the same registration and dropped before
+sealing as one the cue cannot move. G3j registered the ladder G3i's calibration placed, 0, 128,
+192, 256, 320 and 384 tokens, bars unchanged, test seed 3030338074 drawn against HEAD. PASS: the
+crossing was predicted at 187 tokens and observed at 166, 0.91 noise units against 2.576,
+bootstrap spread 0.18 in log2 budget, a factor of 1.13; additivity held at every rung (largest
+2.83 against 3.341) and the additive account fit with squared error 3.9 against 78.4 and 95.5
+for the two rivals. Gemma holds the cue about three times longer than Qwen, and each judge's
+own calibration predicted its own crossing.
+
 **Paper.** Abstract, introduction, the cost paragraph, Section 5, the Figure 3 caption and Scope
-carry both results from the graded records only. Figure 3 draws both ladders. The main text is
-held to nine pages by shrinking the three figures (0.50, 0.52 and 0.33 of the column) and
-condensing the sentences the second ladder made redundant. Scope's first sentence now counts
+carry all three results from the graded records only. Figure 3 draws the three ladders, with
+Gemma's crossing marked by dotted lines. Scope now says the reversal is measured on two judges
+of two vendors and names Llama 3.1 8B as one the cue cannot move. The main text is held to
+nine pages by shrinking the three figures (0.50, 0.52 and 0.33 of the column) and condensing
+the sentences the later ladders made redundant. Scope's first sentence now counts
 three families, only the third being prose. `build/style_scan.py` is the prose-standard check;
 it reports zero hits. The appendices were brought under the same standard on 2026-09-23 (21
 semicolons and 24 prose colons removed) after a read-aloud pass on the main text.
 
-**Supplementary.** `make_supplementary.py` lists G3g and G3h; `reproduce.ipynb` (21 cells) checks
-their provenance, every number they contribute, and re-grades G3e, G3f, G3g and G3h from the raw
-records with the registered scripts. Executed inside the rebuilt 25.7 MB package: every checked
-number reproduced. Running it found and fixed a real defect, a sha256 pinned on CRLF bytes that
+**Supplementary.** `make_supplementary.py` lists G3g, G3h, G3i and G3j; `reproduce.ipynb` (24
+cells) checks their provenance (G3i's vacuity re-derived from its shipped calibration), every
+number they contribute, and re-grades G3e, G3f, G3g, G3h and G3j from the raw records with the
+registered scripts. Executed inside the rebuilt 27.3 MB package: every checked number
+reproduced. Running it found and fixed a real defect, a sha256 pinned on CRLF bytes that
 the package's LF copy did not match; the grader and notebook now accept the same content under
 either convention and check the pinned git blob hash.
 

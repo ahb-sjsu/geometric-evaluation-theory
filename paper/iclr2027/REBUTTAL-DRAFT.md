@@ -31,8 +31,21 @@ of magnitude (1.7 against 64.4 and 16.4). Concede what the registration records:
 draft's ladder of 64 to 256, the one the paper had named, was piloted and found the reversal
 already at one half at 64 tokens, so the ladder was moved down before sealing, with the pilot
 and its failed rival check kept in the registration; and the second judge named in that draft
-was not run, its bf16 weights not fitting the one free card. One judge. Records and registration
+was not run, its bf16 weights not fitting the one free card. Records and registration
 in the supplement.
+
+**G3j, graded 2026-09-24, in the submission in Section 5 and Figure 3.** The reversal is no
+longer one judge's. On a second vendor's judge, Google's Gemma 3 12B on the same harness and
+bars, that judge's own calibration predicted the crossing at 187 tokens and the sealed test
+block observed it at 166, 0.91 noise units against 2.576, spread 0.18 in log2 budget, a
+factor of 1.13. Additivity held at every rung (largest 2.83 against 3.341) and the additive
+account beat both rivals (3.9 against 78.4 and 95.5). Gemma holds the cue about three times
+longer than Qwen, and the calibration knew that before the test block existed. Concede what
+the registrations record: the first ladder for this judge (G3i, 0 to 192 tokens, set by its
+pilot) came out vacuous by the registered rule, its calibration predicting the decorated
+worse sheet preferred at every rung, so no seed was drawn and the ladder was moved to where
+that calibration placed the crossing; both records ship. A third judge, Llama 3.1 8B, was
+piloted and is recorded as one the cue cannot move, which the design cannot test.
 
 ## 2. "Both stimulus families are synthetic"
 
@@ -85,6 +98,9 @@ shared service for four days.
 
 **G3g.** Same two judges, same concession. Gemma 4 12B is graded at two of three input lengths
 and vacuous at the third, so the budget claim rests on Gemma 4 31B alone.
+
+**If the objection is aimed at the reversal instead.** It no longer holds: G3j locates the
+crossing on Gemma 3 12B, a second vendor, from that judge's own calibration (Section 5).
 
 ## 5. "A registered claim failed"
 
